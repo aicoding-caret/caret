@@ -4,7 +4,10 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
-		"lib": ["es2022", "esnext.disposable", "DOM"],
+		"lib": [
+			"es2022",
+			"DOM"
+		],
 		"module": "esnext",
 		"moduleResolution": "Bundler",
 		"noFallthroughCasesInSwitch": true,
@@ -12,13 +15,58 @@
 		"noImplicitReturns": true,
 		"noUnusedLocals": false,
 		"resolveJsonModule": true,
-		"rootDir": "src",
+		"rootDir": ".",
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
 		"target": "es2022",
 		"useDefineForClassFields": true,
-		"useUnknownInCatchVariables": false
+		"useUnknownInCatchVariables": false,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"src/*"
+			],
+			"@api/*": [
+				"src/core/api/*"
+			],
+			"@core/*": [
+				"src/core/*"
+			],
+			"@generated/*": [
+				"src/generated/*"
+			],
+			"@hosts/*": [
+				"src/hosts/*"
+			],
+			"@integrations/*": [
+				"src/integrations/*"
+			],
+			"@packages/*": [
+				"src/packages/*"
+			],
+			"@services/*": [
+				"src/services/*"
+			],
+			"@shared/*": [
+				"src/shared/*"
+			],
+			"@caret/*": [
+				"caret-src/*"
+			],
+			"@utils/*": [
+				"src/utils/*"
+			]
+		}
 	},
-	"exclude": ["node_modules", ".vscode-test", "webview-ui"]
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		".vscode-test",
+		"webview-ui",
+		"src/test/e2e/**/*",
+		"caret-src/**/*"
+	]
 }

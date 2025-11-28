@@ -1,0 +1,42 @@
+{
+	"header": "🎉 v{{version}} New Features",
+	"previousHeader": "Previous Updates:",
+	"bullets": {
+		"current": {
+			"1": "Free Monthly Credits",
+			"1-desc": "New users get $0.1 (10 credits) monthly recurring! First month bonus: Start with up to $0.2. Available for Gemini 3, 2.5 Pro, Lite.",
+			"2": "Cline v3.38.2 Complete Merge",
+			"2-desc": "Fully integrated all features from Cline v3.38.2 including Claude Opus 4.5 and the latest core improvements.",
+			"3": "New Model: Claude Opus 4.5",
+			"3-desc": "Now available via Anthropic, OpenRouter, Bedrock, and Vertex with prompt caching prices applied.",
+			"4": "Dual Account System",
+			"4-desc": "Use both Caret and Cline accounts simultaneously. Cline users can now access all features without restriction.",
+			"5": "New Shortcut System",
+			"5-desc": "Added Cancel (Esc) and Resume (Ctrl+Shift+R) shortcuts with a new management system.",
+			"6": "Caret CLI (Beta)",
+			"6-desc": "Unified CLI with LiteLLM and Caret account support coming to BYO (Separate release next week).",
+			"7": "Enhanced Provider Setup",
+			"7-desc": "Auto-fetching models for LiteLLM and BizRouter with real-time health checks",
+			"8": "AI Model Support",
+			"8-desc": "Supports 251 unique AI models across 20 providers"
+		},
+		"previous": {
+			"1": "Caret Provider Added",
+			"1-desc": "Official Caret AI provider integration - $10 free credits during promotional period",
+			"2": "New Features",
+			"2-desc": ".clineignore file support, AWS Bedrock profiles, Requesty/Together/Alibaba Qwen providers, automatic retry on rate limits",
+			"3": "Focus Chain (Task Management)",
+			"3-desc": "Automatic to-do list generation and tracking for complex tasks",
+			"4": "AI Prompt Optimization",
+			"4-desc": "30-50% API request reduction for multi-edits, smart TODO auto-management, Claude Sonnet 4.5 optimized",
+			"5": "Architecture Improvements",
+			"5-desc": "Complete protobuf type system, enhanced MCP support, provider system refactoring"
+		}
+	},
+	"links": {
+		"korean": "Korean",
+		"japanese": "Japanese",
+		"chinese": "Chinese",
+		"english": "English"
+	}
+}

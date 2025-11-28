@@ -1,195 +1,209 @@
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/README.md">
+          <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ko/README.md">
+          <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ja/README.md">
+          <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/zh-cn/README.md">
+          <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+        </a>
+      </td>
+    </tr>
+  </table>
+  <h1>🎯 Caret: Your Personalized AI Coding Partner</h1>
+  <p><strong>Based on Cline v3.38.2 + Dual Mode + Persona System + Full Localization</strong></p>
 
-# Icon library
-This repo uses https://github.com/microsoft/vscode-codicons
-https://microsoft.github.io/vscode-codicons/dist/codicon.html
+  <p>
+    <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
+      📥 Install on VS Code
+    </a>
+    <a href="https://docs.caret.team/en/getting-started/what-is-caret" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
+      📖 Documentation
+    </a>
+  </p>
 
-# vscode-webview-ui-toolkit
-- vscode-webview-ui-toolkit on inputs: "input components like VSCodeTextField or VSCodeTextArea follow the native browser change and input event model. This means the onChange event is fired when focus is blurred away from the input element and onInput is fired on every keystroke." ... "if you would like to update the value of a text field on every keystroke, the onInput should be used instead of onChange."
+  <p>
+    <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret">
+      <img src="https://img.shields.io/visual-studio-marketplace/v/caretive.caret.svg?color=blue&label=VS%20Code%20Marketplace" alt="VS Code Marketplace">
+    </a>
+    <a href="https://github.com/aicoding-caret/caret">
+      <img src="https://img.shields.io/github/stars/aicoding-caret/caret.svg?style=social&label=Star" alt="GitHub stars">
+    </a>
+  </p>
 
-## Styling VSCode Webview UI Toolkit Components
-
-### Understanding Styling Constraints
-
-When working with the VSCode Webview UI Toolkit, it's important to understand the styling constraints imposed by the underlying architecture. The toolkit uses Microsoft's FAST framework, which utilizes Shadow DOM for component encapsulation. This approach ensures consistency with VSCode's design language but introduces some limitations in custom styling.
-
-#### Key Points:
-
-- **Shadow DOM Encapsulation**: The toolkit components use Shadow DOM, which encapsulates the internal structure of components. This means that traditional CSS selectors cannot directly target elements within the component.
-
-- **Wrapper vs. Shadow Element**: When you apply styles to a toolkit component, you're typically styling the wrapper element, not the shadow element inside. This can lead to unexpected results if you're trying to modify the internal appearance of a component.
-
-- **Use Props for Behavior Modification**: Instead of relying on custom styles, you should primarily use the props provided by the toolkit components to modify their behavior and appearance. This ensures consistency with VSCode's design language and prevents potential conflicts.
-
-- **Limited Direct Styling**: While it's possible to style some internal elements using the `::part()` pseudo-element selector, this approach is not officially supported or documented by the toolkit. Using it may lead to inconsistencies with VSCode's native UI.
-
-### Best Practices
-
-1. **Stick to Provided Props**: Whenever possible, use the props and attributes provided by the toolkit components to customize their appearance and behavior.
-
-2. **Avoid Custom Styles**: Refrain from applying custom styles that significantly alter the appearance of toolkit components. This helps maintain consistency with VSCode's native UI.
-
-3. **Use Wrapper Styles Carefully**: If you need to apply styles, focus on the wrapper element (e.g., positioning, margins) rather than trying to modify the internal shadow elements.
-
-#### Sources
-- https://github.com/microsoft/vscode-webview-ui-toolkit/issues/376#issuecomment-1191881962
-- https://github.com/microsoft/vscode-webview-ui-toolkit/issues/550#issuecomment-2148407785
-
-
-# claude-dev README
-
-This is the README for your extension "claude-dev". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret Personas" width="400"/>
+  <p><em>Select and customize your own AI coding partner!</em></p>
+</div>
 
 ---
 
-## Following extension guidelines
+## 🎁 New: Official Caret AI Provider — Monthly Free Credits
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+**Great news!** Caret now offers its own official AI provider integration:
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- 🎉 **Free credits**: New users get **$0.1 (10 credits) monthly**! (Up to $0.2 for the first month)
+- 🤖 **Latest models**: Gemini 3, 2.5 Pro, Lite, and more
+- 🚀 **Easy setup**: Select “Caret” as the AI provider in settings and start instantly
 
-## Working with Markdown
+---
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## 🚀 Latest Update: Cline v3.38.2 + GPT 5.1, Claude Opus 4.5, Gemini 3
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+**Caret v0.4.0** now includes **all features from Cline v3.38.2** while keeping 100% compatibility with Caret-exclusive extensions.
 
-## For more information
+### Highlights
+- ✅ **Cline v3.38.2 adoption**: All latest core improvements plus Claude Opus 4.5
+- ✅ **Dual account system**: Full support for existing Cline accounts
+- ✅ **Caret CLI (Beta)**: Unified CLI with LiteLLM support
+- ✅ **Input history**: Navigate past commands like a terminal
+- ✅ **Enhanced provider setup**: Auto-fetch models for LiteLLM / [BizRouter](https://bizrouter.ai/) with health checks
+- ✅ **251 unique AI models**: 20 providers including Claude Opus 4.5, GPT-5, Gemini 3
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+---
 
-**Enjoy!**
+## 🌟 6 Reasons to Choose Caret
 
-# React + Create React App + Webview UI Toolkit webview extension
+1. **🔄 Dual Mode** — switch between Caret (extended) and Cline (classic)
+2. **🎭 Persona System** — code with a personalized AI teammate
+3. **🧠 Smarter prompts** — optimized for cost and performance
+4. **🌍 Full localization** — UI, docs, and manuals in 4 languages
+5. **⌨️ Better UX** — input history and handy shortcuts (Esc, Ctrl+Shift+R)
+6. **🎯 Massive model support** — 251 models, 20 providers (Cline v3.38.2 compatible)
 
-https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/frameworks/hello-world-react-cra
+👉 **See all exclusive features**: [Feature index](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/index.md)
 
-# Extension commands
+---
 
-A quick run down of some of the important commands that can be run when at the root of the project.
+## 🎭 Feature #1: Build Your Own AI Coding Partner
 
-```
-npm run install:all      Install package dependencies for both the extension and React webview source code.
-npm run start:webview    Runs the React webview source code in development mode. Open http://localhost:3000 to view it in the browser.
-npm run build:webview    Build React webview source code. Must be executed before compiling or running the extension.
-npm run compile          Compile VS Code extension
-```
+Go beyond text chat. The **Persona System** lets you work with visually engaging AI colleagues.
 
-# Extension development cycle
+<div align="center">
+<table>
+<tr>
+<td align="center" width="120">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret.png" width="80" style="border-radius: 50%;"/><br/>
+  <strong>Caret</strong><br/>
+  <small>Friendly Robot</small>
+</td>
+<td align="center" width="120">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/sarang.png" width="80" style="border-radius: 50%;"/><br/>
+  <strong>Sarang</strong><br/>
+  <small>K-POP Dev Idol</small>
+</td>
+<td align="center" width="120">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ichika.png" width="80" style="border-radius: 50%;"/><br/>
+  <strong>Ichika</strong><br/>
+  <small>Windows 11 OS-tan</small>
+</td>
+<td align="center" width="120">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/cyan.png" width="80" style="border-radius: 50%;"/><br/>
+  <strong>Cyan</strong><br/>
+  <small>macOS Helper</small>
+</td>
+<td align="center" width="120">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ubuntu.png" width="80" style="border-radius: 50%;"/><br/>
+  <strong>Tando</strong><br/>
+  <small>Open Source Ally</small>
+</td>
+</tr>
+</table>
+</div>
 
-The intended development cycle of this React-based webview extension is slightly different than that of other VS Code extensions.
+**🎨 Customize**: Set your own AI name and profile image.  
+**⚡ Instant switch**: Toggle personas or revert to pure Cline mode anytime.
 
-Due to the fact that the `webview-ui` directory holds a self-contained React application we get to take advantage of some of the perks that that enables. In particular,
+---
 
-- UI development and iteration cycles can happen much more quickly by using Create React App (CRA)
-- Dependency management and project configuration is hugely simplified
+## 🔄 Feature #2: Dual Mode — Two Experiences in One
 
-## UI development cycle
+<div align="center">
+  <img src="https://img.shields.io/badge/Cline_Mode-Classic-blue?style=for-the-badge" alt="Cline Mode"/>
+  <strong> ⇄ </strong>
+  <img src="https://img.shields.io/badge/Caret_Mode-Extended-green?style=for-the-badge" alt="Caret Mode"/>
+</div>
 
-Since we can take advantage of the much faster CRA dev server, it is encouraged to begin developing webview UI by running the `npm run start:webview` command and then editing the code in the `webview-ui/src` directory.
+**🔵 Cline Mode** — the classic experience  
+- ✅ Plan/Act workflow familiar to Cline users  
+- ✅ Full compatibility with existing settings and accounts  
+- ✅ Proven stability on the Cline core  
 
-_Tip: Open the command palette and run the `Simple Browser` command and fill in `http://localhost:3000/` when prompted. This will open a simple browser environment right inside VS Code._
+**🟢 Caret Mode** — extended experience  
+- 🎭 Persona System for engaging collaboration  
+- 🧠 Optimized prompts for performance and cost  
+- 🌍 Full localization  
+- 🎯 Intuitive Chatbot/Agent flows  
 
-### Message passing
-If you need to implement message passing between the webview context and extension context via the VS Code API, a helpful utility is provided in the `webview-ui/src/utilities/vscode.ts` file.
+---
 
-This file contains a utility wrapper around the `acquireVsCodeApi()` function, which enables message passing and state management between the webview and extension contexts.
+## 🚀 Caret’s 12 Core Features
 
-This utility also enables webview code to be run in the CRA dev server by using native web browser features that mock the functionality enabled by acquireVsCodeApi. This means you can keep building your webview UI with the CRA dev server even when using the VS Code API.
+<div align="center">
 
-### Move to traditional extension development
-Once you're ready to start building other parts of your extension, simply shift to a development model where you run the `npm run build:webview` command as you make changes, press `F5` to compile your extension and open a new Extension Development Host window. Inside the host window, open the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and type `Hello World (React + CRA): Show`.
+| Feature | Description | Docs |
+|---------|-------------|------|
+| **F00** | Cline bugfix & stability patch | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f00-cline-bugfix-patch.md) |
+| **F01** | Common utilities | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f01-common-util.md) |
+| **F02** | Multilingual i18n | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f02-multilingual-i18n.md) |
+| **F03** | Branding & UI system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f03-branding-ui.md) |
+| **F04** | Cline compatibility & CLI | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
+| **F05** | Caret account system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f05-caret-account.md) |
+| **F06** | Rule priority system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f06-rule-priority-system.md) |
+| **F07** | Caret prompt system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f07-caret-prompt-system.md) |
+| **F08** | Persona system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f08-persona-system.md) |
+| **F09** | Feature Config system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f09-feature-config-system.md) |
+| **F10** | Enhanced provider setup | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f10-enhanced-provider-setup.md) |
+| **F11** | Input history & shortcuts | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f11-input-history-and-shortcuts.md) |
+| **F12** | AI-developer knowledge parity | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
 
-## Dependency management and project configuration
+</div>
 
-As mentioned above, the `webview-ui` directory holds a self-contained and isolated React application meaning you can (for the most part) treat the development of your webview UI in the same way you would treat the development of a regular React application.
+→ **[Full feature index](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/index.md)**
 
-To install webview-specific dependencies simply navigate (i.e. `cd`) into the `webview-ui` directory and install any packages you need or set up any React specific configurations you want.
+---
 
-# Extension structure
+## 🤝 Built Together as Open Source
 
-This section provides a quick introduction into how this sample extension is organized and structured.
+1. **Report bugs** → [Issues](https://github.com/aicoding-caret/caret/issues)  
+2. **Propose features** → Share your ideas  
+3. **Contribute code** → Fork and open a PR  
+4. **Help translate docs** → Add or improve languages  
 
-The two most important directories to take note of are the following:
+## 📞 Support & Community
 
-- `src`: Contains all of the extension source code
-- `webview-ui`: Contains all of the webview UI source code
+- 🏠 **Website**: https://caret.team  
+- 💬 **Facebook Group**: https://www.facebook.com/groups/aicodingcaret  
+- 📧 **Email**: support@caret.team  
+- 🐛 **Bug reports**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)  
 
-## `src` directory
+---
 
-The `src` directory contains all of the extension-related source code and can be thought of as containing the "backend" code/logic for the entire extension. Inside of this directory you'll find the:
+<div align="center">
+  <h2>🎯 Start Now</h2>
+  <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; display: inline-block; margin: 16px;">
+    📥 Install Free on VS Code
+  </a>
+  <p><small>If you like it, please leave us a ⭐ on GitHub!</small></p>
+</div>
 
-- `panels` directory
-- `utilities` directory
-- `extension.ts` file
+---
 
-The `panels` directory contains all of the webview-related code that will be executed within the extension context. It can be thought of as the place where all of the "backend" code for each webview panel is contained.
+## 🛠️ Developer Docs
 
-This directory will typically contain individual TypeScript or JavaScript files that contain a class which manages the state and behavior of a given webview panel. Each class is usually in charge of:
-
-- Creating and rendering the webview panel
-- Properly cleaning up and disposing of webview resources when the panel is closed
-- Setting message listeners so data can be passed between the webview and extension
-- Setting the initial HTML markdown of the webview panel
-- Other custom logic and behavior related to webview panel management
-
-As the name might suggest, the `utilties` directory contains all of the extension utility functions that make setting up and managing an extension easier. In this case, it contains `getUri.ts` which contains a helper function which will get the webview URI of a given file or resource.
-
-Finally, `extension.ts` is where all the logic for activating and deactiving the extension usually live. This is also the place where extension commands are registered.
-
-## `webview-ui` directory
-
-The `webview-ui` directory contains all of the React-based webview source code and can be thought of as containing the "frontend" code/logic for the extension webview.
-
-This directory is special because it contains a full-blown React application which was created using the TypeScript [Create React App](https://create-react-app.dev/) template. As a result, `webview-ui` contains its own `package.json`, `node_modules`, `tsconfig.json`, and so on––separate from the `hello-world` extension in the root directory.
-
-This strays a bit from other extension structures, in that you'll usually find the extension and webview dependencies, configurations, and source code more closely integrated or combined with each other.
-
-However, in this case, there are some unique benefits and reasons for why this sample extension does not follow those patterns such as easier management of conflicting dependencies and configurations, as well as the ability to use the CRA dev server, which drastically improves the speed of developing your webview UI, versus recompiling your extension code every time you make a change to the webview.
+- **[Developer Guide](https://github.com/aicoding-caret/caret/blob/main/DEVELOPER_GUIDE.md)** — build/test basics  
+- **[Caret Architecture](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)** — system overview  
+- **[New Developer Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/new-developer-guide.md)** — onboarding steps  
+- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — required reading before contributing  

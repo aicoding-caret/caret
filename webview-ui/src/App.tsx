@@ -1,82 +1,108 @@
-import React, { useEffect, useState } from "react"
-import "./App.css"
+import type { Boolean, EmptyRequest } from "@shared/proto/cline/common"
+import { useEffect } from "react"
+import PersonaTemplateSelector from "./caret/components/PersonaTemplateSelector"
+// CARET MODIFICATION: Add i18n support for the entire app
+import CaretI18nProvider from "./caret/context/CaretI18nContext"
+// CARET MODIFICATION: Import CaretStateContextProvider for persona system
+import { CaretStateContextProvider, useCaretState } from "./caret/context/CaretStateContext"
+import AccountView from "./components/account/AccountView"
+import ChatView from "./components/chat/ChatView"
+import HistoryView from "./components/history/HistoryView"
+import McpView from "./components/mcp/configuration/McpConfigurationView"
+import SettingsView from "./components/settings/SettingsView"
+import WelcomeView from "./components/welcome/WelcomeView"
+import { useClineAuth } from "./context/ClineAuthContext"
+import { useExtensionState } from "./context/ExtensionStateContext"
+import { Providers } from "./Providers"
+import { UiServiceClient } from "./services/grpc-client"
 
-import ChatView from "./components/ChatView"
-import SettingsView from "./components/SettingsView"
-import { ClaudeMessage, ExtensionMessage } from "@shared/ExtensionMessage"
-import WelcomeView from "./components/WelcomeView"
-import { vscode } from "./utilities/vscode"
-//import { mockMessages } from "./utilities/mockMessages"
+const AppContent = () => {
+	const {
+		didHydrateState,
+		showWelcome,
+		shouldShowAnnouncement,
+		showMcp,
+		mcpTab,
+		showSettings,
+		showHistory,
+		showAccount,
+		showAnnouncement,
+		setShowAnnouncement,
+		setShouldShowAnnouncement,
+		closeMcpView,
+		navigateToHistory,
+		hideSettings,
+		hideHistory,
+		hideAccount,
+		hideAnnouncement,
+	} = useExtensionState()
 
-/*
-The contents of webviews however are created when the webview becomes visible and destroyed when the webview is moved into the background. Any state inside the webview will be lost when the webview is moved to a background tab.
-
-The best way to solve this is to make your webview stateless. Use message passing to save off the webview's state and then restore the state when the webview becomes visible again.
-
-
-*/
-
-const App: React.FC = () => {
-	const [showSettings, setShowSettings] = useState(false)
-	const [showWelcome, setShowWelcome] = useState<boolean>(false)
-	const [apiKey, setApiKey] = useState<string>("")
-	const [maxRequestsPerTask, setMaxRequestsPerTask] = useState<string>("")
-	const [claudeMessages, setClaudeMessages] = useState<ClaudeMessage[]>([])
+	const { showPersonaSelector } = useCaretState()
+	const { clineUser, organizations, activeOrganization } = useClineAuth()
 
 	useEffect(() => {
-		vscode.postMessage({ type: "webviewDidLaunch" })
+		if (shouldShowAnnouncement) {
+			setShowAnnouncement(true)
 
-		const handleMessage = (e: MessageEvent) => {
-			const message: ExtensionMessage = e.data
-			// switch message.type
-			switch (message.type) {
-				case "state":
-					const shouldShowWelcome = !message.state!.didOpenOnce || !message.state!.apiKey
-					setShowWelcome(shouldShowWelcome)
-					setApiKey(message.state!.apiKey || "")
-					setMaxRequestsPerTask(
-						message.state!.maxRequestsPerTask !== undefined
-							? message.state!.maxRequestsPerTask.toString()
-							: ""
-					)
-					setClaudeMessages(message.state!.claudeMessages)
-					break
-				case "action":
-					switch (message.action!) {
-						case "settingsButtonTapped":
-							setShowSettings(true)
-							break
-						case "plusButtonTapped":
-							setShowSettings(false)
-							break
-					}
-					break
-			}
+			// Use the gRPC client instead of direct WebviewMessage
+			UiServiceClient.onDidShowAnnouncement({} as EmptyRequest)
+				.then((response: Boolean) => {
+					setShouldShowAnnouncement(response.value)
+				})
+				.catch((error) => {
+					console.error("Failed to acknowledge announcement:", error)
+				})
 		}
+	}, [shouldShowAnnouncement, setShouldShowAnnouncement, setShowAnnouncement])
 
-		window.addEventListener("message", handleMessage)
+	if (!didHydrateState) {
+		return null
+	}
 
-		return () => {
-			window.removeEventListener("message", handleMessage)
-		}
-	}, [])
+	if (showWelcome) {
+		return <WelcomeView />
+	}
+
+	if (showPersonaSelector) {
+		// onSelectPersona는 필수 prop이지만, 여기서는 선택 후 화면 전환만 하면 되므로 빈 함수를 전달합니다.
+		return <PersonaTemplateSelector onSelectPersona={() => {}} />
+	}
 
 	return (
-		<>
-			{showWelcome ? (
-				<WelcomeView apiKey={apiKey} setApiKey={setApiKey} />
-			) : showSettings ? (
-				<SettingsView
-					apiKey={apiKey}
-					setApiKey={setApiKey}
-					maxRequestsPerTask={maxRequestsPerTask}
-					setMaxRequestsPerTask={setMaxRequestsPerTask}
-					onDone={() => setShowSettings(false)}
+		<div className="flex h-screen w-full flex-col">
+			{showSettings && <SettingsView onDone={hideSettings} />}
+			{showHistory && <HistoryView onDone={hideHistory} />}
+			{showMcp && <McpView initialTab={mcpTab} onDone={closeMcpView} />}
+			{showAccount && (
+				<AccountView
+					activeOrganization={activeOrganization}
+					clineUser={clineUser}
+					onDone={hideAccount}
+					organizations={organizations}
 				/>
-			) : (
-				<ChatView messages={claudeMessages} />
 			)}
-		</>
+			{/* Do not conditionally load ChatView, it's expensive and there's state we don't want to lose (user input, disableInput, askResponse promise, etc.) */}
+			<ChatView
+				hideAnnouncement={hideAnnouncement}
+				isHidden={showSettings || showHistory || showMcp || showAccount}
+				showAnnouncement={showAnnouncement}
+				showHistoryView={navigateToHistory}
+			/>
+		</div>
+	)
+}
+
+const App = () => {
+	return (
+		<Providers>
+			{/* CARET MODIFICATION: Wrap app with i18n context for multilingual support */}
+			<CaretI18nProvider defaultLanguage="en">
+				{/* CARET MODIFICATION: Wrap with CaretStateContextProvider for persona system */}
+				<CaretStateContextProvider>
+					<AppContent />
+				</CaretStateContextProvider>
+			</CaretI18nProvider>
+		</Providers>
 	)
 }
 
