@@ -54,7 +54,7 @@
 
 **朗報です！** Caret が公式 AI プロバイダー統合を提供開始:
 
-- 🎉 **無料クレジット**: 新規ユーザーに毎月 **$0.1 (10 クレジット)** を付与（初月は最大 $0.2）
+- 🎉 **無料クレジット**: 新規ユーザーに毎月 **$1 (10 クレジット)** を付与（初月は最大 $2）
 - 🤖 **最新モデル**: Gemini 3, 2.5 Pro, Lite など
 - 🚀 **かんたんセットアップ**: 設定で「Caret」を選ぶだけですぐに利用開始
 
@@ -206,5 +206,4 @@
 - **[Developer Guide](https://github.com/aicoding-caret/caret/blob/main/DEVELOPER_GUIDE.md)** — ビルド/テストの基本  
 - **[Caret Architecture](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)** — システム概要  
 - **[New Developer Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/new-developer-guide.md)** — オンボーディング手順  
-- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — 作業前に必読  
-
+- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — 作業前に必読

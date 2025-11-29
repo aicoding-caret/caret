@@ -10,7 +10,7 @@
 
 ## [초안] 안녕하세요, 한국에서 인사드립니다. (Hello from Korea)
 
-안녕하세요, Cline 커뮤니티 여러분.
+안녕하세요, Cline 커뮤니티 여러분. Caret의 Luke Yang입니다.
 
 먼저 이렇게 훌륭한 프로젝트를 오픈소스로 공개해 주셔서 진심으로 감사드립니다. 덕분에 많은 영감을 받고 있습니다.
 
@@ -45,7 +45,8 @@
 
 ## [English Translation for Reference]
 
-Hello Cline Community,
+
+Hello Cline Community, this is Luke Yang from Caret.
 
 First of all, thank you so much for sharing such amazing code as open source. We are truly grateful.
 

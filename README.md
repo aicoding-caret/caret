@@ -54,7 +54,7 @@
 
 **Great news!** Caret now offers its own official AI provider integration:
 
-- 🎉 **Free credits**: New users get **$0.1 (10 credits) monthly**! (Up to $0.2 for the first month)
+- 🎉 **Free credits**: New users get **$1 (10 credits) monthly**! (Up to $2 for the first month)
 - 🤖 **Latest models**: Gemini 3, 2.5 Pro, Lite, and more
 - 🚀 **Easy setup**: Select “Caret” as the AI provider in settings and start instantly
 
@@ -206,4 +206,4 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 - **[Developer Guide](https://github.com/aicoding-caret/caret/blob/main/DEVELOPER_GUIDE.md)** — build/test basics  
 - **[Caret Architecture](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)** — system overview  
 - **[New Developer Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/new-developer-guide.md)** — onboarding steps  
-- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — required reading before contributing  
+- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — required reading before contributing

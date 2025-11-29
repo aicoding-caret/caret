@@ -54,7 +54,7 @@
 
 **好消息！** Caret 现已提供官方 AI 提供商集成：
 
-- 🎉 **免费积分**：新用户每月 **$0.1（10 积分）**，首月最高 $0.2
+- 🎉 **免费积分**：新用户每月 **$1（10 积分）**，首月最高 $2
 - 🤖 **最新模型**：Gemini 3、2.5 Pro、Lite 等
 - 🚀 **快速上手**：在设置中选择 “Caret” 即可立即使用
 
@@ -206,5 +206,4 @@
 - **[Developer Guide](https://github.com/aicoding-caret/caret/blob/main/DEVELOPER_GUIDE.md)** — 构建/测试基础  
 - **[Caret Architecture](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)** — 系统概览  
 - **[New Developer Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/new-developer-guide.md)** — 新人上手指南  
-- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — 贡献前必读  
-
+- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — 贡献前必读
