@@ -15,6 +15,7 @@ pnpm-lock.yaml
 .venv
 .actrc
 
+slexn-codecenter/
 webview-ui/src/**/*.js
 webview-ui/src/**/*.js.map
 

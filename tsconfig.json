@@ -66,7 +66,6 @@
 		"node_modules",
 		".vscode-test",
 		"webview-ui",
-		"src/test/e2e/**/*",
-		"caret-src/**/*"
+		"src/test/e2e/**/*"
 	]
 }
