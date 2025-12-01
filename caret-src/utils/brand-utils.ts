@@ -20,7 +20,8 @@ export function detectCurrentBrandName(): string {
 	try {
 		const packageJsonPath = path.join(__dirname, "..", "..", "package.json")
 		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
-		const displayName = packageJson.displayName || "Cline"
+		// CARET MODIFICATION: default brand fallback uses Caret when displayName is missing
+		const displayName = packageJson.displayName || "Caret"
 
 		// displayName을 그대로 브랜드명으로 사용
 		_cachedBrandName = displayName
@@ -28,7 +29,7 @@ export function detectCurrentBrandName(): string {
 		return _cachedBrandName!
 	} catch (error) {
 		console.error("Failed to detect brand from package.json:", error)
-		_cachedBrandName = "Cline" // Safe default
+		_cachedBrandName = "Caret" // CARET MODIFICATION: safe default brand fallback
 		return _cachedBrandName!
 	}
 }
