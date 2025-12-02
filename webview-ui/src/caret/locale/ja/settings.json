@@ -1,6 +1,6 @@
 {
 	"settingsView": {
-		"title": "Caret設定"
+		"title": "CodeCenter設定"
 	},
 	"tabs": {
 		"apiConfiguration": {
@@ -35,23 +35,23 @@
 		},
 		"about": {
 			"name": "情報",
-			"tooltip": "Caret情報",
+			"tooltip": "CodeCenter情報",
 			"header": "情報"
 		},
-		"title": "Caret設定"
+		"title": "CodeCenter設定"
 	},
 	"modeSystem": {
 		"label": "モードシステム",
-		"description": "CaretまたはClineモードを選択してください。",
+		"description": "CodeCenterまたはClineモードを選択してください。",
 		"options": {
-			"caret": "Caret",
+			"codecenter": "CodeCenter",
 			"cline": "Cline"
 		}
 	},
 	"settings": {
 		"preferredLanguage": {
 			"label": "優先言語",
-			"description": "Caretがコミュニケーションに使用する言語を選択してください。"
+			"description": "CodeCenterがコミュニケーションに使用する言語を選択してください。"
 		},
 		"unifiedLanguage": {
 			"label": "言語",
@@ -90,11 +90,11 @@
 		},
 		"general": {
 			"title": "一般設定",
-			"description": "Caretの基本動作と言語設定を構成します。"
+			"description": "CodeCenterの基本動作と言語設定を構成します。"
 		},
 		"features": {
 			"title": "機能設定",
-			"description": "Caretの様々な機能を有効または無効にします。"
+			"description": "CodeCenterの様々な機能を有効または無効にします。"
 		},
 		"browser": {
 			"title": "ブラウザ設定",
@@ -109,9 +109,9 @@
 			"description": "開発とデバッグのためのツール。"
 		},
 		"about": {
-			"title": "Caret情報",
-			"description": "Caretのバージョン情報とライセンスを確認します。",
-			"link": "https://github.com/aicoding-caret/caret"
+			"title": "CodeCenter情報",
+			"description": "CodeCenterの情報とサポートはこちらから。",
+			"link": "https://www.slexn.com/product/codecenter/"
 		},
 		"launchingBrowser": "Launching browser...",
 		"discardChanges": "Discard Changes"
@@ -120,7 +120,7 @@
 		"feedbackPrompt": "ご質問やフィードバックはいつでも歓迎します。",
 		"version": "バージョン",
 		"title": "情報",
-		"description": "Caretのバージョン情報とライセンスを確認します。",
+		"description": "CodeCenterのバージョン情報とライセンスを確認します。",
 		"documentation": "ドキュメンテーション"
 	},
 	"labels": {
@@ -173,11 +173,11 @@
 			"scrollUp": "上にスクロール",
 			"close": "ブラウザを閉じる"
 		},
-		"disableToolUseDescription": "Caretがブラウザアクション（起動、クリック、入力など）を使用するのを防ぎます。",
+		"disableToolUseDescription": "CodeCenterがブラウザアクション（起動、クリック、入力など）を使用するのを防ぎます。",
 		"viewportSize": "ビューポートサイズ",
 		"viewportSizeDescription": "スクリーンショットとインタラクションのためのブラウザビューポートのサイズを設定します。",
 		"useRemoteConnection": "リモートブラウザ接続を使用する",
-		"remoteConnectionDescription1": "CaretがChromeを使用できるようにします",
+		"remoteConnectionDescription1": "CodeCenterがChromeを使用できるようにします",
 		"chromeNotDetected": "(お使いのPCでは検出されませんでした)",
 		"remoteConnectionDescription2": "。カスタムパスは以下で指定できます。リモートブラウザ接続を使用するには、Chromeをデバッグモードで起動する必要があります",
 		"remoteConnectionDescription3": "手動で (`--remote-debugging-port=9222`) または下のボタンを使用して起動します。ホストアドレスを入力するか、自動検出のために空白のままにしてください。",
@@ -218,11 +218,11 @@
 			"enable": "サブエージェントを有効化",
 			"enabled": "サブエージェントが有効です",
 			"description": "大きな調査をCLIサブエージェントに委任します。",
-			"caretWarning": "サブエージェントには Caret CLI が必要です。",
-			"clineWarning": "サブエージェントには Cline CLI が必要です。",
-			"install": "サブエージェント CLI をインストール",
-			"installed": "CLI を検出しました",
-			"notInstalled": "CLI が見つかりません",
+			"codecenterWarning": "サブエージェントには CodeCenter CLI が必要です。",
+			"clineWarning": "サブエージェントには CodeCenter CLI が必要です。",
+			"install": "CodeCenter CLI をインストール",
+			"installed": "CodeCenter CLI を検出しました",
+			"notInstalled": "CodeCenter CLI が見つかりません",
 			"outputLimitLabel": "サブエージェント出力上限",
 			"outputLimitDescription": "CLI サブエージェントの出力で保持する最大行数です。超過時は中間を切り詰めます。"
 		},
@@ -243,7 +243,7 @@
 		"focusChain": "フォーカスチェーンを有効にする",
 		"focusChainDescription": "タスク全体で強化されたタスク進捗追跡と自動フォーカスチェーンリスト管理を有効にします。",
 		"focusChainReminderInterval": "フォーカスチェーンリマインダー間隔",
-		"focusChainReminderIntervalDescription": "Caretにフォーカスチェーンチェックリストをリマインドする間隔（メッセージ単位、1-100）。値が小さいほど頻繁にリマインドされます。",
+		"focusChainReminderIntervalDescription": "CodeCenterにフォーカスチェーンチェックリストをリマインドする間隔（メッセージ単位、1-100）。値が小さいほど頻繁にリマインドされます。",
 		"enableDictation": "ディクテーションを有効にする",
 		"enableDictationDescription": "Clineアカウントを使用して音声をテキストに変換します。Whisperモデルを使用し、処理1分あたり $0.006 のクレジットを消費します。1メッセージあたり最大5分。",
 		"dictationLanguage": "ディクテーション言語",
@@ -275,52 +275,52 @@
 		"readFiles": {
 			"label": "プロジェクトファイルを読み取る",
 			"shortName": "読み取り",
-			"description": "Caretがワークスペース内のファイルを読み取れるようにします。"
+			"description": "CodeCenterがワークスペース内のファイルを読み取れるようにします。"
 		},
 		"readFilesExternally": {
 			"label": "すべてのファイルを読み取る",
 			"shortName": "すべて読み取り",
-			"description": "Caretがコンピュータ上のすべてのファイルを読み取れるようにします。"
+			"description": "CodeCenterがコンピュータ上のすべてのファイルを読み取れるようにします。"
 		},
 		"editFiles": {
 			"label": "プロジェクトファイルを編集する",
 			"shortName": "編集",
-			"description": "Caretがワークスペース内のファイルを変更できるようにします。"
+			"description": "CodeCenterがワークスペース内のファイルを変更できるようにします。"
 		},
 		"editFilesExternally": {
 			"label": "すべてのファイルを編集する",
 			"shortName": "すべて編集",
-			"description": "Caretがコンピュータ上のすべてのファイルを変更できるようにします。"
+			"description": "CodeCenterがコンピュータ上のすべてのファイルを変更できるようにします。"
 		},
 		"executeSafeCommands": {
 			"label": "安全なコマンドを実行する",
 			"shortName": "安全コマンド",
-			"description": "Caretが安全なターミナルコマンドを実行できるようにします。モデルが破壊的な可能性があると判断した場合は、引き続き承認が必要です。"
+			"description": "CodeCenterが安全なターミナルコマンドを実行できるようにします。モデルが破壊的な可能性があると判断した場合は、引き続き承認が必要です。"
 		},
 		"executeAllCommands": {
 			"label": "すべてのコマンドを実行する",
 			"shortName": "すべてのコマンド",
-			"description": "Caretがすべてのターミナルコマンドを実行できるようにします。自己責任でご使用ください。"
+			"description": "CodeCenterがすべてのターミナルコマンドを実行できるようにします。自己責任でご使用ください。"
 		},
 		"useBrowser": {
 			"label": "ブラウザを使用する",
 			"shortName": "ブラウザ",
-			"description": "Caretがブラウザで任意のウェブサイトを実行および操作できるようにします。"
+			"description": "CodeCenterがブラウザで任意のウェブサイトを実行および操作できるようにします。"
 		},
 		"useMcp": {
 			"label": "MCPサーバーを使用する",
 			"shortName": "MCP",
-			"description": "Caretがファイルシステムを変更したりAPIと対話したりできる設定済みのMCPサーバーを使用できるようにします。"
+			"description": "CodeCenterがファイルシステムを変更したりAPIと対話したりできる設定済みのMCPサーバーを使用できるようにします。"
 		},
 		"enableNotifications": {
 			"label": "通知を有効にする",
 			"shortName": "通知",
-			"description": "Caretが進行のために承認が必要な場合、またはタスクが完了したときにシステム通知を受け取ります。"
+			"description": "CodeCenterが進行のために承認が必要な場合、またはタスクが完了したときにシステム通知を受け取ります。"
 		}
 	},
 	"telemetry": {
 		"label": "匿名のエラーと使用状況レポートを許可する",
-		"description": "匿名使用データとエラーレポートを送信してClineの改善に貢献できます。Caret製品改善のために使用状況およびエラーデータを匿名で送信します。コード、プロンプト、個人情報は決して送信されず、個人情報は含まれません。",
+		"description": "匿名使用データとエラーレポートを送信してClineの改善に貢献できます。CodeCenter製品改善のために使用状況およびエラーデータを匿名で送信します。コード、プロンプト、個人情報は決して送信されず、個人情報は含まれません。",
 		"telemetryOverview": "テレメトリの概要",
 		"and": "と",
 		"privacyPolicy": "プライバシーポリシー",
@@ -337,7 +337,7 @@
 	},
 	"modelPicker": {
 		"extensionFetches": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します: ",
-		"unsureWhichModel": "どのモデルを選択すべきか不明な場合は、Caretは以下と最も良く動作します: ",
+		"unsureWhichModel": "どのモデルを選択すべきか不明な場合は、CodeCenterは以下と最も良く動作します: ",
 		"freeOptions": "現在利用可能な無料オプションを検索するには、「free」を検索してください。",
 		"seeMore": "さらに表示"
 	},
@@ -345,7 +345,7 @@
 		"apiProvider": "APIプロバイダー",
 		"searchAndSelectProvider": "プロバイダーを検索して選択...",
 		"clearSearch": "検索をクリア",
-		"clineProviderHidden": "Caretプロバイダーは非表示です - 代わりにCaret APIプロバイダーを使用してください"
+		"clineProviderHidden": "CodeCenterプロバイダーは非表示です - 代わりにCodeCenter APIプロバイダーを使用してください"
 	},
 	"clineAccountInfoCard": {
 		"viewBillingAndUsage": "請求と使用量を表示",
@@ -423,14 +423,14 @@
 			"description": "プロジェクトルールファイルの管理と優先順位の設定。",
 			"workspaceRules": "ワークスペースルール",
 			"globalRules": "グローバルルール",
-			"caretRules": ".caretrulesファイル",
+			"codecenterRules": ".codecenterrulesファイル",
 			"clineRules": ".clinerulesファイル",
 			"cursorRules": ".cursorrulesファイル",
 			"windsurfRules": ".windsurfrulesファイル"
 		},
 		"priority": {
 			"title": "ルール優先順位",
-			"description": "ルールファイル優先順位: .caretrules > .clinerules > .cursorrules > .windsurfrules",
+			"description": "ルールファイル優先順位: .codecenterrules > .clinerules > .cursorrules > .windsurfrules",
 			"info": "優先順位の高いルールが存在する場合、低い優先順位のルールは自動的に無効化されます。"
 		},
 		"buttons": {
@@ -486,20 +486,20 @@
 		"title": "API設定"
 	},
 	"providers": {
-		"caret": {
-			"name": "Caret",
-			"login": "Caret ログイン",
+		"codecenter": {
+			"name": "CodeCenter",
+			"login": "CodeCenter ログイン",
 			"profile": "Profile",
 			"logout": "Logout",
-			"apiKeyConfigured": "Caretログイン済み",
-			"description": "Caretログインユーザーは無料提供クレジットでGoogleの最新Geminiモデルを利用できます",
+			"apiKeyConfigured": "CodeCenterログイン済み",
+			"description": "CodeCenterログインユーザーは無料提供クレジットでGoogleの最新Geminiモデルを利用できます",
 			"features": "個別のAPIキーなしで以下の機能をお楽しみください",
 			"feature1": "Gemini 2.5 Pro: 強力な推論能力",
 			"feature2": "Gemini 2.5 Flash: 高速で効率的な応答",
 			"feature3": "個別のAPIキーなしで即座にアクセス",
 			"feature4": "価格: 無料プランクレジットで利用",
-			"visit": "CaretのAPIキーを取得:",
-			"baseUrlPlaceholder": "デフォルト: http://caret.team:4000",
+			"visit": "CodeCenterのAPIキーを取得:",
+			"baseUrlPlaceholder": "デフォルト: http://codecenter.team:4000",
 			"baseUrlLabel": "ベースURL（オプション）",
 			"apiKeyPlaceholder": "デフォルト: noop",
 			"apiKeyLabel": "APIキー",
@@ -517,16 +517,16 @@
 			"usePromptCachingDescription": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
 			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
 			"extendedThinkingLink": "思考モード構成",
-			"description1": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。詳細については、その",
+			"description1": "コードセンター LLM ゲートウェイは、100以上のLLM APIへの統合インターフェースを提供します。詳細については、その",
 			"quickstartGuideLink": "クイックスタートガイド",
 			"description2": "を参照してください。",
-			"unifiedInterfaceHelpText": "LiteLLMは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
+			"unifiedInterfaceHelpText": "コードセンター LLM ゲートウェイは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
 			"quickstartGuideLinkText": "クイックスタートガイド",
 			"forMoreInformationText": "を参照してください。",
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1の1/3のコストでSOTAのコーディング性能",
 				"featuredModelLabelNew": "New",
@@ -540,7 +540,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -570,7 +570,7 @@
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1の1/3のコストでSOTAのコーディング性能",
 				"featuredModelLabelNew": "New",
@@ -584,7 +584,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -618,7 +618,7 @@
 			"outputPriceLabel": "出力価格 / 100万トークン",
 			"temperatureLabel": "温度",
 			"notePrefix": "注意:",
-			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最適に動作します。能力の低いモデルは期待通りに動作しない可能性があります。",
+			"noteText": "CodeCenterは複雑なプロンプトを使用し、Claudeモデルと最適に動作します。能力の低いモデルは期待通りに動作しない可能性があります。",
 			"refreshModelsError": "OpenAIモデルの更新に失敗:",
 			"providerName": "OpenAI 互換"
 		},
@@ -700,7 +700,7 @@
 			"descriptionPart1": "Ollamaを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
 			"quickstartGuideLinkText": "クイックスタートガイド",
 			"notePrefix": "注意:",
-			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+			"noteText": "CodeCenterは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
 			"fetchModelsErrorLog": "Ollamaモデルの取得に失敗しました:",
 			"providerName": "Ollama",
 			"contextWindowPlaceholder": "例: 32768"
@@ -720,8 +720,8 @@
 			"linkText2": "2) Google Cloud CLI のインストール › アプリケーション デフォルト認証情報の設定。"
 		},
 		"litellm": {
-			"name": "LiteLLM",
-			"description": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。",
+			"name": "コードセンター LLM ゲートウェイ",
+			"description": "コードセンター LLM ゲートウェイは、100以上のLLM APIへの統合インターフェースを提供します。",
 			"baseUrlPlaceholder": "デフォルト: http://localhost:4000",
 			"baseUrlLabel": "ベースURL（オプション）",
 			"apiKeyPlaceholder": "デフォルト: noop",
@@ -740,10 +740,10 @@
 			"usePromptCachingDescription": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
 			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
 			"extendedThinkingLink": "思考モード構成",
-			"description1": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。詳細については、その",
+			"description1": "コードセンター LLM ゲートウェイは、100以上のLLM APIへの統合インターフェースを提供します。詳細については、その",
 			"quickstartGuideLink": "クイックスタートガイド",
 			"description2": "を参照してください。",
-			"unifiedInterfaceHelpText": "LiteLLMは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
+			"unifiedInterfaceHelpText": "コードセンター LLM ゲートウェイは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
 			"quickstartGuideLinkText": "クイックスタートガイド",
 			"forMoreInformationText": "を参照してください。"
 		},
@@ -796,7 +796,7 @@
 			"fetchModelsError": "Groqモデルの取得に失敗しました:",
 			"fetchModelsDescription": "拡張機能は次から利用可能な最新のモデル一覧を自動的に取得します: ",
 			"groqLinkText": "Groq.",
-			"unsureModelChoice": "どのモデルを選ぶべきかわからない場合、Caretは次のモデルで最も良く動作します: ",
+			"unsureModelChoice": "どのモデルを選ぶべきかわからない場合、CodeCenterは次のモデルで最も良く動作します: ",
 			"recommendedModel": "llama-3.3-70b-versatile.",
 			"recommendedModelId": "llama-3.3-70b-versatile",
 			"modelDocumentationUrl": "https://console.groq.com/docs/models"
@@ -849,7 +849,7 @@
 			"info": {
 				"fullText": {
 					"part1": "拡張機能が以下で利用可能な最新モデルリストを自動取得します",
-					"part2": "どのモデルを選ぶべきか不明な場合は、Caretは以下と最適に動作します"
+					"part2": "どのモデルを選ぶべきか不明な場合は、CodeCenterは以下と最適に動作します"
 				},
 				"linkText": "Requesty.",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
@@ -867,7 +867,7 @@
 			"modelIdPlaceholder": "モデルIDを入力してください...",
 			"modelIdLabel": "モデルID",
 			"notePrefix": "注意:",
-			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+			"noteText": "CodeCenterは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
 			"providerName": "Together"
 		},
 		"qwen": {
@@ -914,7 +914,7 @@
 			"description2": "また、この拡張機能で使用するには、LM Studioの",
 			"localServerLink": "ローカルサーバー",
 			"description3": "機能をlms server startで開始する必要があります。",
-			"noteBody": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。"
+			"noteBody": "CodeCenterは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。"
 		},
 		"moonshot": {
 			"name": "Moonshot",
@@ -951,7 +951,7 @@
 			"name": "X AI",
 			"description": "xAIは、真実であることを目指す大規模言語モデルGrokを開発しています。",
 			"notePrefix": "注意:",
-			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+			"noteText": "CodeCenterは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
 			"reasoningEffortLabel": "推論の努力",
 			"reasoningEffortDescription": "高い努力は、より徹底的な分析を生成する可能性がありますが、時間がかかり、より多くのトークンを使用します。",
 			"providerName": "xAI",
@@ -1016,6 +1016,65 @@
 			"clientIdPlaceholder": "AI Core クライアント ID を入力...",
 			"retryButton": "再試行",
 			"selectModelPlaceholder": "モデルを選択..."
+		},
+		"caret": {
+			"name": "Caret",
+			"login": "Caret ログイン",
+			"profile": "Profile",
+			"logout": "Logout",
+			"apiKeyConfigured": "Caretログイン済み",
+			"description": "Caretログインユーザーは無料提供クレジットでGoogleの最新Geminiモデルを利用できます",
+			"features": "個別のAPIキーなしで以下の機能をお楽しみください",
+			"feature1": "Gemini 2.5 Pro: 強力な推論能力",
+			"feature2": "Gemini 2.5 Flash: 高速で効率的な応答",
+			"feature3": "個別のAPIキーなしで即座にアクセス",
+			"feature4": "価格: 無料プランクレジットで利用",
+			"visit": "CaretのAPIキーを取得:",
+			"baseUrlPlaceholder": "デフォルト: http://caret.team:4000",
+			"baseUrlLabel": "ベースURL（オプション）",
+			"apiKeyPlaceholder": "デフォルト: noop",
+			"apiKeyLabel": "APIキー",
+			"modelIdPlaceholder": "例: anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "モデルID",
+			"usePromptCachingLabel": "プロンプトキャッシングを使用する (GA)",
+			"promptCachingHelpText": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
+			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
+			"thinkingModeConfigurationLinkText": "思考モード構成",
+			"modelConfigurationLabel": "モデル構成",
+			"supportsImagesLabel": "画像をサポートする",
+			"contextWindowSizeLabel": "コンテキストウィンドウサイズ",
+			"maxOutputTokensLabel": "最大出力トークン",
+			"temperatureLabel": "温度",
+			"usePromptCachingDescription": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
+			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
+			"extendedThinkingLink": "思考モード構成",
+			"description1": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。詳細については、その",
+			"quickstartGuideLink": "クイックスタートガイド",
+			"description2": "を参照してください。",
+			"unifiedInterfaceHelpText": "LiteLLMは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
+			"quickstartGuideLinkText": "クイックスタートガイド",
+			"forMoreInformationText": "を参照してください。",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1の1/3のコストでSOTAのコーディング性能",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "모델",
+				"searchPlaceholder": "모델 검색 및 선택...",
+				"clearSearch": "검색 지우기",
+				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
+				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		}
 	},
 	"persona": {

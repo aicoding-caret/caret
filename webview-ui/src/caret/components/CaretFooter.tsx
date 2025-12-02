@@ -26,7 +26,7 @@ const CaretFooter: React.FC = () => {
 			<div style={{ marginBottom: "15px" }}>
 				<p style={{ margin: "2px 0" }}>
 					{t("footer.about.description", "welcome")}{" "}
-					<VSCodeLink href="https://github.com/aicoding-caret/caret" style={{ ...linkStyle, display: "inline" }}>
+					<VSCodeLink href="https://www.slexn.com/product/codecenter/" style={{ ...linkStyle, display: "inline" }}>
 						{t("footer.about.link", "welcome")}
 					</VSCodeLink>
 				</p>
@@ -34,19 +34,19 @@ const CaretFooter: React.FC = () => {
 			<div>
 				{/* 링크들 */}
 				<div style={{ marginBottom: "10px" }}>
-					<VSCodeLink href="https://github.com/aicoding-caret/caret" style={linkStyle}>
+					<VSCodeLink href="https://www.slexn.com/product/codecenter/" style={linkStyle}>
 						{t("footer.links.caretGithub", "welcome")}
 					</VSCodeLink>
 					<span> • </span>
-					<VSCodeLink href="https://caret.team" style={linkStyle}>
+					<VSCodeLink href="https://www.slexn.com/product/codecenter/" style={linkStyle}>
 						{t("footer.links.caretService", "welcome")}
 					</VSCodeLink>
 					<span> • </span>
-					<VSCodeLink href="https://caretive.ai" style={linkStyle}>
+					<VSCodeLink href="https://www.slexn.com/" style={linkStyle}>
 						{t("footer.links.caretiveInc", "welcome")}
 					</VSCodeLink>
 					<span> • </span>
-					<VSCodeLink href="mailto:support@caretive.ai" style={linkStyle}>
+					<VSCodeLink href="mailto:support@slexn.com" style={linkStyle}>
 						{t("footer.links.support", "welcome")}
 					</VSCodeLink>
 				</div>

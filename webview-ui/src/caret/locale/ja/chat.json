@@ -277,10 +277,10 @@
 	},
 	"addLocalServerForm": {
 		"addLocalServerDescriptionPart1": "ローカルMCPサーバーを追加するには、",
-		"clineMcpSettingsJson": "caret_mcp_settings.json",
+		"clineMcpSettingsJson": "codecenter_mcp_settings.json",
 		"addLocalServerDescriptionPart2": "で設定してください。JSON構成でサーバー名、コマンド、引数、および必要な環境変数を指定する必要があります。詳細については、",
 		"here": "こちら",
-		"openClineMcpSettingsJson": "caret_mcp_settings.jsonを開く"
+		"openClineMcpSettingsJson": "codecenter_mcp_settings.jsonを開く"
 	},
 	"addRemoteServerForm": {
 		"serverNameRequired": "サーバー名は必須です",

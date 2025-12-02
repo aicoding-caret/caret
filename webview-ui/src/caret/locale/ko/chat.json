@@ -5,11 +5,11 @@
 		"unknown": "오류: {{message}}",
 		"unknownError": "알 수 없는 오류",
 		"label": "오류",
-		"mistakeLimitReached": "캐럿이 문제를 겪고 있습니다...",
+		"mistakeLimitReached": "코드센터가 문제를 겪고 있습니다...",
 		"maxRequestsReached": "최대 요청 수 도달"
 	},
 	"mcp": {
-		"useServer": "캐럿이 {{serverName}} MCP 서버에서 {{type}}을(를) 사용하려고 합니다:",
+		"useServer": "코드센터가 {{serverName}} MCP 서버에서 {{type}}을(를) 사용하려고 합니다:",
 		"tool": "도구",
 		"resource": "리소스"
 	},
@@ -17,17 +17,17 @@
 	"seeNewChanges": "새 변경사항 보기",
 	"tool": {
 		"outsideWorkspace": "이 파일은 작업 공간 외부에 있습니다",
-		"editFile": "캐럿이 이 파일을 편집하려고 합니다",
-		"createFile": "캐럿이 새 파일을 생성하려고 합니다",
-		"readFile": "캐럿이 이 파일을 읽으려고 합니다",
-		"listFilesTopLevel": "캐럿이 이 디렉토리의 최상위 파일들을 확인하려고 합니다",
-		"listFilesRecursive": "캐럿이 이 디렉토리의 모든 파일들을 재귀적으로 확인하려고 합니다",
-		"listCodeDefinitionNames": "캐럿이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인하려고 합니다",
-		"searchFiles": "캐럿이 이 디렉토리에서 검색하려고 합니다",
-		"summarizeTask": "캐럿이 대화를 요약하고 있습니다",
+		"editFile": "코드센터가 이 파일을 편집하려고 합니다",
+		"createFile": "코드센터가 새 파일을 생성하려고 합니다",
+		"readFile": "코드센터가 이 파일을 읽으려고 합니다",
+		"listFilesTopLevel": "코드센터가 이 디렉토리의 최상위 파일들을 확인하려고 합니다",
+		"listFilesRecursive": "코드센터가 이 디렉토리의 모든 파일들을 재귀적으로 확인하려고 합니다",
+		"listCodeDefinitionNames": "코드센터가 이 디렉토리에서 사용된 소스 코드 정의명들을 확인하려고 합니다",
+		"searchFiles": "코드센터가 이 디렉토리에서 검색하려고 합니다",
+		"summarizeTask": "코드센터가 대화를 요약하고 있습니다",
 		"summary": "요약",
 		"externalUrl": "이 URL은 외부입니다",
-		"webFetch": "캐럿이 이 URL에서 콘텐츠를 가져오려고 합니다",
+		"webFetch": "코드센터가 이 URL에서 콘텐츠를 가져오려고 합니다",
 		"commandOutput": "명령어 출력",
 		"commandApprovalRequired": "모델이 이 명령에 명시적인 승인이 필요하다고 판단했습니다.",
 		"mcpNotification": "MCP 알림",
@@ -38,11 +38,11 @@
 		"seeNewChanges": "새 변경 사항 보기",
 		"shellIntegration": {
 			"unavailable": "쉘 통합 사용 불가",
-			"description": "캐럿이 명령의 출력을 보는 데 문제가 있을 수 있습니다. VSCode를 업데이트하고(<code>CMD/CTRL + Shift + P</code> → \"업데이트\") 지원되는 쉘(zsh, bash, fish 또는 PowerShell (<code>CMD/CTRL + Shift + P</code> → \"터미널: 기본 프로필 선택\"))을 사용하고 있는지 확인하세요.",
+			"description": "코드센터가 명령의 출력을 보는 데 문제가 있을 수 있습니다. VSCode를 업데이트하고(<code>CMD/CTRL + Shift + P</code> → \"업데이트\") 지원되는 쉘(zsh, bash, fish 또는 PowerShell (<code>CMD/CTRL + Shift + P</code> → \"터미널: 기본 프로필 선택\"))을 사용하고 있는지 확인하세요.",
 			"troubleshooting": "여전히 문제가 있나요?"
 		},
-		"condenseConversation": "캐럿이 대화를 요약하려고 합니다",
-		"createGithubIssue": "캐럿이 Github 이슈를 생성하려고 합니다"
+		"condenseConversation": "코드센터가 대화를 요약하려고 합니다",
+		"createGithubIssue": "코드센터가 Github 이슈를 생성하려고 합니다"
 	},
 	"image": {
 		"dimensionError": "이미지 크기가 7500px을 초과합니다",
@@ -91,7 +91,7 @@
 	"typeMessage": "메시지를 입력하세요...",
 	"mode": {
 		"tooltip": {
-			"description": "{{mode_type}} 모드에서 캐럿은 {{action}}",
+			"description": "{{mode_type}} 모드에서 코드센터는 {{action}}",
 			"act": {
 				"action": "즉시 작업을 완료합니다"
 			},
@@ -147,7 +147,7 @@
 		"clickRetryBelow": "(아래 \"재시도\" 클릭)",
 		"signInToCline": "Cline에 로그인",
 		"diffError": "모델이 파일에서 일치하는 검색 패턴을 사용하지 않았습니다. 재시도 중...",
-		"clineTriedToAccess": "캐럿이 접근하려고 했습니다",
+		"clineTriedToAccess": "코드센터가 접근하려고 했습니다",
 		"isBlockedBy": "는 다음 파일에 의해 차단되었습니다.",
 		"file": "파일.",
 		"budgetExceeded": "크레딧이 부족합니다. 더 많은 크레딧을 구매하여 계속 진행하세요."
@@ -160,7 +160,7 @@
 		"providerModel": "제공자/모델",
 		"operatingSystem": "운영 체제",
 		"systemInfo": "시스템 정보",
-		"clineVersion": "Caret 버전",
+		"clineVersion": "CodeCenter 버전",
 		"additionalContext": "추가 컨텍스트"
 	},
 	"serversToggleModal": {
@@ -219,9 +219,9 @@
 	},
 	"telemetryBanner": {
 		"closeAndEnable": "배너 닫기 및 원격 분석 활성화",
-		"helpImproveCline": "Caret 개선에 도움을 주세요",
+		"helpImproveCline": "CodeCenter 개선에 도움을 주세요",
 		"accessExperimentalFeatures": "(실험적 기능에 액세스)",
-		"dataCollectionInfo": "캐럿은 버그를 수정하고 확장 기능을 개선하는 데 도움이 되는 오류 및 사용 데이터를 수집합니다. 코드, 프롬프트 또는 개인 정보는 전송되지 않습니다.",
+		"dataCollectionInfo": "코드센터는 버그를 수정하고 확장 기능을 개선하는 데 도움이 되는 오류 및 사용 데이터를 수집합니다. 코드, 프롬프트 또는 개인 정보는 전송되지 않습니다.",
 		"turnOffSetting": "이 설정은",
 		"settings": "설정"
 	},
@@ -278,10 +278,10 @@
 	},
 	"addLocalServerForm": {
 		"addLocalServerDescriptionPart1": "로컬 MCP 서버를 추가하려면 ",
-		"clineMcpSettingsJson": "caret_mcp_settings.json",
+		"clineMcpSettingsJson": "codecenter_mcp_settings.json",
 		"addLocalServerDescriptionPart2": "에서 구성하세요. JSON 구성에서 서버 이름, 명령, 인수 및 필요한 환경 변수를 지정해야 합니다. 자세한 내용은 ",
 		"here": "여기",
-		"openClineMcpSettingsJson": "caret_mcp_settings.json 열기"
+		"openClineMcpSettingsJson": "codecenter_mcp_settings.json 열기"
 	},
 	"addRemoteServerForm": {
 		"serverNameRequired": "서버 이름은 필수입니다",
@@ -300,17 +300,17 @@
 		"editConfiguration": "구성 편집"
 	},
 	"brandMarketplace": {
-		"preparing": "캐럿 MCP 마켓플레이스가 준비 중입니다.",
-		"preparingDescription": "곧 캐럿 전용 MCP 도구들을 만나보실 수 있습니다.",
-		"caretPreparing": "Caret MCP 마켓플레이스가 준비 중입니다.",
-		"caretPreparingDescription": "곧 Caret 전용 MCP 도구들을 만나보실 수 있습니다."
+		"preparing": "코드센터 MCP 마켓플레이스가 준비 중입니다.",
+		"preparingDescription": "곧 코드센터 전용 MCP 도구들을 만나보실 수 있습니다.",
+		"caretPreparing": "CodeCenter MCP 마켓플레이스가 준비 중입니다.",
+		"caretPreparingDescription": "곧 CodeCenter 전용 MCP 도구들을 만나보실 수 있습니다."
 	},
 	"configureServersView": {
 		"mcpDescription": " ",
 		"modelContextProtocol": "모델 컨텍스트 프로토콜",
-		"mcpDescriptionMiddle2": "은(는) Caret의 기능을 확장하기 위한 추가 도구 및 리소스를 제공하는 로컬에서 실행되는 MCP 서버와의 통신을 가능하게 합니다. ",
+		"mcpDescriptionMiddle2": "은(는) CodeCenter의 기능을 확장하기 위한 추가 도구 및 리소스를 제공하는 로컬에서 실행되는 MCP 서버와의 통신을 가능하게 합니다. ",
 		"communityMadeServers": "커뮤니티에서 만든 서버",
-		"mcpDescriptionEnd": "를 사용하거나 Caret에게 워크플로우에 특정한 새 도구를 만들도록 요청할 수 있습니다 (예: \"최신 npm 문서를 가져오는 도구를 추가해 줘\"). ",
+		"mcpDescriptionEnd": "를 사용하거나 CodeCenter에게 워크플로우에 특정한 새 도구를 만들도록 요청할 수 있습니다 (예: \"최신 npm 문서를 가져오는 도구를 추가해 줘\"). ",
 		"seeDemoHere": "여기에서 데모를 확인하세요.",
 		"configureMcpServers": "MCP 서버 구성",
 		"advancedMcpSettings": "고급 MCP 설정"
@@ -376,12 +376,12 @@
 		"helpOthersDiscover": "github.com/cline/mcp-marketplace에 이슈를 제출하여 다른 사람들이 훌륭한 MCP 서버를 발견하도록 도와주세요."
 	},
 	"clineRulesToggleModal": {
-		"manageRulesWorkflows": "Caret 규칙 및 워크플로우 관리",
+		"manageRulesWorkflows": "CodeCenter 규칙 및 워크플로우 관리",
 		"rulesTab": "규칙",
 		"workflowsTab": "워크플로우",
-		"rulesDescription": "규칙을 통해 Caret에 시스템 수준 지침을 제공할 수 있습니다. 프로젝트 또는 모든 대화에 전역적으로 컨텍스트 및 기본 설정을 포함하는 영구적인 방법이라고 생각하세요.",
+		"rulesDescription": "규칙을 통해 CodeCenter에 시스템 수준 지침을 제공할 수 있습니다. 프로젝트 또는 모든 대화에 전역적으로 컨텍스트 및 기본 설정을 포함하는 영구적인 방법이라고 생각하세요.",
 		"docs": "문서",
-		"workflowsDescription": "워크플로우를 통해 캐럿이 서비스 배포 또는 PR 제출과 같은 반복적인 작업 세트를 안내하는 일련의 단계를 정의할 수 있습니다. 워크플로우를 호출하려면 채팅에",
+		"workflowsDescription": "워크플로우를 통해 코드센터가 서비스 배포 또는 PR 제출과 같은 반복적인 작업 세트를 안내하는 일련의 단계를 정의할 수 있습니다. 워크플로우를 호출하려면 채팅에",
 		"workflowName": "/워크플로우-이름",
 		"globalRules": "전역 규칙",
 		"workspaceRules": "작업 공간 규칙",

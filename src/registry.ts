@@ -2,7 +2,7 @@ import { name, publisher, version } from "../package.json"
 
 // Command prefix: use "cline" for consistency with package.json command definitions
 // This ensures commands registered in code match those defined in package.json
-const prefix = "cline"
+const prefix = "codecenter"
 
 /**
  * List of commands with the name of the extension they are registered under.

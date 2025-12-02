@@ -1,6 +1,6 @@
 {
 	"settingsView": {
-		"title": "Caret Settings"
+		"title": "CodeCenter Settings"
 	},
 	"tabs": {
 		"apiConfiguration": {
@@ -35,10 +35,10 @@
 		},
 		"about": {
 			"name": "About",
-			"tooltip": "About Caret",
+			"tooltip": "About CodeCenter",
 			"header": "About"
 		},
-		"title": "Caret Settings"
+		"title": "CodeCenter Settings"
 	},
 	"planMode": "Plan Mode",
 	"actMode": "Act Mode",
@@ -74,16 +74,16 @@
 	},
 	"modeSystem": {
 		"label": "Mode System",
-		"description": "Select Caret or Cline mode.",
+		"description": "Select CodeCenter or Cline mode.",
 		"options": {
-			"caret": "Caret",
+			"codecenter": "CodeCenter",
 			"cline": "Cline"
 		}
 	},
 	"settings": {
 		"preferredLanguage": {
 			"label": "Preferred Language",
-			"description": "Select the language Caret should use for communication."
+			"description": "Select the language CodeCenter should use for communication."
 		},
 		"unifiedLanguage": {
 			"label": "Language",
@@ -122,11 +122,11 @@
 		},
 		"general": {
 			"title": "General Settings",
-			"description": "Configure Caret's basic behavior and language settings."
+			"description": "Configure CodeCenter's basic behavior and language settings."
 		},
 		"features": {
 			"title": "Feature Settings",
-			"description": "Enable or disable various features of Caret."
+			"description": "Enable or disable various features of CodeCenter."
 		},
 		"browser": {
 			"title": "Browser Settings",
@@ -141,9 +141,9 @@
 			"description": "Tools for development and debugging."
 		},
 		"about": {
-			"title": "About Caret",
-			"description": "If you have any questions or feedback, feel free to open an issue at",
-			"link": "https://github.com/aicoding-caret/caret"
+			"title": "About CodeCenter",
+			"description": "Questions or feedback? Visit the CodeCenter site:",
+			"link": "https://www.slexn.com/product/codecenter/"
 		},
 		"launchingBrowser": "Launching browser...",
 		"discardChanges": "Discard Changes"
@@ -176,11 +176,11 @@
 		"remoteBrowserHost": "Remote browser host",
 		"chromeExecutablePath": "Chrome executable path",
 		"disableToolUse": "Disable browser tool usage",
-		"disableToolUseDescription": "Prevent Caret from using browser actions (e.g. launch, click, type).",
+		"disableToolUseDescription": "Prevent CodeCenter from using browser actions (e.g. launch, click, type).",
 		"viewportSize": "Viewport size",
 		"viewportSizeDescription": "Set the size of the browser viewport for screenshots and interactions.",
 		"useRemoteConnection": "Use remote browser connection",
-		"remoteConnectionDescription1": "Enable Caret to use your Chrome",
+		"remoteConnectionDescription1": "Enable CodeCenter to use your Chrome",
 		"chromeNotDetected": "(not detected on your machine)",
 		"remoteConnectionDescription2": ". You can specify a custom path below. Using a remote browser connection requires starting Chrome in debug mode",
 		"remoteConnectionDescription3": "manually (`--remote-debugging-port=9222`) or using the button below. Enter the host address or leave it blank for automatic discovery.",
@@ -243,11 +243,11 @@
 			"enable": "Enable subagents",
 			"enabled": "Subagents enabled",
 			"description": "Allow the agent to spawn CLI subagents for heavy exploration.",
-			"caretWarning": "Caret CLI is required for subagents.",
-			"clineWarning": "Cline CLI is required for subagents.",
-			"install": "Install subagents CLI",
-			"installed": "CLI detected",
-			"notInstalled": "CLI not detected",
+			"codecenterWarning": "CodeCenter CLI is required for subagents.",
+			"clineWarning": "CodeCenter CLI is required for subagents.",
+			"install": "Install CodeCenter CLI",
+			"installed": "CodeCenter CLI detected",
+			"notInstalled": "CodeCenter CLI not detected",
 			"outputLimitLabel": "Subagent output limit",
 			"outputLimitDescription": "Maximum number of lines to include in output from CLI subagents. Truncates middle to save tokens."
 		},
@@ -268,7 +268,7 @@
 		"focusChain": "Enable Focus Chain",
 		"focusChainDescription": "Enables enhanced task progress tracking and automatic focus chain list management throughout tasks.",
 		"focusChainReminderInterval": "Focus Chain Reminder Interval",
-		"focusChainReminderIntervalDescription": "Interval (in messages) to remind Caret about its focus chain checklist (1-100). Lower values provide more frequent reminders.",
+		"focusChainReminderIntervalDescription": "Interval (in messages) to remind CodeCenter about its focus chain checklist (1-100). Lower values provide more frequent reminders.",
 		"enableDictation": "Enable Dictation",
 		"enableDictationDescription": "Enables speech-to-text transcription using your Cline account. Uses the Whisper model, at $0.006 credits per minute of audio processed. 5 minutes max per message.",
 		"dictationLanguage": "Dictation Language",
@@ -276,7 +276,7 @@
 		"autoCompact": "Enable Auto Compact",
 		"autoCompactDescription": "Enables advanced context management system which uses LLM based condensing for next-gen models.",
 		"enableYoloMode": "Enable YOLO Mode",
-		"enableYoloModeDescription": "EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. Caret will automatically approve all actions without asking. Use with extreme caution.",
+		"enableYoloModeDescription": "EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. CodeCenter will automatically approve all actions without asking. Use with extreme caution.",
 		"learnMore": "Learn more"
 	},
 	"autoApprove": {
@@ -302,47 +302,47 @@
 		"readFiles": {
 			"label": "Read project files",
 			"shortName": "Read",
-			"description": "Allows Caret to read files within your workspace."
+			"description": "Allows CodeCenter to read files within your workspace."
 		},
 		"readFilesExternally": {
 			"label": "Read any files",
 			"shortName": "Read all",
-			"description": "Allows Caret to read any files on your computer."
+			"description": "Allows CodeCenter to read any files on your computer."
 		},
 		"editFiles": {
 			"label": "Edit project files",
 			"shortName": "Edit",
-			"description": "Allows Caret to modify files within your workspace."
+			"description": "Allows CodeCenter to modify files within your workspace."
 		},
 		"editFilesExternally": {
 			"label": "Edit any files",
 			"shortName": "Edit all",
-			"description": "Allows Caret to modify any files on your computer."
+			"description": "Allows CodeCenter to modify any files on your computer."
 		},
 		"executeSafeCommands": {
 			"label": "Execute safe commands",
 			"shortName": "Safe commands",
-			"description": "Allows Caret to execute safe terminal commands. Approval will still be required if the model deems a command potentially destructive."
+			"description": "Allows CodeCenter to execute safe terminal commands. Approval will still be required if the model deems a command potentially destructive."
 		},
 		"executeAllCommands": {
 			"label": "Execute all commands",
 			"shortName": "All commands",
-			"description": "Allows Caret to execute any terminal commands. Use at your own risk."
+			"description": "Allows CodeCenter to execute any terminal commands. Use at your own risk."
 		},
 		"useBrowser": {
 			"label": "Use browser",
 			"shortName": "Browser",
-			"description": "Allows Caret to launch and interact with any website in the browser."
+			"description": "Allows CodeCenter to launch and interact with any website in the browser."
 		},
 		"useMcp": {
 			"label": "Use MCP server",
 			"shortName": "MCP",
-			"description": "Allows Caret to use configured MCP servers which can modify the file system or interact with APIs."
+			"description": "Allows CodeCenter to use configured MCP servers which can modify the file system or interact with APIs."
 		},
 		"enableNotifications": {
 			"label": "Enable notifications",
 			"shortName": "Notifications",
-			"description": "Receive system notifications when Caret requires approval for a step or when a task is completed."
+			"description": "Receive system notifications when CodeCenter requires approval for a step or when a task is completed."
 		}
 	},
 	"persona": {
@@ -351,7 +351,7 @@
 	},
 	"telemetry": {
 		"label": "Allow anonymous error and usage reporting",
-		"description": "You can help improve Caret by sending anonymous usage data and error reports. Anonymous usage and error data are sent to help improve the Caret product. No code, prompts, or personal information is ever sent, and no personal identifiable information is included.",
+		"description": "You can help improve CodeCenter by sending anonymous usage data and error reports. Anonymous usage and error data are sent to help improve the CodeCenter product. No code, prompts, or personal information is ever sent, and no personal identifiable information is included.",
 		"telemetryOverview": "Telemetry Overview",
 		"and": "and",
 		"privacyPolicy": "Privacy Policy",
@@ -368,7 +368,7 @@
 	},
 	"modelPicker": {
 		"extensionFetches": "The extension automatically fetches the latest list of models available on ",
-		"unsureWhichModel": "If you're unsure which model to choose, Caret works best with ",
+		"unsureWhichModel": "If you're unsure which model to choose, CodeCenter works best with ",
 		"freeOptions": "To find free options currently available, try searching for \"free\".",
 		"seeMore": "See more"
 	},
@@ -376,7 +376,7 @@
 		"apiProvider": "API Provider",
 		"searchAndSelectProvider": "Search and select provider...",
 		"clearSearch": "Clear search",
-		"clineProviderHidden": "Caret Provider Hidden - Use Caret API Provider instead"
+		"clineProviderHidden": "CodeCenter Provider Hidden - Use CodeCenter API Provider instead"
 	},
 	"clineAccountInfoCard": {
 		"loginError": "Failed to get login URL:",
@@ -446,14 +446,14 @@
 			"description": "Manage project rule files and set priorities.",
 			"workspaceRules": "Workspace Rules",
 			"globalRules": "Global Rules",
-			"caretRules": ".caretrules files",
+			"codecenterRules": ".codecenterrules files",
 			"clineRules": ".clinerules files",
 			"cursorRules": ".cursorrules files",
 			"windsurfRules": ".windsurfrules files"
 		},
 		"priority": {
 			"title": "Rule Priority",
-			"description": "Rule file priority: .caretrules > .clinerules > .cursorrules > .windsurfrules",
+			"description": "Rule file priority: .codecenterrules > .clinerules > .cursorrules > .windsurfrules",
 			"info": "When higher priority rules exist, lower priority rules are automatically disabled."
 		},
 		"buttons": {
@@ -487,7 +487,7 @@
 		"clearSearch": "Clear search",
 		"descriptionPart1": "The extension automatically fetches the latest list of models available on ",
 		"requestyLinkText": "Requesty.",
-		"descriptionPart2": "If you're unsure which model to choose, Caret works best with ",
+		"descriptionPart2": "If you're unsure which model to choose, CodeCenter works best with ",
 		"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
 	},
 	"sapAiCoreModelPicker": {
@@ -523,7 +523,7 @@
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: SOTA coding performance at 3x lower cost than Opus 4.1",
 				"featuredModelLabelNew": "New",
@@ -538,7 +538,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -673,20 +673,20 @@
 			"setupLink1": "1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,",
 			"setupLink2": "2) install the Google Cloud CLI › configure Application Default Credentials."
 		},
-		"caret": {
-			"name": "Caret",
+		"codecenter": {
+			"name": "CodeCenter",
 			"login": "Login",
 			"profile": "Profile",
 			"logout": "Logout",
-			"apiKeyConfigured": "Caret logged in",
-			"description": "Caret login users can access Google's latest Gemini models with free provided credits",
+			"apiKeyConfigured": "CodeCenter logged in",
+			"description": "CodeCenter login users can access Google's latest Gemini models with free provided credits",
 			"features": "Enjoy the following features without separate API keys",
 			"feature1": "Gemini 2.5 Pro: Powerful reasoning capabilities",
 			"feature2": "Gemini 2.5 Flash: Fast and efficient responses",
 			"feature3": "Instant access without separate API keys",
 			"feature4": "Pricing: Use with free plan credits",
-			"visit": "Get Caret's API key:",
-			"baseUrlPlaceholder": "Default: https://api.caret.team",
+			"visit": "Get CodeCenter's API key:",
+			"baseUrlPlaceholder": "Default: https://api.codecenter.team",
 			"baseUrlLabel": "Base URL (optional)",
 			"apiKeyPlaceholder": "Default: noop",
 			"apiKeyLabel": "API Key",
@@ -704,16 +704,16 @@
 			"usePromptCachingDescription": "Prompt caching requires a supported provider and model",
 			"extendedThinkingDescription1": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
 			"extendedThinkingLink": "thinking mode configuration",
-			"description1": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"description1": "CodeCenter LLM Gateway provides a unified interface to access various LLM providers' models. See their",
 			"quickstartGuideLink": "quickstart guide",
 			"description2": "for more information.",
-			"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"unifiedInterfaceHelpText": "CodeCenter LLM Gateway provides a unified interface to access various LLM providers' models. See their",
 			"quickstartGuideLinkText": "quickstart guide",
 			"forMoreInformationText": "for more information.",
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: SOTA coding performance at 3x lower cost than Opus 4.1",
 				"featuredModelLabelNew": "New",
@@ -727,14 +727,14 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
 		},
 		"litellm": {
-			"name": "LiteLLM",
-			"description": "LiteLLM provides a unified interface to over 100 LLM APIs.",
+			"name": "CodeCenter LLM Gateway",
+			"description": "CodeCenter LLM Gateway provides a unified interface to over 100 LLM APIs.",
 			"baseUrlPlaceholder": "Default: http://localhost:4000",
 			"baseUrlLabel": "Base URL (optional)",
 			"apiKeyPlaceholder": "Default: noop",
@@ -753,10 +753,10 @@
 			"usePromptCachingDescription": "Prompt caching requires a supported provider and model",
 			"extendedThinkingDescription1": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
 			"extendedThinkingLink": "thinking mode configuration",
-			"description1": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"description1": "CodeCenter LLM Gateway provides a unified interface to access various LLM providers' models. See their",
 			"quickstartGuideLink": "quickstart guide",
 			"description2": "for more information.",
-			"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"unifiedInterfaceHelpText": "CodeCenter LLM Gateway provides a unified interface to access various LLM providers' models. See their",
 			"quickstartGuideLinkText": "quickstart guide",
 			"forMoreInformationText": "for more information."
 		},
@@ -845,7 +845,7 @@
 			"fetchModelsError": "Failed to fetch Groq models:",
 			"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 			"groqLinkText": "Groq.",
-			"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+			"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
 			"recommendedModel": "llama-3.3-70b-versatile.",
 			"recommendedModelId": "llama-3.3-70b-versatile",
 			"modelDocumentationUrl": "https://console.groq.com/docs/models"
@@ -1032,13 +1032,72 @@
 			"priceSortingDescription": "Sort providers by price, prioritizing the lowest cost provider",
 			"throughputSortingDescription": "Sort providers by throughput, prioritizing the provider with the highest throughput (may increase cost)",
 			"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency"
+		},
+		"caret": {
+			"name": "Caret",
+			"login": "Login",
+			"profile": "Profile",
+			"logout": "Logout",
+			"apiKeyConfigured": "Caret logged in",
+			"description": "Caret login users can access Google's latest Gemini models with free provided credits",
+			"features": "Enjoy the following features without separate API keys",
+			"feature1": "Gemini 2.5 Pro: Powerful reasoning capabilities",
+			"feature2": "Gemini 2.5 Flash: Fast and efficient responses",
+			"feature3": "Instant access without separate API keys",
+			"feature4": "Pricing: Use with free plan credits",
+			"visit": "Get Caret's API key:",
+			"baseUrlPlaceholder": "Default: https://api.caret.team",
+			"baseUrlLabel": "Base URL (optional)",
+			"apiKeyPlaceholder": "Default: noop",
+			"apiKeyLabel": "API Key",
+			"modelIdPlaceholder": "e.g. anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "Model ID",
+			"usePromptCachingLabel": "Use prompt caching (GA)",
+			"promptCachingHelpText": "Prompt caching requires a supported provider and model",
+			"extendedThinkingHelpText": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
+			"thinkingModeConfigurationLinkText": "thinking mode configuration",
+			"modelConfigurationLabel": "Model Configuration",
+			"supportsImagesLabel": "Supports Images",
+			"contextWindowSizeLabel": "Context Window Size",
+			"maxOutputTokensLabel": "Max Output Tokens",
+			"temperatureLabel": "Temperature",
+			"usePromptCachingDescription": "Prompt caching requires a supported provider and model",
+			"extendedThinkingDescription1": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
+			"extendedThinkingLink": "thinking mode configuration",
+			"description1": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"quickstartGuideLink": "quickstart guide",
+			"description2": "for more information.",
+			"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"quickstartGuideLinkText": "quickstart guide",
+			"forMoreInformationText": "for more information.",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Claude Opus 4.5: SOTA coding performance at 3x lower cost than Opus 4.1",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "모델",
+				"searchPlaceholder": "모델 검색 및 선택...",
+				"clearSearch": "검색 지우기",
+				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
+				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		}
 	},
 	"about": {
 		"feedbackPrompt": "If you have any questions or feedback, we welcome it anytime.",
 		"version": "Version",
 		"title": "About",
-		"description": "Check the Caret version and view related information.",
+		"description": "Check the CodeCenter version and view related information.",
 		"documentation": "Detailed User Manual"
 	},
 	"thinkingBudget": {

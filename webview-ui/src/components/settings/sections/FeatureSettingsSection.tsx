@@ -39,15 +39,10 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 	const { language } = useCaretI18nContext()
 	const [isCliInstalled, setIsCliInstalled] = useState(false)
 
-	const isCaretMode = modeSystem === "caret"
-	const cliLabel = isCaretMode ? "Caret CLI" : "Cline CLI"
-	const installCommand = useMemo(
-		() => (isCaretMode ? "npm install -g @caretive/caret-cli" : "npm install -g cline"),
-		[isCaretMode],
-	)
-	const installWarningKey = isCaretMode ? "features.subagents.caretWarning" : "features.subagents.clineWarning"
+	const installCommand = useMemo(() => "npm install -g @slexn/codecenter", [])
+	const installWarningKey = "features.subagents.caretWarning"
 	const installStatusKey = isCliInstalled ? "features.subagents.installed" : "features.subagents.notInstalled"
-	const authCommand = isCaretMode ? "caret auth" : "cline auth"
+	const authCommand = "codecenter auth"
 
 	const handleReasoningEffortChange = (newValue: OpenaiReasoningEffort) => {
 		updateSetting("openaiReasoningEffort", newValue)
@@ -160,13 +155,6 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 										: t("features.subagents.enable", "settings")}
 								</span>
 							</VSCodeCheckbox>
-							<p className="text-xs mt-1 mb-0">
-								<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
-								<span className="text-description">
-									Allows the CLI to spawn subprocesses to handle focused tasks like exploring large codebases,
-									keeping your main context clean.
-								</span>
-							</p>
 							{subagentsEnabled && (
 								<div className="mt-3">
 									<SubagentOutputLineLimitSlider />

@@ -36,7 +36,7 @@ const BRAND_SLUG = resolveBrandSlug()
 const BRAND_RULES_DIR = `.${BRAND_SLUG}rules`
 const BRAND_WORKFLOWS_DIR = `${BRAND_RULES_DIR}/workflows`
 const BRAND_MCP_SETTINGS_FILE = `${BRAND_SLUG}_mcp_settings.json`
-const BRAND_DOCS_FOLDER = BRAND_SLUG === "cline" ? "Cline" : "Caret"
+const BRAND_DOCS_FOLDER = BRAND_SLUG === "cline" ? "Cline" : "Codecenter"
 
 export const GlobalFileNames = {
 	apiConversationHistory: "api_conversation_history.json",

@@ -85,13 +85,13 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	const webview = (await initialize(context)) as VscodeWebviewProvider
 
-	Logger.log("Caret extension activated")
+	Logger.log("Codecenter extension activated")
 
 	const testModeWatchers = await initializeTestMode(webview)
 	// Initialize test mode and add disposables to context
 	context.subscriptions.push(...testModeWatchers)
 
-	vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV && IS_DEV === "true")
+	vscode.commands.executeCommand("setContext", "codecenter.isDevMode", IS_DEV && IS_DEV === "true")
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
@@ -174,7 +174,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			.then((module) => {
 				const devTaskCommands = module.registerTaskCommands(webview.controller)
 				context.subscriptions.push(...devTaskCommands)
-				Logger.log("Caret dev task commands registered")
+				Logger.log("Codecenter dev task commands registered")
 			})
 			.catch((error) => {
 				Logger.log("Failed to register dev task commands: " + error)
@@ -280,7 +280,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 					actions.push(addAction)
 
-					// Explain with Caret/Cline (Always available)
+					// Explain with Codecenter/Cline (Always available)
 					const explainAction = new vscode.CodeAction(
 						`Explain with ${brandName}`,
 						vscode.CodeActionKind.RefactorExtract, // Using a refactor kind
@@ -292,7 +292,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 					actions.push(explainAction)
 
-					// Improve with Caret/Cline (Always available)
+					// Improve with Codecenter/Cline (Always available)
 					const improveAction = new vscode.CodeAction(
 						`Improve with ${brandName}`,
 						vscode.CodeActionKind.RefactorRewrite, // Using a refactor kind
@@ -439,7 +439,7 @@ function setupHostProvider(context: ExtensionContext) {
 	const createWebview = () => new VscodeWebviewProvider(context)
 	const createDiffView = () => new VscodeDiffViewProvider()
 	// CARET MODIFICATION: rename output channel to Caret for branded Output view
-	const outputChannel = vscode.window.createOutputChannel("Caret")
+	const outputChannel = vscode.window.createOutputChannel("Codecenter")
 	context.subscriptions.push(outputChannel)
 
 	const getCallbackUrl = async () => `${vscode.env.uriScheme || "vscode"}://${context.extension.id}`
@@ -497,7 +497,7 @@ export async function deactivate() {
 	// Clean up hook discovery cache
 	HookDiscoveryCache.getInstance().dispose()
 
-	Logger.log("Caret extension deactivated")
+	Logger.log("Codecenter extension deactivated")
 }
 
 // TODO: Find a solution for automatically removing DEV related content from production builds.

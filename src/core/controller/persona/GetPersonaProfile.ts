@@ -26,11 +26,11 @@ export async function GetPersonaProfile(controller: Controller, _request: EmptyR
 
 		// Default values
 		const defaultPersona = {
-			name: "Caret",
-			description: "친근하고 도움되는 코딩 로봇 조수",
+			name: "Codecenter",
+			description: "CodeCenter 엔터프라이즈 AI 어시스턴트",
 			customInstruction: "",
-			avatarUri: "asset://template_characters/caret_profile.png",
-			thinkingAvatarUri: "asset://template_characters/caret_thinking.png",
+			avatarUri: "asset:/assets/template_characters/caret.png",
+			thinkingAvatarUri: "asset:/assets/template_characters/caret_thinking.png",
 		}
 
 		// Convert image buffers to base64 data URLs if available
@@ -58,11 +58,11 @@ export async function GetPersonaProfile(controller: Controller, _request: EmptyR
 		console.error(`Failed to get persona profile: ${error}`)
 		// Return default persona on error
 		return PersonaProfile.create({
-			name: "Caret",
-			description: "친근하고 도움되는 코딩 로봇 조수",
+			name: "Codecenter",
+			description: "CodeCenter 엔터프라이즈 AI 어시스턴트",
 			customInstruction: "",
-			avatarUri: "asset://template_characters/caret_profile.png",
-			thinkingAvatarUri: "asset://template_characters/caret_thinking.png",
+			avatarUri: "asset:/assets/template_characters/caret.png",
+			thinkingAvatarUri: "asset:/assets/template_characters/caret_thinking.png",
 		})
 	}
 }
