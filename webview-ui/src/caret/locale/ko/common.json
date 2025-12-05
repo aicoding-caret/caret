@@ -9,7 +9,7 @@
 		"runCommand": "명령 실행",
 		"reject": "거절",
 		"setupApiOrLocal": "내 API 키 사용 또는 로컬 LLM 설정",
-		"notifyCodeCenterAccount": "CodeCenter 구독 서비스 알림받기",
+		"notifyCaretAccount": "Caret 구독 서비스 알림받기",
 		"saveAndStart": "저장하고 시작하기",
 		"retry": "재시도",
 		"approve": "승인",
@@ -29,7 +29,7 @@
 		"geminiApiKeyRequired": "Gemini API 키가 필요합니다"
 	},
 	"imageAlt": {
-		"codecenterBanner": "CodeCenter 로고 배너"
+		"caretBanner": "Caret 로고 배너"
 	},
 	"title": {
 		"apiKeySettings": "API 키 설정"
@@ -38,12 +38,12 @@
 		"finalThoughts": "{{appName}}와(과) 함께 멋진 개발 여정을 시작해보세요!"
 	},
 	"link": {
-		"learnMoreCodeCenterGit": "CodeCenter GitHub에서 더 알아보기"
+		"learnMoreCaretGit": "Caret GitHub에서 더 알아보기"
 	},
 	"apiSetup": {
 		"backButton": "뒤로",
-		"title": "CodeCenter 시작하기",
-		"description": "CodeCenter은 다양한 LLM을 지원합니다. CodeCenter 서비스에 가입하여 무료로 이용하거나, ChatGPT, Claude, Gemma API를 사용하거나, 로컬 LLM을 구성할 수 있습니다.",
+		"title": "Caret 시작하기",
+		"description": "Caret은 다양한 LLM을 지원합니다. Caret 서비스에 가입하여 무료로 이용하거나, ChatGPT, Claude, Gemma API를 사용하거나, 로컬 LLM을 구성할 수 있습니다.",
 		"instructions": "도움말:",
 		"supportLinks": {
 			"llmList": "지원되는 LLM 목록",
@@ -68,8 +68,8 @@
 			"localWorkflows": "로컬 워크플로우"
 		},
 		"subTitle": {
-			"codecenterRules": "CodeCenter 규칙 (.codecenterrules)",
-			"CodeCenterRules": "CodeCenter 규칙 (.CodeCenterrules)",
+			"caretRules": "Caret 규칙 (.caretrules)",
+			"CaretRules": "Caret 규칙 (.Caretrules)",
 			"cursorRules": "Cursor 규칙 (.cursorrules)",
 			"windsurfRules": "Windsurf 규칙 (.windsurfrules)"
 		},
@@ -78,14 +78,14 @@
 			"changePersonaTemplate": "페르소나 템플릿 변경"
 		},
 		"description": {
-			"rulesDescription": "규칙을 통해 CodeCenter에게 시스템 수준의 지침을 제공할 수 있습니다. 프로젝트별 또는 모든 대화에 대한 컨텍스트와 선호사항을 지속적으로 포함하는 방법으로 생각하세요.",
-			"workflowsDescription": "워크플로우를 통해 서비스 배포나 PR 제출과 같은 반복적인 작업들을 CodeCenter이 수행할 수 있도록 일련의 단계를 정의할 수 있습니다. 워크플로우를 실행하려면 채팅에서 /워크플로우명을 입력하세요.",
+			"rulesDescription": "규칙을 통해 Caret에게 시스템 수준의 지침을 제공할 수 있습니다. 프로젝트별 또는 모든 대화에 대한 컨텍스트와 선호사항을 지속적으로 포함하는 방법으로 생각하세요.",
+			"workflowsDescription": "워크플로우를 통해 서비스 배포나 PR 제출과 같은 반복적인 작업들을 Caret이 수행할 수 있도록 일련의 단계를 정의할 수 있습니다. 워크플로우를 실행하려면 채팅에서 /워크플로우명을 입력하세요.",
 			"personaManagement": "Choose an AI persona that matches your coding style and preferences."
 		},
 		"action": {
 			"newRuleFile": "새 규칙 파일..."
 		},
-		"title": "CodeCenter 규칙 및 워크플로우 관리",
+		"title": "Caret 규칙 및 워크플로우 관리",
 		"toggleError": "규칙 토글 오류",
 		"docsLink": "Docs"
 	},
@@ -101,7 +101,7 @@
 		"uploadNormal": "아바타 업로드",
 		"uploadThinking": "추론 아바타 업로드",
 		"default": {
-			"name": "기본 CodeCenter",
+			"name": "기본 Caret",
 			"description": "기본 AI 코딩 어시스턴트 페르소나입니다."
 		}
 	},
@@ -127,8 +127,8 @@
 			"description": "구현 및 실행"
 		},
 		"tooltip": {
-			"chatbot": "챗봇 모드에서 CodeCenter은 전문가 상담과 분석을 제공합니다",
-			"agent": "에이전트 모드에서 CodeCenter은 솔루션 구현을 위해 협업합니다",
+			"chatbot": "챗봇 모드에서 Caret은 전문가 상담과 분석을 제공합니다",
+			"agent": "에이전트 모드에서 Caret은 솔루션 구현을 위해 협업합니다",
 			"plan": "Plan 모드에서 전략과 계획을 수립합니다",
 			"act": "Act 모드에서 계획을 실행하고 구현합니다",
 			"toggle": "전환: {{metaKey}}+Shift+A"
@@ -137,7 +137,7 @@
 	"settings": {
 		"uiLanguage": {
 			"label": "UI 언어",
-			"description": "CodeCenter UI의 표시 언어를 선택하세요.",
+			"description": "Caret UI의 표시 언어를 선택하세요.",
 			"option": {
 				"ko": "Korean (한국어)",
 				"en": "English",
@@ -147,16 +147,16 @@
 		},
 		"preferredLanguage": {
 			"label": "AI 응답 언어",
-			"description": "CodeCenter이 소통에 사용해야 하는 언어입니다."
+			"description": "Caret이 소통에 사용해야 하는 언어입니다."
 		},
 		"modeSystem": {
 			"options": {
-				"codecenter": "CodeCenter",
-				"CodeCenter": "CodeCenter",
-				"cline": "CodeCenter"
+				"caret": "Caret",
+				"Caret": "Caret",
+				"cline": "Caret"
 			},
 			"label": "모드 설정",
-			"description": "CodeCenter의 계획/실행 모드를 사용하려면 CodeCenter 모드 설정을 활성화하세요."
+			"description": "Caret의 계획/실행 모드를 사용하려면 Caret 모드 설정을 활성화하세요."
 		},
 		"separateModels": {
 			"label": "챗봇 모드와 에이전트 모드에 다른 모델 사용",
@@ -190,7 +190,7 @@
 			"searchPlaceholder": "모델 검색 및 선택...",
 			"clearSearch": "검색 지우기",
 			"info": {
-				"fullText": "이 확장 프로그램은 <0>Requesty</0>에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다. 어떤 모델을 선택해야 할지 잘 모르겠다면, CodeCenter은 <1>anthropic/claude-3-7-sonnet-latest</1>와 가장 잘 작동합니다."
+				"fullText": "이 확장 프로그램은 <0>Requesty</0>에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다. 어떤 모델을 선택해야 할지 잘 모르겠다면, Caret은 <1>anthropic/claude-3-7-sonnet-latest</1>와 가장 잘 작동합니다."
 			}
 		},
 		"sapAiCore": {
@@ -238,7 +238,7 @@
 		"title": "Account"
 	},
 	"account": {
-		"signUpWithCodeCenter": "로그인 & 가입",
+		"signUpWithCaret": "로그인 & 가입",
 		"viewBillingUsage": "결제 및 사용량 보기",
 		"dashboard": "대시보드",
 		"addCredits": "크레딧 추가",
@@ -270,8 +270,8 @@
 		"totalTokens": "총 토큰 수",
 		"totalCost": "총 비용",
 		"logout": "로그아웃",
-		"termsOfServiceUrl": "https://codecenterive.ai/terms.ko.html",
-		"privacyPolicyUrl": "https://codecenterive.ai/privacy.ko.html",
+		"termsOfServiceUrl": "https://caretive.ai/terms.ko.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.ko.html",
 		"personal": "개인",
 		"date": "날짜",
 		"model": "모델",
@@ -290,7 +290,7 @@
 		"seeMore": "더 보기"
 	},
 	"chat": {
-		"codecenterHasQuestion": "코드센터이 질문이 있습니다",
+		"caretHasQuestion": "캐럿이 질문이 있습니다",
 		"typeMessage": "메시지를 입력하세요...",
 		"typeTaskHere": "작업을 입력하세요...",
 		"apiRequestCancelled": "API 요청이 취소되었습니다",
@@ -302,11 +302,11 @@
 			"apiRequest": "API 요청",
 			"apiRequestFailed": "API 요청 실패"
 		},
-		"codecenterWantsToCreateNewFile": "코드센터이 새 파일을 생성하려고 합니다:",
+		"caretWantsToCreateNewFile": "캐럿이 새 파일을 생성하려고 합니다:",
 		"placeholderHint": "@ 입력으로 컨텍스트, / 입력으로 슬래시 명령어 및 워크플로우, Shift 키를 누른 채 드래그하여 파일/이미지 추가",
-		"codecenterIsUsingBrowser": "코드센터이 브라우저를 사용하고 있습니다:",
-		"codecenterWantsToUseBrowser": "코드센터이 브라우저를 사용하려고 합니다:",
-		"executeCommand": "CodeCenter이 다음 명령을 실행하려고 합니다:",
+		"caretIsUsingBrowser": "캐럿이 브라우저를 사용하고 있습니다:",
+		"caretWantsToUseBrowser": "캐럿이 브라우저를 사용하려고 합니다:",
+		"executeCommand": "Caret이 다음 명령을 실행하려고 합니다:",
 		"cancel": "취소",
 		"errorLabel": "오류",
 		"addContext": "컨텍스트 추가",
@@ -330,11 +330,11 @@
 		"loadingMcpDocumentation": "MCP 문서 로드 중",
 		"seeNewChanges": "새 변경사항 보기",
 		"shellIntegrationUnavailable": "셸 통합을 사용할 수 없음",
-		"shellIntegrationWarning": "CodeCenter이 명령어 출력을 보는 데 문제가 있을 수 있습니다. VSCode를 업데이트하고(<code>CMD/CTRL + Shift + P</code> → \"업데이트\") 지원되는 셸(zsh, bash, fish, PowerShell)을 사용하고 있는지 확인하세요(<code>CMD/CTRL + Shift + P</code> → \"터미널: 기본 프로필 선택\").",
+		"shellIntegrationWarning": "Caret이 명령어 출력을 보는 데 문제가 있을 수 있습니다. VSCode를 업데이트하고(<code>CMD/CTRL + Shift + P</code> → \"업데이트\") 지원되는 셸(zsh, bash, fish, PowerShell)을 사용하고 있는지 확인하세요(<code>CMD/CTRL + Shift + P</code> → \"터미널: 기본 프로필 선택\").",
 		"stillHavingTrouble": "아직도 문제가 있나요?",
-		"wantsToStartNewTask": "CodeCenter이 새 작업을 시작하려고 합니다:",
-		"wantsToCondense": "CodeCenter이 대화를 요약하려고 합니다:",
-		"wantsToCreateGithubIssue": "CodeCenter이 Github 이슈를 생성하려고 합니다:",
+		"wantsToStartNewTask": "Caret이 새 작업을 시작하려고 합니다:",
+		"wantsToCondense": "Caret이 대화를 요약하려고 합니다:",
+		"wantsToCreateGithubIssue": "Caret이 Github 이슈를 생성하려고 합니다:",
 		"tool": {
 			"outsideWorkspace": "작업 공간 외부",
 			"editFile": "기존 파일 편집됨",
@@ -368,7 +368,7 @@
 		"autoApprove": "자동 승인",
 		"autoApproveAllTools": "모든 도구 자동 승인",
 		"title": "MCP Servers",
-		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend CodeCenter's capabilities."
+		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend Caret's capabilities."
 	},
 	"history": {
 		"deleteAllHistory": "모든 기록 삭제",
@@ -476,10 +476,10 @@
 		"tokensSuffix": "/백만 토큰"
 	},
 	"providers": {
-		"codecenter": {
-			"name": "CodeCenter",
-			"description": "CodeCenter은 다양한 LLM을 지원합니다. CodeCenter 서비스에 가입하여 무료로 이용하거나, ChatGPT, Claude, Gemma API를 사용하거나, 로컬 LLM을 구성할 수 있습니다.",
-			"login": "CodeCenter 계정으로 로그인 및 가입",
+		"caret": {
+			"name": "Caret",
+			"description": "Caret은 다양한 LLM을 지원합니다. Caret 서비스에 가입하여 무료로 이용하거나, ChatGPT, Claude, Gemma API를 사용하거나, 로컬 LLM을 구성할 수 있습니다.",
+			"login": "Caret 계정으로 로그인 및 가입",
 			"or": "또는",
 			"apiKeyConfigured": "API 키가 구성되었습니다. 로그인이 필요하지 않습니다.",
 			"features": "기능:",
@@ -543,7 +543,7 @@
 			"apiKeyHelpText": "여기에서 가입하여 {{providerName}} API 키를 얻을 수 있습니다."
 		}
 	},
-	"codecenterProvider": {
+	"caretProvider": {
 		"futureSupport": "향후 지원",
 		"futureProviders": "ChatGPT, Claude는 향후 지원예정입니다",
 		"modelLabel": "모델",
@@ -561,7 +561,7 @@
 		"selectModel": "모델을 선택하세요...",
 		"selectRegion": "지역을 선택하세요...",
 		"enterApiKey": "API 키를 입력하세요...",
-		"codecenterComplexPrompts": "CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델에서 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+		"caretComplexPrompts": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델에서 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
 		"note": "참고:",
 		"model": "모델",
 		"custom": "사용자 정의",
@@ -617,15 +617,15 @@
 		"millionTokens": "백만 토큰",
 		"tokens": "토큰",
 		"systemMessages": {
-			"viewedTopLevelFiles": "CodeCenter이 이 디렉토리의 최상위 파일들을 확인했습니다:",
-			"wantsToViewTopLevelFiles": "CodeCenter이 이 디렉토리의 최상위 파일들을 확인하려고 합니다:",
-			"viewedFilesRecursively": "CodeCenter이 이 디렉토리의 모든 파일들을 재귀적으로 확인했습니다:",
-			"wantsToViewFilesRecursively": "CodeCenter이 이 디렉토리의 모든 파일들을 재귀적으로 확인하려고 합니다:",
-			"viewedCodeDefinitions": "CodeCenter이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인했습니다:",
-			"wantsToViewCodeDefinitions": "CodeCenter이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인하려고 합니다:",
-			"wantsToSearchDirectory": "CodeCenter이 이 디렉토리에서 검색하려고 합니다:",
-			"fetchedContentFromUrl": "CodeCenter이 이 URL에서 콘텐츠를 가져왔습니다:",
-			"wantsToFetchContentFromUrl": "CodeCenter이 이 URL에서 콘텐츠를 가져오려고 합니다:",
+			"viewedTopLevelFiles": "Caret이 이 디렉토리의 최상위 파일들을 확인했습니다:",
+			"wantsToViewTopLevelFiles": "Caret이 이 디렉토리의 최상위 파일들을 확인하려고 합니다:",
+			"viewedFilesRecursively": "Caret이 이 디렉토리의 모든 파일들을 재귀적으로 확인했습니다:",
+			"wantsToViewFilesRecursively": "Caret이 이 디렉토리의 모든 파일들을 재귀적으로 확인하려고 합니다:",
+			"viewedCodeDefinitions": "Caret이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인했습니다:",
+			"wantsToViewCodeDefinitions": "Caret이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인하려고 합니다:",
+			"wantsToSearchDirectory": "Caret이 이 디렉토리에서 검색하려고 합니다:",
+			"fetchedContentFromUrl": "Caret이 이 URL에서 콘텐츠를 가져왔습니다:",
+			"wantsToFetchContentFromUrl": "Caret이 이 URL에서 콘텐츠를 가져오려고 합니다:",
 			"taskCompleted": "작업 완료"
 		},
 		"geminiApiKey": "Gemini API 키",
@@ -639,18 +639,18 @@
 		"recentTasks": "최근 작업",
 		"noRecentTasks": "최근 작업이 없습니다",
 		"viewAllHistory": "모든 기록 보기",
-		"quickWinsTitle": "CodeCenter과 함께하는 빠른 <span>[작업]</span>",
-		"title": "Welcome to CodeCenter! 🎉",
+		"quickWinsTitle": "Caret과 함께하는 빠른 <span>[작업]</span>",
+		"title": "Welcome to Caret! 🎉",
 		"subtitle": "Your AI-powered coding assistant",
-		"description": "CodeCenter is an AI coding assistant that helps you write, debug, and improve your code. Let's get started!",
+		"description": "Caret is an AI coding assistant that helps you write, debug, and improve your code. Let's get started!",
 		"getStarted": "Get Started",
 		"learnMore": "Learn More"
 	},
 	"telemetry": {
-		"helpImprove": "CodeCenter 알아보기",
-		"description": "CodeCenter는 Slexn이 제공하는 엔터프라이즈 AI 코딩 어시스턴트입니다. 제품 정보와 업데이트를 공식 사이트에서 확인하세요.",
+		"helpImprove": "Caret 개발 지원하기",
+		"description": "Caret은 오픈소스 프로젝트입니다. GitHub에서 기여, 이슈 보고, 피드백을 공유해주세요.",
 		"githubLinkPrefix": "자세히 보기",
-		"githubLink": "www.slexn.com/product/codecenter/",
+		"githubLink": "github.com/aicoding-caret/caret",
 		"closeBannerAria": "배너 닫기",
 		"settingsLink": "설정"
 	},
@@ -669,30 +669,30 @@
 		"features": {
 			"freeStealth": {
 				"title": "무료 스텔스 모델",
-				"description": "복잡한 코딩 작업을 위해 설계된 262K 컨텍스트 윈도우를 가진 고급 스텔스 모델. CodeCenter 프로바이더에서 무료로 이용 가능합니다."
+				"description": "복잡한 코딩 작업을 위해 설계된 262K 컨텍스트 윈도우를 가진 고급 스텔스 모델. Caret 프로바이더에서 무료로 이용 가능합니다."
 			},
 			"focusChain": {
 				"title": "집중 체인",
-				"description": "자동 할 일 목록 관리, 복잡한 작업을 관리 가능한 단계로 나누고 실시간 진행 상황 추적 및 수동적 알림을 통해 CodeCenter이 장기 작업에 집중할 수 있도록 도움니다."
+				"description": "자동 할 일 목록 관리, 복잡한 작업을 관리 가능한 단계로 나누고 실시간 진행 상황 추적 및 수동적 알림을 통해 Caret이 장기 작업에 집중할 수 있도록 도움니다."
 			},
 			"autoCompact": {
 				"title": "자동 압축",
-				"description": "대화가 모델의 컨텍스트 윈도우 제한에 근접할 때 작업과 다음 단계를 자동으로 요약합니다. 이는 CodeCenter이 긴 작업 세션에서 궤도를 유지하는 데 크게 도움이 됩니다!"
+				"description": "대화가 모델의 컨텍스트 윈도우 제한에 근접할 때 작업과 다음 단계를 자동으로 요약합니다. 이는 Caret이 긴 작업 세션에서 궤도를 유지하는 데 크게 도움이 됩니다!"
 			},
 			"deepPlanning": {
 				"title": "심층 계획",
-				"description": "새로운 /deep-planning 슬래시 명령으로 CodeCenter을 코드를 작성하기 전에 코드베이스를 조사하고 명확한 질문을 하며 포괄적인 계획을 세우는 건축가로 변환합니다."
+				"description": "새로운 /deep-planning 슬래시 명령으로 Caret을 코드를 작성하기 전에 코드베이스를 조사하고 명확한 질문을 하며 포괄적인 계획을 세우는 건축가로 변환합니다."
 			}
 		},
 		"previousUpdates": "이전 업데이트:",
 		"previousFeatures": {
 			"claude1M": {
 				"title": "Claude Sonnet 4용 1M 컨텍스트",
-				"description": "CodeCenter/OpenRouter 사용자는 즉시 액세스, Anthropic 사용자는 Tier 4가 필요하며, Bedrock 사용자는 지원되는 지역에 있어야 합니다."
+				"description": "Caret/OpenRouter 사용자는 즉시 액세스, Anthropic 사용자는 Tier 4가 필요하며, Bedrock 사용자는 지원되는 지역에 있어야 합니다."
 			},
 			"optimizedClaude4": {
 				"title": "Claude 4에 최적화",
-				"description": "CodeCenter은 이제 Claude 4 모델 제품군에서 작동하도록 최적화되어 성능, 신뢰성 및 새로운 기능이 향상되었습니다."
+				"description": "Caret은 이제 Claude 4 모델 제품군에서 작동하도록 최적화되어 성능, 신뢰성 및 새로운 기능이 향상되었습니다."
 			},
 			"workflows": {
 				"title": "워크플로우",

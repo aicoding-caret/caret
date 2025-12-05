@@ -9,7 +9,7 @@
 		"runCommand": "コマンド実行",
 		"reject": "拒否",
 		"setupApiOrLocal": "APIキーまたはローカルLLMをセットアップする",
-		"notifyCodeCenterAccount": "CodeCenterサブスクリプションの通知を受け取る",
+		"notifyCaretAccount": "Caretサブスクリプションの通知を受け取る",
 		"saveAndStart": "保存して開始",
 		"startNewTaskWithContext": "コンテキストと共に新しいタスクを開始",
 		"retry": "Retry",
@@ -29,7 +29,7 @@
 		"geminiApiKeyRequired": "Gemini APIキーが必要です"
 	},
 	"imageAlt": {
-		"caretBanner": "CodeCenterロゴバナー"
+		"caretBanner": "Caretロゴバナー"
 	},
 	"title": {
 		"apiKeySettings": "APIキー設定"
@@ -38,12 +38,12 @@
 		"finalThoughts": "{{appName}}と一緒に素晴らしい開発の旅を始めましょう！"
 	},
 	"link": {
-		"learnMoreCodeCenterGit": "CodeCenter GitHubでもっと学ぶ"
+		"learnMoreCaretGit": "Caret GitHubでもっと学ぶ"
 	},
 	"apiSetup": {
 		"backButton": "戻る",
-		"title": "CodeCenterを始めよう",
-		"description": "CodeCenterはさまざまなLLMをサポートしています。CodeCenterサービスに登録して無料アクセスを利用するか、ChatGPT、Claude、Gemma APIを使用するか、ローカルLLMを設定できます。",
+		"title": "Caretを始めよう",
+		"description": "CaretはさまざまなLLMをサポートしています。Caretサービスに登録して無料アクセスを利用するか、ChatGPT、Claude、Gemma APIを使用するか、ローカルLLMを設定できます。",
 		"instructions": "手順：",
 		"supportLinks": {
 			"llmList": "サポートされるLLM一覧",
@@ -56,16 +56,16 @@
 		}
 	},
 	"welcome": {
-		"title": "CodeCenterへようこそ！🎉",
+		"title": "Caretへようこそ！🎉",
 		"subtitle": "AI搭載コーディングアシスタント",
-		"description": "CodeCenterはAIコーディングアシスタントで、コードの作成、デバッグ、改善をサポートします。一緒に始めましょう！",
+		"description": "CaretはAIコーディングアシスタントで、コードの作成、デバッグ、改善をサポートします。一緒に始めましょう！",
 		"getStarted": "始める",
 		"learnMore": "詳しく学ぶ",
 		"whatCanIDo": "何がお手伝いできますか？",
 		"recentTasks": "最近のタスク",
 		"noRecentTasks": "最近のタスクはありません",
 		"viewAllHistory": "全ての履歴を表示",
-		"quickWinsTitle": "CodeCenterでの簡単<span>[成果]</span>"
+		"quickWinsTitle": "Caretでの簡単<span>[成果]</span>"
 	},
 	"rules": {
 		"tab": {
@@ -80,8 +80,8 @@
 			"localWorkflows": "ローカルワークフロー"
 		},
 		"subTitle": {
-			"caretRules": "CodeCenter Rules (.caretrules)",
-			"CodeCenterRules": "CodeCenter Rules (.caretrules)",
+			"caretRules": "Caret Rules (.caretrules)",
+			"CaretRules": "Caret Rules (.caretrules)",
 			"cursorRules": "カーソルルール (.cursorrules)",
 			"windsurfRules": "ウィンドサーフルール (.windsurfrules)"
 		},
@@ -92,12 +92,12 @@
 		"description": {
 			"personaManagement": "コーディングスタイルや好みに合ったAIペルソナを選択してください。",
 			"rulesDescription": "ルールを使用すると、システムレベルのガイダンスを提供できます。プロジェクトまたはすべての会話でグローバルにコンテキストと設定を含める永続的な方法と考えてください。",
-			"workflowsDescription": "ワークフローを使用すると、CodeCenterがサービスのデプロイやPRの送信などの反復的なタスクを実行するための一連のステップを定義できます。ワークフローを実行するには、チャットで /workflow-name と入力してください。"
+			"workflowsDescription": "ワークフローを使用すると、CaretがサービスのデプロイやPRの送信などの反復的なタスクを実行するための一連のステップを定義できます。ワークフローを実行するには、チャットで /workflow-name と入力してください。"
 		},
 		"action": {
 			"newRuleFile": "新しいルールファイル..."
 		},
-		"title": "CodeCenterルールとワークフロー管理",
+		"title": "Caretルールとワークフロー管理",
 		"docsLink": "ドキュメント",
 		"toggleError": "ルール切り替えエラー"
 	},
@@ -113,7 +113,7 @@
 		"uploadNormal": "アバターをアップロード",
 		"uploadThinking": "思考アバターをアップロード",
 		"default": {
-			"name": "デフォルトCodeCenter",
+			"name": "デフォルトCaret",
 			"description": "デフォルトのAIコーディングアシスタントペルソナです。"
 		}
 	},
@@ -143,8 +143,8 @@
 			"description": "実装と実行"
 		},
 		"tooltip": {
-			"chatbot": "チャットボットモードでは、CodeCenterが専門家によるコンサルテーションと分析を提供します",
-			"agent": "エージェントモードでは、CodeCenterが協力してソリューションを実装します",
+			"chatbot": "チャットボットモードでは、Caretが専門家によるコンサルテーションと分析を提供します",
+			"agent": "エージェントモードでは、Caretが協力してソリューションを実装します",
 			"plan": "プランモードでは、戦略と計画を策定します",
 			"act": "アクトモードでは、計画を実行および実装します",
 			"toggle": "{{metaKey}}+Shift+A で切り替え"
@@ -158,7 +158,7 @@
 		},
 		"uiLanguage": {
 			"label": "UI言語",
-			"description": "CodeCenter UIの表示言語を選択します。",
+			"description": "Caret UIの表示言語を選択します。",
 			"option": {
 				"ko": "Korean (한국어)",
 				"en": "English",
@@ -168,15 +168,15 @@
 		},
 		"preferredLanguage": {
 			"label": "AI応答言語",
-			"description": "CodeCenterがコミュニケーションに使用する言語を選択します。"
+			"description": "Caretがコミュニケーションに使用する言語を選択します。"
 		},
 		"modeSystem": {
 			"label": "モード設定",
-			"description": "CodeCenterのプラン/アクトモードを使用するためにCodeCenterモード設定を有効にします。",
+			"description": "Caretのプラン/アクトモードを使用するためにCaretモード設定を有効にします。",
 			"options": {
-				"caret": "CodeCenter",
-				"CodeCenter": "CodeCenter",
-				"cline": "CodeCenter"
+				"caret": "Caret",
+				"Caret": "Caret",
+				"cline": "Caret"
 			}
 		},
 		"separateModels": {
@@ -259,11 +259,11 @@
 		"completionTokens": "完了トークン",
 		"totalTokens": "合計トークン数",
 		"totalCost": "合計コスト",
-		"termsOfServiceUrl": "https://slexn.ai/terms.en.html",
-		"privacyPolicyUrl": "https://slexn.ai/privacy.en.html"
+		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html"
 	},
 	"account": {
-		"signUpWithCodeCenter": "CodeCenterアカウントでログイン＆サインアップ",
+		"signUpWithCaret": "Caretアカウントでログイン＆サインアップ",
 		"viewBillingUsage": "請求と使用状況を表示",
 		"dashboard": "ダッシュボード",
 		"addCredits": "クレジットを追加",
@@ -299,7 +299,7 @@
 		"seeMore": "もっと見る"
 	},
 	"chat": {
-		"caretHasQuestion": "CodeCenterからの質問",
+		"caretHasQuestion": "Caretからの質問",
 		"typeMessage": "メッセージを入力...",
 		"typeTaskHere": "ここにタスクを入力...",
 		"cancel": "キャンセル",
@@ -320,11 +320,11 @@
 			"dimensionError": "画像の寸法は7500pxを超えることはできません。",
 			"unsupportedFileError": "サポートされていないファイルタイプです。画像のみドロップできます。"
 		},
-		"caretWantsToCreateNewFile": "CodeCenterが新しいファイルを作成しようとしています:",
+		"caretWantsToCreateNewFile": "Caretが新しいファイルを作成しようとしています:",
 		"placeholderHint": "コンテキストには@、スラッシュコマンドとワークフローには/を入力するか、Shiftを押しながらファイル/画像をドラッグ＆ドロップしてください",
-		"caretIsUsingBrowser": "CodeCenterがブラウザを使用しています:",
-		"caretWantsToUseBrowser": "CodeCenterがブラウザを使用しようとしています:",
-		"executeCommand": "CodeCenterがこのコマンドを実行しようとしています:",
+		"caretIsUsingBrowser": "Caretがブラウザを使用しています:",
+		"caretWantsToUseBrowser": "Caretがブラウザを使用しようとしています:",
+		"executeCommand": "Caretがこのコマンドを実行しようとしています:",
 		"errorLabel": "エラー",
 		"mistakeLimitReached": "間違いの制限に達しました",
 		"maxRequestsReached": "自動承認の最大リクエスト数に達しました",
@@ -340,11 +340,11 @@
 		"loadingMcpDocumentation": "MCPドキュメントを読み込み中",
 		"seeNewChanges": "新しい変更を表示",
 		"shellIntegrationUnavailable": "シェル統合が利用できません",
-		"shellIntegrationWarning": "CodeCenterはコマンドの出力を表示できない可能性があります。VSCodeを更新し（<code>CMD/CTRL + Shift + P</code> → \"Update\"）、サポートされているシェル（zsh、bash、fish、またはPowerShell）を使用していることを確認してください（<code>CMD/CTRL + Shift + P</code> → \"Terminal: Select Default Profile\"）。",
+		"shellIntegrationWarning": "Caretはコマンドの出力を表示できない可能性があります。VSCodeを更新し（<code>CMD/CTRL + Shift + P</code> → \"Update\"）、サポートされているシェル（zsh、bash、fish、またはPowerShell）を使用していることを確認してください（<code>CMD/CTRL + Shift + P</code> → \"Terminal: Select Default Profile\"）。",
 		"stillHavingTrouble": "まだ問題がありますか？",
-		"wantsToStartNewTask": "CodeCenterが新しいタスクを開始しようとしています:",
-		"wantsToCondense": "CodeCenterが会話を要約しようとしています:",
-		"wantsToCreateGithubIssue": "CodeCenterがGithubイシューを作成しようとしています:",
+		"wantsToStartNewTask": "Caretが新しいタスクを開始しようとしています:",
+		"wantsToCondense": "Caretが会話を要約しようとしています:",
+		"wantsToCreateGithubIssue": "CaretがGithubイシューを作成しようとしています:",
 		"tool": {
 			"outsideWorkspace": "ワークスペース外",
 			"editFile": "既存ファイルを編集",
@@ -458,9 +458,9 @@
 	},
 	"providers": {
 		"caret": {
-			"name": "CodeCenter",
-			"description": "CodeCenterはさまざまなLLMをサポートしています。CodeCenterサービスに登録して無料アクセスを利用するか、ChatGPT、Claude、Gemma APIを使用するか、ローカルLLMを設定できます。",
-			"login": "CodeCenterアカウントでログイン＆サインアップ",
+			"name": "Caret",
+			"description": "CaretはさまざまなLLMをサポートしています。Caretサービスに登録して無料アクセスを利用するか、ChatGPT、Claude、Gemma APIを使用するか、ローカルLLMを設定できます。",
+			"login": "Caretアカウントでログイン＆サインアップ",
 			"or": "または",
 			"apiKeyConfigured": "APIキーが設定されています。ログインは不要です。",
 			"features": "機能:",
@@ -543,7 +543,7 @@
 		"selectRegion": "リージョンを選択...",
 		"enterApiKey": "APIキーを入力...",
 		"loading": "読み込み中...",
-		"caretComplexPrompts": "CodeCenterは複雑なプロンプトを使用し、Claudeモデルで最も良く動作します。性能の低いモデルは期待通りに動作しない場合があります。",
+		"caretComplexPrompts": "Caretは複雑なプロンプトを使用し、Claudeモデルで最も良く動作します。性能の低いモデルは期待通りに動作しない場合があります。",
 		"note": "注:",
 		"model": "モデル",
 		"custom": "カスタム",
@@ -599,15 +599,15 @@
 		"millionTokens": "百万トークン",
 		"tokens": "トークン",
 		"systemMessages": {
-			"viewedTopLevelFiles": "CodeCenterはこのディレクトリのトップレベルファイルを表示しました:",
-			"wantsToViewTopLevelFiles": "CodeCenterはこのディレクトリのトップレベルファイルを表示しようとしています:",
-			"viewedFilesRecursively": "CodeCenterはこのディレクトリのすべてのファイルを再帰的に表示しました:",
-			"wantsToViewFilesRecursively": "CodeCenterはこのディレクトリのすべてのファイルを再帰的に表示しようとしています:",
-			"viewedCodeDefinitions": "CodeCenterはこのディレクトリで使用されているソースコード定義名を表示しました:",
-			"wantsToViewCodeDefinitions": "CodeCenterはこのディレクトリで使用されているソースコード定義名を表示しようとしています:",
-			"wantsToSearchDirectory": "CodeCenterはこのディレクトリを検索しようとしています:",
-			"fetchedContentFromUrl": "CodeCenterはこのURLからコンテンツを取得しました:",
-			"wantsToFetchContentFromUrl": "CodeCenterはこのURLからコンテンツを取得しようとしています:",
+			"viewedTopLevelFiles": "Caretはこのディレクトリのトップレベルファイルを表示しました:",
+			"wantsToViewTopLevelFiles": "Caretはこのディレクトリのトップレベルファイルを表示しようとしています:",
+			"viewedFilesRecursively": "Caretはこのディレクトリのすべてのファイルを再帰的に表示しました:",
+			"wantsToViewFilesRecursively": "Caretはこのディレクトリのすべてのファイルを再帰的に表示しようとしています:",
+			"viewedCodeDefinitions": "Caretはこのディレクトリで使用されているソースコード定義名を表示しました:",
+			"wantsToViewCodeDefinitions": "Caretはこのディレクトリで使用されているソースコード定義名を表示しようとしています:",
+			"wantsToSearchDirectory": "Caretはこのディレクトリを検索しようとしています:",
+			"fetchedContentFromUrl": "CaretはこのURLからコンテンツを取得しました:",
+			"wantsToFetchContentFromUrl": "CaretはこのURLからコンテンツを取得しようとしています:",
 			"taskCompleted": "タスク完了"
 		},
 		"geminiApiKey": "Gemini APIキー",
@@ -616,10 +616,10 @@
 		"reasoningEnabled": "推論はデフォルトで有効"
 	},
 	"telemetry": {
-		"helpImprove": "CodeCenter を知る",
-		"description": "CodeCenter は Slexn が提供するエンタープライズ向け AI コーディングアシスタントです。公式サイトで製品情報と最新ニュースをご確認ください。",
+		"helpImprove": "Caretの開発を応援",
+		"description": "Caretはオープンソースプロジェクトです。GitHubで貢献、問題報告、フィードバックをお願いします。",
 		"githubLinkPrefix": "詳細はこちら",
-		"githubLink": "www.slexn.com/product/codecenter/",
+		"githubLink": "github.com/aicoding-caret/caret",
 		"closeBannerAria": "バナーを閉じる",
 		"settingsLink": "設定"
 	},
@@ -646,7 +646,7 @@
 		"configureServers": "MCPサーバーを設定",
 		"noMatchingServers": "一致するMCPサーバーが見つかりません",
 		"noServersFound": "マーケットプレイスでMCPサーバーが見つかりません",
-		"description": "モデルコンテキストプロトコルは、CodeCenterの機能を拡張するための追加ツールとリソースを提供するローカルで実行されているMCPサーバーとの通信を可能にします。",
+		"description": "モデルコンテキストプロトコルは、Caretの機能を拡張するための追加ツールとリソースを提供するローカルで実行されているMCPサーバーとの通信を可能にします。",
 		"autoApprove": "自動承認",
 		"autoApproveAllTools": "すべてのツールを自動承認"
 	},
@@ -665,30 +665,30 @@
 		"features": {
 			"freeStealth": {
 				"title": "無料ステルスモデル",
-				"description": "複雑なコーディングタスク向けに設計された262Kコンテキストウィンドウを持つ高度なステルスモデル。CodeCenterプロバイダーで無料で利用可能。"
+				"description": "複雑なコーディングタスク向けに設計された262Kコンテキストウィンドウを持つ高度なステルスモデル。Caretプロバイダーで無料で利用可能。"
 			},
 			"focusChain": {
 				"title": "フォーカスチェーン",
-				"description": "自動TODOリスト管理により、CodeCenterが長期的なタスクに集中し、複雑なタスクを管理可能なステップに分解し、リアルタイムの進捗追跡と受動的なリマインダーを提供します。"
+				"description": "自動TODOリスト管理により、Caretが長期的なタスクに集中し、複雑なタスクを管理可能なステップに分解し、リアルタイムの進捗追跡と受動的なリマインダーを提供します。"
 			},
 			"autoCompact": {
 				"title": "自動コンパクト",
-				"description": "会話がモデルのコンテキストウィンドウ制限に近づくと、タスクと次のステップを自動的に要約します。これにより、CodeCenterが長時間のタスクセッションで軌道に乗るのに大いに役立ちます！"
+				"description": "会話がモデルのコンテキストウィンドウ制限に近づくと、タスクと次のステップを自動的に要約します。これにより、Caretが長時間のタスクセッションで軌道に乗るのに大いに役立ちます！"
 			},
 			"deepPlanning": {
 				"title": "ディーププランニング",
-				"description": "新しい /deep-planning スラッシュコマンドは、CodeCenterをコードベースを調査し、明確な質問をし、コードを書く前に包括的な計画を作成するアーキテクトに変えます。"
+				"description": "新しい /deep-planning スラッシュコマンドは、Caretをコードベースを調査し、明確な質問をし、コードを書く前に包括的な計画を作成するアーキテクトに変えます。"
 			}
 		},
 		"previousUpdates": "以前のアップデート:",
 		"previousFeatures": {
 			"claude1M": {
 				"title": "Claude Sonnet 4の1Mコンテキスト",
-				"description": "CodeCenter/OpenRouterユーザーは即座にアクセスでき、AnthropicユーザーはTier 4、Bedrockユーザーはサポートされているリージョンにいる必要があります。"
+				"description": "Caret/OpenRouterユーザーは即座にアクセスでき、AnthropicユーザーはTier 4、Bedrockユーザーはサポートされているリージョンにいる必要があります。"
 			},
 			"optimizedClaude4": {
 				"title": "Claude 4に最適化",
-				"description": "CodeCenterはClaude 4ファミリーのモデルで動作するように最適化され、パフォーマンス、信頼性、および新機能が向上しました。"
+				"description": "CaretはClaude 4ファミリーのモデルで動作するように最適化され、パフォーマンス、信頼性、および新機能が向上しました。"
 			},
 			"workflows": {
 				"title": "ワークフロー",

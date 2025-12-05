@@ -277,10 +277,10 @@
 	},
 	"addLocalServerForm": {
 		"addLocalServerDescriptionPart1": "通过在 ",
-		"clineMcpSettingsJson": "codecenter_mcp_settings.json",
+		"clineMcpSettingsJson": "caret_mcp_settings.json",
 		"addLocalServerDescriptionPart2": " 中配置来添加本地MCP服务器。您需要在JSON配置中指定服务器名称、命令、参数和任何必需的环境变量。了解更多信息请点击",
 		"here": "此处",
-		"openClineMcpSettingsJson": "打开codecenter_mcp_settings.json"
+		"openClineMcpSettingsJson": "打开caret_mcp_settings.json"
 	},
 	"addRemoteServerForm": {
 		"serverNameRequired": "服务器名称是必需的",

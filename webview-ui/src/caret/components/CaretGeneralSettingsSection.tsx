@@ -2,13 +2,13 @@
 
 // CARET MODIFICATION: Import feature configuration for conditional rendering
 // Frontend는 ExtensionState의 featureConfig 사용
-import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import React from "react"
 import Section from "@/components/settings/Section"
-// CODECENTER: updateSetting removed
+import { updateSetting } from "@/components/settings/utils/settingsHandlers"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-// CODECENTER: Telemetry imports removed
-// CODECENTER: useCaretI18n removed
+import { getLocalizedUrl, type SupportedLanguage } from "../constants/urls"
+import { useCaretI18n } from "../hooks/useCaretI18n"
 import { t } from "../utils/i18n"
 // CARET MODIFICATION: 통합 언어 설정 컴포넌트와 전역 브랜드 모드 토글
 import ModeSystemToggle from "./ModeSystemToggle"
@@ -20,8 +20,8 @@ interface CaretGeneralSettingsSectionProps {
 
 const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = ({ renderSectionHeader }) => {
 	// CARET MODIFICATION: Add telemetry setting with i18n, modeSystem, and persona system restored
-	const { modeSystem, enablePersonaSystem, setEnablePersonaSystem, featureConfig } = useExtensionState()
-	// CODECENTER: currentLanguage removed
+	const { telemetrySetting, modeSystem, enablePersonaSystem, setEnablePersonaSystem, featureConfig } = useExtensionState()
+	const { currentLanguage } = useCaretI18n()
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -68,7 +68,26 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 					</div>
 				)}
 
-				{/* CARET MODIFICATION: CodeCenter telemetry disabled */}
+				{/* CARET MODIFICATION: Telemetry setting with i18n */}
+				<div className="mb-[5px]">
+					<VSCodeCheckbox
+						checked={telemetrySetting !== "disabled"}
+						className="mb-[5px]"
+						onChange={(e: any) => {
+							const checked = e.target.checked === true
+							updateSetting("telemetrySetting", checked ? "enabled" : "disabled")
+						}}>
+						{t("telemetry.helpImprove", "common")}
+					</VSCodeCheckbox>
+					<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
+						{t("telemetry.description", "common")}{" "}
+						<VSCodeLink
+							className="text-inherit"
+							href={getLocalizedUrl("CARETIVE_PRIVACY", currentLanguage as SupportedLanguage)}>
+							{t("telemetry.settingsLink", "common")}
+						</VSCodeLink>
+					</p>
+				</div>
 			</Section>
 		</div>
 	)

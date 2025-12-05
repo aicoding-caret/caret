@@ -160,7 +160,7 @@
 		"providerModel": "Provider/Model",
 		"operatingSystem": "Operating System",
 		"systemInfo": "System Info",
-		"clineVersion": "CodeCenter Version",
+		"clineVersion": "Caret Version",
 		"additionalContext": "Additional Context"
 	},
 	"serversToggleModal": {
@@ -278,10 +278,10 @@
 	},
 	"addLocalServerForm": {
 		"addLocalServerDescriptionPart1": "Add a local MCP server by configuring it in ",
-		"clineMcpSettingsJson": "codecenter_mcp_settings.json",
+		"clineMcpSettingsJson": "caret_mcp_settings.json",
 		"addLocalServerDescriptionPart2": "You'll need to specify the server name, command, arguments, and any required environment variables in the JSON configuration. Learn more",
 		"here": "here.",
-		"openClineMcpSettingsJson": "Open codecenter_mcp_settings.json"
+		"openClineMcpSettingsJson": "Open caret_mcp_settings.json"
 	},
 	"addRemoteServerForm": {
 		"serverNameRequired": "Server name is required",
@@ -302,8 +302,8 @@
 	"brandMarketplace": {
 		"preparing": "{{brandName}} MCP marketplace is preparing.",
 		"preparingDescription": "{{brandName}} exclusive MCP tools will be available soon.",
-		"caretPreparing": "CodeCenter MCP marketplace is preparing.",
-		"caretPreparingDescription": "CodeCenter exclusive MCP tools will be available soon."
+		"caretPreparing": "Caret MCP marketplace is preparing.",
+		"caretPreparingDescription": "Caret exclusive MCP tools will be available soon."
 	},
 	"configureServersView": {
 		"mcpDescription": "The",

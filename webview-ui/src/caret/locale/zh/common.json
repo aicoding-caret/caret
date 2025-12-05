@@ -9,7 +9,7 @@
 		"runCommand": "运行命令",
 		"reject": "拒绝",
 		"setupApiOrLocal": "设置我的 API 密钥或本地 LLM",
-		"notifyCodeCenterAccount": "通知我 CodeCenter 订阅信息",
+		"notifyCaretAccount": "通知我 Caret 订阅信息",
 		"saveAndStart": "保存并开始",
 		"startNewTaskWithContext": "使用上下文启动新任务",
 		"retry": "Retry",
@@ -29,7 +29,7 @@
 		"geminiApiKeyRequired": "需要Gemini API密钥"
 	},
 	"imageAlt": {
-		"caretBanner": "CodeCenter 标志横幅"
+		"caretBanner": "Caret 标志横幅"
 	},
 	"title": {
 		"apiKeySettings": "API 密钥设置"
@@ -38,12 +38,12 @@
 		"finalThoughts": "与 {{appName}} 一起开始您精彩的开发之旅！"
 	},
 	"link": {
-		"learnMoreCodeCenterGit": "在 CodeCenter GitHub 上了解更多"
+		"learnMoreCaretGit": "在 Caret GitHub 上了解更多"
 	},
 	"apiSetup": {
 		"backButton": "返回",
-		"title": "开始使用 CodeCenter",
-		"description": "CodeCenter 支持各种 LLM。您可以订阅 CodeCenter 服务以获得免费访问，使用 ChatGPT、Claude、Gemma API，或配置本地 LLM。",
+		"title": "开始使用 Caret",
+		"description": "Caret 支持各种 LLM。您可以订阅 Caret 服务以获得免费访问，使用 ChatGPT、Claude、Gemma API，或配置本地 LLM。",
 		"instructions": "说明：",
 		"supportLinks": {
 			"llmList": "支持的 LLM 列表",
@@ -56,16 +56,16 @@
 		}
 	},
 	"welcome": {
-		"title": "欢迎使用 CodeCenter！🎉",
+		"title": "欢迎使用 Caret！🎉",
 		"subtitle": "您的 AI 动力编程助手",
-		"description": "CodeCenter 是一个 AI 编程助手，帮助您编写、调试和改进代码。让我们开始吧！",
+		"description": "Caret 是一个 AI 编程助手，帮助您编写、调试和改进代码。让我们开始吧！",
 		"getStarted": "开始使用",
 		"learnMore": "了解更多",
 		"whatCanIDo": "我能为您做什么？",
 		"recentTasks": "最近的任务",
 		"noRecentTasks": "没有最近的任务",
 		"viewAllHistory": "查看所有历史",
-		"quickWinsTitle": "CodeCenter 快速<span>[成果]</span>"
+		"quickWinsTitle": "Caret 快速<span>[成果]</span>"
 	},
 	"rules": {
 		"tab": {
@@ -80,8 +80,8 @@
 			"localWorkflows": "本地工作流"
 		},
 		"subTitle": {
-			"caretRules": "CodeCenter 规则 (.caretrules)",
-			"CodeCenterRules": "CodeCenter 规则 (.CodeCenterrules)",
+			"caretRules": "Caret 规则 (.caretrules)",
+			"CaretRules": "Caret 规则 (.Caretrules)",
 			"cursorRules": "Cursor 规则 (.cursorrules)",
 			"windsurfRules": "Windsurf 规则 (.windsurfrules)"
 		},
@@ -92,12 +92,12 @@
 		"description": {
 			"personaManagement": "选择与您的编程风格和偏好匹配的 AI 人格。",
 			"rulesDescription": "规则允许您提供系统级指导。将它们视为为您的项目或每次对话持久包含上下文和偏好的方式。",
-			"workflowsDescription": "工作流允许您定义一系列步骤，供 CodeCenter 执行重复性任务，如部署服务或提交 PR。要运行工作流，请在聊天中输入 /workflow-name。"
+			"workflowsDescription": "工作流允许您定义一系列步骤，供 Caret 执行重复性任务，如部署服务或提交 PR。要运行工作流，请在聊天中输入 /workflow-name。"
 		},
 		"action": {
 			"newRuleFile": "新建规则文件..."
 		},
-		"title": "CodeCenter 规则和工作流管理",
+		"title": "Caret 规则和工作流管理",
 		"docsLink": "文档",
 		"toggleError": "规则切换错误"
 	},
@@ -113,7 +113,7 @@
 		"uploadNormal": "上传头像",
 		"uploadThinking": "上传思考头像",
 		"default": {
-			"name": "默认 CodeCenter",
+			"name": "默认 Caret",
 			"description": "默认的 AI 编程助手人格。"
 		}
 	},
@@ -143,8 +143,8 @@
 			"description": "实施和执行"
 		},
 		"tooltip": {
-			"chatbot": "在聊天机器人模式中，CodeCenter 提供专家咨询和分析",
-			"agent": "在代理模式中，CodeCenter 协作实现解决方案",
+			"chatbot": "在聊天机器人模式中，Caret 提供专家咨询和分析",
+			"agent": "在代理模式中，Caret 协作实现解决方案",
 			"plan": "在计划模式中，制定策略和计划",
 			"act": "在执行模式中，执行和实施计划",
 			"toggle": "使用 {{metaKey}}+Shift+A 切换"
@@ -158,7 +158,7 @@
 		},
 		"uiLanguage": {
 			"label": "界面语言",
-			"description": "选择 CodeCenter 界面的显示语言。",
+			"description": "选择 Caret 界面的显示语言。",
 			"option": {
 				"ko": "Korean (한국어)",
 				"en": "English",
@@ -168,15 +168,15 @@
 		},
 		"preferredLanguage": {
 			"label": "AI 回复语言",
-			"description": "CodeCenter 用于交流的语言。"
+			"description": "Caret 用于交流的语言。"
 		},
 		"modeSystem": {
 			"label": "模式设置",
-			"description": "启用 CodeCenter 模式设置以使用 CodeCenter 的计划/执行模式。",
+			"description": "启用 Caret 模式设置以使用 Caret 的计划/执行模式。",
 			"options": {
-				"caret": "CodeCenter",
-				"CodeCenter": "CodeCenter",
-				"cline": "CodeCenter"
+				"caret": "Caret",
+				"Caret": "Caret",
+				"cline": "Caret"
 			}
 		},
 		"separateModels": {
@@ -259,11 +259,11 @@
 		"completionTokens": "完成 Token",
 		"totalTokens": "总 Token 数",
 		"totalCost": "总费用",
-		"termsOfServiceUrl": "https://slexn.ai/terms.en.html",
-		"privacyPolicyUrl": "https://slexn.ai/privacy.en.html"
+		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html"
 	},
 	"account": {
-		"signUpWithCodeCenter": "登录和注册",
+		"signUpWithCaret": "登录和注册",
 		"viewBillingUsage": "查看账单和使用情况",
 		"dashboard": "仪表板",
 		"addCredits": "添加积分",
@@ -299,7 +299,7 @@
 		"seeMore": "查看更多"
 	},
 	"chat": {
-		"caretHasQuestion": "CodeCenter 有个问题",
+		"caretHasQuestion": "Caret 有个问题",
 		"typeMessage": "输入消息...",
 		"typeTaskHere": "在此输入您的任务...",
 		"cancel": "取消",
@@ -320,11 +320,11 @@
 			"dimensionError": "图片尺寸不能超过 7500px。",
 			"unsupportedFileError": "不支持的文件类型。只能拖放图片。"
 		},
-		"caretWantsToCreateNewFile": "CodeCenter 想要创建新文件：",
+		"caretWantsToCreateNewFile": "Caret 想要创建新文件：",
 		"placeholderHint": "输入 @ 获取上下文，/ 获取斜杠命令和工作流，或在按住 Shift 时拖放文件/图片",
-		"caretIsUsingBrowser": "CodeCenter 正在使用浏览器：",
-		"caretWantsToUseBrowser": "CodeCenter 想要使用浏览器：",
-		"executeCommand": "CodeCenter 想要执行此命令：",
+		"caretIsUsingBrowser": "Caret 正在使用浏览器：",
+		"caretWantsToUseBrowser": "Caret 想要使用浏览器：",
+		"executeCommand": "Caret 想要执行此命令：",
 		"errorLabel": "错误",
 		"mistakeLimitReached": "错误限制已达到",
 		"maxRequestsReached": "自动批准最大请求数已达到",
@@ -340,11 +340,11 @@
 		"loadingMcpDocumentation": "正在加载 MCP 文档",
 		"seeNewChanges": "查看新变化",
 		"shellIntegrationUnavailable": "Shell 集成不可用",
-		"shellIntegrationWarning": "CodeCenter 可能无法查看命令的输出。请更新 VSCode（<code>CMD/CTRL + Shift + P</code> → \"更新\"）并确保您使用的是受支持的 shell：zsh、bash、fish 或 PowerShell（<code>CMD/CTRL + Shift + P</code> → \"终端：选择默认配置文件\"）。",
+		"shellIntegrationWarning": "Caret 可能无法查看命令的输出。请更新 VSCode（<code>CMD/CTRL + Shift + P</code> → \"更新\"）并确保您使用的是受支持的 shell：zsh、bash、fish 或 PowerShell（<code>CMD/CTRL + Shift + P</code> → \"终端：选择默认配置文件\"）。",
 		"stillHavingTrouble": "仍然有问题？",
-		"wantsToStartNewTask": "CodeCenter 想要开始新任务：",
-		"wantsToCondense": "CodeCenter 想要压缩您的对话：",
-		"wantsToCreateGithubIssue": "CodeCenter 想要创建 Github 问题：",
+		"wantsToStartNewTask": "Caret 想要开始新任务：",
+		"wantsToCondense": "Caret 想要压缩您的对话：",
+		"wantsToCreateGithubIssue": "Caret 想要创建 Github 问题：",
 		"tool": {
 			"outsideWorkspace": "工作区外",
 			"editFile": "编辑存在的文件",
@@ -458,9 +458,9 @@
 	},
 	"providers": {
 		"caret": {
-			"name": "CodeCenter",
-			"description": "CodeCenter 支持各种大型语言模型。您可以订阅 CodeCenter 服务以免费访问，使用 ChatGPT、Claude、Gemma API，或配置本地大型语言模型。",
-			"login": "使用 CodeCenter 账户登录和注册",
+			"name": "Caret",
+			"description": "Caret 支持各种大型语言模型。您可以订阅 Caret 服务以免费访问，使用 ChatGPT、Claude、Gemma API，或配置本地大型语言模型。",
+			"login": "使用 Caret 账户登录和注册",
 			"or": "或",
 			"apiKeyConfigured": "API 密钥已配置。无需登录。",
 			"features": "功能：",
@@ -543,7 +543,7 @@
 		"selectRegion": "选择地区...",
 		"enterApiKey": "输入 API 密钥...",
 		"loading": "加载中...",
-		"caretComplexPrompts": "CodeCenter使用复杂的提示并与Claude模型配合使用效果最佳。性能较低的模型可能无法按预期工作。",
+		"caretComplexPrompts": "Caret使用复杂的提示并与Claude模型配合使用效果最佳。性能较低的模型可能无法按预期工作。",
 		"note": "注意：",
 		"model": "模型",
 		"custom": "自定义",
@@ -599,15 +599,15 @@
 		"millionTokens": "百万代币",
 		"tokens": "令牌",
 		"systemMessages": {
-			"viewedTopLevelFiles": "CodeCenter 查看了此目录中的顶级文件：",
-			"wantsToViewTopLevelFiles": "CodeCenter 想要查看此目录中的顶级文件：",
-			"viewedFilesRecursively": "CodeCenter 递归查看了此目录中的所有文件：",
-			"wantsToViewFilesRecursively": "CodeCenter 想要递归查看此目录中的所有文件：",
-			"viewedCodeDefinitions": "CodeCenter 查看了此目录中使用的源代码定义名称：",
-			"wantsToViewCodeDefinitions": "CodeCenter 想要查看此目录中使用的源代码定义名称：",
-			"wantsToSearchDirectory": "CodeCenter 想要在此目录中搜索：",
-			"fetchedContentFromUrl": "CodeCenter 从此 URL 获取了内容：",
-			"wantsToFetchContentFromUrl": "CodeCenter 想要从此 URL 获取内容：",
+			"viewedTopLevelFiles": "Caret 查看了此目录中的顶级文件：",
+			"wantsToViewTopLevelFiles": "Caret 想要查看此目录中的顶级文件：",
+			"viewedFilesRecursively": "Caret 递归查看了此目录中的所有文件：",
+			"wantsToViewFilesRecursively": "Caret 想要递归查看此目录中的所有文件：",
+			"viewedCodeDefinitions": "Caret 查看了此目录中使用的源代码定义名称：",
+			"wantsToViewCodeDefinitions": "Caret 想要查看此目录中使用的源代码定义名称：",
+			"wantsToSearchDirectory": "Caret 想要在此目录中搜索：",
+			"fetchedContentFromUrl": "Caret 从此 URL 获取了内容：",
+			"wantsToFetchContentFromUrl": "Caret 想要从此 URL 获取内容：",
 			"taskCompleted": "任务已完成"
 		},
 		"geminiApiKey": "Gemini API 密钥",
@@ -616,10 +616,10 @@
 		"reasoningEnabled": "默认启用推理"
 	},
 	"telemetry": {
-		"helpImprove": "了解 CodeCenter",
-		"description": "CodeCenter 是 Slexn 提供的企业级 AI 编程助理。请访问官网查看产品信息和最新动态。",
+		"helpImprove": "支持 Caret 开发",
+		"description": "Caret 是一个开源项目。访问我们的 GitHub 贡献代码、报告问题或分享反馈。",
 		"githubLinkPrefix": "了解更多",
-		"githubLink": "www.slexn.com/product/codecenter/",
+		"githubLink": "github.com/aicoding-caret/caret",
 		"closeBannerAria": "关闭横幅",
 		"settingsLink": "设置"
 	},
@@ -646,7 +646,7 @@
 		"configureServers": "Configure MCP servers",
 		"noMatchingServers": "No matching MCP servers found",
 		"noServersFound": "No MCP servers found in marketplace",
-		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend CodeCenter's capabilities.",
+		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend Caret's capabilities.",
 		"autoApprove": "Auto-approve",
 		"autoApproveAllTools": "Auto-approve all tools"
 	},
@@ -665,30 +665,30 @@
 		"features": {
 			"freeStealth": {
 				"title": "Free Stealth Model",
-				"description": "Advanced stealth model with 262K context window designed for complex coding tasks. Available in the CodeCenter provider for free."
+				"description": "Advanced stealth model with 262K context window designed for complex coding tasks. Available in the Caret provider for free."
 			},
 			"focusChain": {
 				"title": "Focus Chain",
-				"description": "Keeps CodeCenter focused on long-horizon tasks with automatic todo list management, breaking down complex tasks into manageable steps with real-time progress tracking and passive reminders."
+				"description": "Keeps Caret focused on long-horizon tasks with automatic todo list management, breaking down complex tasks into manageable steps with real-time progress tracking and passive reminders."
 			},
 			"autoCompact": {
 				"title": "Auto Compact",
-				"description": "Auto summarizes your task and next steps when your conversation approaches the model's context window limit. This significantly helps CodeCenter stay on track for long task sessions!"
+				"description": "Auto summarizes your task and next steps when your conversation approaches the model's context window limit. This significantly helps Caret stay on track for long task sessions!"
 			},
 			"deepPlanning": {
 				"title": "Deep Planning",
-				"description": "New /deep-planning slash command transforms CodeCenter into an architect who investigates your codebase, asks clarifying questions, and creates a comprehensive plan before writing any code."
+				"description": "New /deep-planning slash command transforms Caret into an architect who investigates your codebase, asks clarifying questions, and creates a comprehensive plan before writing any code."
 			}
 		},
 		"previousUpdates": "Previous Updates:",
 		"previousFeatures": {
 			"claude1M": {
 				"title": "1M Context for Claude Sonnet 4",
-				"description": "CodeCenter/OpenRouter users get instant access, Anthropic users need Tier 4, and Bedrock users must be on a supported region."
+				"description": "Caret/OpenRouter users get instant access, Anthropic users need Tier 4, and Bedrock users must be on a supported region."
 			},
 			"optimizedClaude4": {
 				"title": "Optimized for Claude 4",
-				"description": "CodeCenter is now optimized to work with the Claude 4 family of models, resulting in improved performance, reliability, and new capabilities."
+				"description": "Caret is now optimized to work with the Claude 4 family of models, resulting in improved performance, reliability, and new capabilities."
 			},
 			"workflows": {
 				"title": "Workflows",

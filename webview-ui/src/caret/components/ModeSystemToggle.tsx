@@ -131,7 +131,7 @@ const ModeSystemToggle: React.FC<ModeSystemToggleProps> = ({ className }) => {
 				<ModeSwitchContainer data-testid="mode-system-toggle-container" disabled={false} onClick={handleToggle}>
 					<ModeSlider isCaret={modeSystem === "caret"} isCline={modeSystem === "cline"} />
 					<ModeSwitchOption data-testid="caret-mode-option" isActive={modeSystem === "caret"}>
-						{t("modeSystem.options.codecenter", "settings")}
+						{t("modeSystem.options.caret", "settings")}
 					</ModeSwitchOption>
 					<ModeSwitchOption data-testid="cline-mode-option" isActive={modeSystem === "cline"}>
 						{t("modeSystem.options.cline", "settings")}

@@ -1,6 +1,6 @@
 {
 	"settingsView": {
-		"title": "코드센터 설정"
+		"title": "캐럿 설정"
 	},
 	"tabs": {
 		"apiConfiguration": {
@@ -35,10 +35,10 @@
 		},
 		"about": {
 			"name": "정보",
-			"tooltip": "CodeCenter 정보",
+			"tooltip": "Caret 정보",
 			"header": "정보"
 		},
-		"title": "CodeCenter 설정"
+		"title": "Caret 설정"
 	},
 	"planMode": "계획",
 	"actMode": "실행",
@@ -74,16 +74,16 @@
 	},
 	"modeSystem": {
 		"label": "모드 시스템",
-		"description": "코드센터 또는 클라인 모드를 선택하세요.",
+		"description": "캐럿 또는 클라인 모드를 선택하세요.",
 		"options": {
-			"codecenter": "코드센터",
+			"caret": "캐럿",
 			"cline": "클라인"
 		}
 	},
 	"settings": {
 		"preferredLanguage": {
 			"label": "선호 언어",
-			"description": "CodeCenter이 의사소통에 사용할 언어를 선택하세요."
+			"description": "Caret이 의사소통에 사용할 언어를 선택하세요."
 		},
 		"unifiedLanguage": {
 			"label": "언어",
@@ -122,11 +122,11 @@
 		},
 		"general": {
 			"title": "일반 설정",
-			"description": "CodeCenter의 기본 동작과 언어 설정을 구성하세요."
+			"description": "Caret의 기본 동작과 언어 설정을 구성하세요."
 		},
 		"features": {
 			"title": "기능 설정",
-			"description": "CodeCenter의 다양한 기능을 활성화하거나 비활성화하세요."
+			"description": "Caret의 다양한 기능을 활성화하거나 비활성화하세요."
 		},
 		"browser": {
 			"title": "브라우저 설정",
@@ -141,9 +141,9 @@
 			"description": "개발 및 디버깅을 위한 도구들입니다."
 		},
 		"about": {
-			"title": "CodeCenter 정보",
-			"description": "질문이나 피드백은 CodeCenter 페이지에서 남겨주세요:",
-			"link": "https://www.slexn.com/product/codecenter/"
+			"title": "Caret 정보",
+			"description": "질문이나 피드백이 있으시면 언제든지 GitHub에 이슈를 남겨주세요:",
+			"link": "https://github.com/aicoding-caret/caret"
 		},
 		"launchingBrowser": "브라우저 실행 중...",
 		"discardChanges": "변경사항 폐기"
@@ -152,7 +152,7 @@
 		"feedbackPrompt": "질문이나 피드백이 있다면, 언제라도 환영합니다.",
 		"version": "버전",
 		"title": "정보",
-		"description": "CodeCenter 버전을 확인하고 관련 정보를 볼 수 있습니다.",
+		"description": "Caret 버전을 확인하고 관련 정보를 볼 수 있습니다.",
 		"documentation": "문서",
 		"documentation_detailed": "상세 설명서"
 	},
@@ -184,11 +184,11 @@
 		"remoteBrowserHost": "원격 브라우저 호스트",
 		"chromeExecutablePath": "Chrome 실행 파일 경로",
 		"disableToolUse": "브라우저 도구 사용 비활성화",
-		"disableToolUseDescription": "CodeCenter이 브라우저 액션(예: 실행, 클릭, 입력)을 사용하지 못하도록 합니다.",
+		"disableToolUseDescription": "Caret이 브라우저 액션(예: 실행, 클릭, 입력)을 사용하지 못하도록 합니다.",
 		"viewportSize": "뷰포트 크기",
 		"viewportSizeDescription": "스크린샷 및 상호 작용을 위한 브라우저 뷰포트의 크기를 설정합니다.",
 		"useRemoteConnection": "원격 브라우저 연결 사용",
-		"remoteConnectionDescription1": "CodeCenter이 당신의 Chrome을 사용하도록 활성화합니다",
+		"remoteConnectionDescription1": "Caret이 당신의 Chrome을 사용하도록 활성화합니다",
 		"chromeNotDetected": "(당신의 컴퓨터에서 감지되지 않음)",
 		"remoteConnectionDescription2": "아래에 사용자 정의 경로를 지정할 수 있습니다. 원격 브라우저 연결을 사용하려면 Chrome을 디버그 모드에서 시작해야 합니다",
 		"remoteConnectionDescription3": "수동으로(`--remote-debugging-port=9222`) 또는 아래 버튼을 사용하여 시작하세요. 호스트 주소를 입력하거나 자동 검색을 위해 비워두세요.",
@@ -251,11 +251,11 @@
 			"enable": "서브에이전트 활성화",
 			"enabled": "서브에이전트가 켜져 있습니다",
 			"description": "큰 탐색 작업을 CLI 서브에이전트로 분리합니다.",
-			"codecenterWarning": "서브에이전트를 사용하려면 CodeCenter CLI가 필요합니다.",
-			"clineWarning": "서브에이전트를 사용하려면 CodeCenter CLI가 필요합니다.",
-			"install": "CodeCenter CLI 설치",
-			"installed": "CodeCenter CLI 감지됨",
-			"notInstalled": "CodeCenter CLI 미설치",
+			"caretWarning": "서브에이전트를 사용하려면 Caret CLI가 필요합니다.",
+			"clineWarning": "서브에이전트를 사용하려면 Cline CLI가 필요합니다.",
+			"install": "서브에이전트 CLI 설치",
+			"installed": "CLI 감지됨",
+			"notInstalled": "CLI 미설치",
 			"outputLimitLabel": "서브에이전트 출력 제한",
 			"outputLimitDescription": "CLI 서브에이전트 출력에서 유지할 최대 줄 수입니다. 초과 시 중간을 잘라냅니다."
 		},
@@ -276,7 +276,7 @@
 		"focusChain": "포커스 체인 활성화",
 		"focusChainDescription": "작업 전반에 걸쳐 향상된 작업 진행 상황 추적 및 자동 포커스 체인 목록 관리를 활성화합니다.",
 		"focusChainReminderInterval": "포커스 체인 알림 간격",
-		"focusChainReminderIntervalDescription": "CodeCenter에게 포커스 체인 체크리스트에 대해 알리는 간격 (메시지 단위) (1-100). 값이 낮을수록 더 자주 알림을 제공합니다.",
+		"focusChainReminderIntervalDescription": "Caret에게 포커스 체인 체크리스트에 대해 알리는 간격 (메시지 단위) (1-100). 값이 낮을수록 더 자주 알림을 제공합니다.",
 		"enableDictation": "음성 입력 활성화",
 		"enableDictationDescription": "Cline 계정을 사용한 음성-텍스트 변환을 활성화합니다. Whisper 모델을 사용하며, 처리된 오디오 1분당 $0.006 크레딧이 소요됩니다. 메시지당 최대 5분.",
 		"dictationLanguage": "음성 입력 언어",
@@ -284,7 +284,7 @@
 		"autoCompact": "자동 압축 활성화",
 		"autoCompactDescription": "차세대 모델을 위해 LLM 기반 압축을 사용하는 고급 컨텍스트 관리 시스템을 활성화합니다.",
 		"enableYoloMode": "YOLO 모드 활성화",
-		"enableYoloModeDescription": "실험적이고 위험함: 이 모드는 안전 검사 및 사용자 확인을 비활성화합니다. CodeCenter이 묻지 않고 모든 작업을 자동으로 승인합니다. 극도로 주의하여 사용하세요.",
+		"enableYoloModeDescription": "실험적이고 위험함: 이 모드는 안전 검사 및 사용자 확인을 비활성화합니다. Caret이 묻지 않고 모든 작업을 자동으로 승인합니다. 극도로 주의하여 사용하세요.",
 		"learnMore": "더 알아보기"
 	},
 	"autoApprove": {
@@ -310,47 +310,47 @@
 		"readFiles": {
 			"label": "프로젝트 파일 읽기",
 			"shortName": "읽기",
-			"description": "CodeCenter이 작업 공간 내의 파일을 읽도록 허용합니다."
+			"description": "Caret이 작업 공간 내의 파일을 읽도록 허용합니다."
 		},
 		"readFilesExternally": {
 			"label": "모든 파일 읽기",
 			"shortName": "모두 읽기",
-			"description": "CodeCenter이 컴퓨터의 모든 파일을 읽도록 허용합니다."
+			"description": "Caret이 컴퓨터의 모든 파일을 읽도록 허용합니다."
 		},
 		"editFiles": {
 			"label": "프로젝트 파일 편집",
 			"shortName": "편집",
-			"description": "CodeCenter이 작업 공간 내의 파일을 수정하도록 허용합니다."
+			"description": "Caret이 작업 공간 내의 파일을 수정하도록 허용합니다."
 		},
 		"editFilesExternally": {
 			"label": "모든 파일 편집",
 			"shortName": "모두 편집",
-			"description": "CodeCenter이 컴퓨터의 모든 파일을 수정하도록 허용합니다."
+			"description": "Caret이 컴퓨터의 모든 파일을 수정하도록 허용합니다."
 		},
 		"executeSafeCommands": {
 			"label": "안전한 명령 실행",
 			"shortName": "안전 명령",
-			"description": "CodeCenter이 안전한 터미널 명령을 실행하도록 허용합니다. 모델이 잠재적으로 파괴적인 명령으로 판단하면 여전히 승인이 필요합니다."
+			"description": "Caret이 안전한 터미널 명령을 실행하도록 허용합니다. 모델이 잠재적으로 파괴적인 명령으로 판단하면 여전히 승인이 필요합니다."
 		},
 		"executeAllCommands": {
 			"label": "모든 명령 실행",
 			"shortName": "모든 명령",
-			"description": "CodeCenter이 모든 터미널 명령을 실행하도록 허용합니다. 위험을 감수하고 사용하세요."
+			"description": "Caret이 모든 터미널 명령을 실행하도록 허용합니다. 위험을 감수하고 사용하세요."
 		},
 		"useBrowser": {
 			"label": "브라우저 사용",
 			"shortName": "브라우저",
-			"description": "CodeCenter이 브라우저에서 모든 웹사이트를 실행하고 상호 작용하도록 허용합니다."
+			"description": "Caret이 브라우저에서 모든 웹사이트를 실행하고 상호 작용하도록 허용합니다."
 		},
 		"useMcp": {
 			"label": "MCP 서버 사용",
 			"shortName": "MCP",
-			"description": "CodeCenter이 파일 시스템을 수정하거나 API와 상호 작용할 수 있는 구성된 MCP 서버를 사용하도록 허용합니다."
+			"description": "Caret이 파일 시스템을 수정하거나 API와 상호 작용할 수 있는 구성된 MCP 서버를 사용하도록 허용합니다."
 		},
 		"enableNotifications": {
 			"label": "알림 활성화",
 			"shortName": "알림",
-			"description": "CodeCenter이 진행을 위해 승인이 필요하거나 작업이 완료되었을 때 시스템 알림을 받습니다."
+			"description": "Caret이 진행을 위해 승인이 필요하거나 작업이 완료되었을 때 시스템 알림을 받습니다."
 		}
 	},
 	"persona": {
@@ -359,7 +359,7 @@
 	},
 	"telemetry": {
 		"label": "익명 오류 및 사용 보고 허용",
-		"description": "익명 사용 데이터 및 오류 보고서를 전송하여 CodeCenter 개선에 기여할 수 있습니다. CodeCenter 제품 개선을 위해 사용 현황 및 오류 데이터를 익명으로 전송합니다. 코드, 프롬프트 또는 개인 정보는 절대 전송되지 않으며, 개인 정보는 포함되지 않습니다.",
+		"description": "익명 사용 데이터 및 오류 보고서를 전송하여 Caret 개선에 기여할 수 있습니다. Caret 제품 개선을 위해 사용 현황 및 오류 데이터를 익명으로 전송합니다. 코드, 프롬프트 또는 개인 정보는 절대 전송되지 않으며, 개인 정보는 포함되지 않습니다.",
 		"telemetryOverview": "원격 분석 개요",
 		"and": "및",
 		"privacyPolicy": "개인 정보 보호 정책",
@@ -376,7 +376,7 @@
 	},
 	"modelPicker": {
 		"extensionFetches": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
-		"unsureWhichModel": "어떤 모델을 선택할지 확실하지 않다면, CodeCenter은 다음과 함께 가장 잘 작동합니다: ",
+		"unsureWhichModel": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
 		"freeOptions": "현재 사용 가능한 무료 옵션을 찾으려면 \"free\"를 검색해보세요.",
 		"seeMore": "더 보기"
 	},
@@ -384,7 +384,7 @@
 		"apiProvider": "API 제공자",
 		"searchAndSelectProvider": "제공자 검색 및 선택...",
 		"clearSearch": "검색 지우기",
-		"clineProviderHidden": "CodeCenter 제공자 숨김 - 대신 CodeCenter API 제공자 사용"
+		"clineProviderHidden": "Caret 제공자 숨김 - 대신 Caret API 제공자 사용"
 	},
 	"clineAccountInfoCard": {
 		"loginError": "로그인 URL을 가져오는 데 실패했습니다:",
@@ -461,20 +461,20 @@
 		"notDeployedModelsHeader": "── 배포되지 않은 모델 ──"
 	},
 	"providers": {
-		"codecenter": {
-			"name": "코드센터(CodeCenter)",
-			"login": "코드센터에 로그인",
+		"caret": {
+			"name": "캐럿(Caret)",
+			"login": "캐럿에 로그인",
 			"profile": "프로필",
 			"logout": "로그아웃",
-			"apiKeyConfigured": "코드센터 로그인됨",
-			"description": "코드센터 로그인 사용자는 무료 제공 크레딧으로 Google의 최신 Gemini 모델을 사용할 수 있습니다",
+			"apiKeyConfigured": "캐럿 로그인됨",
+			"description": "캐럿 로그인 사용자는 무료 제공 크레딧으로 Google의 최신 Gemini 모델을 사용할 수 있습니다",
 			"features": "별도의 API 키 없이 다음 기능을 즐기세요",
 			"feature1": "Gemini 2.5 Pro: 강력한 추론 능력",
 			"feature2": "Gemini 2.5 Flash: 빠르고 효율적인 응답",
 			"feature3": "별도의 API 키 없이 즉시 사용 가능",
 			"feature4": "가격: 무료 플랜 크레딧으로 사용",
-			"visit": "코드센터의 API키 얻기 :",
-			"baseUrlPlaceholder": "기본값: http://codecenter.team:4000",
+			"visit": "캐럿의 API키 얻기 :",
+			"baseUrlPlaceholder": "기본값: http://caret.team:4000",
 			"apiKeyPlaceholder": "기본값: noop",
 			"modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
 			"usePromptCachingLabel": "프롬프트 캐싱 사용 (GA)",
@@ -492,16 +492,16 @@
 			"usePromptCachingDescription": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
 			"extendedThinkingDescription1": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
 			"extendedThinkingLink": "사고 모드 구성",
-			"description1": "코드센터 LLM 게이트웨이은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
+			"description1": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
 			"quickstartGuideLink": "빠른 시작 가이드",
 			"description2": "자세한 내용은.",
-			"unifiedInterfaceHelpText": "코드센터 LLM 게이트웨이은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
+			"unifiedInterfaceHelpText": "LiteLLM은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
 			"quickstartGuideLinkText": "빠른 시작 가이드",
 			"forMoreInformationText": "자세한 내용은.",
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1 대비 3배 저렴한 비용으로 SOTA 코딩 성능",
 				"featuredModelLabelNew": "New",
@@ -515,7 +515,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -545,7 +545,7 @@
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1 대비 3배 저렴한 비용으로 SOTA 코딩 성능",
 				"featuredModelLabelNew": "New",
@@ -559,7 +559,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -593,7 +593,7 @@
 			"outputPriceLabel": "출력 가격 / 100만 토큰",
 			"temperatureLabel": "온도",
 			"notePrefix": "참고:",
-			"noteText": "CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
 			"refreshModelsError": "OpenAI 모델 새로고침 실패:",
 			"providerName": "OpenAI 호환"
 		},
@@ -675,7 +675,7 @@
 			"descriptionPart1": "Ollama를 사용하면 컴퓨터에서 로컬로 모델을 실행할 수 있습니다. 시작 방법에 대한 지침은 다음을 참조하세요. ",
 			"quickstartGuideLinkText": "빠른 시작 가이드.",
 			"notePrefix": "참고:",
-			"noteText": "CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
 			"fetchModelsErrorLog": "Ollama 모델 가져오기 실패:",
 			"providerName": "Ollama",
 			"contextWindowPlaceholder": "예: 32768"
@@ -695,8 +695,8 @@
 			"linkText2": "2) Google Cloud CLI 설치 › 애플리케이션 기본 자격 증명 구성."
 		},
 		"litellm": {
-			"name": "코드센터 LLM 게이트웨이",
-			"description": "코드센터 LLM 게이트웨이은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다.",
+			"name": "LiteLLM",
+			"description": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다.",
 			"baseUrlPlaceholder": "기본값: http://localhost:4000",
 			"apiKeyPlaceholder": "기본값: noop",
 			"modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
@@ -715,10 +715,10 @@
 			"usePromptCachingDescription": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
 			"extendedThinkingDescription1": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
 			"extendedThinkingLink": "사고 모드 구성",
-			"description1": "코드센터 LLM 게이트웨이은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
+			"description1": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
 			"quickstartGuideLink": "빠른 시작 가이드",
 			"description2": "자세한 내용은.",
-			"unifiedInterfaceHelpText": "코드센터 LLM 게이트웨이은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
+			"unifiedInterfaceHelpText": "LiteLLM은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
 			"quickstartGuideLinkText": "빠른 시작 가이드",
 			"forMoreInformationText": "자세한 내용은.",
 			"fetchModels": "모델 가져오기",
@@ -785,7 +785,7 @@
 			"fetchModelsError": "Groq 모델 가져오기 실패:",
 			"fetchModelsDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
 			"groqLinkText": "Groq.",
-			"unsureModelChoice": "어떤 모델을 선택할지 확실하지 않다면, CodeCenter은 다음과 함께 가장 잘 작동합니다: ",
+			"unsureModelChoice": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
 			"recommendedModel": "llama-3.3-70b-versatile.",
 			"recommendedModelId": "llama-3.3-70b-versatile",
 			"modelDocumentationUrl": "https://console.groq.com/docs/models"
@@ -838,7 +838,7 @@
 			"info": {
 				"fullText": {
 					"part1": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다",
-					"part2": "어떤 모델을 선택해야 할지 확실하지 않다면 CodeCenter은 다음과 가장 잘 작동합니다"
+					"part2": "어떤 모델을 선택해야 할지 확실하지 않다면 Caret은 다음과 가장 잘 작동합니다"
 				},
 				"linkText": "Requesty.",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
@@ -856,7 +856,7 @@
 			"modelIdPlaceholder": "모델 ID 입력...",
 			"modelIdLabel": "모델 ID",
 			"notePrefix": "참고:",
-			"noteText": "CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
 			"providerName": "Together"
 		},
 		"qwen": {
@@ -903,7 +903,7 @@
 			"description2": "또한 LM Studio의 ",
 			"localServerLink": "로컬 서버",
 			"description3": " 기능을 lms server start와 함께 사용하여 이 확장 프로그램과 함께 사용해야 합니다. ",
-			"noteBody": "CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다."
+			"noteBody": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다."
 		},
 		"moonshot": {
 			"name": "Moonshot",
@@ -927,7 +927,7 @@
 			"name": "Nebius AI Studio",
 			"description": "Nebius AI는 Yandex의 기술을 기반으로 한 AI 서비스를 제공합니다.",
 			"dify": {},
-			"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. (참고: CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.)"
+			"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. (참고: Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.)"
 		},
 		"asksage": {
 			"name": "AskSage",
@@ -942,7 +942,7 @@
 			"description": "xAI는 진실을 추구하는 대규모 언어 모델인 Grok을 개발합니다.",
 			"providerName": "xAI",
 			"notePrefix": "참고:",
-			"noteText": "CodeCenter은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
 			"modifyReasoningEffort": "추론 노력 수정",
 			"reasoningEffortLabel": "추론 노력",
 			"reasoningEffortOptions": {
@@ -998,65 +998,6 @@
 			"clientIdPlaceholder": "AI Core 클라이언트 ID 입력...",
 			"retryButton": "재시도",
 			"selectModelPlaceholder": "모델 선택..."
-		},
-		"caret": {
-			"name": "캐럿(Caret)",
-			"login": "캐럿에 로그인",
-			"profile": "프로필",
-			"logout": "로그아웃",
-			"apiKeyConfigured": "캐럿 로그인됨",
-			"description": "캐럿 로그인 사용자는 무료 제공 크레딧으로 Google의 최신 Gemini 모델을 사용할 수 있습니다",
-			"features": "별도의 API 키 없이 다음 기능을 즐기세요",
-			"feature1": "Gemini 2.5 Pro: 강력한 추론 능력",
-			"feature2": "Gemini 2.5 Flash: 빠르고 효율적인 응답",
-			"feature3": "별도의 API 키 없이 즉시 사용 가능",
-			"feature4": "가격: 무료 플랜 크레딧으로 사용",
-			"visit": "캐럿의 API키 얻기 :",
-			"baseUrlPlaceholder": "기본값: http://caret.team:4000",
-			"apiKeyPlaceholder": "기본값: noop",
-			"modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
-			"usePromptCachingLabel": "프롬프트 캐싱 사용 (GA)",
-			"modelConfigurationLabel": "모델 구성",
-			"baseUrlLabel": "베이스 URL (선택 사항)",
-			"apiKeyLabel": "API 키",
-			"modelIdLabel": "모델 ID",
-			"promptCachingHelpText": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
-			"extendedThinkingHelpText": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
-			"thinkingModeConfigurationLinkText": "사고 모드 구성",
-			"supportsImagesLabel": "이미지 지원",
-			"contextWindowSizeLabel": "컨텍스트 윈도우 크기",
-			"maxOutputTokensLabel": "최대 출력 토큰",
-			"temperatureLabel": "온도",
-			"usePromptCachingDescription": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
-			"extendedThinkingDescription1": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
-			"extendedThinkingLink": "사고 모드 구성",
-			"description1": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
-			"quickstartGuideLink": "빠른 시작 가이드",
-			"description2": "자세한 내용은.",
-			"unifiedInterfaceHelpText": "LiteLLM은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
-			"quickstartGuideLinkText": "빠른 시작 가이드",
-			"forMoreInformationText": "자세한 내용은.",
-			"modelPicker": {
-				"starIconFilled": "★",
-				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
-				"featuredModelLabelBest": "Best",
-				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1 대비 3배 저렴한 비용으로 SOTA 코딩 성능",
-				"featuredModelLabelNew": "New",
-				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
-				"featuredModelLabelFree": "Free",
-				"modelLabel": "모델",
-				"searchPlaceholder": "모델 검색 및 선택...",
-				"clearSearch": "검색 지우기",
-				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
-				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
-				"switchToTwoHundredKContext": "Switch to 200K context window model",
-				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
-				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
-			}
 		}
 	},
 	"rules": {
@@ -1065,14 +1006,14 @@
 			"description": "프로젝트 규칙 파일을 관리하고 우선순위를 설정하세요.",
 			"workspaceRules": "작업공간 규칙",
 			"globalRules": "전역 규칙",
-			"codecenterRules": ".codecenterrules 파일",
+			"caretRules": ".caretrules 파일",
 			"clineRules": ".clinerules 파일",
 			"cursorRules": ".cursorrules 파일",
 			"windsurfRules": ".windsurfrules 파일"
 		},
 		"priority": {
 			"title": "규칙 우선순위",
-			"description": "규칙 파일 우선순위: .codecenterrules > .clinerules > .cursorrules > .windsurfrules",
+			"description": "규칙 파일 우선순위: .caretrules > .clinerules > .cursorrules > .windsurfrules",
 			"info": "우선순위가 높은 규칙이 존재하면 낮은 우선순위 규칙은 자동으로 비활성화됩니다."
 		},
 		"buttons": {

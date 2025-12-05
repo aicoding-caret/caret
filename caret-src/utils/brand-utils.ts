@@ -10,7 +10,7 @@ let _cachedBrandName: string | null = null
 
 /**
  * Detect current brand name from package.json (cached for performance)
- * @returns The current brand name (e.g., "Cline", "Codecenter", "CodeCenter")
+ * @returns The current brand name (e.g., "Cline", "Caret", "CodeCenter")
  */
 export function detectCurrentBrandName(): string {
 	if (_cachedBrandName) {
@@ -21,7 +21,7 @@ export function detectCurrentBrandName(): string {
 		const packageJsonPath = path.join(__dirname, "..", "..", "package.json")
 		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
 		// CARET MODIFICATION: default brand fallback uses Caret when displayName is missing
-		const displayName = packageJson.displayName || "Codecenter"
+		const displayName = packageJson.displayName || "Caret"
 
 		// displayName을 그대로 브랜드명으로 사용
 		_cachedBrandName = displayName
@@ -29,7 +29,7 @@ export function detectCurrentBrandName(): string {
 		return _cachedBrandName!
 	} catch (error) {
 		console.error("Failed to detect brand from package.json:", error)
-		_cachedBrandName = "Codecenter" // CARET MODIFICATION: safe default brand fallback
+		_cachedBrandName = "Caret" // CARET MODIFICATION: safe default brand fallback
 		return _cachedBrandName!
 	}
 }
@@ -47,7 +47,7 @@ export function getCurrentUserMode(): CaretModeSystem {
 
 /**
  * Get current brand display name (for UI, output channels, etc.)
- * @returns Brand display name ("Codecenter" or "Cline")
+ * @returns Brand display name ("Caret" or "Cline")
  */
 export function getCurrentBrandDisplayName(): string {
 	return detectCurrentBrandName()

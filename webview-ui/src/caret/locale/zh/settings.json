@@ -5,14 +5,14 @@
 			"description": "管理项目规则文件和设置优先级。",
 			"workspaceRules": "工作区规则",
 			"globalRules": "全局规则",
-			"codecenterRules": ".codecenterrules 文件",
+			"caretRules": ".caretrules 文件",
 			"clineRules": ".clinerules 文件",
 			"cursorRules": ".cursorrules 文件",
 			"windsurfRules": ".windsurfrules 文件"
 		},
 		"priority": {
 			"title": "规则优先级",
-			"description": "规则文件优先级：.codecenterrules > .clinerules > .cursorrules > .windsurfrules",
+			"description": "规则文件优先级：.caretrules > .clinerules > .cursorrules > .windsurfrules",
 			"info": "当存在更高优先级的规则时，较低优先级的规则会自动禁用。"
 		},
 		"buttons": {
@@ -29,7 +29,7 @@
 		}
 	},
 	"settingsView": {
-		"title": "CodeCenter 设置"
+		"title": "Caret 设置"
 	},
 	"tabs": {
 		"apiConfiguration": {
@@ -64,10 +64,10 @@
 		},
 		"about": {
 			"name": "关于",
-			"tooltip": "关于 CodeCenter",
+			"tooltip": "关于 Caret",
 			"header": "关于"
 		},
-		"title": "CodeCenter 设置"
+		"title": "Caret 设置"
 	},
 	"planMode": "计划模式",
 	"actMode": "执行模式",
@@ -103,16 +103,16 @@
 	},
 	"modeSystem": {
 		"label": "模式系统",
-		"description": "选择 CodeCenter 或 Cline 模式。",
+		"description": "选择 Caret 或 Cline 模式。",
 		"options": {
-			"codecenter": "CodeCenter",
+			"caret": "Caret",
 			"cline": "Cline"
 		}
 	},
 	"settings": {
 		"preferredLanguage": {
 			"label": "首选语言",
-			"description": "选择 CodeCenter 用于交流的语言。"
+			"description": "选择 Caret 用于交流的语言。"
 		},
 		"unifiedLanguage": {
 			"label": "语言",
@@ -151,11 +151,11 @@
 		},
 		"general": {
 			"title": "常规设置",
-			"description": "配置 CodeCenter 的基本行为和语言设置。"
+			"description": "配置 Caret 的基本行为和语言设置。"
 		},
 		"features": {
 			"title": "功能设置",
-			"description": "启用或禁用 CodeCenter 的各种功能。"
+			"description": "启用或禁用 Caret 的各种功能。"
 		},
 		"browser": {
 			"title": "浏览器设置",
@@ -170,9 +170,9 @@
 			"description": "开发和调试工具。"
 		},
 		"about": {
-			"title": "关于 CodeCenter",
-			"description": "如有问题或反馈，请访问 CodeCenter 官网",
-			"link": "https://www.slexn.com/product/codecenter/"
+			"title": "关于 Caret",
+			"description": "如果您有任何问题或反馈，请在此处提出问题",
+			"link": "https://github.com/aicoding-caret/caret"
 		},
 		"launchingBrowser": "正在启动浏览器...",
 		"discardChanges": "丢弃更改"
@@ -205,11 +205,11 @@
 		"remoteBrowserHost": "远程浏览器主机",
 		"chromeExecutablePath": "Chrome 可执行文件路径",
 		"disableToolUse": "禁用浏览器工具使用",
-		"disableToolUseDescription": "阻止 CodeCenter 使用浏览器操作（例如启动、点击、输入）。",
+		"disableToolUseDescription": "阻止 Caret 使用浏览器操作（例如启动、点击、输入）。",
 		"viewportSize": "视口大小",
 		"viewportSizeDescription": "设置浏览器视口的大小用于截图和交互。",
 		"useRemoteConnection": "使用远程浏览器连接",
-		"remoteConnectionDescription1": "启用 CodeCenter 使用您的 Chrome",
+		"remoteConnectionDescription1": "启用 Caret 使用您的 Chrome",
 		"chromeNotDetected": "（在您的机器上未检测到）",
 		"remoteConnectionDescription2": "。您可以在下面指定自定义路径。使用远程浏览器连接需要以调试模式启动 Chrome",
 		"remoteConnectionDescription3": "手动启动（`--remote-debugging-port=9222`）或使用下面的按钮。输入主机地址或留空以自动发现。",
@@ -272,11 +272,11 @@
 			"enable": "启用子代理",
 			"enabled": "子代理已启用",
 			"description": "将大型探索任务委托给 CLI 子代理。",
-			"codecenterWarning": "使用子代理需要安装 CodeCenter CLI。",
-			"clineWarning": "使用子代理需要安装 CodeCenter CLI。",
-			"install": "安装 CodeCenter CLI",
-			"installed": "已检测到 CodeCenter CLI",
-			"notInstalled": "未检测到 CodeCenter CLI",
+			"caretWarning": "使用子代理需要安装 Caret CLI。",
+			"clineWarning": "使用子代理需要安装 Cline CLI。",
+			"install": "安装子代理 CLI",
+			"installed": "已检测到 CLI",
+			"notInstalled": "未检测到 CLI",
 			"outputLimitLabel": "子代理输出行数上限",
 			"outputLimitDescription": "保留 CLI 子代理输出的最大行数，超过时会截断中间部分。"
 		},
@@ -297,7 +297,7 @@
 		"focusChain": "启用焦点链",
 		"focusChainDescription": "启用增强的任务进度跟踪和在整个任务过程中的自动焦点链列表管理。",
 		"focusChainReminderInterval": "焦点链提醒间隔",
-		"focusChainReminderIntervalDescription": "提醒 CodeCenter 其焦点链检查列表的间隔（以消息为单位，1-100）。较低的值提供更频繁的提醒。",
+		"focusChainReminderIntervalDescription": "提醒 Caret 其焦点链检查列表的间隔（以消息为单位，1-100）。较低的值提供更频繁的提醒。",
 		"enableDictation": "启用语音输入",
 		"enableDictationDescription": "使用您的 Cline 帐号进行语音转文本。使用 Whisper 模型，每处理 1 分钟音频消耗 $0.006 额度。每条消息最多 5 分钟。",
 		"dictationLanguage": "语音输入语言",
@@ -329,52 +329,52 @@
 		"readFiles": {
 			"label": "读取项目文件",
 			"shortName": "读取",
-			"description": "允许 CodeCenter 读取工作区内的文件。"
+			"description": "允许 Caret 读取工作区内的文件。"
 		},
 		"readFilesExternally": {
 			"label": "读取任何文件",
 			"shortName": "全部读取",
-			"description": "允许 CodeCenter 读取您计算机上的任何文件。"
+			"description": "允许 Caret 读取您计算机上的任何文件。"
 		},
 		"editFiles": {
 			"label": "编辑项目文件",
 			"shortName": "编辑",
-			"description": "允许 CodeCenter 修改工作区内的文件。"
+			"description": "允许 Caret 修改工作区内的文件。"
 		},
 		"editFilesExternally": {
 			"label": "编辑任何文件",
 			"shortName": "全部编辑",
-			"description": "允许 CodeCenter 修改您计算机上的任何文件。"
+			"description": "允许 Caret 修改您计算机上的任何文件。"
 		},
 		"executeSafeCommands": {
 			"label": "执行安全命令",
 			"shortName": "安全命令",
-			"description": "允许 CodeCenter 执行安全的终端命令。如果模型认为某个命令可能具有破坏性，仍将需要批准。"
+			"description": "允许 Caret 执行安全的终端命令。如果模型认为某个命令可能具有破坏性，仍将需要批准。"
 		},
 		"executeAllCommands": {
 			"label": "执行所有命令",
 			"shortName": "所有命令",
-			"description": "允许 CodeCenter 执行任何终端命令。请自行承担风险。"
+			"description": "允许 Caret 执行任何终端命令。请自行承担风险。"
 		},
 		"useBrowser": {
 			"label": "使用浏览器",
 			"shortName": "浏览器",
-			"description": "允许 CodeCenter 在浏览器中启动并与任何网站交互。"
+			"description": "允许 Caret 在浏览器中启动并与任何网站交互。"
 		},
 		"useMcp": {
 			"label": "使用 MCP 服务器",
 			"shortName": "MCP",
-			"description": "允许 CodeCenter 使用已配置的 MCP 服务器，这些服务器可以修改文件系统或与 API 交互。"
+			"description": "允许 Caret 使用已配置的 MCP 服务器，这些服务器可以修改文件系统或与 API 交互。"
 		},
 		"enableNotifications": {
 			"label": "启用通知",
 			"shortName": "通知",
-			"description": "当 CodeCenter 需要批准某个步骤或任务完成时，接收系统通知。"
+			"description": "当 Caret 需要批准某个步骤或任务完成时，接收系统通知。"
 		}
 	},
 	"telemetry": {
 		"label": "允许匿名错误和使用情况报告",
-		"description": "您可以通过发送匿名使用数据和错误报告来帮助改进 CodeCenter。匿名使用和错误数据用于帮助改进 CodeCenter 产品。绝不会发送任何代码、提示或个人信息，也不包含任何个人身份信息。",
+		"description": "您可以通过发送匿名使用数据和错误报告来帮助改进 Caret。匿名使用和错误数据用于帮助改进 Caret 产品。绝不会发送任何代码、提示或个人信息，也不包含任何个人身份信息。",
 		"telemetryOverview": "遥测概览",
 		"and": "和",
 		"privacyPolicy": "隐私政策",
@@ -391,7 +391,7 @@
 	},
 	"modelPicker": {
 		"extensionFetches": "扩展程序自动获取可用的最新模型列表 ",
-		"unsureWhichModel": "如果您不确定选择哪个模型，CodeCenter 最适合与 ",
+		"unsureWhichModel": "如果您不确定选择哪个模型，Caret 最适合与 ",
 		"freeOptions": "要查找当前可用的免费选项，请尝试搜索“免费”。",
 		"seeMore": "查看更多"
 	},
@@ -399,7 +399,7 @@
 		"apiProvider": "API 提供商",
 		"searchAndSelectProvider": "搜索并选择提供商...",
 		"clearSearch": "清除搜索",
-		"clineProviderHidden": "CodeCenter 提供商已隐藏 - 请改用 CodeCenter API 提供商"
+		"clineProviderHidden": "Caret 提供商已隐藏 - 请改用 Caret API 提供商"
 	},
 	"clineAccountInfoCard": {
 		"loginError": "获取登录 URL 失败：",
@@ -479,19 +479,19 @@
 		"title": "API 配置"
 	},
 	"providers": {
-		"codecenter": {
-			"name": "CodeCenter",
-			"login": "CodeCenter 登录",
+		"caret": {
+			"name": "Caret",
+			"login": "Caret 登录",
 			"profile": "Profile",
 			"logout": "Logout",
-			"apiKeyConfigured": "CodeCenter已登录",
-			"description": "CodeCenter登录用户可以使用免费提供的积分访问Google最新的Gemini模型",
+			"apiKeyConfigured": "Caret已登录",
+			"description": "Caret登录用户可以使用免费提供的积分访问Google最新的Gemini模型",
 			"features": "无需单独API密钥即可享受以下功能",
 			"feature1": "Gemini 2.5 Pro：强大的推理能力",
 			"feature2": "Gemini 2.5 Flash：快速高效的响应",
 			"feature3": "无需单独API密钥即可立即访问",
 			"feature4": "价格：使用免费计划积分",
-			"visit": "获取CodeCenter的API密钥：",
+			"visit": "获取Caret的API密钥：",
 			"baseUrlPlaceholder": "默认: http://localhost:4000",
 			"baseUrlLabel": "基础 URL（可选）",
 			"apiKeyPlaceholder": "默认: noop",
@@ -510,16 +510,16 @@
 			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
 			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
 			"extendedThinkingLink": "思考模式配置",
-			"description1": "代码中心 LLM 网关 提供统一接口以访问 100 多个 LLM API。请参阅其",
+			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
 			"quickstartGuideLink": "快速入门指南",
 			"description2": "了解更多信息。",
-			"unifiedInterfaceHelpText": "代码中心 LLM 网关 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
+			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
 			"quickstartGuideLinkText": "快速入门指南",
 			"forMoreInformationText": "了解更多信息。",
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5：以 Opus 4.1 三分之一的成本提供 SOTA 级编码性能",
 				"featuredModelLabelNew": "New",
@@ -533,7 +533,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -563,7 +563,7 @@
 			"modelPicker": {
 				"starIconFilled": "★",
 				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for CodeCenter's agent coding",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionNew": "Claude Opus 4.5：以 Opus 4.1 三分之一的成本提供 SOTA 级编码性能",
 				"featuredModelLabelNew": "New",
@@ -577,7 +577,7 @@
 				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, CodeCenter works best with ",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
 				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 			}
@@ -611,7 +611,7 @@
 			"outputPriceLabel": "输出价格 / 100万令牌",
 			"temperatureLabel": "温度",
 			"notePrefix": "注意:",
-			"noteText": "CodeCenter 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
 			"refreshModelsError": "刷新 OpenAI 模型失败:",
 			"providerName": "OpenAI 兼容"
 		},
@@ -693,7 +693,7 @@
 			"descriptionPart1": "Ollama 允许您在计算机上本地运行模型。有关如何开始的说明，请参阅其 ",
 			"quickstartGuideLinkText": "快速入门指南。",
 			"notePrefix": "注意：",
-			"noteText": "CodeCenter 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
 			"fetchModelsErrorLog": "获取 Ollama 模型失败：",
 			"providerName": "Ollama",
 			"contextWindowPlaceholder": "例如 32768"
@@ -713,8 +713,8 @@
 			"linkText2": "2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
 		},
 		"litellm": {
-			"name": "代码中心 LLM 网关",
-			"description": "代码中心 LLM 网关 提供统一接口以访问 100 多个 LLM API。",
+			"name": "LiteLLM",
+			"description": "LiteLLM 提供统一接口以访问 100 多个 LLM API。",
 			"baseUrlPlaceholder": "默认: http://localhost:4000",
 			"baseUrlLabel": "基础 URL（可选）",
 			"apiKeyPlaceholder": "默认: noop",
@@ -733,10 +733,10 @@
 			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
 			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
 			"extendedThinkingLink": "思考模式配置",
-			"description1": "代码中心 LLM 网关 提供统一接口以访问 100 多个 LLM API。请参阅其",
+			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
 			"quickstartGuideLink": "快速入门指南",
 			"description2": "了解更多信息。",
-			"unifiedInterfaceHelpText": "代码中心 LLM 网关 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
+			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
 			"quickstartGuideLinkText": "快速入门指南",
 			"forMoreInformationText": "了解更多信息。"
 		},
@@ -789,7 +789,7 @@
 			"fetchModelsError": "获取 Groq 模型失败:",
 			"fetchModelsDescription": "扩展程序会自动从以下位置获取最新的可用模型列表: ",
 			"groqLinkText": "Groq.",
-			"unsureModelChoice": "如果您不确定选择哪个模型，CodeCenter 在以下模型上效果最佳: ",
+			"unsureModelChoice": "如果您不确定选择哪个模型，Caret 在以下模型上效果最佳: ",
 			"recommendedModel": "llama-3.3-70b-versatile.",
 			"recommendedModelId": "llama-3.3-70b-versatile",
 			"modelDocumentationUrl": "https://console.groq.com/docs/models"
@@ -842,7 +842,7 @@
 			"info": {
 				"fullText": {
 					"part1": "扩展程序自动获取以下平台上可用的最新模型列表",
-					"part2": "如果您不确定选择哪个模型，CodeCenter 与以下模型配合使用效果最佳"
+					"part2": "如果您不确定选择哪个模型，Caret 与以下模型配合使用效果最佳"
 				},
 				"linkText": "Requesty.",
 				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
@@ -860,7 +860,7 @@
 			"modelIdPlaceholder": "输入模型 ID...",
 			"modelIdLabel": "模型 ID",
 			"notePrefix": "注意：",
-			"noteText": "CodeCenter 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
 			"providerName": "Together"
 		},
 		"qwen": {
@@ -907,7 +907,7 @@
 			"description2": "您还需要启动 LM Studio 的 ",
 			"localServerLink": "本地服务器",
 			"description3": " 功能，并使用 `lms server start` 命令将其与此扩展程序一起使用。",
-			"noteBody": "CodeCenter 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
+			"noteBody": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
 		},
 		"moonshot": {
 			"name": "月之暗面",
@@ -930,7 +930,7 @@
 		"nebius": {
 			"name": "Nebius AI Studio",
 			"description": "Nebius AI 提供基于 Yandex 技术的 AI 服务。",
-			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。（注意：CodeCenter 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。）"
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。（注意：Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。）"
 		},
 		"asksage": {
 			"name": "AskSage",
@@ -944,7 +944,7 @@
 			"name": "X AI",
 			"description": "xAI 开发 Grok，一个旨在真实的大型语言模型。",
 			"notePrefix": "注意：",
-			"noteText": "CodeCenter 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
 			"reasoningEffortLabel": "推理努力程度",
 			"reasoningEffortDescription": "高努力程度可能会产生更彻底的分析，但需要更长时间并使用更多令牌。",
 			"providerName": "xAI",
@@ -1009,65 +1009,6 @@
 			"clientIdPlaceholder": "输入 AI Core 客户端 ID...",
 			"retryButton": "重试",
 			"selectModelPlaceholder": "选择模型..."
-		},
-		"caret": {
-			"name": "Caret",
-			"login": "Caret 登录",
-			"profile": "Profile",
-			"logout": "Logout",
-			"apiKeyConfigured": "Caret已登录",
-			"description": "Caret登录用户可以使用免费提供的积分访问Google最新的Gemini模型",
-			"features": "无需单独API密钥即可享受以下功能",
-			"feature1": "Gemini 2.5 Pro：强大的推理能力",
-			"feature2": "Gemini 2.5 Flash：快速高效的响应",
-			"feature3": "无需单独API密钥即可立即访问",
-			"feature4": "价格：使用免费计划积分",
-			"visit": "获取Caret的API密钥：",
-			"baseUrlPlaceholder": "默认: http://localhost:4000",
-			"baseUrlLabel": "基础 URL（可选）",
-			"apiKeyPlaceholder": "默认: noop",
-			"apiKeyLabel": "API 密钥",
-			"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
-			"modelIdLabel": "模型 ID",
-			"usePromptCachingLabel": "使用提示缓存 (GA)",
-			"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
-			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
-			"thinkingModeConfigurationLinkText": "思考模式配置",
-			"modelConfigurationLabel": "模型配置",
-			"supportsImagesLabel": "支持图像",
-			"contextWindowSizeLabel": "上下文窗口大小",
-			"maxOutputTokensLabel": "最大输出令牌",
-			"temperatureLabel": "温度",
-			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
-			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
-			"extendedThinkingLink": "思考模式配置",
-			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
-			"quickstartGuideLink": "快速入门指南",
-			"description2": "了解更多信息。",
-			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
-			"quickstartGuideLinkText": "快速入门指南",
-			"forMoreInformationText": "了解更多信息。",
-			"modelPicker": {
-				"starIconFilled": "★",
-				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
-				"featuredModelLabelBest": "Best",
-				"featuredModelDescriptionNew": "Claude Opus 4.5：以 Opus 4.1 三分之一的成本提供 SOTA 级编码性能",
-				"featuredModelLabelNew": "New",
-				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
-				"featuredModelLabelFree": "Free",
-				"modelLabel": "모델",
-				"searchPlaceholder": "모델 검색 및 선택...",
-				"clearSearch": "검색 지우기",
-				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
-				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
-				"switchToTwoHundredKContext": "Switch to 200K context window model",
-				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
-				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
-			}
 		}
 	},
 	"persona": {
@@ -1078,7 +1019,7 @@
 		"feedbackPrompt": "如果您有任何问题或反馈，我们随时欢迎。",
 		"version": "版本",
 		"title": "关于",
-		"description": "检查 CodeCenter 版本并查看相关信息。",
+		"description": "检查 Caret 版本并查看相关信息。",
 		"documentation": "文档"
 	},
 	"thinkingBudget": {

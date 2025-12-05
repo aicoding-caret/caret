@@ -9,7 +9,7 @@
 		"runCommand": "Run Command",
 		"reject": "Reject",
 		"setupApiOrLocal": "Setup My API Key or Local LLM",
-		"notifyCodeCenterAccount": "Notify Me for CodeCenter Subscription",
+		"notifyCaretAccount": "Notify Me for Caret Subscription",
 		"saveAndStart": "Save and Start",
 		"retry": "Retry",
 		"approve": "Approve",
@@ -29,7 +29,7 @@
 		"geminiApiKeyRequired": "Gemini API key is required"
 	},
 	"imageAlt": {
-		"codecenterBanner": "CodeCenter Logo Banner"
+		"caretBanner": "Caret Logo Banner"
 	},
 	"title": {
 		"apiKeySettings": "API Key Settings"
@@ -38,12 +38,12 @@
 		"finalThoughts": "Start your amazing development journey with {{appName}}!"
 	},
 	"link": {
-		"learnMoreCodeCenterGit": "Learn more on CodeCenter GitHub"
+		"learnMoreCaretGit": "Learn more on Caret GitHub"
 	},
 	"apiSetup": {
 		"backButton": "Back",
-		"title": "Get Started with CodeCenter",
-		"description": "CodeCenter supports various LLMs. You can subscribe to CodeCenter service for free access, use ChatGPT, Claude, Gemma APIs, or configure local LLMs.",
+		"title": "Get Started with Caret",
+		"description": "Caret supports various LLMs. You can subscribe to Caret service for free access, use ChatGPT, Claude, Gemma APIs, or configure local LLMs.",
 		"instructions": "Instructions:",
 		"supportLinks": {
 			"llmList": "Supported LLM List",
@@ -56,16 +56,16 @@
 		}
 	},
 	"welcome": {
-		"title": "Welcome to CodeCenter! 🎉",
+		"title": "Welcome to Caret! 🎉",
 		"subtitle": "Your AI-powered coding assistant",
-		"description": "CodeCenter is an AI coding assistant that helps you write, debug, and improve your code. Let's get started!",
+		"description": "Caret is an AI coding assistant that helps you write, debug, and improve your code. Let's get started!",
 		"getStarted": "Get Started",
 		"learnMore": "Learn More",
 		"whatCanIDo": "What can I do for you?",
 		"recentTasks": "Recent Tasks",
 		"noRecentTasks": "No recent tasks",
 		"viewAllHistory": "View all history",
-		"quickWinsTitle": "Quick <span>[Wins]</span> with CodeCenter"
+		"quickWinsTitle": "Quick <span>[Wins]</span> with Caret"
 	},
 	"rules": {
 		"tab": {
@@ -80,8 +80,8 @@
 			"localWorkflows": "Local Workflows"
 		},
 		"subTitle": {
-			"codecenterRules": "CodeCenter Rules (.codecenterrules)",
-			"CodeCenterRules": "CodeCenter Rules (.CodeCenterrules)",
+			"caretRules": "Caret Rules (.caretrules)",
+			"CaretRules": "Caret Rules (.Caretrules)",
 			"cursorRules": "Cursor Rules (.cursorrules)",
 			"windsurfRules": "Windsurf Rules (.windsurfrules)"
 		},
@@ -92,12 +92,12 @@
 		"description": {
 			"personaManagement": "Choose an AI persona that matches your coding style and preferences.",
 			"rulesDescription": "Rules allow you to provide system-level guidance. Think of them as a persistent way to include context and preferences for your projects or globally for every conversation.",
-			"workflowsDescription": "Workflows allow you to define a series of steps for CodeCenter to perform repetitive tasks like deploying services or submitting PRs. To run a workflow, type /workflow-name in the chat."
+			"workflowsDescription": "Workflows allow you to define a series of steps for Caret to perform repetitive tasks like deploying services or submitting PRs. To run a workflow, type /workflow-name in the chat."
 		},
 		"action": {
 			"newRuleFile": "New rule file..."
 		},
-		"title": "CodeCenter Rules & Workflow Management",
+		"title": "Caret Rules & Workflow Management",
 		"docsLink": "Docs",
 		"toggleError": "Rule toggle error"
 	},
@@ -113,13 +113,13 @@
 		"uploadNormal": "Upload Avatar",
 		"uploadThinking": "Upload Thinking Avatar",
 		"default": {
-			"name": "Default CodeCenter",
+			"name": "Default Caret",
 			"description": "The default AI coding assistant persona."
 		}
 	},
 	"rulesModal": {
-		"tooltip.manageRulesWorkflows": "Manage CodeCenter Rules & Workflows",
-		"ariaLabel.CodeCenterRulesButton": "CodeCenter Rules"
+		"tooltip.manageRulesWorkflows": "Manage Caret Rules & Workflows",
+		"ariaLabel.CaretRulesButton": "Caret Rules"
 	},
 	"mode": {
 		"chatbot": {
@@ -143,8 +143,8 @@
 			"description": "Implementation and execution"
 		},
 		"tooltip": {
-			"chatbot": "In Chatbot mode, CodeCenter provides expert consultation and analysis",
-			"agent": "In Agent mode, CodeCenter collaborates to implement solutions",
+			"chatbot": "In Chatbot mode, Caret provides expert consultation and analysis",
+			"agent": "In Agent mode, Caret collaborates to implement solutions",
 			"plan": "In Plan mode, formulate strategies and plans",
 			"act": "In Act mode, execute and implement plans",
 			"toggle": "Toggle w/ {{metaKey}}+Shift+A"
@@ -158,7 +158,7 @@
 		},
 		"uiLanguage": {
 			"label": "UI Language",
-			"description": "Select the display language for the CodeCenter UI.",
+			"description": "Select the display language for the Caret UI.",
 			"option": {
 				"ko": "Korean (한국어)",
 				"en": "English",
@@ -168,15 +168,15 @@
 		},
 		"preferredLanguage": {
 			"label": "AI Response Language",
-			"description": "The language that CodeCenter should use for communication."
+			"description": "The language that Caret should use for communication."
 		},
 		"modeSystem": {
 			"label": "Mode Settings",
-			"description": "Enable CodeCenter mode settings to use CodeCenter's Plan/Act modes.",
+			"description": "Enable Caret mode settings to use Caret's Plan/Act modes.",
 			"options": {
-				"codecenter": "CodeCenter",
-				"CodeCenter": "CodeCenter",
-				"cline": "CodeCenter"
+				"caret": "Caret",
+				"Caret": "Caret",
+				"cline": "Caret"
 			}
 		},
 		"separateModels": {
@@ -206,7 +206,7 @@
 			"searchPlaceholder": "Search and select a model...",
 			"clearSearch": "Clear search",
 			"info": {
-				"fullText": "The extension automatically fetches the latest list of models available on <0>Requesty.</0> If you're unsure which model to choose, CodeCenter works best with <1>anthropic/claude-3-7-sonnet-latest.</1>"
+				"fullText": "The extension automatically fetches the latest list of models available on <0>Requesty.</0> If you're unsure which model to choose, Caret works best with <1>anthropic/claude-3-7-sonnet-latest.</1>"
 			}
 		},
 		"sapAiCore": {
@@ -253,7 +253,7 @@
 		"title": "Account"
 	},
 	"account": {
-		"signUpWithCodeCenter": "Login & Sign Up",
+		"signUpWithCaret": "Login & Sign Up",
 		"viewBillingUsage": "View Billing & Usage",
 		"dashboard": "Dashboard",
 		"addCredits": "Add Credits",
@@ -279,8 +279,8 @@
 		"completionTokens": "Completion tokens",
 		"totalTokens": "Tokens",
 		"totalCost": "Cost",
-		"termsOfServiceUrl": "https://codecenterive.ai/terms.en.html",
-		"privacyPolicyUrl": "https://codecenterive.ai/privacy.en.html",
+		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html",
 		"personal": "Personal",
 		"date": "Date",
 		"model": "Model",
@@ -299,7 +299,7 @@
 		"seeMore": "See more"
 	},
 	"chat": {
-		"codecenterHasQuestion": "CodeCenter has a question",
+		"caretHasQuestion": "Caret has a question",
 		"typeMessage": "Type a message...",
 		"typeTaskHere": "Type your task here...",
 		"cancel": "Cancel",
@@ -320,11 +320,11 @@
 			"dimensionError": "Image dimensions cannot exceed 7500px.",
 			"unsupportedFileError": "Unsupported file type. Only images can be dropped."
 		},
-		"codecenterWantsToCreateNewFile": "CodeCenter wants to create a new file:",
+		"caretWantsToCreateNewFile": "Caret wants to create a new file:",
 		"placeholderHint": "Type @ for context, / for slash commands and workflows, or drag and drop a file/image while holding Shift",
-		"codecenterIsUsingBrowser": "CodeCenter is using the browser:",
-		"codecenterWantsToUseBrowser": "CodeCenter wants to use the browser:",
-		"executeCommand": "CodeCenter wants to execute this command:",
+		"caretIsUsingBrowser": "Caret is using the browser:",
+		"caretWantsToUseBrowser": "Caret wants to use the browser:",
+		"executeCommand": "Caret wants to execute this command:",
 		"errorLabel": "Error",
 		"mistakeLimitReached": "Mistake limit reached",
 		"maxRequestsReached": "Auto-approval max requests reached",
@@ -340,11 +340,11 @@
 		"loadingMcpDocumentation": "Loading MCP documentation",
 		"seeNewChanges": "See new changes",
 		"shellIntegrationUnavailable": "Shell Integration Unavailable",
-		"shellIntegrationWarning": "CodeCenter may have trouble viewing the command's output. Please update VSCode (<code>CMD/CTRL + Shift + P</code> → \"Update\") and make sure you're using a supported shell: zsh, bash, fish, or PowerShell (<code>CMD/CTRL + Shift + P</code> → \"Terminal: Select Default Profile\").",
+		"shellIntegrationWarning": "Caret may have trouble viewing the command's output. Please update VSCode (<code>CMD/CTRL + Shift + P</code> → \"Update\") and make sure you're using a supported shell: zsh, bash, fish, or PowerShell (<code>CMD/CTRL + Shift + P</code> → \"Terminal: Select Default Profile\").",
 		"stillHavingTrouble": "Still having trouble?",
-		"wantsToStartNewTask": "CodeCenter wants to start a new task:",
-		"wantsToCondense": "CodeCenter wants to condense your conversation:",
-		"wantsToCreateGithubIssue": "CodeCenter wants to create a Github issue:",
+		"wantsToStartNewTask": "Caret wants to start a new task:",
+		"wantsToCondense": "Caret wants to condense your conversation:",
+		"wantsToCreateGithubIssue": "Caret wants to create a Github issue:",
 		"tool": {
 			"outsideWorkspace": "Outside workspace",
 			"editFile": "Edited existing file",
@@ -454,10 +454,10 @@
 		"tokensSuffix": "/million tokens"
 	},
 	"providers": {
-		"codecenter": {
-			"name": "CodeCenter",
-			"description": "CodeCenter supports various LLMs. You can subscribe to CodeCenter service for free access, use ChatGPT, Claude, Gemma APIs, or configure local LLMs.",
-			"login": "Login & Sign Up with CodeCenter Account",
+		"caret": {
+			"name": "Caret",
+			"description": "Caret supports various LLMs. You can subscribe to Caret service for free access, use ChatGPT, Claude, Gemma APIs, or configure local LLMs.",
+			"login": "Login & Sign Up with Caret Account",
 			"or": "OR",
 			"apiKeyConfigured": "API key is configured. Login is not required.",
 			"features": "Features:",
@@ -490,7 +490,7 @@
 			"noSubscription": "• Use this if you don't have a Cerebras subscription",
 			"contextWindow": "• 64K context window",
 			"rateLimits": "• Rate limits: 150K TPM, 1M TPH/TPD, 10 RPM, 100 RPH/RPD",
-			"upgrade": "Upgrade for higher limits: https://cloud.cerebras.ai/?utm=codecenter"
+			"upgrade": "Upgrade for higher limits: https://cloud.cerebras.ai/?utm=caret"
 		},
 		"vercelAiGateway": {
 			"description": "Use models through the Vercel AI Gateway."
@@ -521,7 +521,7 @@
 			"apiKeyHelpText": "You can get a {{providerName}} API key by signing up here."
 		}
 	},
-	"codecenterProvider": {
+	"caretProvider": {
 		"futureSupport": "Future Support",
 		"futureProviders": "ChatGPT and Claude will be supported in the future",
 		"modelLabel": "Model",
@@ -540,7 +540,7 @@
 		"selectRegion": "Select a region...",
 		"enterApiKey": "Enter API Key...",
 		"loading": "Loading...",
-		"codecenterComplexPrompts": "{{brandName}} uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+		"caretComplexPrompts": "{{brandName}} uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
 		"note": "Note:",
 		"model": "Model",
 		"custom": "Custom",
@@ -596,15 +596,15 @@
 		"millionTokens": "million tokens",
 		"tokens": "tokens",
 		"systemMessages": {
-			"viewedTopLevelFiles": "CodeCenter viewed the top level files in this directory:",
-			"wantsToViewTopLevelFiles": "CodeCenter wants to view the top level files in this directory:",
-			"viewedFilesRecursively": "CodeCenter recursively viewed all files in this directory:",
-			"wantsToViewFilesRecursively": "CodeCenter wants to recursively view all files in this directory:",
-			"viewedCodeDefinitions": "CodeCenter viewed source code definition names used in this directory:",
-			"wantsToViewCodeDefinitions": "CodeCenter wants to view source code definition names used in this directory:",
-			"wantsToSearchDirectory": "CodeCenter wants to search this directory for:",
-			"fetchedContentFromUrl": "CodeCenter fetched content from this URL:",
-			"wantsToFetchContentFromUrl": "CodeCenter wants to fetch content from this URL:",
+			"viewedTopLevelFiles": "Caret viewed the top level files in this directory:",
+			"wantsToViewTopLevelFiles": "Caret wants to view the top level files in this directory:",
+			"viewedFilesRecursively": "Caret recursively viewed all files in this directory:",
+			"wantsToViewFilesRecursively": "Caret wants to recursively view all files in this directory:",
+			"viewedCodeDefinitions": "Caret viewed source code definition names used in this directory:",
+			"wantsToViewCodeDefinitions": "Caret wants to view source code definition names used in this directory:",
+			"wantsToSearchDirectory": "Caret wants to search this directory for:",
+			"fetchedContentFromUrl": "Caret fetched content from this URL:",
+			"wantsToFetchContentFromUrl": "Caret wants to fetch content from this URL:",
 			"taskCompleted": "Task Completed"
 		},
 		"geminiApiKey": "Gemini API Key",
@@ -613,10 +613,10 @@
 		"reasoningEnabled": "Reasoning enabled by default"
 	},
 	"telemetry": {
-		"helpImprove": "Discover CodeCenter",
-		"description": "CodeCenter is Slexn's enterprise AI coding assistant. Visit the official site for updates and resources.",
+		"helpImprove": "Support Caret Development",
+		"description": "Caret is an open-source project. Visit our GitHub to contribute, report issues, or share feedback.",
 		"githubLinkPrefix": "Learn more at",
-		"githubLink": "www.slexn.com/product/codecenter/",
+		"githubLink": "github.com/aicoding-caret/caret",
 		"closeBannerAria": "Close banner",
 		"settingsLink": "Settings"
 	},
@@ -643,7 +643,7 @@
 		"configureServers": "Configure MCP servers",
 		"noMatchingServers": "No matching MCP servers found",
 		"noServersFound": "No MCP servers found in marketplace",
-		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend CodeCenter's capabilities.",
+		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend Caret's capabilities.",
 		"autoApprove": "Auto-approve",
 		"autoApproveAllTools": "Auto-approve all tools"
 	},
@@ -662,30 +662,30 @@
 		"features": {
 			"freeStealth": {
 				"title": "Free Stealth Model",
-				"description": "Advanced stealth model with 262K context window designed for complex coding tasks. Available in the CodeCenter provider for free."
+				"description": "Advanced stealth model with 262K context window designed for complex coding tasks. Available in the Caret provider for free."
 			},
 			"focusChain": {
 				"title": "Focus Chain",
-				"description": "Keeps CodeCenter focused on long-horizon tasks with automatic todo list management, breaking down complex tasks into manageable steps with real-time progress tracking and passive reminders."
+				"description": "Keeps Caret focused on long-horizon tasks with automatic todo list management, breaking down complex tasks into manageable steps with real-time progress tracking and passive reminders."
 			},
 			"autoCompact": {
 				"title": "Auto Compact",
-				"description": "Auto summarizes your task and next steps when your conversation approaches the model's context window limit. This significantly helps CodeCenter stay on track for long task sessions!"
+				"description": "Auto summarizes your task and next steps when your conversation approaches the model's context window limit. This significantly helps Caret stay on track for long task sessions!"
 			},
 			"deepPlanning": {
 				"title": "Deep Planning",
-				"description": "New /deep-planning slash command transforms CodeCenter into an architect who investigates your codebase, asks clarifying questions, and creates a comprehensive plan before writing any code."
+				"description": "New /deep-planning slash command transforms Caret into an architect who investigates your codebase, asks clarifying questions, and creates a comprehensive plan before writing any code."
 			}
 		},
 		"previousUpdates": "Previous Updates:",
 		"previousFeatures": {
 			"claude1M": {
 				"title": "1M Context for Claude Sonnet 4",
-				"description": "CodeCenter/OpenRouter users get instant access, Anthropic users need Tier 4, and Bedrock users must be on a supported region."
+				"description": "Caret/OpenRouter users get instant access, Anthropic users need Tier 4, and Bedrock users must be on a supported region."
 			},
 			"optimizedClaude4": {
 				"title": "Optimized for Claude 4",
-				"description": "CodeCenter is now optimized to work with the Claude 4 family of models, resulting in improved performance, reliability, and new capabilities."
+				"description": "Caret is now optimized to work with the Claude 4 family of models, resulting in improved performance, reliability, and new capabilities."
 			},
 			"workflows": {
 				"title": "Workflows",
