@@ -118,7 +118,7 @@ export class PersonaInitializer {
 				this.context.extensionPath,
 				"assets",
 				"template_characters",
-				GlobalFileNames.templateCharacters,
+				"template_characters.json",
 			)
 
 			const templatesRaw = await fs.readFile(templatePath, "utf-8")
@@ -299,7 +299,7 @@ export class PersonaInitializer {
 	public async cleanupLegacyCustomInstructions(): Promise<void> {
 		try {
 			const globalRulesDir = await ensureRulesDirectoryExists()
-			const customInstructionsPath = path.join(globalRulesDir, GlobalFileNames.customInstructions)
+			const customInstructionsPath = path.join(globalRulesDir, "custom_instructions.md")
 			if (await fileExistsAtPath(customInstructionsPath)) {
 				await fs.unlink(customInstructionsPath)
 				Logger.info("[CARET-PERSONA] PersonaInitializer: 레거시 custom_instructions.md 파일을 정리했습니다.")

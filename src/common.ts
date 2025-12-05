@@ -11,6 +11,8 @@ import { WebviewProvider } from "./core/webview"
 import { Logger } from "./services/logging/Logger"
 import "./utils/path" // necessary to have access to String.prototype.toPosix
 
+// CARET MODIFICATION: persona initializer for default avatar seeding
+import { PersonaInitializer } from "@caret/services/persona/persona-initializer"
 import { HostProvider } from "@/hosts/host-provider"
 import { FileContextTracker } from "./core/context/context-tracking/FileContextTracker"
 import { StateManager } from "./core/storage/StateManager"
@@ -78,6 +80,13 @@ export async function initialize(context: vscode.ExtensionContext): Promise<Webv
 
 	// Clean up orphaned file context warnings (startup cleanup)
 	await FileContextTracker.cleanupOrphanedWarnings(context)
+
+	// CARET MODIFICATION: Ensure persona defaults are seeded even when persona UI is hidden
+	try {
+		await new PersonaInitializer(context).initialize()
+	} catch (error) {
+		Logger.warn(`[Extension] Persona initialization skipped due to error: ${error}`)
+	}
 
 	const webview = HostProvider.get().createWebviewProvider()
 

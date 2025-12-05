@@ -30,6 +30,7 @@ Personalizes AI interactions with predefined personas (Caret, Oh Sarang, Madobe 
 3) **Update**: UI calls `UpdatePersona`; backend writes `persona.md`, copies selected images. 
 4) **Broadcast**: `persona-service.ts` emits change events; subscribers update UI instantly.
 5) **Fallback guards**: If `persona.md` exists but images are missing, the initializer still re-copies default avatar/thinking images. Webview `PersonaAvatar` also converts `asset://template_characters/caret_profile.png`/`caret_thinking.png` to Base64 to avoid CSP breaks.
+6) **Startup hook**: `PersonaInitializer.initialize()` runs during extension startup (even for CodeCenter builds with persona UI hidden) so globalStorage always has seeded avatar images.
 
 ## 📦 Templates
 `template_characters.json` defines persona metadata (name/description per locale, instructions, avatar/thinking/intro URIs, default flag).
