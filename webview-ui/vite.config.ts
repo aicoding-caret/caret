@@ -73,6 +73,9 @@ export default defineConfig({
 		},
 	},
 	build: {
+		commonjsOptions: {
+			transformMixedEsModules: true,
+		},
 		outDir: "build",
 		reportCompressedSize: false,
 		// Only minify in production build
