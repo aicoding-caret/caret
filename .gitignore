@@ -15,9 +15,12 @@ pnpm-lock.yaml
 .venv
 .actrc
 
-slexn-codecenter/
+
+
+# Ignore built JavaScript files and copy assets
 webview-ui/src/**/*.js
 webview-ui/src/**/*.js.map
+webview-ui/src/caret/assets
 
 # Ignore coverage directories and files
 coverage
@@ -38,3 +41,5 @@ webview-ui/src/services/grpc-client.ts
 test-results
 comparison/
 
+#Brand
+slexn-codecenter

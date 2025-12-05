@@ -25,7 +25,7 @@ import * as proto from "@shared/proto/index"
 import { convertProtoToClineMessage } from "@shared/proto-conversions/cline-message"
 import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
 import { fromProtobufModels } from "@shared/proto-conversions/models/typeConversion"
-import caretBannerAsset from "@/assets/welcome-banner.webp?inline"
+import caretBannerAsset from "@/caret/assets/welcome-banner.webp?inline"
 import { Environment } from "../../../src/config"
 import {
 	basetenDefaultModelId,
