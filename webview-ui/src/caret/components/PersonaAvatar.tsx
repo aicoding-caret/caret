@@ -1,6 +1,34 @@
 import React, { useCallback, useEffect, useState } from "react"
+import templateCharacters from "../assets/template_characters/template_characters.json"
 import { FullPersonaProfile } from "../context/CaretStateContext"
 import { caretWebviewLogger } from "../utils/webview-logger"
+
+const templateCharacterAssets = import.meta.glob<string>("@/caret/assets/template_characters/*.{png,webp}", {
+	eager: true,
+	import: "default",
+	query: "?inline",
+})
+
+const assetUriAliases: Record<string, string> = {
+	"assets/template_characters/caret_profile.png": "assets/template_characters/caret.png",
+	"template_characters/caret_profile.png": "template_characters/caret.png",
+	"assets/template_characters/caret_thinking.png": "assets/template_characters/caret_thinking.png",
+	"template_characters/caret_thinking.png": "template_characters/caret_thinking.png",
+}
+
+const normalizeAssetKey = (assetUri: string) =>
+	assetUri.replace("asset:/assets/", "assets/").replace("asset://", "").replace("asset:/", "")
+
+const getTemplateCharacterImage = (assetUri: string): string | undefined => {
+	const normalizedKey = normalizeAssetKey(assetUri)
+	const remappedKey = assetUriAliases[normalizedKey] ?? normalizedKey
+	const entry = Object.entries(templateCharacterAssets).find(([key]) => key.replace(/\\/g, "/").endsWith(remappedKey))
+	return entry?.[1] as string | undefined
+}
+
+const defaultPersona = templateCharacters.find((persona) => persona.isDefault === true) ?? templateCharacters[0]
+const defaultAvatarAssetUri = defaultPersona?.avatarUri
+const defaultThinkingAssetUri = defaultPersona?.thinkingAvatarUri
 
 // CARET MODIFICATION: Convert asset:// URIs to Base64 data URIs to fix CSP violations
 // This implementation is ported from caret-compare with path changes: /assets/ → /assets/
@@ -9,10 +37,13 @@ const convertAssetToBase64 = async (assetUri: string): Promise<string> => {
 		return assetUri
 	}
 
+	const isCaretProfile = assetUri.includes("caret_profile.png") || assetUri.includes("caret.png")
+	const isCaretThinking = assetUri.includes("caret_thinking.png")
+
 	caretWebviewLogger.info("Converting asset URI", { assetUri })
 
 	// Check if we have window template images injected by CaretProviderWrapper
-	if (assetUri.includes("caret.png")) {
+	if (isCaretProfile) {
 		if ((window as any).templateImage_caret) {
 			caretWebviewLogger.info("Found window.templateImage_caret")
 			return (window as any).templateImage_caret
@@ -22,7 +53,7 @@ const convertAssetToBase64 = async (assetUri: string): Promise<string> => {
 			return (window as any).personaProfile
 		}
 	}
-	if (assetUri.includes("caret_thinking.png")) {
+	if (isCaretThinking) {
 		if ((window as any).templateImage_caretthinking) {
 			return (window as any).templateImage_caretthinking
 		}
@@ -30,6 +61,11 @@ const convertAssetToBase64 = async (assetUri: string): Promise<string> => {
 			caretWebviewLogger.info("Found window.personaThinking")
 			return (window as any).personaThinking
 		}
+	}
+	const templateImage = getTemplateCharacterImage(assetUri)
+	if (templateImage) {
+		caretWebviewLogger.info("Found template character image", { assetUri })
+		return templateImage
 	}
 	if (assetUri.includes("sarang.png") && (window as any).templateImage_sarang) {
 		return (window as any).templateImage_sarang
@@ -76,20 +112,22 @@ export const PersonaAvatar: React.FC<PersonaAvatarProps> = ({
 
 	// Determine the correct image URI from the context
 	const rawImageUri = isThinking ? personaProfile?.thinkingAvatarUri : personaProfile?.avatarUri
+	const fallbackAssetUri = isThinking ? defaultThinkingAssetUri : defaultAvatarAssetUri
+	const targetImageUri = rawImageUri ?? fallbackAssetUri
 
 	// Convert asset:// URI to Base64 when URI changes
 	useEffect(() => {
-		if (rawImageUri) {
-			convertAssetToBase64(rawImageUri)
+		if (targetImageUri) {
+			convertAssetToBase64(targetImageUri)
 				.then(setConvertedUri)
 				.catch((error) => {
 					caretWebviewLogger.error("PersonaAvatar: Failed to convert asset URI", error)
-					setConvertedUri(rawImageUri) // Fallback to original
+					setConvertedUri(targetImageUri) // Fallback to original
 				})
 		} else {
 			setConvertedUri(undefined)
 		}
-	}, [rawImageUri])
+	}, [targetImageUri])
 
 	// Listen for window variable changes (for uploaded images)
 	useEffect(() => {
