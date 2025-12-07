@@ -1,4 +1,5 @@
 import { Anthropic } from "@anthropic-ai/sdk"
+import { detectCurrentBrandName } from "@caret/utils/brand-utils"
 import { TaskMetadata } from "@core/context/context-tracking/ContextTrackerTypes"
 import { execa } from "@packages/execa"
 import { ClineMessage } from "@shared/ExtensionMessage"
@@ -6,7 +7,6 @@ import { HistoryItem } from "@shared/HistoryItem"
 import { RemoteConfig } from "@shared/remote-config/schema"
 import { GlobalState, Settings } from "@shared/storage/state-keys"
 import { fileExistsAtPath, isDirectory } from "@utils/fs"
-import fsSync from "fs"
 import fs from "fs/promises"
 import os from "os"
 import * as path from "path"
@@ -15,15 +15,11 @@ import { McpMarketplaceCatalog } from "@/shared/mcp"
 import { StateManager } from "./StateManager"
 
 // CARET MODIFICATION: Brand-aware configuration (used for Caret/Cline/other branded builds)
+// Prefer extension package.json (via brand utils) over workspace package.json to avoid picking up user project names.
 const resolveBrandSlug = () => {
 	try {
-		const packageJsonPath = path.join(process.cwd(), "package.json")
-		if (!fsSync.existsSync(packageJsonPath)) {
-			return "caret"
-		}
-		const packageJson = JSON.parse(fsSync.readFileSync(packageJsonPath, "utf8")) as { name?: string }
-		const rawName = packageJson?.name ?? "caret"
-		const normalized = String(rawName)
+		const brandName = detectCurrentBrandName()
+		const normalized = String(brandName)
 			.toLowerCase()
 			.replace(/[^a-z0-9]/g, "")
 		return normalized || "caret"
