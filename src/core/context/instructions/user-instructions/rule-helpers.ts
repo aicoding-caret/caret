@@ -210,14 +210,15 @@ export const createRuleFile = async (isGlobal: boolean, filename: string, cwd: s
 				filePath = path.join(globalClineRulesFilePath, filename)
 			}
 		} else {
-			const localClineRulesFilePath = path.resolve(cwd, GlobalFileNames.clineRules)
+			// CARET MODIFICATION: use brand-aware rules directory (e.g., .caretrules/.codecenterrules/.clinerules)
+			const localCaretRulesFilePath = path.resolve(cwd, GlobalFileNames.caretRules)
 
-			const hasError = await ensureLocalClineDirExists(localClineRulesFilePath, "default-rules.md")
+			const hasError = await ensureLocalClineDirExists(localCaretRulesFilePath, "default-rules.md")
 			if (hasError === true) {
 				return { filePath: null, fileExists: false }
 			}
 
-			await fs.mkdir(localClineRulesFilePath, { recursive: true })
+			await fs.mkdir(localCaretRulesFilePath, { recursive: true })
 
 			if (type === "workflow") {
 				const localWorkflowsFilePath = path.resolve(cwd, GlobalFileNames.workflows)
@@ -231,8 +232,8 @@ export const createRuleFile = async (isGlobal: boolean, filename: string, cwd: s
 
 				filePath = path.join(localWorkflowsFilePath, filename)
 			} else {
-				// clinerules file creation
-				filePath = path.join(localClineRulesFilePath, filename)
+				// caret rules file creation (brand-aware)
+				filePath = path.join(localCaretRulesFilePath, filename)
 			}
 		}
 

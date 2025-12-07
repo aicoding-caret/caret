@@ -1,8 +1,11 @@
 import { Anthropic } from "@anthropic-ai/sdk"
+import { getBrandRulesFileName } from "@caret/utils/brand-utils" // CARET MODIFICATION: Brand-aware rule labels
 import * as diff from "diff"
 import * as path from "path"
 import { Mode } from "@/shared/storage/types"
 import { ClineIgnoreController, LOCK_TEXT_SYMBOL } from "../ignore/ClineIgnoreController"
+
+const BRAND_RULES_FILE_NAME = getBrandRulesFileName()
 
 export const formatResponse = {
 	duplicateFileReadNotice: () =>
@@ -234,8 +237,14 @@ Otherwise, if you have not completed the task and do not need additional informa
 	clineRulesGlobalDirectoryInstructions: (globalClineRulesFilePath: string, content: string) =>
 		`# .clinerules/\n\nThe following is provided by a global .clinerules/ directory, located at ${globalClineRulesFilePath.toPosix()}, where the user has specified instructions for all working directories:\n\n${content}`,
 
+	caretRulesLocalDirectoryInstructions: (cwd: string, content: string) =>
+		`# ${BRAND_RULES_FILE_NAME}/\n\nThe following is provided by a root-level ${BRAND_RULES_FILE_NAME}/ directory where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
+
 	clineRulesLocalDirectoryInstructions: (cwd: string, content: string) =>
 		`# .clinerules/\n\nThe following is provided by a root-level .clinerules/ directory where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
+
+	caretRulesLocalFileInstructions: (cwd: string, content: string) =>
+		`# ${BRAND_RULES_FILE_NAME}\n\nThe following is provided by a root-level ${BRAND_RULES_FILE_NAME} file where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
 
 	clineRulesLocalFileInstructions: (cwd: string, content: string) =>
 		`# .clinerules\n\nThe following is provided by a root-level .clinerules file where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,

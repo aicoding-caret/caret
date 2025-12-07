@@ -15,6 +15,7 @@ import {
 } from "@core/context/instructions/user-instructions/cline-rules"
 import {
 	getLocalAgentsRules,
+	getLocalCaretRules,
 	getLocalCursorRules,
 	getLocalWindsurfRules,
 	refreshExternalRulesToggles,
@@ -2031,20 +2032,36 @@ export class Task {
 				: ""
 
 		const { globalToggles, localToggles } = await refreshClineRulesToggles(this.controller, this.cwd)
-		const { windsurfLocalToggles, cursorLocalToggles, agentsLocalToggles } = await refreshExternalRulesToggles(
-			this.controller,
-			this.cwd,
-		)
+		const {
+			caretLocalToggles,
+			clineLocalToggles,
+			cursorLocalToggles,
+			windsurfLocalToggles,
+			agentsLocalToggles,
+			activeSource,
+		} = await refreshExternalRulesToggles(this.controller, this.cwd, { clineLocalToggles: localToggles })
 
 		const globalClineRulesFilePath = await ensureRulesDirectoryExists()
 		const globalClineRulesFileInstructions = await getGlobalClineRules(globalClineRulesFilePath, globalToggles)
 
-		const localClineRulesFileInstructions = await getLocalClineRules(this.cwd, localToggles)
-		const [localCursorRulesFileInstructions, localCursorRulesDirInstructions] = await getLocalCursorRules(
-			this.cwd,
-			cursorLocalToggles,
-		)
-		const localWindsurfRulesFileInstructions = await getLocalWindsurfRules(this.cwd, windsurfLocalToggles)
+		// CARET MODIFICATION: Respect rule priority and load only the active workspace rules source
+		let localClineRulesFileInstructions: string | undefined
+		let localCursorRulesFileInstructions: string | undefined
+		let localCursorRulesDirInstructions: string | undefined
+		let localWindsurfRulesFileInstructions: string | undefined
+
+		if (activeSource === "caret") {
+			localClineRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
+		} else if (activeSource === "cline") {
+			localClineRulesFileInstructions = await getLocalClineRules(this.cwd, clineLocalToggles)
+		} else if (activeSource === "cursor") {
+			;[localCursorRulesFileInstructions, localCursorRulesDirInstructions] = await getLocalCursorRules(
+				this.cwd,
+				cursorLocalToggles,
+			)
+		} else if (activeSource === "windsurf") {
+			localWindsurfRulesFileInstructions = await getLocalWindsurfRules(this.cwd, windsurfLocalToggles)
+		}
 
 		const localAgentsRulesFileInstructions = await getLocalAgentsRules(this.cwd, agentsLocalToggles)
 

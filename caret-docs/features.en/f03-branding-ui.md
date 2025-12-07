@@ -118,7 +118,7 @@ await this.say("error", `Attempted to use ${toolName}...`)
 - Automates:
   - VS Code extension metadata (42+ fields in `package.json`)
   - Icon/banner swaps and terminal branding (name, extension ID)
-  - Rule file paths (`.clinerules` ↔ `.caretrules`) and version mapping
+  - Rule file paths (workspace rules auto-switch via `getBrandRulesFileName()` → `.caretrules`, `.codecenterrules`, etc.) and version mapping
 - **VS Code command namespace fix**: converted `cline.*` → `caret.*` to avoid conflicts when both extensions are installed; command titles use `getCurrentBrandDisplayName()`.
 - **Add-to chat pipeline**: webview always subscribes to `subscribeToAddToInput` with `EmptyRequest` so “Add to Caret” context flows even after brand switches, while streams stay Caret-only (no Cline cross-talk when both extensions are present).
 
