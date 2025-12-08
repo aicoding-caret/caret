@@ -1,6 +1,7 @@
 import { ClineMessage } from "@shared/ExtensionMessage"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { memo } from "react"
+import { getBrandIgnoreFileName } from "@/caret/utils/brand-utils"
 import { t } from "@/caret/utils/i18n"
 import CreditLimitError from "@/components/chat/CreditLimitError"
 import { useExtensionState } from "@/context/ExtensionStateContext"
@@ -143,11 +144,12 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 				)
 
 			case "clineignore_error":
+				// CARET MODIFICATION: Show .caretignore as primary ignore file (legacy .clineignore supported)
 				return (
 					<div className="flex flex-col p-2 rounded text-xs bg-[var(--vscode-textBlockQuote-background)] text-[var(--vscode-foreground)] opacity-80">
 						<div>
 							{t("errorRow.clineTriedToAccess", "chat")} <code>{message.text}</code>{" "}
-							{t("errorRow.isBlockedBy", "chat")} <code>.clineignore</code>
+							{t("errorRow.isBlockedBy", "chat")} <code>{getBrandIgnoreFileName()}</code>
 							{t("errorRow.file", "chat")}
 						</div>
 					</div>

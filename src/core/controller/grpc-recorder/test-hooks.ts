@@ -9,14 +9,19 @@ const TEST_HOOK_LATEST_STATE_DELAY = 50
 export function testHooks(controller: Controller): GrpcPostRecordHook[] {
 	return [
 		async (entry) => {
-			GrpcRecorderBuilder.getRecorder(controller).cleanupSyntheticEntries()
+			// CARET MODIFICATION: Allow tests to inject a recorder override to avoid module duplication issues.
+			const injectedRecorder = (globalThis as any).__CARETHOOK_RECORDER__ as
+				| ReturnType<typeof GrpcRecorderBuilder.getRecorder>
+				| undefined
+			const recorder = injectedRecorder ?? GrpcRecorderBuilder.getRecorder(controller)
+			recorder.cleanupSyntheticEntries()
 
 			await new Promise((resolve) => setTimeout(resolve, TEST_HOOK_LATEST_STATE_DELAY))
 
 			const requestId = entry.requestId
 
 			// Record synthetic "getLatestState" request
-			GrpcRecorderBuilder.getRecorder(controller).recordRequest(
+			recorder.recordRequest(
 				{
 					service: "cline.StateService",
 					method: "getLatestState",
@@ -29,7 +34,7 @@ export function testHooks(controller: Controller): GrpcPostRecordHook[] {
 
 			const state = await getLatestState(controller, {})
 
-			GrpcRecorderBuilder.getRecorder(controller).recordResponse(requestId, {
+			recorder.recordResponse(requestId, {
 				request_id: requestId,
 				message: state,
 			})

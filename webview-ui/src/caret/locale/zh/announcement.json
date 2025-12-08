@@ -26,7 +26,7 @@
 			"1": "最新AI模型支持",
 			"1-desc": "Claude Sonnet 4.5 (200K/1M上下文)、GPT-5扩展思考功能、增强的模型信息和价格显示",
 			"2": "新功能添加",
-			"2-desc": ".clineignore文件支持、AWS Bedrock配置文件、Requesty/Together/Alibaba Qwen提供商、速率限制自动重试",
+			"2-desc": ".caretignore文件支持（兼容.clineignore）、AWS Bedrock配置文件、Requesty/Together/Alibaba Qwen提供商、速率限制自动重试",
 			"3": "Focus Chain (任务管理)",
 			"3-desc": "为复杂任务自动生成和跟踪待办事项列表",
 			"4": "AI提示优化",

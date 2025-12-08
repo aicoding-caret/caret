@@ -1,7 +1,10 @@
 import type { ToolParamName, ToolUse } from "@core/assistant-message"
 import type { ClineIgnoreController } from "@core/ignore/ClineIgnoreController"
+import { getBrandIgnoreFileName, getLegacyClineIgnoreFileName } from "@caret/utils/brand-utils"
 
 export type ValidationResult = { ok: true } | { ok: false; error: string }
+const PRIMARY_IGNORE_FILENAME = getBrandIgnoreFileName?.() ?? ".caretignore"
+const LEGACY_IGNORE_FILENAME = getLegacyClineIgnoreFileName?.() ?? ".clineignore"
 
 /**
  * Lightweight validator used by new tool handlers.
@@ -26,7 +29,7 @@ export class ToolValidator {
 	}
 
 	/**
-	 * Verifies access is allowed to a given path via .clineignore rules.
+	 * CARET MODIFICATION: Verifies access using .caretignore (legacy .clineignore) rules.
 	 * Callers should pass a repo-relative (workspace-relative) path.
 	 */
 	checkClineIgnorePath(relPath: string): ValidationResult {
@@ -34,7 +37,7 @@ export class ToolValidator {
 		if (!accessAllowed) {
 			return {
 				ok: false,
-				error: `Access to path '${relPath}' is blocked by .clineignore settings.`,
+				error: `Access to path '${relPath}' is blocked by ${PRIMARY_IGNORE_FILENAME} settings (legacy ${LEGACY_IGNORE_FILENAME} supported).`,
 			}
 		}
 		return { ok: true }

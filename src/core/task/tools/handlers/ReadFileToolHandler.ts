@@ -64,7 +64,7 @@ export class ReadFileToolHandler implements IFullyManagedTool {
 			return await config.callbacks.sayAndCreateMissingParamError(this.name, "path")
 		}
 
-		// Check clineignore access
+		// CARET MODIFICATION: Check .caretignore access (legacy .clineignore supported)
 		const accessValidation = this.validator.checkClineIgnorePath(relPath!)
 		if (!accessValidation.ok) {
 			await config.callbacks.say("clineignore_error", relPath)

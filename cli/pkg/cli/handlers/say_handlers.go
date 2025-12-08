@@ -8,6 +8,7 @@ import (
 	"github.com/cline/cli/pkg/cli/clerror"
 	"github.com/cline/cli/pkg/cli/types"
 	"github.com/cline/cli/pkg/cli/output"
+	"github.com/cline/cli/pkg/common"
 )
 
 // SayHandler handles SAY type messages
@@ -470,15 +471,19 @@ func (h *SayHandler) handleDeletedAPIReqs(msg *types.ClineMessage, dc *DisplayCo
 	return nil
 }
 
-// handleClineignoreError handles .clineignore error messages
+// CARET MODIFICATION: handle brand-aware ignore file (.caretignore default, .clineignore legacy) error messages
 func (h *SayHandler) handleClineignoreError(msg *types.ClineMessage, dc *DisplayContext) error {
+	ignoreFile := common.BrandIgnoreFileName()
+	legacyIgnoreFile := ".clineignore"
+	// CARET MODIFICATION: use dynamic brand name instead of hardcoded Cline
+	brandName := common.BrandDisplayName()
 	if dc.SystemRenderer != nil {
 		return dc.SystemRenderer.RenderInfo(
 			"Access Denied",
-			fmt.Sprintf("Cline tried to access `%s` which is blocked by the .clineignore file.", msg.Text),
+			fmt.Sprintf("%s tried to access `%s` which is blocked by the %s file (legacy %s supported).", brandName, msg.Text, ignoreFile, legacyIgnoreFile),
 		)
 	}
-	return dc.Renderer.RenderMessage("WARNING", fmt.Sprintf("Access Denied - Cline tried to access %s which is blocked by the .clineignore file", msg.Text), true)
+	return dc.Renderer.RenderMessage("WARNING", fmt.Sprintf("Access Denied - %s tried to access %s which is blocked by the %s file (legacy %s supported)", brandName, msg.Text, ignoreFile, legacyIgnoreFile), true)
 }
 
 func (h *SayHandler) handleCheckpointCreated(msg *types.ClineMessage, dc *DisplayContext, timestamp string) error {

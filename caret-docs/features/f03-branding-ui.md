@@ -263,6 +263,7 @@ return formatResponse.toolResult(`Command executed successfully`)
 | 카테고리 | 적용 위치 | 개수 | 상태 |
 |----------|-----------|------|------|
 | **Notification** | Tool Handlers | 15개 | ⚠️ 수정 필요 |
+| **CLI Handlers** | say/ask_handlers.go | 다수 | ✅ 수정 완료 |
 | **UI Messages** | index.ts | 3개 | ⚠️ 수정 필요 |
 | **Error Messages** | index.ts, UseMcpToolHandler | 2개 | ⚠️ 수정 필요 |
 | **Tool Responses** | formatResponse | 다수 | ✅ 이미 중립적 |
@@ -858,7 +859,7 @@ const BrandingProvider: React.FC = ({ children }) => {
 **작성자**: Alpha (AI Assistant)  
 **검토자**: Luke (Project Owner)  
 **작성일**: 2025-08-16  
-**마지막 업데이트**: 2025-08-31 19:30 KST  
+**마지막 업데이트**: 2025-12-08 22:50 KST  
 **Phase**: Phase 6-2 (웹뷰 UI 차이점)  
 **TDD 상태**: ✅ 100% 커버리지 달성  
 **구현 상태**: ✅ 완전 구현 (통합 브랜딩 자동화 완료)

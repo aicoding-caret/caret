@@ -84,7 +84,7 @@ export class ListFilesToolHandler implements IFullyManagedTool {
 			resolutionMethod: (typeof pathResult !== "string" ? "hint" : "primary_fallback") as "hint" | "primary_fallback",
 		}
 
-		// Check clineignore access
+		// CARET MODIFICATION: Check .caretignore access (legacy .clineignore supported)
 		const accessValidation = this.validator.checkClineIgnorePath(relDirPath!)
 		if (!accessValidation.ok) {
 			await config.callbacks.say("clineignore_error", relDirPath)

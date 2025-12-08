@@ -24,7 +24,7 @@
 			"1": "Caret Provider Added",
 			"1-desc": "Official Caret AI provider integration - $10 free credits during promotional period",
 			"2": "New Features",
-			"2-desc": ".clineignore file support, AWS Bedrock profiles, Requesty/Together/Alibaba Qwen providers, automatic retry on rate limits",
+			"2-desc": ".caretignore file support (legacy .clineignore), AWS Bedrock profiles, Requesty/Together/Alibaba Qwen providers, automatic retry on rate limits",
 			"3": "Focus Chain (Task Management)",
 			"3-desc": "Automatic to-do list generation and tracking for complex tasks",
 			"4": "AI Prompt Optimization",

@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { useMemo } from "react"
 import { expect, userEvent, within } from "storybook/test"
 import { createStorybookDecorator } from "@/config/StorybookDecorator"
+import { getBrandIgnoreFileName } from "@/caret/utils/brand-utils"
 import ErrorRow from "./ErrorRow"
 
 // Mock data factories
@@ -51,7 +52,7 @@ const meta: Meta<typeof ErrorRow> = {
 		docs: {
 			description: {
 				component:
-					"Displays different types of error messages in the chat interface, including API errors, credit limit errors, diff errors, and clineignore errors. Handles special error parsing for Cline provider errors and provides appropriate user actions.",
+					`Displays different types of error messages in the chat interface, including API errors, credit limit errors, diff errors, and ${getBrandIgnoreFileName()} errors. Handles special error parsing for Cline provider errors and provides appropriate user actions.`,
 			},
 		},
 	},

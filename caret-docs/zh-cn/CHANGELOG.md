@@ -77,7 +77,7 @@
   - GPT-5 扩展思考功能支持
   - 增强的模型信息和价格显示
 - **新功能**:
-  - `.clineignore` 文件支持以排除Caret的文件访问
+  - `.caretignore` 文件支持（兼容.clineignore）以排除Caret的文件访问
   - AWS Bedrock配置文件 (多账户管理)
   - Requesty、Together、Alibaba Qwen提供商添加
   - 速率限制请求自动重试

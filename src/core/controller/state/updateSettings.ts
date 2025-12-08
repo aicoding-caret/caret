@@ -301,6 +301,10 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 		}
 
 		if (request.subagentsEnabled !== undefined) {
+			// CARET MODIFICATION: block enabling subagents on unsupported platforms (Windows)
+			if (request.subagentsEnabled && process.platform !== "darwin" && process.platform !== "linux") {
+				throw new Error("CLI subagents are only supported on macOS and Linux platforms")
+			}
 			const currentSettings = controller.stateManager.getGlobalSettingsKey("subagentsEnabled")
 			const wasEnabled = currentSettings ?? false
 			const isEnabled = !!request.subagentsEnabled

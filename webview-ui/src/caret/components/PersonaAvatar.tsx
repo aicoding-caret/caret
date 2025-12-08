@@ -26,7 +26,7 @@ const getTemplateCharacterImage = (assetUri: string): string | undefined => {
 	return entry?.[1] as string | undefined
 }
 
-const defaultPersona = templateCharacters.find((persona) => persona.isDefault === true) ?? templateCharacters[0]
+const defaultPersona = templateCharacters.find((persona: { isDefault?: boolean }) => persona.isDefault === true) ?? templateCharacters[0]
 const defaultAvatarAssetUri = defaultPersona?.avatarUri
 const defaultThinkingAssetUri = defaultPersona?.thinkingAvatarUri
 
