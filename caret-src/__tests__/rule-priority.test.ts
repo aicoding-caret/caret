@@ -82,7 +82,7 @@ describe("Rule Priority System Integration Test", () => {
 		} as unknown as vscode.ExtensionContext
 
 		// CARET MODIFICATION: Controller now requires clientId as second parameter (merge fix)
-		controller = new Controller(context, "test-client-id")
+		controller = new Controller(context)
 	})
 
 	afterEach(async () => {

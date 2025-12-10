@@ -1,96 +1,38 @@
-// CARET MODIFICATION: gRPC handler for fetching Caret user credits
-// Based on ClineAccount getUserCredits but uses CaretAccountService
-
-import { Controller } from "@core/controller"
-import { CaretAccountService } from "@services/account/CaretAccountService"
-import * as proto from "@shared/proto/index"
+import { CaretUserCreditsData } from "@shared/proto/caret/account"
+import type { EmptyRequest } from "@shared/proto/cline/common"
+import type { Controller } from "../index"
 
 /**
- * Fetches Caret user credits (balance, usage transactions, payment transactions)
- * Uses CaretAccountService to communicate with caret.team API
+ * Handles fetching all user credits data (balance, usage, payments)
+ * @param controller The controller instance
+ * @param request Empty request
+ * @returns User credits data response
  */
-export async function getCaretUserCredits(
-	_controller: Controller,
-	_request: proto.cline.EmptyRequest,
-): Promise<proto.caret.CaretUserCreditsData> {
-	console.log("[CARET-HANDLER] 🚀 getCaretUserCredits called")
-
+export async function getCaretUserCredits(controller: Controller, _request: EmptyRequest): Promise<CaretUserCreditsData> {
 	try {
-		// CARET MODIFICATION: Use CaretAccountService instead of ClineAccountService
-		const caretAccountService = CaretAccountService.getInstance()
+		if (!controller.caretAccountService) {
+			throw new Error("Account service not available")
+		}
 
-		// Fetch balance
-		console.log("[CARET-HANDLER] 💰 Fetching balance...")
-		const balanceResponse = await caretAccountService.fetchBalanceRPC()
+		// Call the individual RPC variants in parallel
+		const [balance, usageTransactions, paymentTransactions] = await Promise.all([
+			controller.caretAccountService.fetchBalanceRPC(),
+			controller.caretAccountService.fetchUsageTransactionsRPC(),
+			controller.caretAccountService.fetchPaymentTransactionsRPC(),
+		])
 
-		// Fetch usage transactions
-		console.log("[CARET-HANDLER] 📈 Fetching usage transactions...")
-		const usageTransactions = (await caretAccountService.fetchUsageTransactionsRPC()) || []
+		// If either call fails (returns undefined), throw an error
+		if (balance === undefined) {
+			throw new Error("Failed to fetch user credits data")
+		}
 
-		// Fetch payment transactions
-		console.log("[CARET-HANDLER] 💳 Fetching payment transactions...")
-		const paymentTransactions = (await caretAccountService.fetchPaymentTransactionsRPC()) || []
-
-		console.log("[CARET-HANDLER] ✅ Successfully fetched all credits data:", {
-			balance: balanceResponse?.balance,
-			usageCount: usageTransactions.length,
-			paymentCount: paymentTransactions.length,
+		return CaretUserCreditsData.create({
+			balance: balance ? { currentBalance: balance.balance / 100 } : { currentBalance: 0 },
+			usageTransactions: usageTransactions,
+			paymentTransactions: paymentTransactions,
 		})
-
-		// Convert to proto format
-		const result: proto.caret.CaretUserCreditsData = {
-			balance: {
-				currentBalance: balanceResponse?.balance || 0,
-				currency: balanceResponse?.currency,
-				lastUpdated: balanceResponse?.lastUpdated,
-			},
-			usageTransactions: usageTransactions.map((tx) => ({
-				aiInferenceProviderName: tx.aiInferenceProviderName,
-				aiModelName: tx.aiModelName,
-				aiModelTypeName: tx.aiModelTypeName,
-				completionTokens: tx.completionTokens,
-				costUsd: tx.costUsd,
-				createdAt: tx.createdAt,
-				creditsUsed: tx.creditsUsed,
-				generationId: tx.generationId,
-				id: tx.id,
-				metadata: tx.metadata || {},
-				organizationId: tx.organizationId,
-				promptTokens: tx.promptTokens,
-				totalTokens: tx.totalTokens,
-				userId: tx.userId,
-				model: tx.model,
-				cachedTokens: tx.cachedTokens,
-				totalCost: tx.totalCost,
-				timestamp: tx.timestamp,
-				taskId: tx.taskId,
-			})),
-			paymentTransactions: paymentTransactions.map((tx) => ({
-				paidAt: tx.paidAt,
-				creatorId: tx.creatorId,
-				amountCents: tx.amountCents,
-				credits: tx.credits,
-				currency: tx.currency,
-				paymentMethod: tx.paymentMethod,
-				transactionId: tx.transactionId,
-			})),
-		}
-
-		return result
 	} catch (error) {
-		console.error("[CARET-HANDLER] ❌ Failed to fetch Caret user credits:", error)
-
-		// Return empty data structure on error
-		const fallbackResult: proto.caret.CaretUserCreditsData = {
-			balance: {
-				currentBalance: 0,
-				currency: "USD",
-				lastUpdated: new Date().toISOString(),
-			},
-			usageTransactions: [],
-			paymentTransactions: [],
-		}
-
-		return fallbackResult
+		console.error(`Failed to fetch user credits data: ${error}`)
+		throw error
 	}
 }

@@ -16,8 +16,8 @@ export const getMainRole = (roles?: string[]) => {
 	return "Member"
 }
 
-export const getClineUris = (base: string, type: "dashboard" | "credits", route?: "account" | "organization") => {
-	const dashboard = new URL("dashboard", base)
+export const getClineUris = (base: string, type: "dashboard" | "credits" | "logs" | "usage", route?: "account" | "organization") => {
+	const dashboard = new URL(type, base)
 
 	if (type === "dashboard") {
 		return dashboard

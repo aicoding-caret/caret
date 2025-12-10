@@ -43,6 +43,8 @@ import { telemetryService } from "./services/telemetry"
 import { SharedUriHandler } from "./services/uri/SharedUriHandler"
 import { ShowMessageType } from "./shared/proto/host/window"
 import { fileExistsAtPath } from "./utils/fs"
+import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
+
 /*
 Built using https://github.com/microsoft/vscode-webview-ui-toolkit
 
@@ -412,13 +414,14 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		context.secrets.onDidChange(async (event) => {
-			if (event.key === "cline:clineAccountId") {
+			if (event.key === "cline:clineAccountId" || event.key === "caret:caretAccountId") {
 				// Check if the secret was removed (logout) or added/updated (login)
 				const secretValue = await context.secrets.get(event.key)
 				const activeWebview = WebviewProvider.getVisibleInstance()
 				const controller = activeWebview?.controller
 
-				const authService = AuthService.getInstance(controller)
+
+				const authService = (event.key == "cline:clineAccountId") ? AuthService.getInstance(controller) : CaretAuthService.getInstance(controller)
 				if (secretValue) {
 					// Secret was added or updated - restore auth info (login from another window)
 					authService?.restoreRefreshTokenAndRetrieveAuthInfo()

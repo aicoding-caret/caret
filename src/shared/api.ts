@@ -49,7 +49,6 @@ export interface ApiHandlerSecrets {
 	apiKey?: string // anthropic
 	liteLlmApiKey?: string
 	bizRouterApiKey?: string // CARET MODIFICATION: BizRouter API key
-	caretApiKey?: string // CARET MODIFICATION: Caret API key
 	awsAccessKey?: string
 	awsSecretKey?: string
 	openRouterApiKey?: string
@@ -58,6 +57,7 @@ export interface ApiHandlerSecrets {
 	aihubmixAppCode?: string
 
 	clineAccountId?: string
+	caretAccountId?: string
 	awsSessionToken?: string
 	awsBedrockApiKey?: string
 	openAiApiKey?: string
@@ -100,11 +100,6 @@ export interface ApiHandlerOptions {
 	// CARET MODIFICATION: BizRouter uses hardcoded URL (https://bizrouter.ai/api/v1)
 	bizRouterUsePromptCache?: boolean
 	// CARET MODIFICATION: Caret API/account wiring
-	caretBaseUrl?: string
-	caretApiKey?: string
-	caretUsePromptCache?: boolean
-	caretUserProfile?: CaretUser
-	caretAuthToken?: string
 	openAiHeaders?: Record<string, string> // Custom headers for OpenAI requests
 	anthropicBaseUrl?: string
 	openRouterProviderSorting?: string
@@ -304,8 +299,6 @@ export interface BizRouterModelInfo extends OpenAiCompatibleModelInfo {
 	minP?: number
 }
 
-export type CaretModelInfo = ModelInfo
-
 export const bizRouterModelInfoSaneDefaults: BizRouterModelInfo = {
 	maxTokens: 4096,
 	contextWindow: 8192,
@@ -321,6 +314,9 @@ export const bizRouterModelInfoSaneDefaults: BizRouterModelInfo = {
 
 // CARET MODIFICATION: Caret models (Gemini 기반)
 export type CaretModelId = keyof typeof caretModels
+export interface CaretModelInfo extends ModelInfo {
+	temperature?: number
+}
 export const caretDefaultModelId: CaretModelId = "gemini/gemini-2.5-flash"
 export const caretModels = {
 	"gemini/gemini-2.5-pro": {
@@ -364,6 +360,7 @@ export const caretModels = {
 		},
 	},
 } as const satisfies Record<string, ModelInfo>
+export const caretDefaultModelInfo = caretModels[caretDefaultModelId]
 
 export const CLAUDE_SONNET_1M_SUFFIX = ":1m"
 export const CLAUDE_SONNET_4_1M_SUFFIX = ":1m"

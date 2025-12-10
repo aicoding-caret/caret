@@ -21,11 +21,10 @@ interface ErrorRowProps {
 const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStreamingFailedMessage }: ErrorRowProps) => {
 	const { clineUser } = useClineAuth()
 	const { apiConfiguration, mode } = useExtensionState()
-	const caretUser = apiConfiguration?.caretUserProfile
 	const { selectedProvider } = normalizeApiConfiguration(apiConfiguration, mode as any)
 
 	const renderProviderLoginCTA = () => {
-		if (selectedProvider === "caret" && !caretUser) {
+		if (selectedProvider === "caret") {
 			return (
 				<VSCodeButton className="w-full mb-4" onClick={handleCaretLogin}>
 					{t("providers.caret.login", "settings")}
@@ -114,7 +113,7 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 									<br />
 									{/* Provider-specific CTA */}
 									{/* Provider-specific CTA fallback */}
-									{(caretUser && selectedProvider === "caret") || (clineUser && selectedProvider === "cline") ? (
+									{(selectedProvider === "caret") || (clineUser && selectedProvider === "cline") ? (
 										<span className="mb-4 text-[var(--vscode-descriptionForeground)]">
 											{t("errorRow.clickRetryBelow", "chat")}
 										</span>

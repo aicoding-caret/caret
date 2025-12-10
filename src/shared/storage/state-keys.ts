@@ -62,8 +62,6 @@ export interface GlobalState {
 	enablePersonaSystem: boolean
 	currentPersona: string | undefined
 	inputHistory: string[]
-	// CARET MODIFICATION: Caret user profile propagated to webview
-	caretUserProfile: CaretUser | undefined
 }
 
 export interface Settings {
@@ -95,8 +93,6 @@ export interface Settings {
 	liteLlmBaseUrl: string | undefined
 	liteLlmUsePromptCache: boolean | undefined
 	bizRouterUsePromptCache: boolean | undefined
-	caretBaseUrl: string | undefined
-	caretUsePromptCache: boolean | undefined
 	fireworksModelMaxCompletionTokens: number | undefined
 	fireworksModelMaxTokens: number | undefined
 	qwenApiLine: string | undefined
@@ -247,6 +243,8 @@ export interface Secrets {
 	apiKey: string | undefined
 	clineAccountId: string | undefined
 	"cline:clineAccountId": string | undefined // Auth_Provider:AccountId
+	caretAccountId: string | undefined
+	"caret:caretAccountId": string | undefined // Auth_Provider:AccountId
 	openRouterApiKey: string | undefined
 	awsAccessKey: string | undefined
 	awsSecretKey: string | undefined
@@ -287,8 +285,6 @@ export interface Secrets {
 	aihubmixApiKey: string | undefined
 	mcpOAuthSecrets: string | undefined
 	nousResearchApiKey: string | undefined
-	caretAuthToken: string | undefined
-	caretApiKey: string | undefined
 	bizRouterApiKey: string | undefined
 }
 

@@ -569,6 +569,7 @@ export async function migrateWelcomeViewCompleted(context: vscode.ExtensionConte
 			const apiKey = await context.secrets.get("apiKey")
 			const openRouterApiKey = await context.secrets.get("openRouterApiKey")
 			const clineAccountId = await context.secrets.get("clineAccountId")
+			const caretAccountId = await context.secrets.get("caretAccountId")
 			const openAiApiKey = await context.secrets.get("openAiApiKey")
 			const ollamaApiKey = await context.secrets.get("ollamaApiKey")
 			const liteLlmApiKey = await context.secrets.get("liteLlmApiKey")
@@ -622,6 +623,7 @@ export async function migrateWelcomeViewCompleted(context: vscode.ExtensionConte
 				planModeVsCodeLmModelSelector,
 				actModeVsCodeLmModelSelector,
 				clineAccountId,
+        caretAccountId,
 				asksageApiKey,
 				xaiApiKey,
 				sambanovaApiKey,

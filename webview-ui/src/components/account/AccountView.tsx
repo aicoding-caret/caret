@@ -5,12 +5,10 @@ import { VSCodeButton, VSCodeDivider, VSCodeDropdown, VSCodeOption, VSCodeTag } 
 import deepEqual from "fast-deep-equal"
 import { memo, useCallback, useEffect, useRef, useState } from "react"
 import { useInterval } from "react-use"
-import CaretAccountView from "@/caret/components/CaretAccountView"
 import { t } from "@/caret/utils/i18n"
 import { type ClineUser, handleSignOut } from "@/context/ClineAuthContext"
-// CARET MODIFICATION: Import CaretUser and useExtensionState for Caret account system
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { AccountServiceClient } from "@/services/grpc-client"
+import { AccountServiceClient, CaretAccountServiceClient } from "@/services/grpc-client"
 import VSCodeButtonLink from "../common/VSCodeButtonLink"
 import { AccountWelcomeView } from "./AccountWelcomeView"
 import { CreditBalance } from "./CreditBalance"
@@ -40,27 +38,17 @@ type CachedData = {
 const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: AccountViewProps) => {
 	const { apiConfiguration } = useExtensionState()
 	console.log("<===== account view apiConfiguration=====>", apiConfiguration)
-	const caretUser = apiConfiguration?.caretUserProfile
-
-	// CARET MODIFICATION: Caret 기본, Cline 로그인 시에만 Cline 표시
-	const accountProviderLabel = caretUser?.id
-		? t("providers.caret.name", "settings")
-		: clineUser?.uid
-			? "Cline"
-			: t("account.title", "common")
+  console.log("<===== account view clineUser=====>", clineUser)
 
 	return (
 		<div className="fixed inset-0 flex flex-col overflow-hidden pt-[10px] pl-[20px]">
 			<div className="flex justify-between items-center mb-[17px] pr-[17px]">
-				<h3 className="text-[var(--vscode-foreground)] m-0">{accountProviderLabel}</h3>
+				<h3 className="text-[var(--vscode-foreground)] m-0">{t("account.title", "common")}</h3>
 				<VSCodeButton onClick={onDone}>{t("button.done", "common")}</VSCodeButton>
 			</div>
 			<div className="flex-grow overflow-hidden pr-[8px] flex flex-col">
 				<div className="h-full mb-[5px]">
-					{/* CARET MODIFICATION: Caret 기본, Cline 로그인 시에만 Cline 뷰 */}
-					{caretUser?.id ? (
-						<CaretAccountView caretUser={caretUser} />
-					) : clineUser?.uid ? (
+					{clineUser?.uid ? (
 						<ClineAccountView
 							activeOrganization={activeOrganization}
 							clineUser={clineUser}
@@ -95,6 +83,8 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 	const [paymentsData, setPaymentsData] = useState<PaymentTransaction[]>([])
 	const [lastFetchTime, setLastFetchTime] = useState<number>(Date.now())
 
+	const isCaret = appBaseUrl === "https://caret.team" || appBaseUrl === "http://localhost:3000"
+
 	// Load cached data for current dropdown value
 	const loadCachedData = useCallback((id: string) => {
 		const cached = dataCache.current.get(id)
@@ -126,7 +116,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 	const fetchUserCredit = useCallback(async () => {
 		try {
-			const response = await AccountServiceClient.getUserCredits(EmptyRequest.create())
+			const response = (isCaret ? await CaretAccountServiceClient.getCaretUserCredits(EmptyRequest.create()) : await AccountServiceClient.getUserCredits(EmptyRequest.create()))
 			const newBalance = response?.balance?.currentBalance
 			// Always update balance, even if it's 0 or null - don't skip undefined
 			setBalance(newBalance ?? null)
@@ -216,7 +206,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 		fetchCreditBalance(dropdownValue)
 	}, 60000)
 
-	const clineUrl = appBaseUrl || "https://app.cline.bot"
+	const clineUrl = appBaseUrl || "https://caret.team"
 
 	// Fetch balance on mount
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <Only run once on mount>
@@ -331,7 +321,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 							<VSCodeButtonLink
 								appearance="primary"
 								className="w-full"
-								href={getClineUris(clineUrl, "dashboard").href}>
+								href={getClineUris(clineUrl, isCaret ? "logs" : "dashboard").href}>
 								{t("account.dashboard", "common")}
 							</VSCodeButtonLink>
 						</div>
@@ -345,7 +335,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 				<CreditBalance
 					balance={balance}
-					creditUrl={getClineUris(clineUrl, "credits", dropdownValue === uid ? "account" : "organization")}
+					creditUrl={getClineUris(clineUrl, isCaret ? "usage" : "credits", dropdownValue === uid ? "account" : "organization")}
 					fetchCreditBalance={() => fetchCreditBalance(dropdownValue)}
 					isLoading={isLoading}
 					lastFetchTime={lastFetchTime}

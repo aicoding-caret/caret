@@ -9,6 +9,7 @@ import type { WorkspaceRootManager } from "@core/workspace/WorkspaceRootManager"
 import { cleanupLegacyCheckpoints } from "@integrations/checkpoints/CheckpointMigration"
 import { downloadTask } from "@integrations/misc/export-markdown"
 import { ClineAccountService } from "@services/account/ClineAccountService"
+import { CaretAccountService } from "@caret/services/account/CaretAccountService"
 import { McpHub } from "@services/mcp/McpHub"
 import type { ApiProvider, ModelInfo } from "@shared/api"
 import type { ChatContent } from "@shared/ChatContent"
@@ -30,13 +31,13 @@ import { ClineEnv } from "@/config"
 import { HostProvider } from "@/hosts/host-provider"
 import { ExtensionRegistryInfo } from "@/registry"
 import { AuthService } from "@/services/auth/AuthService"
+import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 import { OcaAuthService } from "@/services/auth/oca/OcaAuthService"
 import { LogoutReason } from "@/services/auth/types"
 import { featureFlagsService } from "@/services/feature-flags"
 import { getDistinctId } from "@/services/logging/distinctId"
 import { Logger } from "@/services/logging/Logger"
 import { telemetryService } from "@/services/telemetry"
-import { CaretUser } from "@/shared/CaretAccount"
 import { getAxiosSettings } from "@/shared/net"
 import { ShowMessageType } from "@/shared/proto/host/window"
 import type { AuthState } from "@/shared/proto/index.cline"
@@ -72,8 +73,10 @@ export class Controller {
 
 	mcpHub: McpHub
 	accountService: ClineAccountService
+	caretAccountService: CaretAccountService
 	authService: AuthService
 	ocaAuthService: OcaAuthService
+	caretAuthService: CaretAuthService
 	readonly stateManager: StateManager
 
 	// NEW: Add workspace manager (optional initially)
@@ -151,8 +154,10 @@ export class Controller {
 			},
 		})
 		this.authService = AuthService.getInstance(this)
+		this.caretAuthService = CaretAuthService.getInstance(this)
 		this.ocaAuthService = OcaAuthService.initialize(this)
 		this.accountService = ClineAccountService.getInstance()
+		this.caretAccountService = CaretAccountService.getInstance()
 
 		const authStatusHandler: StreamingResponseHandler<AuthState> = async (response, _isLast, _seqNumber): Promise<void> => {
 			if (response.user) {
@@ -160,8 +165,12 @@ export class Controller {
 			}
 		}
 		this.authService.subscribeToAuthStatusUpdate(this, {}, authStatusHandler, undefined)
+		this.caretAuthService.subscribeToAuthStatusUpdate(this, {}, authStatusHandler, undefined)
 
 		this.authService.restoreRefreshTokenAndRetrieveAuthInfo().then(() => {
+			this.startRemoteConfigTimer()
+		})
+		this.caretAuthService.restoreRefreshTokenAndRetrieveAuthInfo().then(() => {
 			this.startRemoteConfigTimer()
 		})
 
@@ -211,6 +220,8 @@ export class Controller {
 				...apiConfiguration,
 				planModeApiProvider: "openrouter" as ApiProvider,
 				actModeApiProvider: "openrouter" as ApiProvider,
+				planModeCaretApiProvider: "openrouter" as ApiProvider,
+				actModeCaretApiProvider: "openrouter" as ApiProvider,
 			}
 			this.stateManager.setApiConfiguration(updatedConfig)
 
@@ -223,90 +234,6 @@ export class Controller {
 			HostProvider.window.showMessage({
 				type: ShowMessageType.INFORMATION,
 				message: "Logout failed",
-			})
-		}
-	}
-
-	// CARET MODIFICATION: Integrate CaretGlobalManager userInfo with StateManager setSecret
-	async syncCaretUserInfoToSecret() {
-		try {
-			let caretUserInfo = CaretGlobalManager.userInfo
-			const customToken = CaretGlobalManager.authToken as string
-
-			// If the token arrived but user profile has not been populated yet, populate it now.
-			if (!caretUserInfo && customToken) {
-				try {
-					await CaretGlobalManager.get().setTokenFromCallback(customToken)
-					caretUserInfo = CaretGlobalManager.userInfo
-				} catch (error) {
-					console.error("[Controller] ❌ Failed to fetch Caret user info from token:", error)
-				}
-			}
-
-			if (caretUserInfo) {
-				console.log("[Controller] 🔑 Syncing Caret user info to secret storage", caretUserInfo)
-				;(this.stateManager as any).setGlobalState?.("caretUserProfile", caretUserInfo)
-				;(this.stateManager as any).setGlobalState?.(
-					"caretBaseUrl",
-					process.env.CARET_ROUTER_ENDPOINT || "https://api.caret.team",
-				)
-				;(this.stateManager as any).setGlobalState?.("planModeCaretModelId", caretUserInfo.models[0])
-				;(this.stateManager as any).setGlobalState?.("actModeCaretModelId", caretUserInfo.models[1])
-				;(this.stateManager as any).setSecret?.("caretApiKey", caretUserInfo.apiKey)
-				;(this.stateManager as any).setSecret?.("caretAuthToken", customToken)
-				console.log("[Controller] ✅ Caret user info stored in secret storage")
-			} else {
-				console.log("[Controller] ⚠️ No Caret user info available to sync")
-			}
-		} catch (error) {
-			console.error("[Controller] ❌ Failed to sync Caret user info to secret:", error)
-		}
-	}
-
-	// CARET MODIFICATION: Retrieve Caret user info from secret storage
-	async getCaretUserInfoFromSecret(): Promise<CaretUser | undefined> {
-		try {
-			const userInfo = (this.stateManager as any).getGlobalStateKey?.("caretUserProfile")
-			if (userInfo) {
-				console.log("[Controller] 📋 Retrieved Caret user info from secret storage")
-				return userInfo as CaretUser
-			}
-			console.log("[Controller] ⚠️ No Caret user info found in secret storage")
-			return undefined
-		} catch (error) {
-			console.error("[Controller] ❌ Failed to retrieve Caret user info from secret:", error)
-			return undefined
-		}
-	}
-
-	async handleCaretSignOut() {
-		try {
-			this.stateManager.setGlobalState("userInfo", undefined)
-			;(this.stateManager as any).setGlobalState?.("caretUserProfile", undefined)
-			;(this.stateManager as any).setGlobalState?.(
-				"caretBaseUrl",
-				process.env.CARET_ROUTER_ENDPOINT || "https://api.caret.team",
-			)
-			;(this.stateManager as any).setSecret?.("caretApiKey", undefined)
-			;(this.stateManager as any).setSecret?.("caretAuthToken", undefined)
-
-			const apiConfiguration = this.stateManager.getApiConfiguration()
-			const updatedConfig = {
-				...apiConfiguration,
-				planModeApiProvider: "caret" as ApiProvider,
-				actModeApiProvider: "caret" as ApiProvider,
-			}
-			this.stateManager.setApiConfiguration(updatedConfig)
-
-			await this.postStateToWebview()
-			HostProvider.window.showMessage({
-				type: ShowMessageType.INFORMATION,
-				message: "Successfully logged out of Caret",
-			})
-		} catch (_error) {
-			HostProvider.window.showMessage({
-				type: ShowMessageType.INFORMATION,
-				message: "Caret logout failed",
 			})
 		}
 	}
@@ -629,13 +556,11 @@ export class Controller {
 
 	async handleAuthCallback(customToken: string, provider: string | null = null) {
 		try {
-			// CARET MODIFICATION: support caret login path with feature-config defaults
 			if (provider === "caret") {
-				await this.syncCaretUserInfoToSecret()
+				await this.caretAuthService.handleAuthCallback(customToken, provider)
 			} else {
 				await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
 			}
-
 			const featureConfig = getCurrentFeatureConfig()
 			const defaultProvider: ApiProvider = (featureConfig.defaultProvider as ApiProvider) ?? ("openrouter" as ApiProvider)
 			const clineProvider: ApiProvider = provider === "caret" ? ("caret" as ApiProvider) : ("cline" as ApiProvider)
@@ -650,34 +575,15 @@ export class Controller {
 
 			const updatedConfig = { ...currentApiConfiguration }
 
-			if (provider === "caret") {
-				// CARET MODIFICATION: force caret provider on caret login
-				updatedConfig.planModeApiProvider = "caret"
-				updatedConfig.actModeApiProvider = "caret"
-				// populate caret model ids from user info if present
-				const caretUserInfo = CaretGlobalManager.userInfo
-				if (caretUserInfo?.models?.length) {
-					updatedConfig.planModeCaretModelId = caretUserInfo.models[0] || updatedConfig.planModeCaretModelId
-					updatedConfig.actModeCaretModelId = caretUserInfo.models[1] || updatedConfig.actModeCaretModelId
-				}
-				// expose caret user profile to webview via apiConfiguration
-				if (caretUserInfo) {
-					;(updatedConfig as any).caretUserProfile = caretUserInfo
-				}
-				// ensure modeSystem defaults to caret on caret login
-				// Store modeSystem under settings/global state if available
-				;(this.stateManager as any).setGlobalState?.("caretModeSystem", "caret")
-			} else {
-				if (planActSeparateModelsSetting) {
-					if (currentMode === "plan") {
-						updatedConfig.planModeApiProvider = clineProvider
-					} else {
-						updatedConfig.actModeApiProvider = clineProvider
-					}
+			if (planActSeparateModelsSetting) {
+				if (currentMode === "plan") {
+					updatedConfig.planModeApiProvider = clineProvider
 				} else {
-					updatedConfig.planModeApiProvider = defaultProvider
-					updatedConfig.actModeApiProvider = defaultProvider
+					updatedConfig.actModeApiProvider = clineProvider
 				}
+			} else {
+				updatedConfig.planModeApiProvider = defaultProvider
+				updatedConfig.actModeApiProvider = defaultProvider
 			}
 
 			// Update the API configuration through cache service

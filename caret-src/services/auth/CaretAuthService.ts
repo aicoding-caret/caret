@@ -1,23 +1,23 @@
-import { AuthState, UserInfo } from "@shared/proto/cline/account"
+import { CaretAuthState, CaretUserInfo } from "@shared/proto/caret/account"
 import { type EmptyRequest, String } from "@shared/proto/cline/common"
-import { ClineEnv } from "@/config"
+import { CaretEnv } from "@caret/config"
 import { Controller } from "@/core/controller"
 import { getRequestRegistry, type StreamingResponseHandler } from "@/core/controller/grpc-handler"
 import { setWelcomeViewCompleted } from "@/core/controller/state/setWelcomeViewCompleted"
 import { HostProvider } from "@/hosts/host-provider"
 import { telemetryService } from "@/services/telemetry"
 import { openExternal } from "@/utils/env"
-import { featureFlagsService } from "../feature-flags"
-import { ClineAuthProvider } from "./providers/ClineAuthProvider"
-import { IAuthProvider } from "./providers/IAuthProvider"
-import { LogoutReason } from "./types"
+import { featureFlagsService } from "@services/feature-flags"
+import { CaretAuthProvider } from "./providers/CaretAuthProvider"
+import { IAuthProvider } from "@services/auth/providers/IAuthProvider"
+import { LogoutReason } from "@services/auth/types"
 
 export type ServiceConfig = {
 	URI?: string
 	[key: string]: any
 }
 
-export interface ClineAuthInfo {
+export interface CaretAuthInfo {
 	/**
 	 * accessToken
 	 */
@@ -31,16 +31,16 @@ export interface ClineAuthInfo {
 	 * When expired, the access token needs to be refreshed using the refresh token.
 	 */
 	expiresAt?: number
-	userInfo: ClineAccountUserInfo
+	userInfo: CaretAccountUserInfo
 	provider: string
 }
 
-export interface ClineAccountUserInfo {
+export interface CaretAccountUserInfo {
 	createdAt: string
 	displayName: string
 	email: string
 	id: string
-	organizations: ClineAccountOrganization[]
+	organizations: CaretAccountOrganization[]
 	/**
 	 * Cline app base URL, used for webview UI and other client-side operations
 	 */
@@ -49,9 +49,10 @@ export interface ClineAccountUserInfo {
 	 * WorkOS IDP ID if user logged in via SSO
 	 */
 	subject?: string
+	photoUrl?: string
 }
 
-export interface ClineAccountOrganization {
+export interface CaretAccountOrganization {
 	active: boolean
 	memberId: string
 	name: string
@@ -59,13 +60,13 @@ export interface ClineAccountOrganization {
 	roles: string[]
 }
 
-export class AuthService {
-	protected static instance: AuthService | null = null
+export class CaretAuthService {
+	protected static instance: CaretAuthService | null = null
 	protected _authenticated: boolean = false
-	protected _clineAuthInfo: ClineAuthInfo | null = null
+	protected _caretAuthInfo: CaretAuthInfo | null = null
 	protected _provider: IAuthProvider | null = null
-	protected _activeAuthStatusUpdateHandlers = new Set<StreamingResponseHandler<AuthState>>()
-	protected _handlerToController = new Map<StreamingResponseHandler<AuthState>, Controller>()
+	protected _activeAuthStatusUpdateHandlers = new Set<StreamingResponseHandler<CaretAuthState>>()
+	protected _handlerToController = new Map<StreamingResponseHandler<CaretAuthState>, Controller>()
 	protected _controller: Controller
 
 	/**
@@ -82,25 +83,18 @@ export class AuthService {
 	 * @param controller - Optional reference to the Controller instance.
 	 * @returns The singleton instance of AuthService.
 	 */
-	public static getInstance(controller?: Controller): AuthService {
-		if (!AuthService.instance) {
+	public static getInstance(controller?: Controller): CaretAuthService {
+		if (!CaretAuthService.instance) {
 			if (!controller) {
 				console.warn("Extension context was not provided to AuthService.getInstance, using default context")
 				controller = {} as Controller
 			}
-			if (process.env.E2E_TEST) {
-				// Use require instead of import to avoid circular dependency issues
-				// eslint-disable-next-line @typescript-eslint/no-var-requires
-				const { AuthServiceMock } = require("./AuthServiceMock")
-				AuthService.instance = AuthServiceMock.getInstance(controller)
-			} else {
-				AuthService.instance = new AuthService(controller)
-			}
+			CaretAuthService.instance = new CaretAuthService(controller)
 		}
-		if (controller !== undefined && AuthService.instance) {
-			AuthService.instance.controller = controller
+		if (controller !== undefined && CaretAuthService.instance) {
+			CaretAuthService.instance.controller = controller
 		}
-		return AuthService.instance!
+		return CaretAuthService.instance!
 	}
 
 	set controller(controller: Controller) {
@@ -124,10 +118,10 @@ export class AuthService {
 	 * @returns The active organization ID, or null if no active organization exists
 	 */
 	getActiveOrganizationId(): string | null {
-		if (!this._clineAuthInfo?.userInfo?.organizations) {
+		if (!this._caretAuthInfo?.userInfo?.organizations) {
 			return null
 		}
-		const activeOrg = this._clineAuthInfo.userInfo.organizations.find((org) => org.active)
+		const activeOrg = this._caretAuthInfo.userInfo.organizations.find((org) => org.active)
 		return activeOrg?.organizationId ?? null
 	}
 
@@ -135,27 +129,27 @@ export class AuthService {
 	 * Gets all organizations from the authenticated user's info
 	 * @returns Array of organizations, or undefined if not available
 	 */
-	getUserOrganizations(): ClineAccountOrganization[] | undefined {
-		return this._clineAuthInfo?.userInfo?.organizations
+	getUserOrganizations(): CaretAccountOrganization[] | undefined {
+		return this._caretAuthInfo?.userInfo?.organizations
 	}
 
 	private async internalGetAuthToken(provider: IAuthProvider): Promise<string | null> {
 		try {
-			let clineAccountAuthToken = this._clineAuthInfo?.idToken
-			if (!this._clineAuthInfo || !clineAccountAuthToken || this._clineAuthInfo.provider !== provider.name) {
+			let caretAccountAuthToken = this._caretAuthInfo?.idToken
+			if (!this._caretAuthInfo || !caretAccountAuthToken || this._caretAuthInfo.provider !== provider.name) {
 				// Not authenticated
 				return null
 			}
 
 			// Check if token has expired
-			if (await provider.shouldRefreshIdToken(clineAccountAuthToken, this._clineAuthInfo.expiresAt)) {
+			if (await provider.shouldRefreshIdToken(caretAccountAuthToken, this._caretAuthInfo.expiresAt)) {
 				const updatedAuthInfo = await provider.retrieveClineAuthInfo(this._controller)
 				if (updatedAuthInfo) {
-					this._clineAuthInfo = updatedAuthInfo
+					this._caretAuthInfo = updatedAuthInfo
 					this._authenticated = true
-					clineAccountAuthToken = updatedAuthInfo.idToken
+					caretAccountAuthToken = updatedAuthInfo.idToken
 				} else if (this.shouldClearAuthInfo(provider)) {
-					this._clineAuthInfo = null
+					this._caretAuthInfo = null
 					this._authenticated = false
 					telemetryService.captureAuthLoggedOut(this._provider?.name, LogoutReason.ERROR_RECOVERY)
 				}
@@ -163,7 +157,7 @@ export class AuthService {
 			}
 
 			// IMPORTANT: Prefix with 'workos:' so backend can route verification to WorkOS provider
-			return clineAccountAuthToken ? `workos:${clineAccountAuthToken}` : null
+			return caretAccountAuthToken ? `workos:${caretAccountAuthToken}` : null
 		} catch (error) {
 			console.error("Error getting auth token:", error)
 			return null
@@ -171,12 +165,12 @@ export class AuthService {
 	}
 
 	private shouldClearAuthInfo(provider: IAuthProvider) {
-		return this._clineAuthInfo?.provider === provider.name
+		return this._caretAuthInfo?.provider === provider.name
 	}
 
 	protected _initProvider(): void {
-		// Only ClineAuthProvider is supported going forward
-		this._provider = new ClineAuthProvider()
+		// Only CaretAuthProvider is supported going forward
+		this._provider = new CaretAuthProvider()
 	}
 
 	/**
@@ -184,17 +178,17 @@ export class AuthService {
 	 * @returns The provider name (e.g., "cline", "firebase"), or null if not authenticated
 	 */
 	getProviderName(): string | null {
-		return this._clineAuthInfo?.provider ?? null
+		return this._caretAuthInfo?.provider ?? null
 	}
 
-	getInfo(): AuthState {
+	getInfo(): CaretAuthState {
 		// TODO: this logic should be cleaner, but this will determine the authentication state for the webview -- if a user object is returned then the webview assumes authenticated, otherwise it assumes logged out (we previously returned a UserInfo object with empty fields, and this represented a broken logged in state)
 		let user: any = null
-		if (this._clineAuthInfo && this._authenticated) {
-			const userInfo = this._clineAuthInfo.userInfo
-			this._clineAuthInfo.userInfo.appBaseUrl = ClineEnv.config()?.appBaseUrl
+		if (this._caretAuthInfo && this._authenticated) {
+			const userInfo = this._caretAuthInfo.userInfo
+			this._caretAuthInfo.userInfo.appBaseUrl = CaretEnv.config()?.appBaseUrl
 
-			user = UserInfo.create({
+			user = CaretUserInfo.create({
 				// TODO: create proto for new user info type
 				uid: userInfo?.id,
 				displayName: userInfo?.displayName,
@@ -204,7 +198,7 @@ export class AuthService {
 			})
 		}
 
-		return AuthState.create({
+		return CaretAuthState.create({
 			user,
 		})
 	}
@@ -240,7 +234,7 @@ export class AuthService {
 
 		try {
 			telemetryService.captureAuthLoggedOut(this._provider.name, reason)
-			this._clineAuthInfo = null
+			this._caretAuthInfo = null
 			this._authenticated = false
 			this.destroyTokens()
 			this.sendAuthStatusUpdate()
@@ -256,8 +250,9 @@ export class AuthService {
 		}
 
 		try {
-			this._clineAuthInfo = await this._provider.signIn(this._controller, authorizationCode, provider)
-			this._authenticated = this._clineAuthInfo?.idToken !== undefined
+      console.log("handleAuthCallback", authorizationCode, provider)
+			this._caretAuthInfo = await this._provider.signIn(this._controller, authorizationCode, provider)
+			this._authenticated = this._caretAuthInfo?.idToken !== undefined
 
 			telemetryService.captureAuthSucceeded(this._provider.name)
 			await setWelcomeViewCompleted(this._controller, { value: true })
@@ -288,32 +283,32 @@ export class AuthService {
 			throw new Error("Auth provider is not set")
 		}
 
-    console.log("Restoring auth token===========")
-
 		try {
-			this._clineAuthInfo = await this.retrieveAuthInfo()
-			if (this._clineAuthInfo) {
+			this._caretAuthInfo = await this.retrieveAuthInfo()
+			if (this._caretAuthInfo) {
 				this._authenticated = true
 				await this.sendAuthStatusUpdate()
 			} else {
 				console.warn("No user found after restoring auth token")
 				this._authenticated = false
-				this._clineAuthInfo = null
+				this._caretAuthInfo = null
 				telemetryService.captureAuthLoggedOut(this._provider?.name, LogoutReason.ERROR_RECOVERY)
 			}
 		} catch (error) {
 			console.error("Error restoring auth token:", error)
 			this._authenticated = false
-			this._clineAuthInfo = null
+			this._caretAuthInfo = null
 			telemetryService.captureAuthLoggedOut(this._provider?.name, LogoutReason.ERROR_RECOVERY)
 			return
 		}
 	}
 
-	private async retrieveAuthInfo(): Promise<ClineAuthInfo | null> {
+	private async retrieveAuthInfo(): Promise<CaretAuthInfo | null> {
 		if (!this._provider) {
+      console.log("Auth provider is not set")
 			throw new Error("Auth provider is not set")
 		}
+    console.log("Retrieving auth info")
 
 		return this._provider.retrieveClineAuthInfo(this._controller)
 	}
@@ -328,7 +323,7 @@ export class AuthService {
 	async subscribeToAuthStatusUpdate(
 		controller: Controller,
 		_request: EmptyRequest,
-		responseStream: StreamingResponseHandler<AuthState>,
+		responseStream: StreamingResponseHandler<CaretAuthState>,
 		requestId?: string,
 	): Promise<void> {
 		// Add this subscription to the active subscriptions
@@ -360,7 +355,7 @@ export class AuthService {
 	 */
 	async sendAuthStatusUpdate(): Promise<void> {
 		// Compute once per broadcast
-		const authInfo: AuthState = this.getInfo()
+		const authInfo: CaretAuthState = this.getInfo()
 		const uniqueControllers = new Set<Controller>()
 
 		// Send the event to all active subscribers
@@ -384,20 +379,20 @@ export class AuthService {
 
 		await Promise.all(streamSends)
 		// Identify the user in telemetry if available
-		if (this._clineAuthInfo?.userInfo?.id) {
-			telemetryService.identifyAccount(this._clineAuthInfo.userInfo)
+		if (this._caretAuthInfo?.userInfo?.id) {
+			telemetryService.identifyAccount(this._caretAuthInfo.userInfo)
 			// Reset feature flags to ensure they are fetched for the new/logged in user
-			featureFlagsService.reset(this._clineAuthInfo?.userInfo?.id)
+			featureFlagsService.reset(this._caretAuthInfo?.userInfo?.id)
 		}
 		// Poll feature flags to ensure they are up to date for all users
-		await featureFlagsService.poll(this._clineAuthInfo?.userInfo?.id)
+		await featureFlagsService.poll(this._caretAuthInfo?.userInfo?.id)
 
 		// Update state in webviews once per unique controller
 		await Promise.all(Array.from(uniqueControllers).map((c) => c.postStateToWebview()))
 	}
 
 	private destroyTokens() {
-		this._controller.stateManager.setSecret("clineAccountId", undefined)
-		this._controller.stateManager.setSecret("cline:clineAccountId", undefined)
+		this._controller.stateManager.setSecret("caretAccountId", undefined)
+		this._controller.stateManager.setSecret("caret:caretAccountId", undefined)
 	}
 }

@@ -71,26 +71,11 @@ export class SharedUriHandler {
 
 					const tokenParam = getParam("token") || getParam("refreshToken") || getParam("idToken") || undefined
 					const codeParam = getParam("code") || undefined
-					const apiKey = getParam("apiKey")
 
-					// CARET MODIFICATION: Infer provider from payload (tokens => Caret, code-only => Cline)
-					const hasCaretToken = !!tokenParam
-					const provider = providerParam ?? (hasCaretToken ? "caret" : null)
-
-					const token = hasCaretToken ? tokenParam : codeParam
-					const state = getParam("state")
+					const provider = providerParam ?? "caret"
+					const token = tokenParam || codeParam
 
 					if (token) {
-						// CARET MODIFICATION: Initialize Caret session when provider=caret (or unspecified but token present)
-						if (provider === "caret") {
-							try {
-								console.log("SharedUriHandler: Setting Caret token from callback", { state, apiKey })
-								await CaretGlobalManager.get().setTokenFromCallback(token)
-							} catch (error) {
-								console.error("SharedUriHandler: Failed to bootstrap Caret token", error)
-							}
-						}
-
 						await visibleWebview.controller.handleAuthCallback(token, provider)
 						return true
 					}

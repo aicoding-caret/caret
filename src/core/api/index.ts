@@ -1,6 +1,5 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import { BizRouterHandler } from "@caret/core/api/providers/BizRouterApiProvider"
-import { CaretApiProvider } from "@caret/core/api/providers/CaretApiProvider"
 import { ApiConfiguration, ModelInfo, QwenApiRegions } from "@shared/api"
 import { Mode } from "@shared/storage/types"
 import { ClineTool } from "@/shared/tools"
@@ -12,6 +11,7 @@ import { AwsBedrockHandler } from "./providers/bedrock"
 import { CerebrasHandler } from "./providers/cerebras"
 import { ClaudeCodeHandler } from "./providers/claude-code"
 import { ClineHandler } from "./providers/cline"
+import { CaretHandler } from "@caret/core/api/providers/caret"
 import { DeepSeekHandler } from "./providers/deepseek"
 import { DifyHandler } from "./providers/dify"
 import { DoubaoHandler } from "./providers/doubao"
@@ -267,16 +267,16 @@ function createHandlerForProvider(
 				ulid: options.ulid,
 			})
 		case "caret":
-			return new CaretApiProvider({
+			return new CaretHandler({
 				onRetryAttempt: options.onRetryAttempt,
-				caretApiKey: options.caretApiKey,
-				caretBaseUrl: options.caretBaseUrl,
-				caretModelId: mode === "plan" ? options.planModeCaretModelId : options.actModeCaretModelId,
-				caretModelInfo: mode === "plan" ? options.planModeCaretModelInfo : options.actModeCaretModelInfo,
+				caretAccountId: options.caretAccountId,
+				ulid: options.ulid,
+				reasoningEffort: mode === "plan" ? options.planModeReasoningEffort : options.actModeReasoningEffort,
 				thinkingBudgetTokens:
 					mode === "plan" ? options.planModeThinkingBudgetTokens : options.actModeThinkingBudgetTokens,
-				caretUsePromptCache: options.caretUsePromptCache,
-				ulid: options.ulid,
+				caretProviderSorting: options.openRouterProviderSorting,
+				caretModelId: mode === "plan" ? options.planModeCaretModelId : options.actModeCaretModelId,
+				caretModelInfo: mode === "plan" ? options.planModeCaretModelInfo : options.actModeCaretModelInfo,
 			})
 		case "bizrouter":
 			// CARET MODIFICATION: BizRouter uses hardcoded URL (https://bizrouter.ai/api/v1)

@@ -31,8 +31,6 @@ export async function caretAuthStateChanged(
 					email: userInfo.email,
 					photoUrl: userInfo.photoUrl,
 					appBaseUrl: userInfo.appBaseUrl || "https://caret.team",
-					auth0Sub: userInfo.auth0Sub,
-					auth0Nickname: userInfo.auth0Nickname,
 				},
 			}
 		} else {

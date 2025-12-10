@@ -80,7 +80,7 @@ describe("Rule Discovery System Test", () => {
 			extension: { packageJSON: { version: "0.0.1" } },
 		} as unknown as vscode.ExtensionContext
 
-		controller = new Controller(context, "test-client-id")
+		controller = new Controller(context)
 	})
 
 	afterEach(async () => {

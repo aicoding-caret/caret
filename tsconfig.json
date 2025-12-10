@@ -60,7 +60,8 @@
 		}
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"caret-src/**/*"
 	],
 	"exclude": [
 		"node_modules",

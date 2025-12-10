@@ -31,88 +31,83 @@ service CaretAccountService {
   rpc getCaretUserCredits(cline.EmptyRequest) returns (CaretUserCreditsData);
 
   // Fetches the current Caret user profile, including usage summaries and organizations
-  rpc getCaretUserProfile(cline.EmptyRequest) returns (CaretUserProfile);
+  // rpc getCaretUserProfile(cline.EmptyRequest) returns (CaretUserProfile);
 
   // Fetches Caret organization credits data
-  rpc getCaretOrganizationCredits(GetCaretOrganizationCreditsRequest) returns (CaretOrganizationCreditsData);
+  // rpc getCaretOrganizationCredits(GetCaretOrganizationCreditsRequest) returns (CaretOrganizationCreditsData);
 
   // Fetches all Caret user organizations data
   // Returns a list of CaretUserOrganization objects
-  rpc getCaretUserOrganizations(cline.EmptyRequest) returns (CaretUserOrganizationsResponse);
+  // rpc getCaretUserOrganizations(cline.EmptyRequest) returns (CaretUserOrganizationsResponse);
 
   // Sets the active Caret organization
-  rpc setCaretUserOrganization(CaretUserOrganizationUpdateRequest) returns (cline.Empty);
+  // rpc setCaretUserOrganization(CaretUserOrganizationUpdateRequest) returns (cline.Empty);
 }
 
-// CARET MODIFICATION: Auth state change request for Caret (using 1000+ offset for merge compatibility)
 message CaretAuthStateChangedRequest {
-  cline.Metadata metadata = 1001;
-  CaretUserInfo user = 1002;
+  cline.Metadata metadata = 1;
+  CaretUserInfo user = 2;
 }
 
-// CARET MODIFICATION: Auth state response for Caret (using 1000+ offset for merge compatibility)
 message CaretAuthState {
-  optional CaretUserInfo user = 1001;
+  optional CaretUserInfo user = 1;
 }
 
-// CARET MODIFICATION: Caret user information (similar to Cline but with Auth0 fields, using 1000+ offset for merge compatibility)
+// User's information
 message CaretUserInfo {
-  string uid = 1001;
-  optional string display_name = 1002;
-  optional string email = 1003;
-  optional string photo_url = 1004;
-  optional string app_base_url = 1005; // Caret app base URL (caret.team)
-  // CARET MODIFICATION: Additional Auth0-specific fields
-  optional string auth0_sub = 1006; // Auth0 subject ID
-  optional string auth0_nickname = 1007; // Auth0 nickname
+  string uid = 1;
+  optional string display_name = 2;
+  optional string email = 3;
+  optional string photo_url = 4;
+  optional string app_base_url = 5; // Cline app base URL
 }
 
 // CARET MODIFICATION: Caret organization structure (using 1000+ offset for merge compatibility)
-message CaretUserOrganization {
-  bool active = 1001;
-  string member_id = 1002;
-  string name = 1003;
-  string organization_id = 1004;
-  repeated string roles = 1005; // ["admin", "member", "owner"]
-  // CARET MODIFICATION: Additional Caret organization fields
-  optional string plan_type = 1006; // "free", "pro", "enterprise"
-  optional string currency = 1007; // "USD", "KRW", etc.
-}
+// message CaretUserOrganization {
+//   bool active = 1001;
+//   string member_id = 1002;
+//   string name = 1003;
+//   string organization_id = 1004;
+//   repeated string roles = 1005; // ["admin", "member", "owner"]
+//   // CARET MODIFICATION: Additional Caret organization fields
+//   optional string plan_type = 1006; // "free", "pro", "enterprise"
+//   optional string currency = 1007; // "USD", "KRW", etc.
+// }
 
 // CARET MODIFICATION: Caret organizations response (using 1000+ offset for merge compatibility)
-message CaretUserOrganizationsResponse {
-  repeated CaretUserOrganization organizations = 1001;
-}
+// message CaretUserOrganizationsResponse {
+//   repeated CaretUserOrganization organizations = 1001;
+// }
 
 // CARET MODIFICATION: Caret organization update request (using 1000+ offset for merge compatibility)
-message CaretUserOrganizationUpdateRequest {
-  optional string organization_id = 1001;
-}
+// message CaretUserOrganizationUpdateRequest {
+//   optional string organization_id = 1001;
+// }
 
 // CARET MODIFICATION: Caret usage summary for profile (using 1000+ offset for merge compatibility)
-message CaretUsageSummary {
-  double spend = 1001;
-  optional string currency = 1002;
-  int32 prompt_tokens = 1003;
-  int32 completion_tokens = 1004;
-  int32 total_tokens = 1005;
-}
+// message CaretUsageSummary {
+//   double spend = 1001;
+//   optional string currency = 1002;
+//   int32 prompt_tokens = 1003;
+//   int32 completion_tokens = 1004;
+//   int32 total_tokens = 1005;
+// }
 
 // CARET MODIFICATION: Caret user profile response (using 1000+ offset for merge compatibility)
-message CaretUserProfile {
-  string id = 1001;
-  optional string email = 1002;
-  optional string display_name = 1003;
-  optional string photo_url = 1004;
-  optional string app_base_url = 1005;
-  optional string api_key = 1006;
-  repeated string models = 1007;
-  CaretUsageSummary daily_usage = 1008;
-  CaretUsageSummary monthly_usage = 1009;
-  repeated CaretUserOrganization organizations = 1010;
-  optional string created_at = 1011;
-  optional string updated_at = 1012;
-}
+// message CaretUserProfile {
+//   string id = 1001;
+//   optional string email = 1002;
+//   optional string display_name = 1003;
+//   optional string photo_url = 1004;
+//   optional string app_base_url = 1005;
+//   optional string api_key = 1006;
+//   repeated string models = 1007;
+//   CaretUsageSummary daily_usage = 1008;
+//   CaretUsageSummary monthly_usage = 1009;
+//   repeated CaretUserOrganization organizations = 1010;
+//   optional string created_at = 1011;
+//   optional string updated_at = 1012;
+// }
 
 // CARET MODIFICATION: Caret user credits data structure (using 1000+ offset for merge compatibility)
 message CaretUserCreditsData {
@@ -122,16 +117,16 @@ message CaretUserCreditsData {
 }
 
 // CARET MODIFICATION: Caret organization credits request (using 1000+ offset for merge compatibility)
-message GetCaretOrganizationCreditsRequest {
-  string organization_id = 1001;
-}
+// message GetCaretOrganizationCreditsRequest {
+//   string organization_id = 1001;
+// }
 
 // CARET MODIFICATION: Caret organization credits data (using 1000+ offset for merge compatibility)
-message CaretOrganizationCreditsData {
-  CaretUserCreditsBalance balance = 1001;
-  string organization_id = 1002;
-  repeated CaretOrganizationUsageTransaction usage_transactions = 1003;
-}
+// message CaretOrganizationCreditsData {
+//   CaretUserCreditsBalance balance = 1001;
+//   string organization_id = 1002;
+//   repeated CaretOrganizationUsageTransaction usage_transactions = 1003;
+// }
 
 // CARET MODIFICATION: Caret user credits balance (compatible with Mock API, using 1000+ offset for merge compatibility)
 message CaretUserCreditsBalance {
@@ -178,25 +173,25 @@ message CaretPaymentTransaction {
 }
 
 // CARET MODIFICATION: Caret organization usage transaction (using 1000+ offset for merge compatibility)
-message CaretOrganizationUsageTransaction {
-  string ai_inference_provider_name = 1001;
-  string ai_model_name = 1002;
-  string ai_model_type_name = 1003;
-  int32 completion_tokens = 1004;
-  double cost_usd = 1005;
-  string created_at = 1006;
-  double credits_used = 1007;
-  string generation_id = 1008;
-  string id = 1009;
-  map<string, string> metadata = 1010;
-  string organization_id = 1011;
-  string member_id = 1012;
-  int32 prompt_tokens = 1013;
-  int32 total_tokens = 1014;
-  string user_id = 1015;
-  // CARET MODIFICATION: Additional organization-specific fields
-  optional string model = 1016;
-  double total_cost = 1017;
-  string timestamp = 1018;
-  optional string task_id = 1019;
-}
+// message CaretOrganizationUsageTransaction {
+//   string ai_inference_provider_name = 1001;
+//   string ai_model_name = 1002;
+//   string ai_model_type_name = 1003;
+//   int32 completion_tokens = 1004;
+//   double cost_usd = 1005;
+//   string created_at = 1006;
+//   double credits_used = 1007;
+//   string generation_id = 1008;
+//   string id = 1009;
+//   map<string, string> metadata = 1010;
+//   string organization_id = 1011;
+//   string member_id = 1012;
+//   int32 prompt_tokens = 1013;
+//   int32 total_tokens = 1014;
+//   string user_id = 1015;
+//   // CARET MODIFICATION: Additional organization-specific fields
+//   optional string model = 1016;
+//   double total_cost = 1017;
+//   string timestamp = 1018;
+//   optional string task_id = 1019;
+// }

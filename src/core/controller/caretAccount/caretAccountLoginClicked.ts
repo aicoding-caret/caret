@@ -1,27 +1,15 @@
-// CARET MODIFICATION: gRPC handler for Caret account login
-
-import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
-import { Controller } from "@core/controller"
-import * as proto from "@shared/proto/index"
+import { EmptyRequest, String } from "@shared/proto/cline/common"
+import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
+import { Controller } from "../index"
 
 /**
- * Handles Caret account login click
- * Initiates Auth0 authentication flow
+ * Handles the user clicking the login link in the UI.
+ * Generates a secure nonce for state validation, stores it in secrets,
+ * and opens the authentication URL in the external browser.
+ *
+ * @param controller The controller instance.
+ * @returns The login URL as a string.
  */
-export async function caretAccountLoginClicked(
-	_controller: Controller,
-	_request: proto.cline.EmptyRequest,
-): Promise<proto.cline.String> {
-	console.log("[CARET-HANDLER] 🚪 Caret account login clicked")
-
-	try {
-		// CARET MODIFICATION: Use CaretGlobalManager for Auth0 login
-		await CaretGlobalManager.login()
-		console.log("[CARET-HANDLER] ✅ Auth0 login successful")
-
-		return { value: "https://caret.team/dashboard" }
-	} catch (error) {
-		console.error("[CARET-HANDLER] ❌ Caret login failed:", error)
-		return { value: "https://caret.team/login" }
-	}
+export async function caretAccountLoginClicked(_controller: Controller, _: EmptyRequest): Promise<String> {
+	return await CaretAuthService.getInstance().createAuthRequest()
 }

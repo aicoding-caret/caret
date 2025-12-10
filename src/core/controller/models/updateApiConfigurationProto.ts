@@ -113,30 +113,7 @@ export async function updateApiConfigurationProto(
 				: undefined,
 		}
 
-		const existingApiConfiguration = controller.stateManager.getApiConfiguration()
 		const mergedApiConfiguration: ApiConfiguration = { ...(convertedApiConfigurationFromProto as ApiConfiguration) }
-
-		// CARET MODIFICATION: Preserve Caret auth/session fields when proto payload omits them
-		if (mergedApiConfiguration.caretUserProfile === undefined && existingApiConfiguration?.caretUserProfile !== undefined) {
-			mergedApiConfiguration.caretUserProfile = existingApiConfiguration.caretUserProfile
-		}
-		if (mergedApiConfiguration.caretApiKey === undefined && existingApiConfiguration?.caretApiKey !== undefined) {
-			mergedApiConfiguration.caretApiKey = existingApiConfiguration.caretApiKey
-		}
-		if (mergedApiConfiguration.caretAuthToken === undefined && existingApiConfiguration?.caretAuthToken !== undefined) {
-			mergedApiConfiguration.caretAuthToken = existingApiConfiguration.caretAuthToken
-		}
-		if (mergedApiConfiguration.caretBaseUrl === undefined && existingApiConfiguration?.caretBaseUrl !== undefined) {
-			mergedApiConfiguration.caretBaseUrl = existingApiConfiguration.caretBaseUrl
-		}
-
-		// CARET MODIFICATION: Add logging for API configuration updates
-		console.log("🔧 [Backend] API Config Update:", {
-			planProvider: mergedApiConfiguration.planModeApiProvider,
-			actProvider: mergedApiConfiguration.actModeApiProvider,
-			hasApiKey: !!mergedApiConfiguration.apiKey,
-			ocaKey: (mergedApiConfiguration as any).ocaApiKey ? "***SET***" : "not set",
-		})
 
 		// Update the API configuration in storage
 		controller.stateManager.setApiConfiguration(mergedApiConfiguration)
@@ -149,14 +126,6 @@ export async function updateApiConfigurationProto(
 
 		// Post updated state to webview
 		await controller.postStateToWebview()
-
-		// CARET MODIFICATION: Log final state for verification
-		const finalState = controller.stateManager.getApiConfiguration()
-		console.log("✅ [Backend] Final stored state:", {
-			planProvider: finalState?.planModeApiProvider,
-			actProvider: finalState?.actModeApiProvider,
-			apiKey: finalState?.apiKey ? "***STORED***" : "not stored",
-		})
 
 		return Empty.create()
 	} catch (error) {

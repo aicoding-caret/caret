@@ -6,7 +6,7 @@ import { AccountServiceClient } from "@/services/grpc-client"
 const AccountOptions = () => {
 	const handleAccountClick = () => {
 		AccountServiceClient.accountLoginClicked(EmptyRequest.create()).catch((err) =>
-			console.error(t("account.failedToGetLoginUrl"), err),
+			console.error(t("account.failedToGetLoginUrl", "common"), err),
 		)
 	}
 

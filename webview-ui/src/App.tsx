@@ -40,6 +40,8 @@ const AppContent = () => {
 	const { showPersonaSelector } = useCaretState()
 	const { clineUser, organizations, activeOrganization } = useClineAuth()
 
+  console.log("<===== app content clineUser=====>", clineUser)
+
 	useEffect(() => {
 		if (shouldShowAnnouncement) {
 			setShowAnnouncement(true)

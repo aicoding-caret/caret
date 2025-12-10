@@ -17,6 +17,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		openRouterApiKey,
 		firebaseClineAccountId,
 		clineAccountId,
+    caretAccountId,
 		awsAccessKey,
 		awsSecretKey,
 		awsSessionToken,
@@ -33,8 +34,6 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		fireworksApiKey,
 		liteLlmApiKey,
 		bizRouterApiKey,
-		caretApiKey,
-		caretAuthToken,
 		asksageApiKey,
 		xaiApiKey,
 		sambanovaApiKey,
@@ -64,6 +63,8 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("openRouterApiKey") as Promise<Secrets["openRouterApiKey"]>,
 		context.secrets.get("clineAccountId") as Promise<Secrets["clineAccountId"]>,
 		context.secrets.get("cline:clineAccountId") as Promise<Secrets["cline:clineAccountId"]>,
+		context.secrets.get("caretAccountId") as Promise<Secrets["caretAccountId"]>,
+		context.secrets.get("caret:caretAccountId") as Promise<Secrets["caret:caretAccountId"]>,
 		context.secrets.get("awsAccessKey") as Promise<Secrets["awsAccessKey"]>,
 		context.secrets.get("awsSecretKey") as Promise<Secrets["awsSecretKey"]>,
 		context.secrets.get("awsSessionToken") as Promise<Secrets["awsSessionToken"]>,
@@ -80,8 +81,6 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("fireworksApiKey") as Promise<Secrets["fireworksApiKey"]>,
 		context.secrets.get("liteLlmApiKey") as Promise<Secrets["liteLlmApiKey"]>,
 		context.secrets.get("bizRouterApiKey") as Promise<Secrets["bizRouterApiKey"]>,
-		context.secrets.get("caretApiKey") as Promise<Secrets["caretApiKey"]>,
-		context.secrets.get("caretAuthToken") as Promise<Secrets["caretAuthToken"]>,
 		context.secrets.get("asksageApiKey") as Promise<Secrets["asksageApiKey"]>,
 		context.secrets.get("xaiApiKey") as Promise<Secrets["xaiApiKey"]>,
 		context.secrets.get("sambanovaApiKey") as Promise<Secrets["sambanovaApiKey"]>,
@@ -114,6 +113,8 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		openRouterApiKey,
 		clineAccountId: firebaseClineAccountId,
 		"cline:clineAccountId": clineAccountId,
+		caretAccountId,
+		"caret:caretAccountId": caretAccountId,
 		huggingFaceApiKey,
 		huaweiCloudMaasApiKey,
 		basetenApiKey,
@@ -133,8 +134,6 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		fireworksApiKey,
 		liteLlmApiKey,
 		bizRouterApiKey,
-		caretApiKey,
-		caretAuthToken,
 		doubaoApiKey,
 		mistralApiKey,
 		openAiNativeApiKey,
@@ -224,9 +223,6 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			context.globalState.get<GlobalStateAndSettings["liteLlmUsePromptCache"]>("liteLlmUsePromptCache")
 		const bizRouterUsePromptCache =
 			context.globalState.get<GlobalStateAndSettings["bizRouterUsePromptCache"]>("bizRouterUsePromptCache")
-		const caretBaseUrl = context.globalState.get<GlobalStateAndSettings["caretBaseUrl"]>("caretBaseUrl")
-		const caretUsePromptCache = context.globalState.get<GlobalStateAndSettings["caretUsePromptCache"]>("caretUsePromptCache")
-		const caretUserProfile = context.globalState.get<GlobalStateAndSettings["caretUserProfile"]>("caretUserProfile")
 		const inputHistory = context.globalState.get<GlobalStateAndSettings["inputHistory"]>("inputHistory")
 		const fireworksModelMaxCompletionTokens = context.globalState.get<
 			GlobalStateAndSettings["fireworksModelMaxCompletionTokens"]
@@ -579,9 +575,6 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			liteLlmBaseUrl,
 			liteLlmUsePromptCache,
 			bizRouterUsePromptCache,
-			caretBaseUrl,
-			caretUsePromptCache,
-			caretUserProfile,
 			inputHistory: inputHistory || [],
 			fireworksModelMaxCompletionTokens,
 			fireworksModelMaxTokens,
@@ -796,6 +789,7 @@ export async function resetGlobalState(controller: Controller) {
 		"doubaoApiKey",
 		"mistralApiKey",
 		"clineAccountId",
+    "caretAccountId",
 		"liteLlmApiKey",
 		"fireworksApiKey",
 		"asksageApiKey",

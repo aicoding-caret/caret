@@ -91,6 +91,7 @@ export class PostHogTelemetryProvider implements ITelemetryProvider {
 	}
 
 	public identifyUser(userInfo: ClineAccountUserInfo, properties: TelemetryProperties = {}): void {
+    console.log("identifyUser", userInfo)
 		const distinctId = getDistinctId()
 		// Only identify user if telemetry is enabled and user ID is different than the currently set distinct ID
 		if (this.isEnabled() && userInfo && userInfo?.id !== distinctId) {
