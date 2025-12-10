@@ -13,7 +13,7 @@ import VSCodeButtonLink from "../common/VSCodeButtonLink"
 import { AccountWelcomeView } from "./AccountWelcomeView"
 import { CreditBalance } from "./CreditBalance"
 import CreditsHistoryTable from "./CreditsHistoryTable"
-import { convertProtoUsageTransactions, getClineUris, getMainRole } from "./helpers"
+import { convertProtoUsageTransactions, getCaretUris, getClineUris, getMainRole } from "./helpers"
 
 type AccountViewProps = {
 	clineUser: ClineUser | null
@@ -323,7 +323,11 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 							<VSCodeButtonLink
 								appearance="primary"
 								className="w-full"
-								href={getClineUris(clineUrl, isCaret ? "logs" : "dashboard").href}>
+								href={
+									isCaret
+										? getCaretUris(clineUrl, "caret", "profile").href
+										: getClineUris(clineUrl, "dashboard").href
+								}>
 								{t("account.dashboard", "common")}
 							</VSCodeButtonLink>
 						</div>
@@ -337,11 +341,11 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 				<CreditBalance
 					balance={balance}
-					creditUrl={getClineUris(
-						clineUrl,
-						isCaret ? "usage" : "credits",
-						dropdownValue === uid ? "account" : "organization",
-					)}
+					creditUrl={
+						isCaret
+							? getCaretUris(clineUrl, "caret", "usage")
+							: getClineUris(clineUrl, "credits", dropdownValue === uid ? "account" : "organization")
+					}
 					fetchCreditBalance={() => fetchCreditBalance(dropdownValue)}
 					isLoading={isLoading}
 					lastFetchTime={lastFetchTime}

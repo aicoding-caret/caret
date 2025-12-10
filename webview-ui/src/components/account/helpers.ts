@@ -16,7 +16,11 @@ export const getMainRole = (roles?: string[]) => {
 	return "Member"
 }
 
-export const getClineUris = (base: string, type: "dashboard" | "credits" | "logs" | "usage", route?: "account" | "organization") => {
+export const getClineUris = (
+	base: string,
+	type: "dashboard" | "credits" | "logs" | "usage",
+	route?: "account" | "organization" | "logs" | "usage",
+) => {
 	const dashboard = new URL(type, base)
 
 	if (type === "dashboard") {
@@ -26,6 +30,17 @@ export const getClineUris = (base: string, type: "dashboard" | "credits" | "logs
 	const credits = new URL("/" + (route ?? "account"), dashboard)
 	credits.searchParams.set("tab", "credits")
 	credits.searchParams.set("redirect", "true")
+	return credits
+}
+
+export const getCaretUris = (base: string, type: "dashboard" | "caret", route?: "profile" | "logs" | "usage") => {
+	const dashboard = new URL(type, base)
+
+	if (type === "dashboard") {
+		return dashboard
+	}
+
+	const credits = new URL("/" + (route ?? "profile"), dashboard)
 	return credits
 }
 
