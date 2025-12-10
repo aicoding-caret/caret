@@ -11,6 +11,7 @@ import HistoryView from "./components/history/HistoryView"
 import McpView from "./components/mcp/configuration/McpConfigurationView"
 import SettingsView from "./components/settings/SettingsView"
 import WelcomeView from "./components/welcome/WelcomeView"
+import { useCaretAuth } from "./context/CaretAuthContext"
 import { useClineAuth } from "./context/ClineAuthContext"
 import { useExtensionState } from "./context/ExtensionStateContext"
 import { Providers } from "./Providers"
@@ -39,8 +40,13 @@ const AppContent = () => {
 
 	const { showPersonaSelector } = useCaretState()
 	const { clineUser, organizations, activeOrganization } = useClineAuth()
+	const { caretUser } = useCaretAuth()
 
-  console.log("<===== app content clineUser=====>", clineUser)
+	const accountUser = caretUser ?? clineUser
+	const accountOrganizations = caretUser ? null : organizations
+	const accountActiveOrganization = caretUser ? null : activeOrganization
+
+	console.log("<===== app content user=====>", accountUser)
 
 	useEffect(() => {
 		if (shouldShowAnnouncement) {
@@ -77,10 +83,10 @@ const AppContent = () => {
 			{showMcp && <McpView initialTab={mcpTab} onDone={closeMcpView} />}
 			{showAccount && (
 				<AccountView
-					activeOrganization={activeOrganization}
-					clineUser={clineUser}
+					activeOrganization={accountActiveOrganization}
+					clineUser={accountUser}
 					onDone={hideAccount}
-					organizations={organizations}
+					organizations={accountOrganizations}
 				/>
 			)}
 			{/* Do not conditionally load ChatView, it's expensive and there's state we don't want to lose (user input, disableInput, askResponse promise, etc.) */}

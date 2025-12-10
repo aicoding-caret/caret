@@ -17,6 +17,7 @@ import { cleanupTestMode, initializeTestMode } from "./services/test/TestMode"
 import "./utils/path" // necessary to have access to String.prototype.toPosix
 
 import path from "node:path"
+import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 import type { ExtensionContext } from "vscode"
 import { HostProvider } from "@/hosts/host-provider"
 import { vscodeHostBridgeClient } from "@/hosts/vscode/hostbridge/client/host-grpc-client"
@@ -43,7 +44,6 @@ import { telemetryService } from "./services/telemetry"
 import { SharedUriHandler } from "./services/uri/SharedUriHandler"
 import { ShowMessageType } from "./shared/proto/host/window"
 import { fileExistsAtPath } from "./utils/fs"
-import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 
 /*
 Built using https://github.com/microsoft/vscode-webview-ui-toolkit
@@ -420,8 +420,12 @@ export async function activate(context: vscode.ExtensionContext) {
 				const activeWebview = WebviewProvider.getVisibleInstance()
 				const controller = activeWebview?.controller
 
+				console.log("Secret changed: ", event.key, secretValue)
 
-				const authService = (event.key == "cline:clineAccountId") ? AuthService.getInstance(controller) : CaretAuthService.getInstance(controller)
+				const authService =
+					event.key == "cline:clineAccountId"
+						? AuthService.getInstance(controller)
+						: CaretAuthService.getInstance(controller)
 				if (secretValue) {
 					// Secret was added or updated - restore auth info (login from another window)
 					authService?.restoreRefreshTokenAndRetrieveAuthInfo()

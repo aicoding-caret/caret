@@ -1,19 +1,20 @@
-import { caretDefaultModelId, ModelInfo, caretDefaultModelInfo } from "@shared/api"
-import { shouldSkipReasoningForModel } from "@utils/model-utils"
-import OpenAI from "openai"
-import type { ChatCompletionTool as OpenAITool } from "openai/resources/chat/completions"
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
-import { buildClineExtraHeaders } from "@/services/EnvUtils"
-import { CLINE_ACCOUNT_AUTH_ERROR_MESSAGE } from "@/shared/ClineAccount"
-import { ClineStorageMessage } from "@/shared/messages/content"
-import { fetch } from "@/shared/net"
 import { ApiHandler, CommonApiHandlerOptions } from "@core/api"
+import { OpenRouterErrorResponse } from "@core/api/providers/types"
 import { withRetry } from "@core/api/retry"
 import { createOpenRouterStream } from "@core/api/transform/openrouter-stream"
 import { ApiStream } from "@core/api/transform/stream"
 import { ToolCallProcessor } from "@core/api/transform/tool-call-processor"
-import { OpenRouterErrorResponse } from "@core/api/providers/types"
+import { caretDefaultModelId, caretDefaultModelInfo, ModelInfo } from "@shared/api"
+import { shouldSkipReasoningForModel } from "@utils/model-utils"
+import OpenAI from "openai"
+import type { ChatCompletionTool as OpenAITool } from "openai/resources/chat/completions"
+import { buildClineExtraHeaders } from "@/services/EnvUtils"
+import { Logger } from "@/services/logging/Logger"
+import { CLINE_ACCOUNT_AUTH_ERROR_MESSAGE } from "@/shared/ClineAccount"
+import { ClineStorageMessage } from "@/shared/messages/content"
+import { fetch } from "@/shared/net"
 
 interface CaretHandlerOptions extends CommonApiHandlerOptions {
 	ulid?: string
@@ -24,6 +25,7 @@ interface CaretHandlerOptions extends CommonApiHandlerOptions {
 	caretModelId?: string
 	caretModelInfo?: ModelInfo
 	caretAccountId?: string
+	geminiThinkingLevel?: string
 }
 
 export class CaretHandler implements ApiHandler {
@@ -41,14 +43,16 @@ export class CaretHandler implements ApiHandler {
 
 	private async ensureClient(): Promise<OpenAI> {
 		const caretAccountAuthToken = await this._authService.getAuthToken()
+		console.log("caretAccountAuthToken====>", caretAccountAuthToken)
 		if (!caretAccountAuthToken) {
 			throw new Error(CLINE_ACCOUNT_AUTH_ERROR_MESSAGE)
 		}
 		if (!this.client) {
 			try {
 				const defaultHeaders: Record<string, string> = {
-					"HTTP-Referer": "https://caret.bot",
+					"HTTP-Referer": "https://caret.team",
 					"X-Title": "Caret",
+					"X-AnyLLM-Key": "Bearer " + caretAccountAuthToken,
 					"X-Task-ID": this.options.ulid || "",
 				}
 				Object.assign(defaultHeaders, await buildClineExtraHeaders())
@@ -114,6 +118,7 @@ export class CaretHandler implements ApiHandler {
 			const toolCallProcessor = new ToolCallProcessor()
 
 			for await (const chunk of stream) {
+				Logger.debug("ClineHandler chunk:" + JSON.stringify(chunk))
 				// openrouter returns an error object instead of the openai sdk throwing an error
 				if ("error" in chunk) {
 					const error = chunk.error as OpenRouterErrorResponse["error"]
@@ -149,12 +154,10 @@ export class CaretHandler implements ApiHandler {
 						type: "text",
 						text: delta.content,
 					}
-					continue
 				}
 
 				if (delta?.tool_calls) {
 					yield* toolCallProcessor.processToolCallDeltas(delta.tool_calls)
-					continue
 				}
 
 				// Reasoning tokens are returned separately from the content
@@ -164,7 +167,6 @@ export class CaretHandler implements ApiHandler {
 						type: "reasoning",
 						reasoning: typeof delta.reasoning === "string" ? delta.reasoning : JSON.stringify(delta.reasoning),
 					}
-					continue
 				}
 
 				/* 
@@ -177,7 +179,7 @@ export class CaretHandler implements ApiHandler {
 				if (
 					"reasoning_details" in delta &&
 					delta.reasoning_details &&
-					// @ts-ignore-next-line
+					// @ts-expect-error-next-line
 					delta.reasoning_details.length && // exists and non-0
 					!shouldSkipReasoningForModel(this.options.caretModelId)
 				) {
@@ -186,16 +188,11 @@ export class CaretHandler implements ApiHandler {
 						reasoning: "",
 						details: delta.reasoning_details,
 					}
-					continue
 				}
 
 				if (chunk.usage) {
-					// @ts-ignore-next-line
-					let totalCost = (chunk.usage.cost || 0) + (chunk.usage.cost_details?.upstream_inference_cost || 0)
-
-					if (this.getModel().id === "x-ai/grok-code-fast-1" || this.getModel().id === "minimax/minimax-m2") {
-						totalCost = 0
-					}
+					// @ts-expect-error-next-line
+					const totalCost = (chunk.usage.cost || 0) + (chunk.usage.cost_details?.upstream_inference_cost || 0)
 
 					yield {
 						type: "usage",
@@ -212,7 +209,6 @@ export class CaretHandler implements ApiHandler {
 			throw error
 		}
 	}
-
 
 	// Expose the last HTTP request ID captured from response headers (X-Request-ID)
 	getLastRequestId(): string | undefined {

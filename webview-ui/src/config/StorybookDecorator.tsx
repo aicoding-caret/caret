@@ -1,6 +1,7 @@
 import { cn } from "@heroui/react"
 import type { Decorator } from "@storybook/react-vite"
 import React from "react"
+import { CaretAuthContext, CaretAuthContextType, CaretAuthProvider, useCaretAuth } from "@/context/CaretAuthContext"
 import { ClineAuthContext, ClineAuthContextType, ClineAuthProvider, useClineAuth } from "@/context/ClineAuthContext"
 import {
 	ExtensionStateContext,
@@ -42,7 +43,9 @@ function StorybookDecoratorProvider(className = "relative"): Decorator {
 			<div className={className}>
 				<ExtensionStateContextProvider>
 					<ClineAuthProvider>
-						<ThemeHandler theme={parameters?.globals?.theme}>{React.createElement(story)}</ThemeHandler>
+						<CaretAuthProvider>
+							<ThemeHandler theme={parameters?.globals?.theme}>{React.createElement(story)}</ThemeHandler>
+						</CaretAuthProvider>
 					</ClineAuthProvider>
 				</ExtensionStateContextProvider>
 			</div>
@@ -67,14 +70,29 @@ const ClineAuthProviderWithOverrides: React.FC<{
 	return <ClineAuthContext.Provider value={{ ...authContext, ...overrides }}>{children}</ClineAuthContext.Provider>
 }
 
+const CaretAuthProviderWithOverrides: React.FC<{
+	overrides?: Partial<CaretAuthContextType>
+	children: React.ReactNode
+}> = ({ overrides, children }) => {
+	const authContext = useCaretAuth()
+	return <CaretAuthContext.Provider value={{ ...authContext, ...overrides }}>{children}</CaretAuthContext.Provider>
+}
+
 export const createStorybookDecorator =
-	(overrideStates?: Partial<ExtensionStateContextType>, classNames?: string, authOverrides?: Partial<ClineAuthContextType>) =>
+	(
+		overrideStates?: Partial<ExtensionStateContextType>,
+		classNames?: string,
+		authOverrides?: Partial<ClineAuthContextType>,
+		caretAuthOverrides?: Partial<CaretAuthContextType>,
+	) =>
 	(Story: any) => (
 		<ExtensionStateProviderWithOverrides overrides={overrideStates}>
 			<ClineAuthProviderWithOverrides overrides={authOverrides}>
-				<div className={cn("max-w-lg mx-auto", classNames)}>
-					<Story />
-				</div>
+				<CaretAuthProviderWithOverrides overrides={caretAuthOverrides}>
+					<div className={cn("max-w-lg mx-auto", classNames)}>
+						<Story />
+					</div>
+				</CaretAuthProviderWithOverrides>
 			</ClineAuthProviderWithOverrides>
 		</ExtensionStateProviderWithOverrides>
 	)

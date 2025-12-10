@@ -1,3 +1,6 @@
+import { CaretEnv } from "@caret/config"
+import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
+import { CARET_API_ENDPOINT } from "@caret/shared/caret/api"
 import type {
 	BalanceResponse,
 	OrganizationBalanceResponse,
@@ -7,11 +10,8 @@ import type {
 	UserResponse,
 } from "@shared/ClineAccount"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { CaretEnv } from "@caret/config"
-import { CARET_API_ENDPOINT } from "@caret/shared/caret/api"
 import { CLINE_API_ENDPOINT } from "@/shared/cline/api"
 import { getAxiosSettings } from "@/shared/net"
-import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 
 export class CaretAccountService {
 	private static instance: CaretAccountService
@@ -49,15 +49,16 @@ export class CaretAccountService {
 	 */
 	private async authenticatedRequest<T>(endpoint: string, config: AxiosRequestConfig = {}): Promise<T> {
 		const url = new URL(endpoint, this.baseUrl).toString() // Validate URL
-		// IMPORTANT: Prefixed with 'workos:' so backend can route verification to WorkOS provider
 		const caretAccountAuthToken = await this._authService.getAuthToken()
+		console.log("caretAccountAuthToken====>", caretAccountAuthToken)
+
 		if (!caretAccountAuthToken) {
-			throw new Error("No Cline account auth token found")
+			throw new Error("No Caret account auth token found")
 		}
 		const requestConfig: AxiosRequestConfig = {
 			...config,
 			headers: {
-				'X-AnyLLM-Key': `Bearer ${caretAccountAuthToken}`,
+				"X-AnyLLM-Key": `Bearer ${caretAccountAuthToken}`,
 				"Content-Type": "application/json",
 				...config.headers,
 			},

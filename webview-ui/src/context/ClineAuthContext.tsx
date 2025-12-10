@@ -23,7 +23,7 @@ export interface ClineAuthContextType {
 export const ClineAuthContext = createContext<ClineAuthContextType | undefined>(undefined)
 
 export const ClineAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-	const [user, setUser] = useState<ClineUser | null>(null)
+	const [clineUser, setClineUser] = useState<ClineUser | null>(null)
 	const [userOrganizations, setUserOrganizations] = useState<UserOrganization[] | null>(null)
 
 	const getUserOrganizations = useCallback(async () => {
@@ -35,30 +35,34 @@ export const ClineAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 		} catch (error) {
 			console.error("Failed to fetch user organizations:", error)
 		}
-	}, [])
+	}, [userOrganizations])
 
 	const activeOrganization = useMemo(() => {
 		return userOrganizations?.find((org) => org.active) ?? null
 	}, [userOrganizations])
 
 	useEffect(() => {
-		console.log("Extension: ClineAuthContext: user updated:", user?.uid)
-	}, [user?.uid])
+		console.log("Extension: ClineAuthContext: user updated:", clineUser?.uid)
+	}, [clineUser?.uid])
 
 	// Handle auth status update events
 	useEffect(() => {
 		const cancelSubscription = AccountServiceClient.subscribeToAuthStatusUpdate(EmptyRequest.create(), {
 			onResponse: async (response: any) => {
 				if (!response?.user?.uid) {
-					setUser(null)
+					setClineUser(null)
+					return
 				}
-				if (response?.user && user?.uid !== response.user.uid) {
-					setUser(response.user)
-					// Once we have a new user, fetch organizations that
-					// allow us to display the active account in account view UI
-					// and fetch the correct credit balance to display on mount
-					await getUserOrganizations()
-				}
+				setClineUser((prev) => {
+					if (prev?.uid === response.user.uid && deepEqual(prev, response.user)) {
+						return prev
+					}
+					return response.user
+				})
+				// Once we have a new user, fetch organizations that
+				// allow us to display the active account in account view UI
+				// and fetch the correct credit balance to display on mount
+				await getUserOrganizations()
 			},
 			onError: (error: Error) => {
 				console.error("Error in auth callback subscription:", error)
@@ -72,12 +76,12 @@ export const ClineAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 		return () => {
 			cancelSubscription()
 		}
-	}, [])
+	}, [getUserOrganizations])
 
 	return (
 		<ClineAuthContext.Provider
 			value={{
-				clineUser: user,
+				clineUser,
 				organizations: userOrganizations,
 				activeOrganization,
 			}}>

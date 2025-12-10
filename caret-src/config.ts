@@ -59,7 +59,7 @@ class CaretEndpoint {
 			case Environment.local:
 				return {
 					environment: Environment.local,
-					appBaseUrl: "http://localhost:3000",
+					appBaseUrl: "http://localhost:4001",
 					apiBaseUrl: "http://localhost:8000",
 					mcpBaseUrl: "http://localhost:8000/v1/mcp",
 				}

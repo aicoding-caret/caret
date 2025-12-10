@@ -23,7 +23,7 @@ async function fetchRemoteConfigForOrganization(organizationId: string): Promise
 		// Get authentication token
 		const authToken = await authService.getAuthToken()
 		if (!authToken) {
-			throw new Error("No Cline account auth token found")
+			throw new Error("No Cline account auth token found------")
 		}
 
 		// Construct URL by replacing {id} placeholder with organizationId

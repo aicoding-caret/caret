@@ -1,44 +1,30 @@
-// CARET MODIFICATION: gRPC handler for Caret auth state changes
-
-import { Controller } from "@core/controller"
-import * as proto from "@shared/proto/index"
+import { CaretAuthState, CaretAuthStateChangedRequest } from "@shared/proto/caret/account"
+import type { Controller } from "../index"
 
 /**
- * Handles Auth0 authentication state changes
- * Updates user info in global state
+ * Handles authentication state changes from the Firebase context.
+ * Updates the user info in global state and returns the updated value.
+ * @param controller The controller instance
+ * @param request The auth state change request
+ * @returns The updated user info
  */
 export async function caretAuthStateChanged(
-	_controller: Controller,
-	request: proto.caret.CaretAuthStateChangedRequest,
-): Promise<proto.caret.CaretAuthState> {
-	console.log("[CARET-HANDLER] 🔄 Caret auth state changed:", {
-		uid: request.user?.uid,
-		email: request.user?.email,
-	})
-
+	controller: Controller,
+	request: CaretAuthStateChangedRequest,
+): Promise<CaretAuthState> {
 	try {
-		// CARET MODIFICATION: Handle Caret auth state change
-		// Update extension state with new user info
-		const userInfo = request.user
+		// Store the user info directly in global state
+		controller.stateManager.setGlobalState("userInfo", request.user)
 
-		if (userInfo) {
-			console.log("[CARET-HANDLER] ✅ Caret auth state updated")
+		console.log("[CARET-HANDLER] 🔄 Caret auth state changed:", {
+			uid: request.user?.uid,
+			email: request.user?.email,
+		})
 
-			return {
-				user: {
-					uid: userInfo.uid,
-					displayName: userInfo.displayName,
-					email: userInfo.email,
-					photoUrl: userInfo.photoUrl,
-					appBaseUrl: userInfo.appBaseUrl || "https://caret.team",
-				},
-			}
-		} else {
-			console.log("[CARET-HANDLER] 🚪 Caret user logged out")
-			return { user: undefined }
-		}
+		// Return the same user info
+		return CaretAuthState.create({ user: request.user })
 	} catch (error) {
-		console.error("[CARET-HANDLER] ❌ Failed to handle Caret auth state change:", error)
-		return { user: undefined }
+		console.error(`Failed to update auth state: ${error}`)
+		throw error
 	}
 }

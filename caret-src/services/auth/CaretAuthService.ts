@@ -1,16 +1,16 @@
+import { CaretEnv } from "@caret/config"
+import { IAuthProvider } from "@services/auth/providers/IAuthProvider"
+import { LogoutReason } from "@services/auth/types"
+import { featureFlagsService } from "@services/feature-flags"
 import { CaretAuthState, CaretUserInfo } from "@shared/proto/caret/account"
 import { type EmptyRequest, String } from "@shared/proto/cline/common"
-import { CaretEnv } from "@caret/config"
 import { Controller } from "@/core/controller"
 import { getRequestRegistry, type StreamingResponseHandler } from "@/core/controller/grpc-handler"
 import { setWelcomeViewCompleted } from "@/core/controller/state/setWelcomeViewCompleted"
 import { HostProvider } from "@/hosts/host-provider"
 import { telemetryService } from "@/services/telemetry"
 import { openExternal } from "@/utils/env"
-import { featureFlagsService } from "@services/feature-flags"
 import { CaretAuthProvider } from "./providers/CaretAuthProvider"
-import { IAuthProvider } from "@services/auth/providers/IAuthProvider"
-import { LogoutReason } from "@services/auth/types"
 
 export type ServiceConfig = {
 	URI?: string
@@ -156,8 +156,7 @@ export class CaretAuthService {
 				await this.sendAuthStatusUpdate()
 			}
 
-			// IMPORTANT: Prefix with 'workos:' so backend can route verification to WorkOS provider
-			return caretAccountAuthToken ? `workos:${caretAccountAuthToken}` : null
+			return caretAccountAuthToken ? caretAccountAuthToken : null
 		} catch (error) {
 			console.error("Error getting auth token:", error)
 			return null
@@ -250,7 +249,7 @@ export class CaretAuthService {
 		}
 
 		try {
-      console.log("handleAuthCallback", authorizationCode, provider)
+			console.log("handleAuthCallback", authorizationCode, provider)
 			this._caretAuthInfo = await this._provider.signIn(this._controller, authorizationCode, provider)
 			this._authenticated = this._caretAuthInfo?.idToken !== undefined
 
@@ -283,8 +282,11 @@ export class CaretAuthService {
 			throw new Error("Auth provider is not set")
 		}
 
+		console.log("restoreRefreshTokenAndRetrieveAuthInfo")
+
 		try {
 			this._caretAuthInfo = await this.retrieveAuthInfo()
+			console.log("restoreRefreshTokenAndRetrieveAuthInfo", this._caretAuthInfo)
 			if (this._caretAuthInfo) {
 				this._authenticated = true
 				await this.sendAuthStatusUpdate()
@@ -305,10 +307,10 @@ export class CaretAuthService {
 
 	private async retrieveAuthInfo(): Promise<CaretAuthInfo | null> {
 		if (!this._provider) {
-      console.log("Auth provider is not set")
+			console.log("Auth provider is not set")
 			throw new Error("Auth provider is not set")
 		}
-    console.log("Retrieving auth info")
+		console.log("Retrieving auth info")
 
 		return this._provider.retrieveClineAuthInfo(this._controller)
 	}

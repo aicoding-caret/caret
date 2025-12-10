@@ -38,7 +38,7 @@ type CachedData = {
 const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: AccountViewProps) => {
 	const { apiConfiguration } = useExtensionState()
 	console.log("<===== account view apiConfiguration=====>", apiConfiguration)
-  console.log("<===== account view clineUser=====>", clineUser)
+	console.log("<===== account view clineUser=====>", clineUser)
 
 	return (
 		<div className="fixed inset-0 flex flex-col overflow-hidden pt-[10px] pl-[20px]">
@@ -83,7 +83,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 	const [paymentsData, setPaymentsData] = useState<PaymentTransaction[]>([])
 	const [lastFetchTime, setLastFetchTime] = useState<number>(Date.now())
 
-	const isCaret = appBaseUrl === "https://caret.team" || appBaseUrl === "http://localhost:3000"
+	const isCaret = appBaseUrl === "https://caret.team" || appBaseUrl === "http://localhost:4001"
 
 	// Load cached data for current dropdown value
 	const loadCachedData = useCallback((id: string) => {
@@ -116,7 +116,9 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 	const fetchUserCredit = useCallback(async () => {
 		try {
-			const response = (isCaret ? await CaretAccountServiceClient.getCaretUserCredits(EmptyRequest.create()) : await AccountServiceClient.getUserCredits(EmptyRequest.create()))
+			const response = isCaret
+				? await CaretAccountServiceClient.getCaretUserCredits(EmptyRequest.create())
+				: await AccountServiceClient.getUserCredits(EmptyRequest.create())
 			const newBalance = response?.balance?.currentBalance
 			// Always update balance, even if it's 0 or null - don't skip undefined
 			setBalance(newBalance ?? null)
@@ -335,7 +337,11 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 				<CreditBalance
 					balance={balance}
-					creditUrl={getClineUris(clineUrl, isCaret ? "usage" : "credits", dropdownValue === uid ? "account" : "organization")}
+					creditUrl={getClineUris(
+						clineUrl,
+						isCaret ? "usage" : "credits",
+						dropdownValue === uid ? "account" : "organization",
+					)}
 					fetchCreditBalance={() => fetchCreditBalance(dropdownValue)}
 					isLoading={isLoading}
 					lastFetchTime={lastFetchTime}
