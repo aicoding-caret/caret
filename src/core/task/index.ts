@@ -1961,14 +1961,18 @@ export class Task {
 	 * Migrates the disableBrowserTool setting from VSCode configuration to browserSettings
 	 */
 	private async migrateDisableBrowserToolSetting(): Promise<void> {
-		const config = vscode.workspace.getConfiguration("cline")
-		const disableBrowserTool = config.get<boolean>("disableBrowserTool")
+		// CARET MODIFICATION: read browser tool setting from brand namespace, fallback to cline
+		const brandNamespace = (await import("@caret/utils/brand-utils")).getCurrentBrandName().toLowerCase()
+		const primaryConfig = vscode.workspace.getConfiguration(brandNamespace)
+		const legacyConfig = vscode.workspace.getConfiguration("cline")
+		const disableBrowserTool =
+			primaryConfig.get<boolean>("disableBrowserTool") ?? legacyConfig.get<boolean>("disableBrowserTool")
 
 		if (disableBrowserTool !== undefined) {
 			const browserSettings = this.stateManager.getGlobalSettingsKey("browserSettings")
 			browserSettings.disableToolUse = disableBrowserTool
 			// Remove from VSCode configuration
-			await config.update("disableBrowserTool", undefined, true)
+			await primaryConfig.update("disableBrowserTool", undefined, true)
 		}
 	}
 

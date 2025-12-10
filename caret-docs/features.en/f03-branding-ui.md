@@ -121,6 +121,8 @@ await this.say("error", `Attempted to use ${toolName}...`)
   - Rule file paths (workspace rules auto-switch via `getBrandRulesFileName()` → `.caretrules`, `.codecenterrules`, etc.) and version mapping
 - **VS Code command namespace fix**: converted `cline.*` → `caret.*` to avoid conflicts when both extensions are installed; command titles use `getCurrentBrandDisplayName()`.
 - **Add-to chat pipeline**: webview always subscribes to `subscribeToAddToInput` with `EmptyRequest` so “Add to Caret” context flows even after brand switches, while streams stay Caret-only (no Cline cross-talk when both extensions are present).
+- Ignore file branding: UI copy now surfaces `.caretignore` as the primary name while honoring legacy `.clineignore` for compatibility.
+- Changelog separation: Caret release notes stay in `CHANGELOG.md`; upstream Cline release notes are mirrored in `CHANGELOG-CLINE.md` and referenced from localized changelogs.
 
 ## 🏢 B2B & Consumer Branding
 - B2B: CodeCenter/private branding via the automated switcher.

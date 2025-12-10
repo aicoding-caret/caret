@@ -463,6 +463,7 @@ export class ApplyPatchHandler implements IFullyManagedTool {
 			const absolutePath = typeof pathResult === "string" ? pathResult : pathResult.absolutePath
 			const resolvedPath = typeof pathResult === "string" ? filePath : pathResult.resolvedPath
 
+			// CARET MODIFICATION: Enforce .caretignore (.clineignore legacy) before loading file content
 			const accessValidation = this.validator.checkClineIgnorePath(resolvedPath)
 			if (!accessValidation.ok) {
 				await config.callbacks.say("clineignore_error", resolvedPath)

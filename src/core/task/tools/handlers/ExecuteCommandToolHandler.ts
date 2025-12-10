@@ -115,7 +115,7 @@ export class ExecuteCommandToolHandler implements IFullyManagedTool {
 			// If no hint, use primary workspace (cwd)
 		}
 
-		// Check clineignore validation for command
+		// CARET MODIFICATION: Check .caretignore (.clineignore legacy) validation for command
 		const ignoredFileAttemptedToAccess = config.services.clineIgnoreController.validateCommand(actualCommand)
 		if (ignoredFileAttemptedToAccess) {
 			await config.callbacks.say("clineignore_error", ignoredFileAttemptedToAccess)

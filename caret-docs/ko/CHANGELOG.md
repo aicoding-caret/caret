@@ -73,7 +73,7 @@
   - GPT-5 확장 사고 기능 지원
   - 향상된 모델 정보 및 가격 표시
 - **새로운 기능**:
-  - `.clineignore` 파일 지원으로 Caret의 파일 접근 제외
+  - `.caretignore` 파일 지원(.clineignore 호환)으로 Caret의 파일 접근 제외
   - AWS Bedrock 프로필 (멀티 계정 관리)
   - Requesty, Together, Alibaba Qwen 프로바이더 추가
   - 속도 제한 요청 자동 재시도

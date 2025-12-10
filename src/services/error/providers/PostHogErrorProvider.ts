@@ -1,4 +1,4 @@
-import { PostHog } from "posthog-node"
+import { getCurrentBrandName } from "@caret/utils/brand-utils" // CARET MODIFICATION: brand-aware VS Code config scope
 import * as vscode from "vscode"
 import { HostProvider } from "@/hosts/host-provider"
 import { getDistinctId } from "@/services/logging/distinctId"
@@ -9,6 +9,46 @@ import { PostHogClientValidConfig } from "../../../shared/services/config/postho
 import { ClineError } from "../ClineError"
 import type { ErrorSettings, IErrorProvider } from "./IErrorProvider"
 
+type MinimalPostHog = {
+	capture(...args: any[]): void
+	shutdown(): Promise<void>
+}
+type PostHogCtor = new (...args: any[]) => MinimalPostHog
+
+const isTestEnv = process.env.NODE_ENV === "test"
+
+// CARET MODIFICATION: Avoid ESM translator crashes by skipping posthog-node require during tests,
+// and falling back to a minimal stub if the package is unavailable.
+const PostHogImpl: PostHogCtor = (() => {
+	// Tests: always use a stub to keep mocha/ts-node running without touching posthog-node
+	if (isTestEnv) {
+		return class {
+			constructor(..._args: any[]) {}
+			capture() {}
+			shutdown() {
+				return Promise.resolve()
+			}
+		}
+	}
+
+	try {
+		// Prefer CJS require to sidestep ESM module translation issues under ts-node
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const mod = require("posthog-node") as { PostHog: PostHogCtor }
+		return mod.PostHog
+	} catch (error) {
+		// Minimal stub for environments where posthog-node ESM loader is unavailable
+		console.warn("[PostHogErrorProvider] Falling back to stub PostHog (non-test)", error)
+		return class {
+			constructor(..._args: any[]) {}
+			capture() {}
+			shutdown() {
+				return Promise.resolve()
+			}
+		}
+	}
+})()
+
 const isDev = process.env.IS_DEV === "true"
 
 /**
@@ -16,17 +56,17 @@ const isDev = process.env.IS_DEV === "true"
  * Handles PostHog-specific error tracking and logging
  */
 export class PostHogErrorProvider implements IErrorProvider {
-	private client: PostHog
+	private client: MinimalPostHog
 	private errorSettings: ErrorSettings
 	// Does not accept shared client
 	private readonly isSharedClient = false
 
 	constructor(clientConfig: PostHogClientValidConfig) {
 		// Use shared PostHog client if provided, otherwise create a new one
-		this.client = new PostHog(clientConfig.errorTrackingApiKey, {
+		this.client = new PostHogImpl(clientConfig.errorTrackingApiKey, {
 			host: clientConfig.host,
 			enableExceptionAutocapture: false, // NOTE: Re-enable it once the api key is set to env var
-			before_send: (event) => PostHogClientProvider.eventFilter(event),
+			before_send: (event: any) => PostHogClientProvider.eventFilter(event),
 		})
 		// Initialize error settings
 		this.errorSettings = {
@@ -54,8 +94,13 @@ export class PostHogErrorProvider implements IErrorProvider {
 		}
 
 		// Check extension-specific telemetry setting
-		const config = vscode.workspace.getConfiguration("cline")
-		if (config.get("telemetrySetting") === "disabled") {
+		// CARET MODIFICATION: Read telemetry setting from brand namespace, fallback to legacy cline for compatibility
+		const brandNamespace = getCurrentBrandName().toLowerCase()
+		const caretConfig = vscode.workspace.getConfiguration(brandNamespace)
+		const clineConfig = vscode.workspace.getConfiguration("cline")
+		const telemetrySetting = caretConfig.get("telemetrySetting") ?? clineConfig.get("telemetrySetting")
+
+		if (telemetrySetting === "disabled") {
 			this.errorSettings.enabled = false
 		}
 

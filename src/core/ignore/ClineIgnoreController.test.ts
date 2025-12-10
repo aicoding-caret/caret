@@ -1,9 +1,13 @@
+import { getBrandIgnoreFileName, getLegacyClineIgnoreFileName } from "@caret/utils/brand-utils"
 import fs from "fs/promises"
 import { after, beforeEach, describe, it } from "mocha"
 import os from "os"
 import path from "path"
 import { ClineIgnoreController } from "./ClineIgnoreController"
 import "should"
+
+const PRIMARY_IGNORE_FILENAME = getBrandIgnoreFileName?.() ?? ".caretignore"
+const LEGACY_IGNORE_FILENAME = getLegacyClineIgnoreFileName?.() ?? ".clineignore"
 
 describe("ClineIgnoreController", () => {
 	let tempDir: string
@@ -14,9 +18,9 @@ describe("ClineIgnoreController", () => {
 		tempDir = path.join(os.tmpdir(), `llm-test-${Date.now()}-${Math.random().toString(36).slice(2)}`)
 		await fs.mkdir(tempDir)
 
-		// Create default .clineignore file
+		// CARET MODIFICATION: Default ignore file uses .caretignore (legacy .clineignore still supported)
 		await fs.writeFile(
-			path.join(tempDir, ".clineignore"),
+			path.join(tempDir, PRIMARY_IGNORE_FILENAME),
 			[".env", "*.secret", "private/", "# This is a comment", "", "temp.*", "file-with-space-at-end.* ", "**/.git/**"].join(
 				"\n",
 			),
@@ -53,9 +57,30 @@ describe("ClineIgnoreController", () => {
 			}
 		})
 
-		it("should block access to .clineignore file", async () => {
-			const result = controller.validateAccess(".clineignore")
+		it("should block access to .caretignore file", async () => {
+			const result = controller.validateAccess(PRIMARY_IGNORE_FILENAME)
 			result.should.be.false()
+		})
+
+		it("should still honor legacy .clineignore when .caretignore is absent", async () => {
+			await fs.rm(path.join(tempDir, PRIMARY_IGNORE_FILENAME))
+			await fs.writeFile(path.join(tempDir, LEGACY_IGNORE_FILENAME), ["legacy-only.txt"].join("\n"))
+
+			controller = new ClineIgnoreController(tempDir)
+			await controller.initialize()
+
+			controller.validateAccess("legacy-only.txt").should.be.false()
+		})
+
+		it("should prefer .caretignore when both files exist", async () => {
+			await fs.writeFile(path.join(tempDir, PRIMARY_IGNORE_FILENAME), ["blocked.txt"].join("\n"))
+			await fs.writeFile(path.join(tempDir, LEGACY_IGNORE_FILENAME), ["allowed.txt"].join("\n"))
+
+			controller = new ClineIgnoreController(tempDir)
+			await controller.initialize()
+
+			controller.validateAccess("blocked.txt").should.be.false()
+			controller.validateAccess("allowed.txt").should.be.true()
 		})
 	})
 
@@ -90,7 +115,7 @@ describe("ClineIgnoreController", () => {
 
 		it("should handle pattern edge cases", async () => {
 			await fs.writeFile(
-				path.join(tempDir, ".clineignore"),
+				path.join(tempDir, PRIMARY_IGNORE_FILENAME),
 				["*.secret", "private/", "*.tmp", "data-*.json", "temp/*"].join("\n"),
 			)
 
@@ -112,7 +137,7 @@ describe("ClineIgnoreController", () => {
 
 		// it("should handle negation patterns", async () => {
 		// 	await fs.writeFile(
-		// 		path.join(tempDir, ".clineignore"),
+		// 		path.join(tempDir, PRIMARY_IGNORE_FILENAME),
 		// 		[
 		// 			"temp/*", // Ignore everything in temp
 		// 			"!temp/allowed/*", // But allow files in temp/allowed
@@ -157,10 +182,10 @@ describe("ClineIgnoreController", () => {
 		// 	results[9].should.be.true() // assets/public/data.json
 		// })
 
-		it("should handle comments in .clineignore", async () => {
-			// Create a new .clineignore with comments
+		it("should handle comments in .caretignore", async () => {
+			// Create a new .caretignore with comments
 			await fs.writeFile(
-				path.join(tempDir, ".clineignore"),
+				path.join(tempDir, PRIMARY_IGNORE_FILENAME),
 				["# Comment line", "*.secret", "private/", "temp.*"].join("\n"),
 			)
 
@@ -226,8 +251,8 @@ describe("ClineIgnoreController", () => {
 			result.should.be.true()
 		})
 
-		it("should handle missing .clineignore gracefully", async () => {
-			// Create a new controller in a directory without .clineignore
+		it("should handle missing .caretignore gracefully", async () => {
+			// Create a new controller in a directory without .caretignore
 			const emptyDir = path.join(os.tmpdir(), `llm-test-empty-${Date.now()}`)
 			await fs.mkdir(emptyDir)
 
@@ -241,8 +266,8 @@ describe("ClineIgnoreController", () => {
 			}
 		})
 
-		it("should handle empty .clineignore", async () => {
-			await fs.writeFile(path.join(tempDir, ".clineignore"), "")
+		it("should handle empty .caretignore", async () => {
+			await fs.writeFile(path.join(tempDir, PRIMARY_IGNORE_FILENAME), "")
 
 			controller = new ClineIgnoreController(tempDir)
 			await controller.initialize()
@@ -257,10 +282,10 @@ describe("ClineIgnoreController", () => {
 			// Create a .gitignore file with patterns "*.log" and "debug/"
 			await fs.writeFile(path.join(tempDir, ".gitignore"), ["*.log", "debug/"].join("\n"))
 
-			// Create a .clineignore file that includes .gitignore and adds an extra pattern "secret.txt"
-			await fs.writeFile(path.join(tempDir, ".clineignore"), ["!include .gitignore", "secret.txt"].join("\n"))
+			// Create a .caretignore file that includes .gitignore and adds an extra pattern "secret.txt"
+			await fs.writeFile(path.join(tempDir, PRIMARY_IGNORE_FILENAME), ["!include .gitignore", "secret.txt"].join("\n"))
 
-			// Initialize the controller to load the updated .clineignore
+			// Initialize the controller to load the updated .caretignore
 			controller = new ClineIgnoreController(tempDir)
 			await controller.initialize()
 
@@ -268,15 +293,15 @@ describe("ClineIgnoreController", () => {
 			controller.validateAccess("server.log").should.be.false()
 			// "debug/app.js" should be ignored due to the "debug/" pattern from .gitignore
 			controller.validateAccess("debug/app.js").should.be.false()
-			// "secret.txt" should be ignored as specified directly in .clineignore
+			// "secret.txt" should be ignored as specified directly in .caretignore
 			controller.validateAccess("secret.txt").should.be.false()
 			// Other files should be allowed
 			controller.validateAccess("app.js").should.be.true()
 		})
 
 		it("should handle non-existent included file gracefully", async () => {
-			// Create a .clineignore file that includes a non-existent file
-			await fs.writeFile(path.join(tempDir, ".clineignore"), ["!include missing-file.txt"].join("\n"))
+			// Create a .caretignore file that includes a non-existent file
+			await fs.writeFile(path.join(tempDir, PRIMARY_IGNORE_FILENAME), ["!include missing-file.txt"].join("\n"))
 
 			// Initialize the controller
 			controller = new ClineIgnoreController(tempDir)
@@ -288,7 +313,7 @@ describe("ClineIgnoreController", () => {
 
 		it("should handle non-existent included file gracefully alongside a valid pattern", async () => {
 			// Test with an include directive for a non-existent file alongside a valid pattern ("*.tmp")
-			await fs.writeFile(path.join(tempDir, ".clineignore"), ["!include non-existent.txt", "*.tmp"].join("\n"))
+			await fs.writeFile(path.join(tempDir, PRIMARY_IGNORE_FILENAME), ["!include non-existent.txt", "*.tmp"].join("\n"))
 
 			controller = new ClineIgnoreController(tempDir)
 			await controller.initialize()

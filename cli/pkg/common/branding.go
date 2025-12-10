@@ -2,6 +2,7 @@ package common
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,6 +24,11 @@ var (
 	brandDisplayNameOnce sync.Once
 	brandDisplayName     = defaultBrandDisplayName
 )
+
+// CARET MODIFICATION: compute ignore filename based on current brand (default ".caretignore")
+func BrandIgnoreFileName() string {
+	return fmt.Sprintf(".%signore", strings.ToLower(BrandDisplayName()))
+}
 
 // CARET MODIFICATION: resolve brand display name from nearest package.json (install root), fallback to default.
 func BrandDisplayName() string {

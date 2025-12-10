@@ -1,3 +1,4 @@
+import { getBrandIgnoreFileName } from "@caret/utils/brand-utils"
 import type { ToolParamName, ToolUse } from "@core/assistant-message"
 
 /**
@@ -91,7 +92,9 @@ export const BROWSER_ACTIONS = ["launch", "click", "type", "scroll_down", "scrol
 /**
  * Common validation error patterns
  */
-export const VALIDATION_ERROR_PATTERNS = ["Missing required parameter", "blocked by .clineignore"] as const
+// CARET MODIFICATION: Update ignore message to brand-aware ignore filename (legacy .clineignore still recognized upstream)
+const PRIMARY_IGNORE_FILENAME = getBrandIgnoreFileName?.() ?? ".caretignore"
+export const VALIDATION_ERROR_PATTERNS = ["Missing required parameter", `blocked by ${PRIMARY_IGNORE_FILENAME}`] as const
 
 /**
  * Type helpers for better type safety
@@ -123,7 +126,7 @@ export function removeClosingTag(block: ToolUse, tag: ToolParamName, text?: stri
 	}
 
 	const tagRegex = new RegExp(
-		`\\s?<\/?${tag
+		`\\s?</?${tag
 			.split("")
 			.map((char) => `(?:${char})?`)
 			.join("")}$`,

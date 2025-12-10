@@ -26,7 +26,7 @@
 			"1": "Caret Provider 추가",
 			"1-desc": "공식 Caret AI 프로바이더 통합 - 프로모션 기간 동안 $10 무료 크레딧 제공 중",
 			"2": "새로운 기능",
-			"2-desc": ".clineignore 파일 지원, AWS Bedrock 프로필, Requesty/Together/Alibaba Qwen 프로바이더, 속도 제한 자동 재시도",
+			"2-desc": ".caretignore 파일 지원(.clineignore 호환), AWS Bedrock 프로필, Requesty/Together/Alibaba Qwen 프로바이더, 속도 제한 자동 재시도",
 			"3": "Focus Chain (작업 관리)",
 			"3-desc": "복잡한 작업을 위한 자동 할 일 목록 생성 및 추적 기능",
 			"4": "AI 프롬프트 최적화",

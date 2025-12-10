@@ -26,7 +26,7 @@
 			"1": "Caretプロバイダー追加",
 			"1-desc": "公式Caret AIプロバイダー統合 - プロモーション期間中$10無料クレジット提供中",
 			"2": "Cline v3.32.7 マージと新機能",
-			"2-desc": "最新のClineアップストリーム改善をマージ。.clineignoreファイルサポート、AWS Bedrockプロファイル、Requesty/Together/Alibaba Qwenプロバイダー、レート制限自動リトライを含みます。",
+			"2-desc": "最新のClineアップストリーム改善をマージ。.caretignoreファイルサポート（.clineignore互換）、AWS Bedrockプロファイル、Requesty/Together/Alibaba Qwenプロバイダー、レート制限自動リトライを含みます。",
 			"3": "Focus Chain (タスク管理)",
 			"3-desc": "複雑なタスクのための自動To-Doリスト生成と追跡機能",
 			"4": "AIプロンプト最適化",

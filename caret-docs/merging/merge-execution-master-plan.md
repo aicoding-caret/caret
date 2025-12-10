@@ -2011,7 +2011,7 @@ git tag v0.3.0
   - v0.1.0: 2025-07-06
   - 4개 언어 모두 업데이트: CHANGELOG.md, caret-docs/ko/CHANGELOG.md, ja/CHANGELOG.md, zh-cn/CHANGELOG.md
 - **announcement.json 4개 언어 업데이트** (정확한 구분):
-  - **Current (v0.3.0)**: **Cline 기능만** - 최신 AI 모델 지원, 새로운 기능(.clineignore, AWS Bedrock), Focus Chain, 아키텍처 개선
+  - **Current (v0.3.0)**: **Cline 기능만** - 최신 AI 모델 지원, 새로운 기능(.caretignore, AWS Bedrock), Focus Chain, 아키텍처 개선
   - **Previous (v0.2.x)**: **Caret 기능만** - 시스템 프롬프트 보강, 페르소나 이미지 저장, 다국어 지원, 버그 수정
   - 언어: ko, en, ja, zh 모두 업데이트
 - **package.json 버전 확인**: v0.3.0 (이미 설정됨)

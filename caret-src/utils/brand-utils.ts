@@ -1,9 +1,9 @@
 // CARET MODIFICATION: Caret brand utilities - centralized brand detection and configuration
 // Provides brand-specific functionality without cluttering Cline's env.ts
 
-import { CARET_MODE_SYSTEM_CONFIG, type CaretModeSystem } from "@caret/shared/ModeSystem"
 import fs from "fs"
 import path from "path"
+import { CARET_MODE_SYSTEM_CONFIG, type CaretModeSystem } from "../shared/ModeSystem"
 
 // Cached brand name for performance
 let _cachedBrandName: string | null = null
@@ -140,6 +140,21 @@ export function getBrandRulesFileName(): string {
 export function getBrandMcpSettingsFileName(): string {
 	const brandName = getCurrentBrandName().toLowerCase()
 	return `${brandName}_mcp_settings.json`
+}
+
+/**
+ * CARET MODIFICATION: Get brand-specific ignore filename (e.g., ".caretignore")
+ */
+export function getBrandIgnoreFileName(): string {
+	const brandName = getCurrentBrandName().toLowerCase()
+	return `.${brandName}ignore`
+}
+
+/**
+ * CARET MODIFICATION: Legacy Cline ignore filename for compatibility checks
+ */
+export function getLegacyClineIgnoreFileName(): string {
+	return ".clineignore"
 }
 
 /**

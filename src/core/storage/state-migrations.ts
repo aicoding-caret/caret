@@ -121,11 +121,15 @@ export async function migrateTaskHistoryToFile(context: vscode.ExtensionContext)
 }
 
 export async function migrateMcpMarketplaceEnableSetting(mcpMarketplaceEnabledRaw: boolean | undefined): Promise<boolean> {
-	const config = vscode.workspace.getConfiguration("cline")
-	const mcpMarketplaceEnabled = config.get<boolean>("mcpMarketplace.enabled")
+	// CARET MODIFICATION: brand-aware config namespace with cline fallback
+	const brandNamespace = (await import("@caret/utils/brand-utils")).getCurrentBrandName().toLowerCase()
+	const primaryConfig = vscode.workspace.getConfiguration(brandNamespace)
+	const legacyConfig = vscode.workspace.getConfiguration("cline")
+	const mcpMarketplaceEnabled =
+		primaryConfig.get<boolean>("mcpMarketplace.enabled") ?? legacyConfig.get<boolean>("mcpMarketplace.enabled")
 	if (mcpMarketplaceEnabled !== undefined) {
 		// Remove from VSCode configuration
-		await config.update("mcpMarketplace.enabled", undefined, true)
+		await primaryConfig.update("mcpMarketplace.enabled", undefined, true)
 
 		return !mcpMarketplaceEnabled
 	}
@@ -133,11 +137,14 @@ export async function migrateMcpMarketplaceEnableSetting(mcpMarketplaceEnabledRa
 }
 
 export async function migrateEnableCheckpointsSetting(enableCheckpointsSettingRaw: boolean | undefined): Promise<boolean> {
-	const config = vscode.workspace.getConfiguration("cline")
-	const enableCheckpoints = config.get<boolean>("enableCheckpoints")
+	// CARET MODIFICATION: brand-aware config namespace with cline fallback
+	const brandNamespace = (await import("@caret/utils/brand-utils")).getCurrentBrandName().toLowerCase()
+	const primaryConfig = vscode.workspace.getConfiguration(brandNamespace)
+	const legacyConfig = vscode.workspace.getConfiguration("cline")
+	const enableCheckpoints = primaryConfig.get<boolean>("enableCheckpoints") ?? legacyConfig.get<boolean>("enableCheckpoints")
 	if (enableCheckpoints !== undefined) {
 		// Remove from VSCode configuration
-		await config.update("enableCheckpoints", undefined, true)
+		await primaryConfig.update("enableCheckpoints", undefined, true)
 		return enableCheckpoints
 	}
 	return enableCheckpointsSettingRaw ?? true
@@ -623,7 +630,7 @@ export async function migrateWelcomeViewCompleted(context: vscode.ExtensionConte
 				planModeVsCodeLmModelSelector,
 				actModeVsCodeLmModelSelector,
 				clineAccountId,
-        caretAccountId,
+				caretAccountId,
 				asksageApiKey,
 				xaiApiKey,
 				sambanovaApiKey,

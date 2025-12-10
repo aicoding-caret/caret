@@ -42,6 +42,7 @@ export function getBrandInfo(): {
 	isBrandMode: boolean
 	displayName: string
 	mcpMarketplaceTab?: string
+	ignoreFileName: string
 } {
 	const currentBrand = getCurrentBrandProvider()
 	const brandMode = isBrandModeActive()
@@ -51,10 +52,12 @@ export function getBrandInfo(): {
 		caret: {
 			displayName: "Caret",
 			mcpMarketplaceTab: undefined,
+			ignoreFileName: ".caretignore",
 		},
 		codecenter: {
 			displayName: "CodeCenter",
 			mcpMarketplaceTab: "CodeCenter 마켓",
+			ignoreFileName: ".codecenterignore",
 		},
 	}
 
@@ -65,6 +68,7 @@ export function getBrandInfo(): {
 		isBrandMode: brandMode,
 		displayName: config.displayName,
 		mcpMarketplaceTab: config.mcpMarketplaceTab,
+		ignoreFileName: config.ignoreFileName,
 	}
 }
 
@@ -75,4 +79,11 @@ export function getBrandInfo(): {
 export function getBrandMcpMarketplaceTab(): string | undefined {
 	const brandInfo = getBrandInfo()
 	return brandInfo.mcpMarketplaceTab
+}
+
+/**
+ * CARET MODIFICATION: Get primary ignore filename for current brand (frontend)
+ */
+export function getBrandIgnoreFileName(): string {
+	return getBrandInfo().ignoreFileName
 }

@@ -1,3 +1,4 @@
+import { getBrandIgnoreFileName, getLegacyClineIgnoreFileName } from "@caret/utils/brand-utils"
 import { fileExistsAtPath } from "@utils/fs"
 import chokidar, { FSWatcher } from "chokidar"
 import fs from "fs/promises"
@@ -5,11 +6,15 @@ import ignore, { Ignore } from "ignore"
 import path from "path"
 
 export const LOCK_TEXT_SYMBOL = "\u{1F512}"
+// CARET MODIFICATION: default ignore file uses brand util (.caretignore by default), legacy .clineignore still supported
+const PRIMARY_IGNORE_FILENAME = getBrandIgnoreFileName?.() ?? ".caretignore"
+const LEGACY_IGNORE_FILENAME = getLegacyClineIgnoreFileName?.() ?? ".clineignore"
+const IGNORE_FILENAMES = [PRIMARY_IGNORE_FILENAME, LEGACY_IGNORE_FILENAME]
 
 /**
  * Controls LLM access to files by enforcing ignore patterns.
  * Designed to be instantiated once in Cline.ts and passed to file manipulation services.
- * Uses the 'ignore' library to support standard .gitignore syntax in .clineignore files.
+ * Uses the 'ignore' library to support standard .gitignore syntax in .caretignore files (legacy .clineignore supported).
  */
 export class ClineIgnoreController {
 	private cwd: string
@@ -28,18 +33,18 @@ export class ClineIgnoreController {
 	 * Must be called after construction and before using the controller
 	 */
 	async initialize(): Promise<void> {
-		// Set up file watcher for .clineignore
+		// CARET MODIFICATION: Watch both .caretignore and legacy .clineignore files
 		this.setupFileWatcher()
 		await this.loadClineIgnore()
 	}
 
 	/**
-	 * Set up the file watcher for .clineignore changes
+	 * Set up the file watcher for ignore file changes
 	 */
 	private setupFileWatcher(): void {
-		const ignorePath = path.join(this.cwd, ".clineignore")
+		const ignorePaths = IGNORE_FILENAMES.map((name) => path.join(this.cwd, name))
 
-		this.fileWatcher = chokidar.watch(ignorePath, {
+		this.fileWatcher = chokidar.watch(ignorePaths, {
 			persistent: true, // Keep the process running as long as files are being watched
 			ignoreInitial: true, // Don't fire 'add' events when discovering the file initially
 			awaitWriteFinish: {
@@ -64,30 +69,30 @@ export class ClineIgnoreController {
 		})
 
 		this.fileWatcher.on("error", (error) => {
-			console.error("Error watching .clineignore file:", error)
+			console.error("Error watching ignore file:", error)
 		})
 	}
 
 	/**
-	 * Load custom patterns from .clineignore if it exists.
+	 * Load custom patterns from .caretignore/.clineignore if it exists.
 	 * Supports "!include <filename>" to load additional ignore patterns from other files.
 	 */
 	private async loadClineIgnore(): Promise<void> {
 		try {
 			// Reset ignore instance to prevent duplicate patterns
 			this.ignoreInstance = ignore()
-			const ignorePath = path.join(this.cwd, ".clineignore")
-			if (await fileExistsAtPath(ignorePath)) {
-				const content = await fs.readFile(ignorePath, "utf8")
+			const resolvedPath = await this.resolveIgnorePath()
+			if (resolvedPath) {
+				const content = await fs.readFile(resolvedPath.fullPath, "utf8")
 				this.clineIgnoreContent = content
 				await this.processIgnoreContent(content)
-				this.ignoreInstance.add(".clineignore")
+				this.ignoreInstance.add(resolvedPath.filename)
 			} else {
 				this.clineIgnoreContent = undefined
 			}
 		} catch (error) {
 			// Should never happen: reading file failed even though it exists
-			console.error("Unexpected error loading .clineignore:", error)
+			console.error("Unexpected error loading ignore file:", error)
 		}
 	}
 
@@ -152,7 +157,7 @@ export class ClineIgnoreController {
 	 * @returns true if file is accessible, false if ignored
 	 */
 	validateAccess(filePath: string): boolean {
-		// Always allow access if .clineignore does not exist
+		// Always allow access if .caretignore/.clineignore does not exist
 		if (!this.clineIgnoreContent) {
 			return true
 		}
@@ -176,7 +181,7 @@ export class ClineIgnoreController {
 	 * @returns path of file that is being accessed if it is being accessed, undefined if command is allowed
 	 */
 	validateCommand(command: string): string | undefined {
-		// Always allow if no .clineignore exists
+		// Always allow if no .caretignore/.clineignore exists
 		if (!this.clineIgnoreContent) {
 			return undefined
 		}
@@ -254,5 +259,16 @@ export class ClineIgnoreController {
 			await this.fileWatcher.close()
 			this.fileWatcher = undefined
 		}
+	}
+
+	// CARET MODIFICATION: prefer .caretignore while keeping .clineignore compatibility
+	private async resolveIgnorePath(): Promise<{ fullPath: string; filename: string } | null> {
+		for (const filename of IGNORE_FILENAMES) {
+			const fullPath = path.join(this.cwd, filename)
+			if (await fileExistsAtPath(fullPath)) {
+				return { fullPath, filename }
+			}
+		}
+		return null
 	}
 }
