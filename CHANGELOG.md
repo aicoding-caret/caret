@@ -25,6 +25,17 @@
   </table>
 </div>
 
+## [0.4.1] 2025-12-10
+
+### ✨ Improved
+- **Caret Provider**: Stabilized the `anyLLM`-based Caret Provider for the official launch of the `caret.team` service. This includes API enhancements and improved reliability.
+
+### Fixed
+- **Persona System**: Enhanced persona initialization logic to ensure default avatars are seeded correctly. Improved exception handling for persona image loading.
+- **Branding**: Corrected branding for `.clineignore` functionality to align with `.caretignore`.
+- **Build**: Resolved various build and resource location issues.
+- **Authentication**: Minor fixes and checks for the authentication process.
+
 ## [0.4.0] 2025-11-28
 
 > **Note**: Caret v0.4.0 is based on Cline v3.38.2. Upstream release notes live in `CHANGELOG-CLINE.md`.

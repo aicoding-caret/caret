@@ -1,7 +1,6 @@
 import { AutoApprovalSettings } from "@shared/AutoApprovalSettings"
 import { ApiProvider, BizRouterModelInfo, ModelInfo, type OcaModelInfo } from "@shared/api"
 import { BrowserSettings } from "@shared/BrowserSettings"
-import { CaretUser } from "@shared/CaretAccount"
 import { ClineRulesToggles } from "@shared/cline-rules"
 import { DictationSettings } from "@shared/DictationSettings"
 import { FocusChainSettings } from "@shared/FocusChainSettings"

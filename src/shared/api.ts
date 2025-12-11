@@ -1,5 +1,4 @@
 import type { LanguageModelChatSelector } from "../core/api/providers/types"
-import type { CaretUser } from "./CaretAccount" // CARET MODIFICATION: Caret account/profile support
 
 export type ApiProvider =
 	| "anthropic"

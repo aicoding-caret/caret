@@ -1,5 +1,4 @@
 // CARET MODIFICATION: Handle Caret auth token bootstrap
-import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
 import { WebviewProvider } from "@/core/webview"
 import { Logger } from "../logging/Logger"
 

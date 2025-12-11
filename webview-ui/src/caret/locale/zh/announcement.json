@@ -3,6 +3,8 @@
 	"previousHeader": "以前的更新:",
 	"bullets": {
 		"current": {
+			"0": "Caret Provider 已稳定",
+			"0-desc": "为配合 caret.team 服务的正式上线，基于 anyLLM 的 Caret Provider 现已稳定，确保了更高的可靠性。",
 			"1": "每月免费积分",
 			"1-desc": "新用户每月可获得$0.1（10积分），首月最高$0.2。支持Gemini 3、2.5 Pro、Lite。",
 			"2": "Cline v3.38.2 完全整合",

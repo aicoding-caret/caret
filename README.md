@@ -1,4 +1,8 @@
 <div align="center">
+  > **🚀 Official Launch: The Caret AI Provider is Now Live!**
+  >
+  > We are thrilled to announce that the official Caret Provider, powered by `anyLLM`, is now stable and available to all users. Connect to [`caret.team`](https://caret.team)'s dedicated AI service for an optimized and reliable experience. Get started with free monthly credits!
+
   <table>
     <tr>
       <td align="center">
@@ -50,13 +54,13 @@
 
 ---
 
-## 🎁 New: Official Caret AI Provider — Monthly Free Credits
+## 🎉 Official Caret AI Provider is Live — Get Your Free Credits!
 
-**Great news!** Caret now offers its own official AI provider integration:
+**Great news!** The official Caret AI provider is now stable and ready for everyone:
 
-- 🎉 **Free credits**: New users get **$1 (10 credits) monthly**! (Up to $2 for the first month)
-- 🤖 **Latest models**: Gemini 3, 2.5 Pro, Lite, and more
-- 🚀 **Easy setup**: Select “Caret” as the AI provider in settings and start instantly
+- 🎉 **Free credits**: New users get **$0.1 (10 credits) monthly**! (Up to $0.2 for the first month)
+- 🤖 **Latest models**: Access powerful models like Gemini 3, 2.5 Pro, and Lite.
+- 🚀 **Easy setup**: Simply select “Caret” as your AI provider in the settings to get started instantly.
 
 ---
 

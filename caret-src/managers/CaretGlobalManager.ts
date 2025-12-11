@@ -1,5 +1,4 @@
 import type { CaretModeSystem } from "@caret/shared/ModeSystem"
-import { CaretAccountService } from "@caret/services/account/CaretAccountService"
 import { randomBytes } from "crypto"
 import * as vscode from "vscode"
 import { CaretUser } from "@/shared/CaretAccount"
@@ -155,7 +154,7 @@ export class CaretGlobalManager {
 			)
 
 			console.log("[CARET-GLOBAL-MANAGER] 🌐 Opening external auth URL:", authUrl.toString())
-			// @ts-ignore: VS Code API deprecation warning
+			// @ts-expect-error: VS Code API deprecation warning
 			const success = await vscode.env.openExternal(authUrl)
 			if (!success) {
 				throw new Error("Failed to open external URL")
