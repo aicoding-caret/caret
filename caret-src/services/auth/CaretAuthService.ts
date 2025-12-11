@@ -192,7 +192,7 @@ export class CaretAuthService {
 				uid: userInfo?.id,
 				displayName: userInfo?.displayName,
 				email: userInfo?.email,
-				photoUrl: undefined,
+				photoUrl: userInfo?.photoUrl,
 				appBaseUrl: userInfo?.appBaseUrl,
 			})
 		}
