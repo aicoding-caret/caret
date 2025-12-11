@@ -1,3 +1,4 @@
+import CaretAccountView from "@caret/components/CaretAccountView"
 import type { Boolean, EmptyRequest } from "@shared/proto/cline/common"
 import { useEffect } from "react"
 import PersonaTemplateSelector from "./caret/components/PersonaTemplateSelector"
@@ -42,11 +43,11 @@ const AppContent = () => {
 	const { clineUser, organizations, activeOrganization } = useClineAuth()
 	const { caretUser } = useCaretAuth()
 
-	const accountUser = caretUser ?? clineUser
+	const isCaret = caretUser !== null
 	const accountOrganizations = caretUser ? null : organizations
 	const accountActiveOrganization = caretUser ? null : activeOrganization
 
-	console.log("<===== app content user=====>", accountUser)
+	console.log("<===== app content user=====>", caretUser)
 
 	useEffect(() => {
 		if (shouldShowAnnouncement) {
@@ -81,14 +82,17 @@ const AppContent = () => {
 			{showSettings && <SettingsView onDone={hideSettings} />}
 			{showHistory && <HistoryView onDone={hideHistory} />}
 			{showMcp && <McpView initialTab={mcpTab} onDone={closeMcpView} />}
-			{showAccount && (
-				<AccountView
-					activeOrganization={accountActiveOrganization}
-					clineUser={accountUser}
-					onDone={hideAccount}
-					organizations={accountOrganizations}
-				/>
-			)}
+			{showAccount &&
+				(isCaret ? (
+					<CaretAccountView caretUser={caretUser} onDone={hideAccount} />
+				) : (
+					<AccountView
+						activeOrganization={accountActiveOrganization}
+						clineUser={clineUser}
+						onDone={hideAccount}
+						organizations={accountOrganizations}
+					/>
+				))}
 			{/* Do not conditionally load ChatView, it's expensive and there's state we don't want to lose (user input, disableInput, askResponse promise, etc.) */}
 			<ChatView
 				hideAnnouncement={hideAnnouncement}

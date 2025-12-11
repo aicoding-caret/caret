@@ -1,31 +1,26 @@
 import type { UsageTransaction as ClineAccountUsageTransaction, PaymentTransaction } from "@shared/ClineAccount"
-import type { UserOrganization } from "@shared/proto/cline/account"
 import { EmptyRequest } from "@shared/proto/cline/common"
-import { VSCodeButton, VSCodeDivider, VSCodeDropdown, VSCodeOption, VSCodeTag } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeButton, VSCodeDivider } from "@vscode/webview-ui-toolkit/react"
 import deepEqual from "fast-deep-equal"
 import { memo, useCallback, useEffect, useRef, useState } from "react"
 import { useInterval } from "react-use"
 import { t } from "@/caret/utils/i18n"
-import { type ClineUser, handleSignOut } from "@/context/ClineAuthContext"
+import { AccountWelcomeView } from "@/components/account/AccountWelcomeView"
+import { CreditBalance } from "@/components/account/CreditBalance"
+import CreditsHistoryTable from "@/components/account/CreditsHistoryTable"
+import { convertProtoUsageTransactions, getCaretUris } from "@/components/account/helpers"
+import VSCodeButtonLink from "@/components/common/VSCodeButtonLink"
+import { type CaretUser, handleSignOut } from "@/context/CaretAuthContext"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { AccountServiceClient } from "@/services/grpc-client"
-import VSCodeButtonLink from "../common/VSCodeButtonLink"
-import { AccountWelcomeView } from "./AccountWelcomeView"
-import { CreditBalance } from "./CreditBalance"
-import CreditsHistoryTable from "./CreditsHistoryTable"
-import { convertProtoUsageTransactions, getClineUris, getMainRole } from "./helpers"
+import { CaretAccountServiceClient } from "@/services/grpc-client"
 
 type AccountViewProps = {
-	clineUser: ClineUser | null
-	organizations: UserOrganization[] | null
-	activeOrganization: UserOrganization | null
+	caretUser: CaretUser | null
 	onDone: () => void
 }
 
-type ClineAccountViewProps = {
-	clineUser: ClineUser
-	userOrganizations: UserOrganization[] | null
-	activeOrganization: UserOrganization | null
+type CaretAccountViewProps = {
+	caretUser: CaretUser
 }
 
 type CachedData = {
@@ -35,7 +30,11 @@ type CachedData = {
 	lastFetchTime: number
 }
 
-const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: AccountViewProps) => {
+const AccountView = ({ onDone, caretUser }: AccountViewProps) => {
+	const { apiConfiguration } = useExtensionState()
+	console.log("<===== account view apiConfiguration=====>", apiConfiguration)
+	console.log("<===== account view caretUser=====>", caretUser)
+
 	return (
 		<div className="fixed inset-0 flex flex-col overflow-hidden pt-[10px] pl-[20px]">
 			<div className="flex justify-between items-center mb-[17px] pr-[17px]">
@@ -44,30 +43,17 @@ const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: A
 			</div>
 			<div className="flex-grow overflow-hidden pr-[8px] flex flex-col">
 				<div className="h-full mb-[5px]">
-					{clineUser?.uid ? (
-						<ClineAccountView
-							activeOrganization={activeOrganization}
-							clineUser={clineUser}
-							userOrganizations={organizations}
-						/>
-					) : (
-						<AccountWelcomeView />
-					)}
+					{caretUser?.uid ? <CaretAccountView caretUser={caretUser} /> : <AccountWelcomeView />}
 				</div>
 			</div>
 		</div>
 	)
 }
 
-export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganization }: ClineAccountViewProps) => {
-	const { email, displayName, appBaseUrl, uid } = clineUser
-	// CARET MODIFICATION: Get featureConfig to control account features visibility
+export const CaretAccountView = ({ caretUser }: CaretAccountViewProps) => {
+	const { email, displayName, appBaseUrl, uid, photoUrl } = caretUser
 	const { featureConfig } = useExtensionState()
-
-	// Source of truth: Dedicated state for dropdown value that persists through failures
-	// and represents that user's current selection.
-	const [dropdownValue, setDropdownValue] = useState<string>(activeOrganization?.organizationId || uid)
-
+	const [dropdownValue, setDropdownValue] = useState<string>(uid)
 	const [isLoading, setIsLoading] = useState(false)
 
 	// Cache data per organization/user ID to avoid showing empty state when switching
@@ -101,8 +87,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 			lastFetchTime,
 		})
 	}
-	// Track the active organization ID to detect changes
-	const [lastActiveOrgId, setLastActiveOrgId] = useState<string | undefined>(activeOrganization?.organizationId)
+
 	// Use ref for debounce timeout to avoid re-renders
 	const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 	// Track if manual fetch is in progress to avoid duplicate fetches
@@ -110,7 +95,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 	const fetchUserCredit = useCallback(async () => {
 		try {
-			const response = await AccountServiceClient.getUserCredits(EmptyRequest.create())
+			const response = await CaretAccountServiceClient.getCaretUserCredits(EmptyRequest.create())
 			const newBalance = response?.balance?.currentBalance
 			// Always update balance, even if it's 0 or null - don't skip undefined
 			setBalance(newBalance ?? null)
@@ -139,16 +124,6 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 				setIsLoading(true)
 				if (id === uid) {
 					await fetchUserCredit()
-				} else {
-					const response = await AccountServiceClient.getOrganizationCredits({
-						organizationId: id,
-					})
-					// Update balance - handle all values including 0 and null
-					const newBalance = response.balance?.currentBalance
-					setBalance(newBalance ?? null)
-
-					const newUsage = convertProtoUsageTransactions(response.usageTransactions)
-					setUsageData((prev) => (deepEqual(newUsage, prev) ? prev : newUsage))
 				}
 
 				// Cache the updated data
@@ -163,44 +138,12 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 		[isLoading, uid, fetchUserCredit, loadCachedData],
 	)
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <cacheCurrentData changes on every re-render>
-	const handleOrganizationChange = useCallback(
-		async (event: any) => {
-			const target = event.target as HTMLSelectElement
-			if (!target) {
-				return
-			}
-
-			const newValue = target.value
-			if (newValue !== dropdownValue) {
-				// Cache current data before switching
-				cacheCurrentData(dropdownValue)
-				setDropdownValue(newValue)
-				// Load cached data for new selection immediately, or clear if no cache
-				if (!loadCachedData(newValue)) {
-					// No cached data - clear current state to avoid showing wrong data
-					setBalance(null)
-					setUsageData([])
-					setPaymentsData([])
-				}
-			}
-			// Set flag to indicate manual fetch in progress
-			manualFetchInProgressRef.current = true
-			await fetchCreditBalance(newValue)
-			manualFetchInProgressRef.current = false
-			// Send the change to the server
-			const organizationId = newValue === uid ? undefined : newValue
-			AccountServiceClient.setUserOrganization({ organizationId })
-		},
-		[uid, dropdownValue, loadCachedData],
-	)
-
 	// Fetch balance every 60 seconds
 	useInterval(() => {
 		fetchCreditBalance(dropdownValue)
 	}, 60000)
 
-	const clineUrl = appBaseUrl || "https://cline.bot"
+	const caretUrl = appBaseUrl || "https://caret.team"
 
 	// Fetch balance on mount
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <Only run once on mount>
@@ -214,11 +157,9 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <cacheCurrentData changes on every re-render>
 	useEffect(() => {
 		// Handle organization changes with 500ms debounce
-		const currentActiveOrgId = activeOrganization?.organizationId
-		const hasDropdownChanged = dropdownValue !== (currentActiveOrgId || uid)
-		const hasActiveOrgChanged = currentActiveOrgId !== lastActiveOrgId
+		const hasDropdownChanged = dropdownValue !== uid
 
-		if (hasDropdownChanged || hasActiveOrgChanged) {
+		if (hasDropdownChanged) {
 			// Clear any existing timeout
 			if (debounceTimeoutRef.current) {
 				clearTimeout(debounceTimeoutRef.current)
@@ -227,7 +168,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 			// If dropdown changed, load cached data for the current dropdown value
 			if (hasDropdownChanged) {
 				// Cache the previous data first
-				cacheCurrentData(lastActiveOrgId || uid)
+				cacheCurrentData(uid)
 				// Load cached data for current dropdown value, or clear if no cache
 				if (!loadCachedData(dropdownValue)) {
 					// No cached data - clear to avoid showing wrong data
@@ -242,11 +183,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 				// Set new timeout to fetch after 500ms
 				debounceTimeoutRef.current = setTimeout(() => {
 					fetchCreditBalance(dropdownValue)
-					setLastActiveOrgId(currentActiveOrgId)
 				}, 500)
-			} else {
-				// Manual fetch is handling this, just update the active org ID
-				setLastActiveOrgId(currentActiveOrgId)
 			}
 		}
 
@@ -256,20 +193,20 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 				clearTimeout(debounceTimeoutRef.current)
 			}
 		}
-	}, [dropdownValue, activeOrganization?.organizationId, lastActiveOrgId, uid])
+	}, [dropdownValue, uid])
 
 	return (
 		<div className="h-full flex flex-col">
 			<div className="flex flex-col pr-3 h-full">
 				<div className="flex flex-col w-full">
 					<div className="flex items-center mb-6 flex-wrap gap-y-4">
-						{/* {user.photoUrl ? (
-								<img src={user.photoUrl} alt={t("account.profileAlt", "common")} className="size-16 rounded-full mr-4" />
-							) : ( */}
-						<div className="size-16 rounded-full bg-[var(--vscode-button-background)] flex items-center justify-center text-2xl text-[var(--vscode-button-foreground)] mr-4">
-							{displayName?.[0] || email?.[0] || "?"}
-						</div>
-						{/* )} */}
+						{photoUrl ? (
+							<img alt={t("account.profileAlt", "common")} className="size-16 rounded-full mr-4" src={photoUrl} />
+						) : (
+							<div className="size-16 rounded-full bg-[var(--vscode-button-background)] flex items-center justify-center text-2xl text-[var(--vscode-button-foreground)] mr-4">
+								{displayName?.[0] || email?.[0] || "?"}
+							</div>
+						)}
 
 						<div className="flex flex-col">
 							{displayName && (
@@ -278,31 +215,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 							{/* CARET MODIFICATION: Hide email and organization dropdown when enableCaretAccountFeatures is false */}
 							{featureConfig?.enableCaretAccountFeatures && (
-								<>
-									{email && <div className="text-sm text-[var(--vscode-descriptionForeground)]">{email}</div>}
-
-									<div className="flex gap-2 items-center mt-1">
-										<VSCodeDropdown
-											className="w-full"
-											currentValue={dropdownValue}
-											disabled={isLoading}
-											onChange={handleOrganizationChange}>
-											<VSCodeOption key="personal" value={uid}>
-												{t("account.personal", "common")}
-											</VSCodeOption>
-											{userOrganizations?.map((org: UserOrganization) => (
-												<VSCodeOption key={org.organizationId} value={org.organizationId}>
-													{org.name}
-												</VSCodeOption>
-											))}
-										</VSCodeDropdown>
-										{activeOrganization && (
-											<VSCodeTag className="text-xs p-2" title={t("account.role", "common")}>
-												{getMainRole(activeOrganization.roles)}
-											</VSCodeTag>
-										)}
-									</div>
-								</>
+								<>{email && <div className="text-sm text-[var(--vscode-descriptionForeground)]">{email}</div>}</>
 							)}
 						</div>
 					</div>
@@ -315,7 +228,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 							<VSCodeButtonLink
 								appearance="primary"
 								className="w-full"
-								href={getClineUris(clineUrl, "dashboard").href}>
+								href={getCaretUris(caretUrl, "caret", "profile").href}>
 								{t("account.dashboard", "common")}
 							</VSCodeButtonLink>
 						</div>
@@ -329,7 +242,7 @@ export const ClineAccountView = ({ clineUser, userOrganizations, activeOrganizat
 
 				<CreditBalance
 					balance={balance}
-					creditUrl={getClineUris(clineUrl, "credits", dropdownValue === uid ? "account" : "organization")}
+					creditUrl={getCaretUris(caretUrl, "caret", "usage")}
 					fetchCreditBalance={() => fetchCreditBalance(dropdownValue)}
 					isLoading={isLoading}
 					lastFetchTime={lastFetchTime}
