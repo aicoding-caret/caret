@@ -71,7 +71,7 @@ export class SharedUriHandler {
 					const tokenParam = getParam("token") || getParam("refreshToken") || getParam("idToken") || undefined
 					const codeParam = getParam("code") || undefined
 
-					const provider = providerParam ?? "caret"
+					const provider = providerParam ?? "cline"
 					const token = tokenParam || codeParam
 
 					if (token) {
