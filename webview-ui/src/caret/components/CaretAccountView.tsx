@@ -141,7 +141,7 @@ export const CaretAccountView = ({ caretUser }: CaretAccountViewProps) => {
 	// Fetch balance every 60 seconds
 	useInterval(() => {
 		fetchCreditBalance(dropdownValue)
-	}, 60000)
+	}, 300000) // 5 minutes
 
 	const caretUrl = appBaseUrl || "https://caret.team"
 

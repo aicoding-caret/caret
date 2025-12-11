@@ -92,11 +92,11 @@ export class CaretAccountService {
 	 */
 	async fetchBalanceRPC(): Promise<BalanceResponse | undefined> {
 		try {
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("Failed to fetch user ID for usage transactions")
-				return undefined
-			}
+			// const me = await this.fetchMe()
+			// if (!me || !me.id) {
+			// 	console.error("Failed to fetch user ID for usage transactions")
+			// 	return undefined
+			// }
 			const data = await this.authenticatedRequest<BalanceResponse>(CARET_API_ENDPOINT.BALANCE)
 			return data
 		} catch (error) {
@@ -111,11 +111,11 @@ export class CaretAccountService {
 	 */
 	async fetchUsageTransactionsRPC(): Promise<UsageTransaction[] | undefined> {
 		try {
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("Failed to fetch user ID for usage transactions")
-				return undefined
-			}
+			// const me = await this.fetchMe()
+			// if (!me || !me.id) {
+			// 	console.error("Failed to fetch user ID for usage transactions")
+			// 	return undefined
+			// }
 			const data = await this.authenticatedRequest<{ items: UsageTransaction[] }>(CARET_API_ENDPOINT.LOGS)
 			return data.items
 		} catch (error) {
@@ -130,11 +130,11 @@ export class CaretAccountService {
 	 */
 	async fetchPaymentTransactionsRPC(): Promise<PaymentTransaction[] | undefined> {
 		try {
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("Failed to fetch user ID for usage transactions")
-				return undefined
-			}
+			// const me = await this.fetchMe()
+			// if (!me || !me.id) {
+			// 	console.error("Failed to fetch user ID for usage transactions")
+			// 	return undefined
+			// }
 			const data = await this.authenticatedRequest<{ paymentTransactions: PaymentTransaction[] }>(
 				CARET_API_ENDPOINT.PAYMENTS,
 			)
