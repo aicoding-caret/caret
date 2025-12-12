@@ -51,7 +51,6 @@ Based on work keywords, ensure you've read relevant docs (use `/ai-work-index` f
 ## Phase 2: TDD GREEN - Test Passing Implementation
 🛑 **STOP POINT**: Before modifying ANY Cline original file
 - Is it protected? (src/, webview-ui/, proto/, scripts/, evals/, docs/, locales/, root configs)
-- Create backup: `cp filename.ts filename.ts.cline` (NEVER overwrite existing .cline)
 - Add comment: `// CARET MODIFICATION: [clear description]`
 - Minimal changes: Maximum 1-3 lines per file
 - Complete replacement: Never comment out old code

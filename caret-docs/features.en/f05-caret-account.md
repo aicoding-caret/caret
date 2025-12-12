@@ -3,7 +3,7 @@
 **Status**: ✅ Phase 4 complete | **Scope**: Backend (controller/service), Webview (Account/Settings), gRPC | **Priority**: 🔴 High
 
 ## 📋 Overview
-A fully independent Caret account stack that replaces ClineAccount through branching entry points while keeping Cline code intact. Caret and Cline accounts can coexist; routing decides which experience to show.
+Caret account + provider stack that branches at the entry points while keeping Cline code intact. Caret and Cline accounts coexist; routing decides which experience to show. Caret provider uses the account token to call an OpenAI-compatible endpoint on `api.caret.team`.
 
 ## 🆚 Improvements vs Cline
 | Area | Cline | Caret |
@@ -13,63 +13,49 @@ A fully independent Caret account stack that replaces ClineAccount through branc
 | Auth | Auth0 (Cline tenant) | **Custom Auth0 (Caret tenant)** with JWT, org vs personal separation |
 | UI | Cline Account webview | **Unified Caret views** in Account and Settings with balance/usage cards |
 
-## 🏗 Code Scope
-- **Backend**: `src/core/controller/caretAccount/*` handlers, `src/services/account/CaretAccountService.ts`, `proto/caret/account.proto`.
-- **Webview**: `webview-ui/src/caret/components/CaretAccountView.tsx`, `CaretAccountInfoCard.tsx`, entry branching in `webview-ui/src/components/account/AccountView.tsx`, state in `webview-ui/src/context/ExtensionStateContext.tsx`.
-- **API Provider**: `src/api/providers/CaretApiProvider.ts` (OpenAI-compatible `/api/v1/chat/completions`).
+## 🏗 Code Scope (current)
+- **Backend controllers**: `src/core/controller/caretAccount/*` (gRPC handlers) → `caret-src/services/account/CaretAccountService.ts` (REST to `api.caret.team`), `proto/caret/account.proto`.
+- **Auth service**: `caret-src/services/auth/CaretAuthService.ts` (token refresh, org selection), wired in `src/core/controller/index.ts`.
+- **Provider runtime**: `src/core/api/index.ts` → `caret-src/core/api/providers/caret.ts` (`CaretHandler`, OpenAI-compatible stream to `https://api.caret.team/v1/chat/completions`).
+- **Provider config & models**: `src/shared/api.ts` (`ApiProvider` includes `caret`; static `caretModels`/`caretDefaultModelId`); CLI static definitions generated via `scripts/cli-providers.mjs` → `cli/pkg/generated/providers.go`.
+- **Webview**: Account entry branching in `webview-ui/src/components/account/AccountView.tsx`; Caret account UI in `webview-ui/src/caret/components/CaretAccountView.tsx`; auth state/context in `webview-ui/src/context/CaretAuthContext.tsx` and `ExtensionStateContext.tsx`; Settings provider UI in `webview-ui/src/components/settings/providers/CaretProvider.tsx` + `CaretModelPicker.tsx`.
+- **CLI**: `cli/pkg/cli/auth/auth_caret_provider.go` (login, org select, default model set from static list) uses generated provider definitions.
 
-## 🎯 Goal
-Replace ClineAccount by switching only the entry point while preserving Cline logic.
+## 🎯 Goals
+- Keep Cline logic intact; branch to Caret account/provider at the entry points.
+- Use Caret auth tokens for both account UI data and Caret provider chat calls.
 
-## 📋 Implementation Strategy
-- **Entry-point switch** (AccountView):
+## 🔧 Architecture & Flows
+- **Account entry switch (webview-ui/src/components/account/AccountView.tsx)**  
   ```tsx
-  {caretUser?.uid ? <CaretAccountView /> : clineUser?.uid ? <ClineAccountView /> : <AccountWelcomeView />}
+  {caretUser?.uid ? <CaretAccountView caretUser={caretUser} /> : clineUser?.uid ? <ClineAccountView /> : <AccountWelcomeView />}
   ```
-- **Benefits**: Minimal intrusion, Cline code kept, Caret UI/services operate independently.
+- **Account data**: Webview gRPC → `CaretAccountServiceClient.*` → `CaretAccountService` → REST `api.caret.team` (balance/usage/profile/orgs).
+- **Auth state**: `CaretAuthContext` subscribes to `CaretAccountService` auth stream; `CaretAuthService` refreshes tokens and exposes `getAuthToken()` for provider calls.
+- **Provider selection**: Settings `CaretProvider` + `CaretModelPicker` write `caretModelId`/`caretModelInfo` into `ExtensionStateContext` (plan/act mode fields).
+- **Provider execution**: `src/core/api/index.ts` dispatches `"caret"` to `CaretHandler` (OpenAI SDK over `api.caret.team/v1` with Caret auth token and extra headers). Reasoning passthrough respects `shouldSkipReasoningForModel`.
+- **CLI parity**: `auth_caret_provider.go` uses static models from generated definitions, sets default model, and calls the same gRPC auth endpoints.
 
-## 🏗 Required Components
-- Frontend: `CaretAccountView`, `CaretAccountInfoCard`, `CaretApiSetup`, `CaretWelcomeSection`, `CaretGeneralSettingsSection`.
-- Backend: `CaretApiProvider`, `CaretAccountService` (gRPC/REST), mock server for dev.
+## 🌐 API Surface (caret.team)
+- Base URL: `https://api.caret.team`
+- Account: balance, usage history, profile, org selection (via `CaretAccountService` gRPC → REST).
+- Provider: OpenAI-compatible `POST /v1/chat/completions` (CaretHandler), uses Caret auth token and `X-AnyLLM-Key` header.
 
-## 🔧 Implementation Phases
-1) **caretUser state** in ExtensionState + CaretGlobalManager; mode-aware auth tokens. 
-2) **CaretAccountView** with the same interface as ClineAccountView; wired to Caret API. 
-3) **Settings integration** via `CaretAccountInfoCard` and “View Account” entry.
+## 🧩 Models (Caret provider)
+- Static list: `src/shared/api.ts` (`caretModels`, `caretDefaultModelId`).
+  - `gemini/gemini-3-pro-preview`
+  - `gemini/gemini-2.5-pro`
+  - `gemini/gemini-2.5-flash` (default)
+- Frontend merges static + backend-provided models in `ExtensionStateContext` but currently uses the static map.
+- CLI static definitions regenerated by `npm run cli-providers` (uses `scripts/cli-providers.mjs`); default model mirrors `caretDefaultModelId`.
 
-## 🌐 API Requirements (server team)
-**Base URL**: `https://api.caret.team`
-- Balance API
-- Usage history API
-- Generation listing (usage tracking)
-- User profile API
-- OpenAI-compatible chat/completions (highest priority)
+## 🧪 Testing Checklist
+1) Webview: F5 → Account tab → CaretAccountView renders with balance/usage/profile via gRPC.
+2) Settings: Caret login button works; model picker lists Caret models; selected model stored per mode.
+3) Provider: Send chat with Caret provider; verify `CaretHandler` uses Caret token and selected model, reasoning skip logic behaves.
+4) CLI: `npm run cli-providers` (after model changes) and `npm run protos-go` if proto changes; `cline auth` → Caret login + default model applied.
 
-## ⚠️ Notes
-- Keep Caret/Cline API keys and domains separate to avoid collisions.
-- Follow minimal-change principle; branch to `caret-src/**` rather than modifying shared logic.
-
-## 📊 Current Status
-- Core TypeScript + gRPC flow implemented; 401 issues resolved with post-processing scripts; compiles and bundles cleanly.
-- Mock → real API swap is documented; remaining live behavior depends on server endpoints.
-
-## 🧪 Testing
-1) **Mock API**: compile, run component tests, verify Account view rendering. 
-2) **Live check**: launch VS Code (F5), open Account → CaretAccountView, confirm data fetch. 
-3) **Logs**: trace gRPC/REST calls and ensure token propagation. 
-4) **Response shape**: validate against proto/Swagger contracts.
-
-## 📖 API Checklist for caret.team
-- **Phase 1**: Balance, usage history, profile.
-- **Phase 2**: OpenAI-compatible chat endpoint (billing critical).
-- **Phase 3**: Org/user management refinements.
-
-## 🧪 Final Verification
-- ✅ TypeScript compile and bundle pass.
-- ✅ Proto generation + post-processing scripts fix Caret namespaces in generated files.
-- ✅ gRPC call flow tested end-to-end with mock + live stubs.
-
-## 🚀 Handoff
-- **Frontend/Extension**: 100% ready and branded.
-- **Backend hook**: Swap mock URLs to live `api.caret.team`; minimal server work required for go-live.
-- **Post-launch**: Monitor balances/usage rendering, auth token refresh, and update gRPC definitions as the API evolves.
+## 🧭 Maintenance Notes
+- Keep Cline logic untouched; route through `caret-src/**` where possible.
+- When adding models, update `src/shared/api.ts` and regenerate CLI definitions (`npm run cli-providers`).
+- Proto changes require `npm run protos` (TS) and `npm run protos-go` (Go) plus post-processing steps already scripted.

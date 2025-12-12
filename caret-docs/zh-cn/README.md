@@ -1,7 +1,8 @@
 <div align="center">
-  > **🚀 正式发布：Caret AI Provider 现已上线！**
-  >
-  > 我们很高兴地宣布，基于 `anyLLM` 的官方 Caret Provider 现已稳定并向所有用户开放。连接到 [`caret.team`](https://caret.team) 的专用 AI 服务，享受优化和可靠的体验。立即开始，获取每月免费积分！
+  <p>
+    <strong>🚀 正式发布：Caret AI Provider 现已上线！</strong><br>
+    我们很高兴地宣布，基于 <code>anyLLM</code> 的官方 Caret Provider 现已稳定并向所有用户开放。连接到 <a href="https://caret.team">caret.team</a> 的专用 AI 服务，享受优化和可靠的体验。立即开始，获取每月免费积分！
+  </p>
 
   <table>
     <tr>

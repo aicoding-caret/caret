@@ -318,6 +318,32 @@ export interface CaretModelInfo extends ModelInfo {
 }
 export const caretDefaultModelId: CaretModelId = "gemini/gemini-2.5-flash"
 export const caretModels = {
+	"gemini/gemini-3-pro-preview": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		inputPrice: 4.0,
+		outputPrice: 18.0,
+		cacheReadsPrice: 0.4,
+		thinkingConfig: {
+			thinkingLevel: "high",
+		},
+		tiers: [
+			{
+				contextWindow: 200000,
+				inputPrice: 2.0,
+				outputPrice: 12.0,
+				cacheReadsPrice: 0.2,
+			},
+			{
+				contextWindow: Infinity,
+				inputPrice: 4.0,
+				outputPrice: 18.0,
+				cacheReadsPrice: 0.4,
+			},
+		],
+	},
 	"gemini/gemini-2.5-pro": {
 		maxTokens: 65536,
 		contextWindow: 1_048_576,

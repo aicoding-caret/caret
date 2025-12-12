@@ -1,7 +1,8 @@
 <div align="center">
-  > **🚀 공식 출시: Caret AI Provider 정식 버전 공개!**
-  >
-  > `anyLLM` 기반의 공식 Caret Provider가 안정화되어 모든 사용자에게 제공됨을 알려드립니다. [`caret.team`](https://caret.team)의 전용 AI 서비스에 연결하여 최적화되고 안정적인 경험을 누려보세요. 월간 무료 크레딧으로 지금 바로 시작할 수 있습니다!
+  <p>
+    <strong>🚀 공식 출시: Caret AI Provider 정식 버전 공개!</strong><br>
+    <code>anyLLM</code> 기반의 공식 Caret Provider가 안정화되어 모든 사용자에게 제공됨을 알려드립니다. <a href="https://caret.team">caret.team</a>의 전용 AI 서비스에 연결하여 최적화되고 안정적인 경험을 누려보세요. 월간 무료 크레딧으로 지금 바로 시작할 수 있습니다!
+  </p>
 
   <table>
     <tr>

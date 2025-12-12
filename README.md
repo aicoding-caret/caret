@@ -1,7 +1,8 @@
 <div align="center">
-  > **🚀 Official Launch: The Caret AI Provider is Now Live!**
-  >
-  > We are thrilled to announce that the official Caret Provider, powered by `anyLLM`, is now stable and available to all users. Connect to [`caret.team`](https://caret.team)'s dedicated AI service for an optimized and reliable experience. Get started with free monthly credits!
+  <p>
+    <strong>🚀 Official Launch: The Caret AI Provider is Now Live!</strong><br>
+    We are thrilled to announce that the official Caret Provider, powered by <code>anyLLM</code>, is now stable and available to all users. Connect to <a href="https://caret.team">caret.team</a>'s dedicated AI service for an optimized and reliable experience. Get started with free monthly credits!
+  </p>
 
   <table>
     <tr>
@@ -59,8 +60,9 @@
 **Great news!** The official Caret AI provider is now stable and ready for everyone:
 
 - 🎉 **Free credits**: New users get **$0.1 (10 credits) monthly**! (Up to $0.2 for the first month)
-- 🤖 **Latest models**: Access powerful models like Gemini 3, 2.5 Pro, and Lite.
-- 🚀 **Easy setup**: Simply select “Caret” as your AI provider in the settings to get started instantly.
+- 🤖 **Latest models**: Access powerful models like **Gemini 3 Pro Preview**, **Gemini 2.5 Pro**, **Gemini 2.5 Flash** (default).
+- 🚀 **Easy setup**: Select “Caret” in Settings → Providers. Login opens the Caret auth page; the selected Caret model is stored per Plan/Act mode.
+- 🔧 **Runtime**: Webview gRPC → CaretAccountService → `api.caret.team` (OpenAI-compatible). CLI uses the same Caret auth flow; static model list is generated from `src/shared/api.ts`.
 
 ---
 

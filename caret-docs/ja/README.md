@@ -1,7 +1,8 @@
 <div align="center">
-  > **🚀 公式ローンチ：Caret AI Providerが正式に公開されました！**
-  >
-  > `anyLLM`ベースの公式Caret Providerが安定化し、すべてのユーザーにご利用いただけるようになったことをお知らせします。[`caret.team`](https://caret.team)の専用AIサービスに接続し、最適化された信頼性の高い体験をお楽しみください。毎月の無料クレジットですぐに始められます！
+  <p>
+    <strong>🚀 公式ローンチ：Caret AI Providerが正式に公開されました！</strong><br>
+    <code>anyLLM</code>ベースの公式Caret Providerが安定化し、すべてのユーザーにご利用いただけるようになったことをお知らせします。<a href="https://caret.team">caret.team</a>の専用AIサービスに接続し、最適化された信頼性の高い体験をお楽しみください。毎月の無料クレジットですぐに始められます！
+  </p>
 
   <table>
     <tr>
