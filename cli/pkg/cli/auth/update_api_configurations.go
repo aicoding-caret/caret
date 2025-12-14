@@ -214,12 +214,14 @@ func GetProviderFields(provider cline.ApiProvider) (ProviderFields, error) {
 // ProviderUpdatesPartial defines optional fields for partial provider updates
 // Uses pointers to distinguish between "not provided" and "set to empty"
 type ProviderUpdatesPartial struct {
-	ModelID      *string     // New model ID (optional)
-	APIKey       *string     // New API key (optional)
-	ModelInfo    interface{} // New model info (optional, provider-specific)
-	BaseURL      *string     // New base URL (optional, e.g., for OCA, Ollama)
-	RefreshToken *string     // New refresh token (optional, e.g., for OCA)
-	Mode         *string     // New mode (optional, e.g., "internal" or "external" for OCA)
+	ModelID              *string     // New model ID (optional)
+	APIKey               *string     // New API key (optional)
+	ModelInfo            interface{} // New model info (optional, provider-specific)
+	BaseURL              *string     // New base URL (optional, e.g., for OCA, Ollama)
+	RefreshToken         *string     // New refresh token (optional, e.g., for OCA)
+	Mode                 *string     // New mode (optional, e.g., "internal" or "external" for OCA)
+	UsePromptCache       *bool       // Optional: enable prompt cache (provider-specific field)
+	ThinkingBudgetTokens *int64      // Optional: thinking budget (applied to both plan/act)
 }
 
 // GetModelIDFieldName returns the appropriate model ID field name for a provider and mode.
@@ -332,6 +334,36 @@ func setAPIKeyField(apiConfig *cline.ModelsApiConfiguration, fieldName string, v
 	}
 }
 
+// getPromptCacheField returns the prompt cache field for a provider
+func getPromptCacheField(provider cline.ApiProvider) string {
+	switch provider {
+	case cline.ApiProvider_LITELLM:
+		return "liteLlmUsePromptCache"
+	case cline.ApiProvider_CARET:
+		return "caretUsePromptCache"
+	case cline.ApiProvider_BIZROUTER:
+		return "bizRouterUsePromptCache"
+	case cline.ApiProvider_BEDROCK:
+		return "awsBedrockUsePromptCache"
+	default:
+		return ""
+	}
+}
+
+// setPromptCacheField sets prompt cache flag based on field name
+func setPromptCacheField(apiConfig *cline.ModelsApiConfiguration, fieldName string, value *bool) {
+	switch fieldName {
+	case "liteLlmUsePromptCache":
+		apiConfig.LiteLlmUsePromptCache = value
+	case "caretUsePromptCache":
+		apiConfig.CaretUsePromptCache = value
+	case "bizRouterUsePromptCache":
+		apiConfig.BizRouterUsePromptCache = value
+	case "awsBedrockUsePromptCache":
+		apiConfig.AwsBedrockUsePromptCache = value
+	}
+}
+
 // setProviderSpecificModelID sets the appropriate provider-specific model ID fields when possible
 func setProviderSpecificModelID(apiConfig *cline.ModelsApiConfiguration, fieldName string, value *string) {
 	switch fieldName {
@@ -369,7 +401,7 @@ func setProviderSpecificModelID(apiConfig *cline.ModelsApiConfiguration, fieldNa
 }
 
 // AddProviderPartial configures a new provider with all necessary fields using partial updates.
-func AddProviderPartial(ctx context.Context, manager *task.Manager, provider cline.ApiProvider, modelID string, apiKey string, baseURL string, modelInfo interface{}) error {
+func AddProviderPartial(ctx context.Context, manager *task.Manager, provider cline.ApiProvider, modelID string, apiKey string, baseURL string, modelInfo interface{}, usePromptCache *bool, thinkingBudgetTokens *int64) error {
 	// Get field mapping for this provider
 	fields, err := GetProviderFields(provider)
 	if err != nil {
@@ -406,11 +438,28 @@ func AddProviderPartial(ctx context.Context, manager *task.Manager, provider cli
 			apiConfig.PlanModeOpenRouterModelInfo = openRouterInfo
 			apiConfig.ActModeOpenRouterModelInfo = openRouterInfo
 		}
+		if liteLlmInfo, ok := modelInfo.(*cline.LiteLLMModelInfo); ok {
+			apiConfig.PlanModeLiteLlmModelInfo = liteLlmInfo
+			apiConfig.ActModeLiteLlmModelInfo = liteLlmInfo
+		}
 	}
 
 	// Build field mask including all fields we're setting (without provider enums)
 	includeModelInfo := fields.PlanModeModelInfoField != "" && modelInfo != nil
+	includePromptCache := usePromptCache != nil
+	includeThinkingBudget := thinkingBudgetTokens != nil
 	fieldPaths := buildProviderFieldMask(fields, true, true, includeModelInfo, includeBaseURL, false)
+	if includePromptCache {
+		if fieldName := getPromptCacheField(provider); fieldName != "" {
+			setPromptCacheField(apiConfig, fieldName, usePromptCache)
+			fieldPaths = append(fieldPaths, fieldName)
+		}
+	}
+	if includeThinkingBudget {
+		apiConfig.PlanModeThinkingBudgetTokens = thinkingBudgetTokens
+		apiConfig.ActModeThinkingBudgetTokens = thinkingBudgetTokens
+		fieldPaths = append(fieldPaths, "planModeThinkingBudgetTokens", "actModeThinkingBudgetTokens")
+	}
 
 	// Create field mask
 	fieldMask := &fieldmaskpb.FieldMask{Paths: fieldPaths}
@@ -450,6 +499,8 @@ func UpdateProviderPartial(ctx context.Context, manager *task.Manager, provider 
 	includeAPIKey := updates.APIKey != nil
 	includeModelID := updates.ModelID != nil
 	includeModelInfo := updates.ModelInfo != nil && fields.PlanModeModelInfoField != ""
+	includePromptCache := updates.UsePromptCache != nil
+	includeThinkingBudget := updates.ThinkingBudgetTokens != nil
 
 	// Update API key if provided
 	if updates.APIKey != nil {
@@ -474,10 +525,35 @@ func UpdateProviderPartial(ctx context.Context, manager *task.Manager, provider 
 			apiConfig.PlanModeOpenRouterModelInfo = openRouterInfo
 			apiConfig.ActModeOpenRouterModelInfo = openRouterInfo
 		}
+		if liteLlmInfo, ok := updates.ModelInfo.(*cline.LiteLLMModelInfo); ok {
+			apiConfig.PlanModeLiteLlmModelInfo = liteLlmInfo
+			apiConfig.ActModeLiteLlmModelInfo = liteLlmInfo
+		}
+	}
+
+	// Update prompt cache flag if provided (provider-specific)
+	if includePromptCache {
+		if fieldName := getPromptCacheField(provider); fieldName != "" {
+			setPromptCacheField(apiConfig, fieldName, updates.UsePromptCache)
+		}
+	}
+
+	// Update thinking budget (applies to both plan/act)
+	if includeThinkingBudget {
+		apiConfig.PlanModeThinkingBudgetTokens = updates.ThinkingBudgetTokens
+		apiConfig.ActModeThinkingBudgetTokens = updates.ThinkingBudgetTokens
 	}
 
 	// Build field mask for only the fields being updated
 	fieldPaths := buildProviderFieldMask(fields, includeAPIKey, includeModelID, includeModelInfo, false, setAsActive)
+	if includePromptCache {
+		if fieldName := getPromptCacheField(provider); fieldName != "" {
+			fieldPaths = append(fieldPaths, fieldName)
+		}
+	}
+	if includeThinkingBudget {
+		fieldPaths = append(fieldPaths, "planModeThinkingBudgetTokens", "actModeThinkingBudgetTokens")
+	}
 
 	// Create field mask
 	fieldMask := &fieldmaskpb.FieldMask{Paths: fieldPaths}

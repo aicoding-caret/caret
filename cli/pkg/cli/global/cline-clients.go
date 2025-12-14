@@ -13,6 +13,7 @@ import (
 
 	"github.com/cline/cli/pkg/common"
 	"github.com/cline/grpc-go/cline"
+	"google.golang.org/grpc/health/grpc_health_v1"
 )
 
 // ClineClients manages Cline instances using the new registry system
@@ -69,36 +70,43 @@ func (c *ClineClients) StartNewInstance(ctx context.Context) (*common.CoreInstan
 		fmt.Println("Waiting for services to start and self-register in SQLite...")
 	}
 
-	// Use RetryOperation to wait for instance to be ready
+	// Use RetryOperation to wait for instance to be ready (registry first, then health fallback)
 	var instance *common.CoreInstanceInfo
 	err = common.RetryOperation(12, 5*time.Second, func() error {
-		// Check if instance registered itself in SQLite
-		foundInstance, err := c.registry.GetInstance(fullAddress)
-		if err != nil || foundInstance == nil {
-			return fmt.Errorf("instance not found in registry: %v", err)
+		foundInstance, regErr := c.registry.GetInstance(fullAddress)
+		if regErr == nil && foundInstance != nil {
+			// Verify instance is healthy
+			if !common.IsInstanceHealthy(ctx, fullAddress) {
+				return fmt.Errorf("instance is registered but not healthy")
+			}
+			instance = foundInstance
+			return nil
 		}
 
-		// Verify instance is healthy
-		if !common.IsInstanceHealthy(ctx, fullAddress) {
-			return fmt.Errorf("instance is registered but not healthy")
+		// CARET MODIFICATION: fallback when registry entry is missing but service is healthy
+		if common.IsInstanceHealthy(ctx, fullAddress) {
+			instance = &common.CoreInstanceInfo{
+				Address:            fullAddress,
+				HostServiceAddress: fmt.Sprintf("localhost:%d", hostPort),
+				Status:             grpc_health_v1.HealthCheckResponse_SERVING,
+			}
+			return nil
 		}
 
-		// Success - store the instance for return
-		instance = foundInstance
-		return nil
+		if regErr != nil {
+			return fmt.Errorf("instance not found in registry: %v", regErr)
+		}
+		return fmt.Errorf("instance not found in registry")
 	})
 
 	if err != nil {
-		// Clean up both processes on failure
-		if coreCmd != nil && coreCmd.Process != nil {
-			fmt.Printf("Cleaning up core process (PID: %d)\n", coreCmd.Process.Pid)
-			coreCmd.Process.Kill()
+		// CARET MODIFICATION: last-chance fallback even without registry/health (return addresses so caller can try)
+		fmt.Printf("Warning: registry/health check failed (%v), returning instance address anyway.\n", err)
+		instance = &common.CoreInstanceInfo{
+			Address:            fullAddress,
+			HostServiceAddress: fmt.Sprintf("localhost:%d", hostPort),
+			Status:             grpc_health_v1.HealthCheckResponse_UNKNOWN,
 		}
-		if hostCmd != nil && hostCmd.Process != nil {
-			fmt.Printf("Cleaning up host process (PID: %d)\n", hostCmd.Process.Pid)
-			hostCmd.Process.Kill()
-		}
-		return nil, fmt.Errorf("failed to start instance: %w", err)
 	}
 
 	if Config.Verbose {
@@ -108,6 +116,9 @@ func (c *ClineClients) StartNewInstance(ctx context.Context) (*common.CoreInstan
 		fmt.Printf("  Host Bridge Port: %d\n", instance.HostPort())
 		fmt.Printf("  Process PID: %d\n", coreCmd.Process.Pid)
 	}
+
+	// CARET MODIFICATION: best-effort default instance registration (no-op if DB missing)
+	_ = c.registry.SetDefaultInstance(instance.Address)
 
 	// If this is the first instance, set it as default
 	instances := c.registry.ListInstances()
@@ -419,12 +430,12 @@ func startClineCore(corePort, hostPort int) (*exec.Cmd, error) {
 			label      string
 		}{
 			{
-				corePath:   path.Join(binDir, "..", "..", "dist-standalone", "cline-core.js"),        // dev mode
+				corePath:   path.Join(binDir, "..", "..", "dist-standalone", "cline-core.js"), // dev mode
 				installDir: path.Join(binDir, "..", "..", "dist-standalone"),
 				label:      "development",
 			},
 			{
-				corePath:   path.Join(installDir, "dist-standalone", "cline-core.js"),                // npm packaged dist
+				corePath:   path.Join(installDir, "dist-standalone", "cline-core.js"), // npm packaged dist
 				installDir: path.Join(installDir, "dist-standalone"),
 				label:      "npm packaged",
 			},

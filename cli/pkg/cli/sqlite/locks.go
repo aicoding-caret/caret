@@ -19,20 +19,20 @@ import (
 // Handles localhost/127.0.0.1 equivalence by returning both forms.
 func normalizeAddressVariants(address string) []string {
 	variants := []string{address}
-	
+
 	// Extract host and port
 	host, port, err := net.SplitHostPort(address)
 	if err != nil {
 		return variants
 	}
-	
+
 	// Add the alternate form for localhost/127.0.0.1
 	if host == "localhost" {
 		variants = append(variants, net.JoinHostPort("127.0.0.1", port))
 	} else if host == "127.0.0.1" {
 		variants = append(variants, net.JoinHostPort("localhost", port))
 	}
-	
+
 	return variants
 }
 
@@ -45,6 +45,15 @@ type LockManager struct {
 // NewLockManager creates a new lock manager
 func NewLockManager(clineDir string) (*LockManager, error) {
 	dbPath := filepath.Join(clineDir, common.SETTINGS_SUBFOLDER, "locks.db")
+
+	// CARET MODIFICATION: fallback to legacy .cline registry if .caret registry is missing
+	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
+		legacyDir := filepath.Join(os.Getenv("HOME"), ".cline")
+		legacyDB := filepath.Join(legacyDir, common.SETTINGS_SUBFOLDER, "locks.db")
+		if _, legacyErr := os.Stat(legacyDB); legacyErr == nil {
+			dbPath = legacyDB
+		}
+	}
 
 	// Ensure the directory exists (for future DB creation by cline-core)
 	dbDir := filepath.Dir(dbPath)
@@ -88,7 +97,8 @@ func (lm *LockManager) ensureConnection() error {
 
 	// Check if database exists now (created by cline-core)
 	if _, err := os.Stat(lm.dbPath); os.IsNotExist(err) {
-		return fmt.Errorf("database not available")
+		// CARET MODIFICATION: treat missing DB as empty registry (non-fatal)
+		return nil
 	}
 
 	// Database exists, try to connect
@@ -160,7 +170,8 @@ func (lm *LockManager) RemoveInstanceLock(address string) error {
 // HasInstanceAtAddress checks if an instance exists at the given address
 func (lm *LockManager) HasInstanceAtAddress(address string) (bool, error) {
 	if err := lm.ensureConnection(); err != nil {
-		return false, err
+		// CARET MODIFICATION: missing DB means no instances, not fatal
+		return false, nil
 	}
 
 	query := common.CountInstanceLockSQL
@@ -177,12 +188,13 @@ func (lm *LockManager) HasInstanceAtAddress(address string) (bool, error) {
 // Handles localhost/127.0.0.1 equivalence by trying both variants.
 func (lm *LockManager) GetInstanceInfo(address string) (*common.CoreInstanceInfo, error) {
 	if err := lm.ensureConnection(); err != nil {
-		return nil, err
+		// CARET MODIFICATION: missing DB -> no info available
+		return nil, nil
 	}
 
 	query := common.SelectInstanceLockByHolderSQL
 	variants := normalizeAddressVariants(address)
-	
+
 	var heldBy, lockTarget string
 	var lockedAt int64
 	var lastErr error
@@ -204,7 +216,7 @@ func (lm *LockManager) GetInstanceInfo(address string) (*common.CoreInstanceInfo
 			lastErr = err
 		}
 	}
-	
+
 	// None of the variants were found
 	if lastErr != nil {
 		return nil, fmt.Errorf("failed to query instance: %w", lastErr)

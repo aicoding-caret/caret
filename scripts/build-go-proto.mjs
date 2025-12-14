@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import chalk from "chalk"
-import { execSync } from "child_process"
+import { execSync, spawnSync } from "child_process"
 import { existsSync } from "fs"
 import * as fs from "fs/promises"
 import { globby } from "globby"
@@ -35,6 +35,12 @@ function ensureGoBinsOnPath() {
 
 // Check if Go is installed
 function checkGoInstallation() {
+	const result = spawnSync("go", ["version"], { stdio: "pipe", encoding: "utf8" })
+	// Some sandboxes flag an EPERM error even when status is 0; prefer status check
+	if (result.status === 0) {
+		return true
+	}
+	// Fall back to execSync to surface readable error output
 	try {
 		execSync("go version", { stdio: "pipe" })
 		return true
@@ -45,18 +51,14 @@ function checkGoInstallation() {
 
 // Check if a Go tool is available
 function checkGoTool(toolName) {
-	try {
-		execSync(`which ${toolName}`, { stdio: "pipe" })
+	const unixCheck = spawnSync("which", [toolName], { stdio: "pipe" })
+	if (unixCheck.status === 0) {
 		return true
-	} catch (error) {
-		// On Windows, 'which' might not be available, try 'where'
-		try {
-			execSync(`where ${toolName}`, { stdio: "pipe" })
-			return true
-		} catch (windowsError) {
-			return false
-		}
 	}
+
+	// On Windows, 'which' might not be available, try 'where'
+	const winCheck = spawnSync("where", [toolName], { stdio: "pipe" })
+	return winCheck.status === 0
 }
 
 // Install Go protobuf tools

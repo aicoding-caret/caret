@@ -53,10 +53,12 @@ func (r *ClientRegistry) SetDefaultInstance(address string) error {
 	if r.lockManager != nil {
 		exists, err := r.lockManager.HasInstanceAtAddress(address)
 		if err != nil {
-			return fmt.Errorf("failed to check instance existence: %w", err)
+			// CARET MODIFICATION: allow fallback when database unavailable
+			return sqlite.SetDefaultInstance(r.configPath, address)
 		}
 		if !exists {
-			return fmt.Errorf("instance %s not found in registry", address)
+			// CARET MODIFICATION: accept addresses not yet registered (health check is done elsewhere)
+			return sqlite.SetDefaultInstance(r.configPath, address)
 		}
 	}
 
@@ -74,16 +76,7 @@ func (r *ClientRegistry) GetInstance(address string) (*common.CoreInstanceInfo, 
 
 // GetClient returns a connected client for the given address (created on-demand)
 func (r *ClientRegistry) GetClient(ctx context.Context, address string) (*client.ClineClient, error) {
-	// Verify instance exists in SQLite
-	if r.lockManager != nil {
-		exists, err := r.lockManager.HasInstanceAtAddress(address)
-		if err != nil {
-			return nil, fmt.Errorf("failed to check instance existence: %w", err)
-		}
-		if !exists {
-			return nil, fmt.Errorf("instance %s not found", address)
-		}
-	}
+	// CARET MODIFICATION: do not hard-fail when registry is empty; rely on health check later
 
 	// Create client on-demand (no caching)
 	target, err := common.NormalizeAddressForGRPC(address)
@@ -117,7 +110,7 @@ func (r *ClientRegistry) GetDefaultClient(ctx context.Context) (*client.ClineCli
 			// Database is unavailable - Return error instead of attempting cleanup
 			return nil, fmt.Errorf("cannot verify default instance: database unavailable: %w", err)
 		}
-		
+
 		if !exists {
 			// Instance doesn't exist in database but config file references it
 			// This is a stale config - remove it and try to find another instance
@@ -127,14 +120,14 @@ func (r *ClientRegistry) GetDefaultClient(ctx context.Context) (*client.ClineCli
 			} else {
 				fmt.Printf("Removed stale default instance config (instance %s not found in database)\n", defaultAddr)
 			}
-			
+
 			// Try to find and set a new default instance
 			instances := r.ListInstances()
 			if len(instances) > 0 {
 				if err := r.EnsureDefaultInstance(instances); err != nil {
 					return nil, fmt.Errorf("failed to set new default instance: %w", err)
 				}
-				
+
 				// Retry with the new default
 				newDefaultAddr := r.GetDefaultInstance()
 				if newDefaultAddr != "" {
@@ -142,7 +135,7 @@ func (r *ClientRegistry) GetDefaultClient(ctx context.Context) (*client.ClineCli
 					return r.GetClient(ctx, newDefaultAddr)
 				}
 			}
-			
+
 			return nil, fmt.Errorf("no default instance configured")
 		}
 	}

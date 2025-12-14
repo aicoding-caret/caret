@@ -144,6 +144,50 @@ func GetBYOAPIKeyFieldConfig(provider cline.ApiProvider) APIKeyFieldConfig {
 // For OpenAI (Compatible) provider, also prompts for an optional base URL.
 func PromptForAPIKey(provider cline.ApiProvider) (string, string, error) {
 	var apiKey string
+
+	// CARET MODIFICATION: LiteLLM는 Host(Base URL) → API Key 순으로 받도록 순서 조정
+	if provider == cline.ApiProvider_LITELLM {
+		var baseURL string
+		baseURLForm := huh.NewForm(
+			huh.NewGroup(
+				huh.NewInput().
+					Title("LiteLLM Base URL").
+					Placeholder("e.g., https://api.your-litellm-host/v1").
+					Value(&baseURL).
+					Validate(func(s string) error {
+						if strings.TrimSpace(s) == "" {
+							return fmt.Errorf("Base URL cannot be empty for LiteLLM")
+						}
+						return nil
+					}),
+			),
+		)
+
+		if err := baseURLForm.Run(); err != nil {
+			return "", "", fmt.Errorf("failed to get LiteLLM base URL: %w", err)
+		}
+
+		config := GetBYOAPIKeyFieldConfig(provider)
+		apiKeyField := huh.NewInput().
+			Title(config.Title).
+			EchoMode(config.EchoMode).
+			Value(&apiKey)
+
+		apiKeyField = apiKeyField.Validate(func(s string) error {
+			if strings.TrimSpace(s) == "" {
+				return fmt.Errorf("API key cannot be empty")
+			}
+			return nil
+		})
+
+		apiKeyForm := huh.NewForm(huh.NewGroup(apiKeyField))
+		if err := apiKeyForm.Run(); err != nil {
+			return "", "", fmt.Errorf("failed to get API key: %w", err)
+		}
+
+		return strings.TrimSpace(apiKey), strings.TrimSpace(baseURL), nil
+	}
+
 	config := GetBYOAPIKeyFieldConfig(provider)
 
 	apiKeyField := huh.NewInput().
@@ -167,27 +211,8 @@ func PromptForAPIKey(provider cline.ApiProvider) (string, string, error) {
 	}
 
 	if provider == cline.ApiProvider_LITELLM {
-		var baseURL string
-		baseURLForm := huh.NewForm(
-			huh.NewGroup(
-				huh.NewInput().
-					Title("LiteLLM Base URL").
-					Placeholder("e.g., https://api.your-litellm-host/v1").
-					Value(&baseURL).
-					Validate(func(s string) error {
-						if strings.TrimSpace(s) == "" {
-							return fmt.Errorf("Base URL cannot be empty for LiteLLM")
-						}
-						return nil
-					}),
-			),
-		)
-
-		if err := baseURLForm.Run(); err != nil {
-			return "", "", fmt.Errorf("failed to get LiteLLM base URL: %w", err)
-		}
-
-		return apiKey, baseURL, nil
+		// 이미 LiteLLM은 위에서 처리
+		return strings.TrimSpace(apiKey), "", nil
 	}
 
 	// For OpenAI (Compatible) provider, prompt for base URL

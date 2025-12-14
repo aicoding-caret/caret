@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/task"
 	"github.com/cline/grpc-go/cline"
+	"google.golang.org/protobuf/proto"
 )
 
 // ProviderWizard handles the interactive provider configuration process
@@ -18,6 +20,20 @@ type ProviderWizard struct {
 	ctx     context.Context
 	manager *task.Manager
 }
+
+type liteLlmOptions struct {
+	UsePromptCache       bool
+	ThinkingBudgetTokens int64
+	ContextWindow        int64
+	MaxTokens            int64
+	Temperature          float64
+}
+
+const (
+	defaultLiteLlmContextWindow int64   = 128000
+	defaultLiteLlmMaxTokens     int64   = -1
+	defaultLiteLlmTemperature   float64 = 0
+)
 
 // NewProviderWizard prepares a new provider configuration wizard
 func NewProviderWizard(ctx context.Context) (*ProviderWizard, error) {
@@ -125,8 +141,21 @@ func (pw *ProviderWizard) handleAddProvider() error {
 		return fmt.Errorf("model selection failed: %w", err)
 	}
 
+	var usePromptCache *bool
+	var thinkingBudget *int64
+	if provider == cline.ApiProvider_LITELLM {
+		defaults := getLiteLlmDefaults(pw.ctx, pw.manager)
+		opts, err := promptLiteLlmOptions(defaults)
+		if err != nil {
+			return fmt.Errorf("failed to get LiteLLM options: %w", err)
+		}
+		usePromptCache = &opts.UsePromptCache
+		thinkingBudget = &opts.ThinkingBudgetTokens
+		modelInfo = buildLiteLlmModelInfo(opts)
+	}
+
 	// Step 5: Apply configuration using AddProviderPartial
-	if err := AddProviderPartial(pw.ctx, pw.manager, provider, modelID, apiKey, baseURL, modelInfo); err != nil {
+	if err := AddProviderPartial(pw.ctx, pw.manager, provider, modelID, apiKey, baseURL, modelInfo, usePromptCache, thinkingBudget); err != nil {
 		return fmt.Errorf("failed to save configuration: %w", err)
 	}
 
@@ -136,6 +165,160 @@ func (pw *ProviderWizard) handleAddProvider() error {
 
 	fmt.Println("✓ Provider configured successfully!")
 	return nil
+}
+
+// getLiteLlmDefaults reads current config to seed prompt cache/thinking budget
+func getLiteLlmDefaults(ctx context.Context, manager *task.Manager) liteLlmOptions {
+	opts := liteLlmOptions{
+		UsePromptCache:       false,
+		ThinkingBudgetTokens: 0,
+		ContextWindow:        defaultLiteLlmContextWindow,
+		MaxTokens:            defaultLiteLlmMaxTokens,
+		Temperature:          defaultLiteLlmTemperature,
+	}
+
+	if manager == nil {
+		return opts
+	}
+
+	configs, err := GetProviderConfigurations(ctx, manager)
+	if err != nil || configs == nil || configs.apiConfig == nil {
+		return opts
+	}
+
+	if v, ok := configs.apiConfig["liteLlmUsePromptCache"].(bool); ok {
+		opts.UsePromptCache = v
+	}
+
+	if v, ok := configs.apiConfig["planModeThinkingBudgetTokens"].(float64); ok {
+		opts.ThinkingBudgetTokens = int64(v)
+	}
+
+	if rawInfo, ok := configs.apiConfig["planModeLiteLlmModelInfo"].(map[string]interface{}); ok {
+		if info := convertMapToLiteLlmModelInfo(rawInfo); info != nil {
+			if info.GetContextWindow() > 0 {
+				opts.ContextWindow = info.GetContextWindow()
+			}
+			if info.MaxTokens != nil {
+				opts.MaxTokens = info.GetMaxTokens()
+			}
+			if info.Temperature != nil {
+				opts.Temperature = info.GetTemperature()
+			}
+			// Fallback: infer toggle defaults from last saved model info if config is empty
+			opts.UsePromptCache = info.GetSupportsPromptCache()
+		}
+	}
+
+	return opts
+}
+
+// promptLiteLlmOptions asks for LiteLLM prompt cache and thinking budget
+func promptLiteLlmOptions(defaults liteLlmOptions) (liteLlmOptions, error) {
+	opts := defaults
+	var thinkingInput string
+	var contextWindowInput string
+	var maxTokensInput string
+	var temperatureInput string
+
+	form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewConfirm().
+				Title("Enable prompt caching?").
+				Value(&opts.UsePromptCache).
+				Description("LiteLLM supports prompt caching on some deployments."),
+		),
+		huh.NewGroup(
+			huh.NewInput().
+				Title("Context window size").
+				Placeholder(fmt.Sprintf("%d", defaults.ContextWindow)).
+				Value(&contextWindowInput),
+			huh.NewInput().
+				Title("Max output tokens (-1 for provider default)").
+				Placeholder(fmt.Sprintf("%d", defaults.MaxTokens)).
+				Value(&maxTokensInput),
+			huh.NewInput().
+				Title("Temperature (0 for deterministic)").
+				Placeholder(fmt.Sprintf("%.2f", defaults.Temperature)).
+				Value(&temperatureInput),
+		),
+		huh.NewGroup(
+			huh.NewInput().
+				Title("Thinking budget tokens (0 to disable)").
+				Placeholder(fmt.Sprintf("%d", defaults.ThinkingBudgetTokens)).
+				Value(&thinkingInput),
+		),
+	)
+
+	if err := form.Run(); err != nil {
+		return opts, err
+	}
+
+	if contextWindowInput = strings.TrimSpace(contextWindowInput); contextWindowInput != "" {
+		val, err := parsePositiveInt64(contextWindowInput)
+		if err != nil {
+			return opts, err
+		}
+		if val == 0 {
+			return opts, fmt.Errorf("context window must be greater than 0")
+		}
+		opts.ContextWindow = val
+	}
+
+	if maxTokensInput = strings.TrimSpace(maxTokensInput); maxTokensInput != "" {
+		val, err := parseMaxTokens(maxTokensInput)
+		if err != nil {
+			return opts, err
+		}
+		opts.MaxTokens = val
+	}
+
+	if temperatureInput = strings.TrimSpace(temperatureInput); temperatureInput != "" {
+		val, err := parseNonNegativeFloat(temperatureInput)
+		if err != nil {
+			return opts, err
+		}
+		opts.Temperature = val
+	}
+
+	if thinkingInput = strings.TrimSpace(thinkingInput); thinkingInput != "" {
+		val, err := parsePositiveInt64(thinkingInput)
+		if err != nil {
+			return opts, err
+		}
+		opts.ThinkingBudgetTokens = val
+	}
+
+	return opts, nil
+}
+
+func parsePositiveInt64(value string) (int64, error) {
+	v, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("invalid number: %w", err)
+	}
+	if v < 0 {
+		return 0, fmt.Errorf("value must be >= 0")
+	}
+	return v, nil
+}
+
+func parseMaxTokens(value string) (int64, error) {
+	if value == "-1" {
+		return -1, nil
+	}
+	return parsePositiveInt64(value)
+}
+
+func parseNonNegativeFloat(value string) (float64, error) {
+	v, err := strconv.ParseFloat(value, 64)
+	if err != nil {
+		return 0, fmt.Errorf("invalid number: %w", err)
+	}
+	if v < 0 {
+		return 0, fmt.Errorf("value must be >= 0")
+	}
+	return v, nil
 }
 
 // handleAddBedrockProvider handles the special case of adding Bedrock provider with its multi-field form
@@ -531,6 +714,12 @@ func (pw *ProviderWizard) applyModelChange(provider cline.ApiProvider, modelID s
 		ModelID:   &modelID,
 		ModelInfo: modelInfo,
 	}
+	if provider == cline.ApiProvider_LITELLM {
+		defaults := getLiteLlmDefaults(pw.ctx, pw.manager)
+		updates.UsePromptCache = &defaults.UsePromptCache
+		updates.ThinkingBudgetTokens = &defaults.ThinkingBudgetTokens
+		updates.ModelInfo = buildLiteLlmModelInfo(defaults)
+	}
 
 	return UpdateProviderPartial(pw.ctx, pw.manager, provider, updates, true)
 }
@@ -569,11 +758,24 @@ func SwitchToBYOProvider(ctx context.Context, manager *task.Manager, provider cl
 			modelInfo = convertMapToOpenRouterModelInfo(modelInfoData)
 		}
 	}
+	if provider == cline.ApiProvider_LITELLM {
+		if modelInfoData, ok := apiConfig["planModeLiteLlmModelInfo"].(map[string]interface{}); ok {
+			modelInfo = convertMapToLiteLlmModelInfo(modelInfoData)
+		} else {
+			defaults := getLiteLlmDefaults(ctx, manager)
+			modelInfo = buildLiteLlmModelInfo(defaults)
+		}
+	}
 
 	// Use UpdateProviderPartial to switch to this provider
 	updates := ProviderUpdatesPartial{
 		ModelID:   &modelID,
 		ModelInfo: modelInfo,
+	}
+	if provider == cline.ApiProvider_LITELLM {
+		defaults := getLiteLlmDefaults(ctx, manager)
+		updates.UsePromptCache = &defaults.UsePromptCache
+		updates.ThinkingBudgetTokens = &defaults.ThinkingBudgetTokens
 	}
 
 	if err := UpdateProviderPartial(ctx, manager, provider, updates, true); err != nil {
@@ -670,6 +872,46 @@ func convertMapToOpenRouterModelInfo(data map[string]interface{}) *cline.OpenRou
 	if val, ok := data["supportsPromptCache"].(bool); ok {
 		info.SupportsPromptCache = val
 	}
+
+	return info
+}
+
+func convertMapToLiteLlmModelInfo(data map[string]interface{}) *cline.LiteLLMModelInfo {
+	info := &cline.LiteLLMModelInfo{}
+
+	if val, ok := data["contextWindow"].(float64); ok && val > 0 {
+		context := int64(val)
+		info.ContextWindow = &context
+	}
+	if val, ok := data["maxTokens"].(float64); ok {
+		max := int64(val)
+		info.MaxTokens = &max
+	}
+	if val, ok := data["supportsPromptCache"].(bool); ok {
+		info.SupportsPromptCache = val
+	}
+	// CLI는 이미지 전송을 지원하지 않으므로 항상 false로 둔다.
+	falseVal := false
+	info.SupportsImages = &falseVal
+	if val, ok := data["temperature"].(float64); ok {
+		info.Temperature = &val
+	}
+
+	return info
+}
+
+func buildLiteLlmModelInfo(opts liteLlmOptions) *cline.LiteLLMModelInfo {
+	info := &cline.LiteLLMModelInfo{
+		SupportsPromptCache: opts.UsePromptCache,
+		SupportsImages:      proto.Bool(false),
+	}
+
+	if opts.ContextWindow > 0 {
+		info.ContextWindow = proto.Int64(opts.ContextWindow)
+	}
+	// -1은 공급자 기본을 의미하므로 그대로 반영
+	info.MaxTokens = proto.Int64(opts.MaxTokens)
+	info.Temperature = proto.Float64(opts.Temperature)
 
 	return info
 }
@@ -778,7 +1020,7 @@ func (pw *ProviderWizard) clearProviderAPIKey(provider cline.ApiProvider) error 
 }
 
 func signOutOca(ctx context.Context) error {
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		return err
 	}

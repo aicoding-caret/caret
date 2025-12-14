@@ -15,6 +15,7 @@ import (
 	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/handlers"
 	"github.com/cline/cli/pkg/cli/types"
+	"github.com/cline/grpc-go/caret"
 	"github.com/cline/grpc-go/client"
 	"github.com/cline/grpc-go/cline"
 )
@@ -76,6 +77,7 @@ func NewManagerForAddress(ctx context.Context, address string) (*Manager, error)
 
 	manager := NewManager(client)
 	manager.clientAddress = address
+	manager.setCaretMode(ctx) // CARET MODIFICATION: default CLI to caret prompt system
 	return manager, nil
 }
 
@@ -92,8 +94,20 @@ func NewManagerForDefault(ctx context.Context) (*Manager, error) {
 	if global.Clients != nil {
 		manager.clientAddress = global.Clients.GetRegistry().GetDefaultInstance()
 	}
+	manager.setCaretMode(ctx) // CARET MODIFICATION: default CLI to caret prompt system
 
 	return manager, nil
+}
+
+// CARET MODIFICATION: ensure CLI sessions run in caret prompt system
+func (m *Manager) setCaretMode(ctx context.Context) {
+	if m == nil || m.client == nil || m.client.Caretsystem == nil {
+		return
+	}
+	_, err := m.client.Caretsystem.SetPromptSystemMode(ctx, &caret.SetPromptSystemModeRequest{Mode: "caret"})
+	if err != nil && global.Config.Verbose {
+		fmt.Printf("[DEBUG] Failed to set caret prompt mode: %v\n", err)
+	}
 }
 
 // SwitchToInstance switches the manager to use a different Cline instance
@@ -280,8 +294,8 @@ func (m *Manager) CheckSendEnabled(ctx context.Context) error {
 
 	// Error types which we allow sending on
 	errorTypes := []string{
-		string(types.AskTypeAPIReqFailed),           // "api_req_failed"
-		string(types.AskTypeMistakeLimitReached),    // "mistake_limit_reached"
+		string(types.AskTypeAPIReqFailed),        // "api_req_failed"
+		string(types.AskTypeMistakeLimitReached), // "mistake_limit_reached"
 	}
 
 	isError := false
@@ -1239,7 +1253,7 @@ func (m *Manager) updateMode(stateJson string) {
 // UpdateTaskAutoApprovalAction enables a specific auto-approval action for the current task
 func (m *Manager) UpdateTaskAutoApprovalAction(ctx context.Context, actionKey string) error {
 	boolPtr := func(b bool) *bool { return &b }
-	
+
 	settings := &cline.Settings{
 		AutoApprovalSettings: &cline.AutoApprovalSettings{
 			Actions: &cline.AutoApprovalActions{},
@@ -1248,7 +1262,7 @@ func (m *Manager) UpdateTaskAutoApprovalAction(ctx context.Context, actionKey st
 
 	// Set the specific action to true based on actionKey
 	truePtr := boolPtr(true)
-	
+
 	switch actionKey {
 	case "read_files":
 		settings.AutoApprovalSettings.Actions.ReadFiles = truePtr

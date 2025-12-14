@@ -82,7 +82,7 @@ func TestAddProviderPartialLiteLlmIncludesBaseURLAndSpecificFields(t *testing.T)
 	withPatchedUpdateFn(t, func(_ context.Context, _ *task.Manager, _ *cline.UpdateApiConfigurationPartialRequest) error {
 		return nil
 	}, func(c *capturedUpdate) {
-		err := AddProviderPartial(ctx, nil, cline.ApiProvider_LITELLM, "model-1", "lite-key", "https://litellm.local", nil)
+	err := AddProviderPartial(ctx, nil, cline.ApiProvider_LITELLM, "model-1", "lite-key", "https://litellm.local", nil, nil, nil)
 		if err != nil {
 			t.Fatalf("AddProviderPartial returned error: %v", err)
 		}

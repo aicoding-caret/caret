@@ -6,7 +6,6 @@ import (
 	"io"
 	"time"
 
-	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/grpc-go/cline"
 )
 
@@ -21,7 +20,7 @@ type AuthStatusListener struct {
 
 // NewAuthStatusListener creates a new auth status listener
 func NewAuthStatusListener(parentCtx context.Context) (*AuthStatusListener, error) {
-	client, err := global.GetDefaultClient(parentCtx)
+	client, err := getAuthClient(parentCtx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get client: %w", err)
 	}

@@ -17,8 +17,21 @@ export function detectCurrentBrandName(): string {
 		return _cachedBrandName!
 	}
 
+	const candidates = [
+		path.join(__dirname, "..", "..", "package.json"),
+		path.join(__dirname, "..", "package.json"),
+		path.join(__dirname, "package.json"),
+		path.join(process.cwd(), "package.json"),
+	]
+
 	try {
-		const packageJsonPath = path.join(__dirname, "..", "..", "package.json")
+		const packageJsonPath = candidates.find((candidate) => fs.existsSync(candidate))
+		if (!packageJsonPath) {
+			console.warn("Failed to detect brand from package.json: no candidate file found")
+			_cachedBrandName = "Caret"
+			return _cachedBrandName!
+		}
+
 		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"))
 		// CARET MODIFICATION: default brand fallback uses Caret when displayName is missing
 		const displayName = packageJson.displayName || "Caret"

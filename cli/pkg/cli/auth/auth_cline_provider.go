@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/charmbracelet/huh"
-	"github.com/cline/cli/pkg/cli/global"
-	"github.com/cline/cli/pkg/cli/task"
 	"github.com/cline/grpc-go/cline"
 )
 
@@ -29,9 +27,8 @@ func HandleClineAuth(ctx context.Context) error {
 	}
 
 	fmt.Println()
-	
+
 	verboseLog("✓ You are signed in!")
-	
 
 	// Configure default Cline model after successful authentication
 	if err := configureDefaultClineModel(ctx); err != nil {
@@ -44,7 +41,7 @@ func HandleClineAuth(ctx context.Context) error {
 }
 
 func signOut(ctx context.Context) error {
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		return err
 	}
@@ -103,7 +100,7 @@ func signIn(ctx context.Context) error {
 
 	// Initiate login (opens browser with callback URL from cline-core's AuthHandler)
 	verboseLog("Initiating login...")
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		verboseLog("Failed to obtain client: %v", err)
 		return fmt.Errorf("failed to obtain client: %w", err)
@@ -144,7 +141,7 @@ func IsAuthenticated(ctx context.Context) bool {
 	}
 
 	verboseLog("Verifying authentication with server...")
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		verboseLog("Failed to get client for auth check: %v", err)
 		return false
@@ -184,7 +181,7 @@ func configureDefaultClineModel(ctx context.Context) error {
 	verboseLog("Configuring default Cline model...")
 
 	// Create task manager
-	manager, err := task.NewManagerForDefault(ctx)
+	manager, err := createTaskManager(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to create task manager: %w", err)
 	}
@@ -201,7 +198,7 @@ func HandleSelectOrganization(ctx context.Context) error {
 	}
 
 	// Get client
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to get client: %w", err)
 	}

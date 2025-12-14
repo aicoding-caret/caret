@@ -177,7 +177,7 @@ REQUIREMENTS:
 
 DEBUGGING STEPS:
 1. View recent logs: cline log list
-2. Logs are available in: ~/.cline/logs/
+2. Logs are available in: ~/.caret/logs/
 3. The most recent cline-core log file is usually valuable
 
 For additional help, visit: https://github.com/cline/cline/issues

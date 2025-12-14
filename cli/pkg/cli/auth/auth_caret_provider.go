@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/charmbracelet/huh"
-	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/task"
 	"github.com/cline/grpc-go/caret"
 	"github.com/cline/grpc-go/cline"
@@ -39,7 +38,7 @@ func HandleCaretAuth(ctx context.Context) error {
 }
 
 func caretSignOut(ctx context.Context) error {
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		return err
 	}
@@ -96,7 +95,7 @@ func caretSignIn(ctx context.Context) error {
 	}
 
 	verboseLog("Initiating Caret login...")
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		verboseLog("Failed to obtain client: %v", err)
 		return fmt.Errorf("failed to obtain client: %w", err)
@@ -135,7 +134,7 @@ func IsCaretAuthenticated(ctx context.Context) bool {
 	}
 
 	verboseLog("Verifying Caret authentication with server...")
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		verboseLog("Failed to get client for Caret auth check: %v", err)
 		return false
@@ -148,90 +147,15 @@ func IsCaretAuthenticated(ctx context.Context) bool {
 		return true
 	}
 
+	// CARET: Downstream Caret org/profile RPCs are disabled in proto; treat failure as unauthenticated.
 	verboseLog("Caret server verification failed: %v", err)
 	return false
 }
 
-// HandleSelectCaretOrganization allows Caret-authenticated users to select which organization to use
+// HandleSelectCaretOrganization is disabled because Caret org RPCs are commented out in proto (upstream state).
 func HandleSelectCaretOrganization(ctx context.Context) error {
-	if !IsCaretAuthenticated(ctx) {
-		return fmt.Errorf("you must be authenticated with Caret to select an organization. Run 'cline auth' to sign in")
-	}
-
-	client, err := global.GetDefaultClient(ctx)
-	if err != nil {
-		return fmt.Errorf("failed to get client: %w", err)
-	}
-
-	orgsResponse, err := client.Caretaccount.GetCaretUserOrganizations(ctx, &cline.EmptyRequest{})
-	if err != nil {
-		return fmt.Errorf("failed to fetch Caret organizations: %w", err)
-	}
-
-	organizations := orgsResponse.GetOrganizations()
-	if len(organizations) == 0 {
-		fmt.Println("You don't have any Caret organizations yet.")
-		fmt.Println("Visit https://app.caret.team/dashboard to create an organization.")
-		return HandleAuthMenuNoArgs(ctx)
-	}
-
-	var options []huh.Option[string]
-	options = append(options, huh.NewOption("Personal", "personal"))
-
-	for _, org := range organizations {
-		displayName := org.GetName()
-		if org.GetActive() {
-			displayName = fmt.Sprintf("%s (active)", displayName)
-		}
-		options = append(options, huh.NewOption(displayName, org.GetOrganizationId()))
-	}
-
-	options = append(options, huh.NewOption("(Cancel)", "cancel"))
-
-	var selected string
-	form := huh.NewForm(
-		huh.NewGroup(
-			huh.NewSelect[string]().
-				Title("Select which Caret account to use").
-				Options(options...).
-				Value(&selected),
-		),
-	)
-
-	if err := form.Run(); err != nil {
-		return fmt.Errorf("failed to select Caret organization: %w", err)
-	}
-
-	if selected == "cancel" {
-		return HandleAuthMenuNoArgs(ctx)
-	}
-
-	var orgId *string
-	if selected != "personal" {
-		orgId = &selected
-	}
-
-	req := &caret.CaretUserOrganizationUpdateRequest{
-		OrganizationId: orgId,
-	}
-
-	if _, err := client.Caretaccount.SetCaretUserOrganization(ctx, req); err != nil {
-		return fmt.Errorf("failed to set Caret organization: %w", err)
-	}
-
-	if selected == "personal" {
-		fmt.Println("✓ Switched to Caret personal account")
-	} else {
-		var orgName string
-		for _, org := range organizations {
-			if org.GetOrganizationId() == selected {
-				orgName = org.GetName()
-				break
-			}
-		}
-		fmt.Printf("✓ Switched to Caret organization: %s\n", orgName)
-	}
-
+	fmt.Println("Caret organization selection is currently unavailable in this build.")
+	fmt.Println("Visit https://app.caret.team/dashboard to manage organizations.")
 	return HandleAuthMenuNoArgs(ctx)
 }
 
@@ -246,7 +170,7 @@ type CaretAuthStatusListener struct {
 
 // NewCaretAuthStatusListener creates a new auth status listener for Caret
 func NewCaretAuthStatusListener(parentCtx context.Context) (*CaretAuthStatusListener, error) {
-	client, err := global.GetDefaultClient(parentCtx)
+	client, err := getAuthClient(parentCtx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get client: %w", err)
 	}
@@ -397,7 +321,7 @@ func SelectCaretModel(ctx context.Context, manager *task.Manager) error {
 
 // configureDefaultCaretModel configures the default Caret model after authentication
 func configureDefaultCaretModel(ctx context.Context) error {
-	manager, err := task.NewManagerForDefault(ctx)
+	manager, err := createTaskManager(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to create task manager: %w", err)
 	}
@@ -416,10 +340,12 @@ func configureDefaultCaretModel(ctx context.Context) error {
 func applyCaretModelConfiguration(ctx context.Context, manager *task.Manager, modelID string) error {
 	provider := cline.ApiProvider_CARET
 	baseURL := DefaultCaretBaseURL
+	thinkingBudget := int64(0)
 
 	updates := ProviderUpdatesPartial{
-		ModelID: &modelID,
-		BaseURL: &baseURL,
+		ModelID:              &modelID,
+		BaseURL:              &baseURL,
+		ThinkingBudgetTokens: &thinkingBudget,
 	}
 
 	return UpdateProviderPartial(ctx, manager, provider, updates, true)

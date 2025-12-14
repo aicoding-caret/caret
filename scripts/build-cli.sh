@@ -1,6 +1,15 @@
 #!/bin/bash
 set -eu
 
+# CARET MODIFICATION: default는 실행 중 인스턴스를 보존; 강제 종료하려면 CARET_FORCE_KILL=1
+if [ -n "${CARET_FORCE_KILL:-}" ]; then
+    if pkill -f "caret-host|cline-host|cline-core|cline-host" >/dev/null 2>&1; then
+        echo "[info] Stopped existing caret/cline host/core processes before build copy step"
+    fi
+else
+    echo "[info] CARET_FORCE_KILL not set; keeping existing host/core processes running during build"
+fi
+
 npm run protos
 npm run protos-go
 
@@ -40,23 +49,29 @@ case "$ARCH" in
         ;;
 esac
 
-# Build for current platform only
+# Build for current platform only (Caret binary names)
 echo "Building for current platform ($OS-$ARCH)..."
 
-GO111MODULE=on go build -ldflags "$LDFLAGS" -o bin/cline ./cmd/cline
-echo "  ✓ bin/cline built"
+GO111MODULE=on go build -ldflags "$LDFLAGS" -o bin/caret ./cmd/cline
+echo "  ✓ bin/caret built"
 
-GO111MODULE=on go build -ldflags "$LDFLAGS" -o bin/cline-host ./cmd/cline-host
-echo "  ✓ bin/cline-host built"
+GO111MODULE=on go build -ldflags "$LDFLAGS" -o bin/caret-host ./cmd/cline-host
+echo "  ✓ bin/caret-host built"
 
 echo ""
 echo "Build complete for current platform!"
 
+# CARET: ensure caret-only binary names (legacy cline bins removed)
+rm -f bin/cline bin/cline-host
+
 # Copy binaries to dist-standalone/bin with platform-specific names AND generic names
 cd ..
 mkdir -p dist-standalone/bin
-cp cli/bin/cline dist-standalone/bin/cline
-cp cli/bin/cline dist-standalone/bin/cline-${OS}-${ARCH}
-cp cli/bin/cline-host dist-standalone/bin/cline-host
-cp cli/bin/cline-host dist-standalone/bin/cline-host-${OS}-${ARCH}
-echo "Copied binaries to dist-standalone/bin/ (both generic and platform-specific names)"
+# CARET: clean legacy cline-named outputs (caret-only distribution)
+rm -f dist-standalone/bin/cline dist-standalone/bin/cline-* dist-standalone/bin/cline-host dist-standalone/bin/cline-host-*
+
+cp cli/bin/caret dist-standalone/bin/caret
+cp cli/bin/caret dist-standalone/bin/caret-${OS}-${ARCH}
+cp cli/bin/caret-host dist-standalone/bin/caret-host
+cp cli/bin/caret-host dist-standalone/bin/caret-host-${OS}-${ARCH}
+echo "Copied binaries to dist-standalone/bin/ (Caret naming)"
