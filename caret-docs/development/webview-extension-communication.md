@@ -1,223 +1,63 @@
-# Webview ↔ Extension 통신 가이드
+# Webview ↔ Extension 통신 가이드 (ProtoBus gRPC)
 
-## 1. 개요
+이 문서는 Caret의 Webview(React)와 VSCode Extension 간 통신을 **ProtoBus(gRPC over postMessage)** 관점에서 설명합니다.
 
-이 문서는 Caret의 Webview(React)와 VSCode Extension 간의 통신 방식을 설명합니다. 양방향 메시지 전달, 상태 동기화, 이벤트 처리 등의 상호작용을 다룹니다.
+## 1. 큰 그림
 
-## 2. 통신 구조
+- Webview → Extension: `grpc_request` 메시지를 `postMessage`로 전송
+- Extension → Webview: `grpc_response` 메시지로 응답(단발/스트리밍)
 
-### 2.1 기본 흐름
+정의 파일:
+- UI→Extension 메시지 타입: `src/shared/WebviewMessage.ts`
+- Extension→UI 메시지 타입: `src/shared/ExtensionMessage.ts`
+
+## 2. 기본 흐름
 
 ```mermaid
-graph TD
-    A[Webview UI] -->|"postMessage"| B[Extension]
-    B -->|"webview.postMessage"| A
-    C[ExtensionStateContext] -->|"상태 동기화"| A
-    B -->|"상태 업데이트"| C
+sequenceDiagram
+  participant UI as Webview UI
+  participant EXT as Extension
+
+  UI->>EXT: postMessage({type: \"grpc_request\", grpc_request:{service,method,message,request_id,is_streaming}})
+  EXT->>EXT: handleGrpcRequest() (serviceHandlers[service][method])
+  EXT-->>UI: postMessage({type:\"grpc_response\", grpc_response:{request_id,message|error,is_streaming}})
 ```
 
-### 2.2 주요 컴포넌트
+## 3. 구현 위치(실제 코드 기준)
 
-1. **Webview Layer**
-    - React 컴포넌트
-    - ExtensionStateContext
-    - 메시지 핸들러
+### 3.1 Webview(클라이언트)
+- 요청/응답 공통 베이스: `webview-ui/src/services/grpc-client-base.ts`
+- 서비스별 클라이언트: `webview-ui/src/services/grpc-client.ts` (자동 생성)
+- 플랫폼별 postMessage 라우팅: `webview-ui/src/config/platform.config.ts`
 
-2. **Extension Layer**
-    - CaretProvider
-    - WebviewPanel
-    - 메시지 핸들러
+### 3.2 Extension(서버/라우터)
+- Webview 메시지 수신 및 라우팅: `src/hosts/vscode/VscodeWebviewProvider.ts`
+- gRPC 요청 처리: `src/core/controller/grpc-handler.ts`
+- 서비스 핸들러 맵(자동 생성): `src/generated/hosts/vscode/protobus-services.ts`
+- 핸들러 타입(자동 생성): `src/generated/hosts/vscode/protobus-service-types.ts`
 
-## 3. 메시지 타입 정의
+## 4. 메시지 형태 (요약)
 
-### 3.1 UI → Extension 메시지
+### 4.1 UI → Extension (`grpc_request`)
+- `service`: 서비스 이름(생성된 클라이언트의 `serviceName`)
+- `method`: RPC 메서드 이름
+- `message`: JSON 직렬화된 protobuf 메시지
+- `request_id`: 요청-응답 상관관계 키
+- `is_streaming`: 스트리밍 여부
 
-실제 타입 정의 위치: `caret-src/shared/types/messages.ts`
+### 4.2 Extension → UI (`grpc_response`)
+- `request_id`: 원 요청 ID
+- `message` 또는 `error`
+- `is_streaming`: 스트리밍이면 `true`, 마지막이면 `false`
+- `sequence_number`: 스트리밍 응답 순서(필요 시)
 
-```typescript
-export interface BaseMessage {
-	type: string
-	timestamp?: string
-}
+## 5. 디버깅 팁
+- UI에서 `grpc_request`/`grpc_response` 이벤트는 `window.addEventListener("message", ...)`로 관찰 가능
+- Extension에서는 `grpc-handler.ts`의 “Unknown service / Unknown rpc” 에러가 가장 흔한 원인(생성물/서비스명 불일치)
 
-// 데이터 저장 요청
-export interface SaveDataMessage extends BaseMessage {
-	type: "saveData"
-	key: string
-	value: any
-}
-
-// 데이터 로드 요청
-export interface LoadDataMessage extends BaseMessage {
-	type: "loadData"
-	key: string
-}
-
-// 시크릿 저장 요청
-export interface SaveSecretMessage extends BaseMessage {
-	type: "saveSecret"
-	key: string
-	value: string
-}
-
-// 시크릿 로드 요청
-export interface LoadSecretMessage extends BaseMessage {
-	type: "loadSecret"
-	key: string
-}
-
-// 이미지 저장 요청
-export interface SaveImageMessage extends BaseMessage {
-	type: "saveImage"
-	data: string // Base64 encoded image
-}
-
-// 설정 변경 요청
-export interface UpdateConfigMessage extends BaseMessage {
-	type: "updateConfig"
-	config: any
-}
-```
-
-### 3.2 Extension → UI 메시지
-
-```typescript
-// Response 메시지들
-export interface ResponseMessage extends BaseMessage {
-	success: boolean
-	error?: string
-}
-
-// 상태 업데이트
-export interface StateUpdateMessage extends BaseMessage {
-	type: "stateUpdate"
-	state: any
-}
-
-// 에러 메시지
-export interface ErrorMessage extends BaseMessage {
-	type: "error"
-	message: string
-	code?: string
-}
-
-// 데이터 로드 응답
-export interface LoadDataResponse extends ResponseMessage {
-	type: "loadDataResponse"
-	value?: any
-}
-
-// 시크릿 로드 응답
-export interface LoadSecretResponse extends ResponseMessage {
-	type: "loadSecretResponse"
-	value?: string
-}
-
-// 이미지 저장 응답
-export interface SaveImageResponse extends ResponseMessage {
-	type: "saveImageResponse"
-	path?: string
-}
-
-// 작업 완료
-export interface CompleteMessage extends BaseMessage {
-	type: "complete"
-	result: any
-}
-```
-
-## 4. 상태 관리
-
-### 4.1 ExtensionStateContext
-
-실제 구현 위치: `webview-ui/src/context/ExtensionStateContext.tsx`
-
-```typescript
-// 상태 컨텍스트 정의
-interface ExtensionState {
-	// 데이터 상태
-	data: Record<string, any>
-	secrets: Record<string, string>
-	config: any
-
-	// UI 상태
-	theme: string
-	language: string
-	isReady: boolean
-	status: "idle" | "loading" | "error"
-
-	// 에러 상태
-	lastError?: string
-}
-
-// 초기 상태
-const initialState: ExtensionState = {
-	data: {},
-	secrets: {},
-	config: {},
-	theme: "dark",
-	language: "ko",
-	isReady: false,
-	status: "idle",
-}
-
-// 컨텍스트 생성
-export const ExtensionStateContext = createContext<{
-	state: ExtensionState
-	dispatch: React.Dispatch<ExtensionStateAction>
-} | null>(null)
-
-// 상태 업데이트 액션
-type ExtensionStateAction =
-	| { type: "SET_DATA"; key: string; value: any }
-	| { type: "SET_SECRET"; key: string; value: string }
-	| { type: "SET_CONFIG"; config: any }
-	| { type: "SET_READY"; isReady: boolean }
-	| { type: "SET_STATUS"; status: ExtensionState["status"] }
-	| { type: "SET_ERROR"; error: string }
-	| { type: "CLEAR_ERROR" }
-	| { type: "RESET_STATE" }
-
-// 리듀서 함수
-function extensionStateReducer(state: ExtensionState, action: ExtensionStateAction): ExtensionState {
-	switch (action.type) {
-		case "SET_DATA":
-			return {
-				...state,
-				data: { ...state.data, [action.key]: action.value },
-			}
-		case "SET_SECRET":
-			return {
-				...state,
-				secrets: { ...state.secrets, [action.key]: action.value },
-			}
-		case "SET_CONFIG":
-			return {
-				...state,
-				config: action.config,
-			}
-		case "SET_READY":
-			return {
-				...state,
-				isReady: action.isReady,
-			}
-		case "SET_STATUS":
-			return {
-				...state,
-				status: action.status,
-			}
-		case "SET_ERROR":
-			return {
-				...state,
-				lastError: action.error,
-				status: "error",
-			}
-		case "CLEAR_ERROR":
-			return {
-				...state,
-				lastError: undefined,
-				status: "idle",
-			}
+## 6. 관련 문서
+- `caret-docs/development/frontend-backend-interaction-patterns.md`
+- `caret-docs/development/ui-to-storage-flow.md`
 		case "RESET_STATE":
 			return initialState
 		default:

@@ -2,16 +2,24 @@ package auth
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/charmbracelet/huh"
 	"github.com/cline/cli/pkg/cli/task"
 	"github.com/cline/grpc-go/caret"
 	"github.com/cline/grpc-go/cline"
+	"github.com/cline/cli/pkg/cli/global"
+	"github.com/cline/cli/pkg/common"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 var isCaretSessionAuthenticated bool
+var allowInternalAuthFallback bool
 
 // Caret provider specific code
 
@@ -47,6 +55,7 @@ func caretSignOut(ctx context.Context) error {
 		return err
 	}
 
+	clearCaretLocalSession()
 	isCaretSessionAuthenticated = false
 	fmt.Println("You have been signed out of Caret (caret.team).")
 	return nil
@@ -110,6 +119,10 @@ func caretSignIn(ctx context.Context) error {
 	fmt.Println("\n  Opening browser for Caret authentication (caret.team)...")
 	if response != nil && response.Value != "" {
 		fmt.Printf("  If the browser doesn't open automatically, visit this URL:\n  %s\n\n", response.Value)
+	} else {
+		fmt.Println("  If the browser doesn't open automatically, copy/paste this URL:")
+		fmt.Println("  https://caret.team")
+		fmt.Println()
 	}
 	fmt.Println("  Waiting for you to complete authentication in your browser...")
 	fmt.Println("   (This may take a few moments. Timeout: 5 minutes)")
@@ -128,28 +141,12 @@ func caretSignIn(ctx context.Context) error {
 }
 
 func IsCaretAuthenticated(ctx context.Context) bool {
-	if isCaretSessionAuthenticated {
-		verboseLog("Caret session is already authenticated")
-		return true
-	}
-
-	verboseLog("Verifying Caret authentication with server...")
-	client, err := getAuthClient(ctx)
+	isAuthed, err := caretAuthCheckFn(ctx)
 	if err != nil {
-		verboseLog("Failed to get client for Caret auth check: %v", err)
+		verboseLog("Caret server verification failed: %v", err)
 		return false
 	}
-
-	_, err = client.Caretaccount.GetCaretUserCredits(ctx, &cline.EmptyRequest{})
-	if err == nil {
-		verboseLog("Caret server verification successful, updating session flag")
-		isCaretSessionAuthenticated = true
-		return true
-	}
-
-	// CARET: Downstream Caret org/profile RPCs are disabled in proto; treat failure as unauthenticated.
-	verboseLog("Caret server verification failed: %v", err)
-	return false
+	return isAuthed
 }
 
 // HandleSelectCaretOrganization is disabled because Caret org RPCs are commented out in proto (upstream state).
@@ -198,6 +195,39 @@ func (l *CaretAuthStatusListener) Start() error {
 	return nil
 }
 
+const defaultCaretAuthPollInterval = 3 * time.Second
+
+var caretAuthPollInterval = defaultCaretAuthPollInterval
+var caretAuthCheckFn = checkCaretAuthentication
+
+func checkCaretAuthentication(ctx context.Context) (bool, error) {
+	if isCaretSessionAuthenticated {
+		verboseLog("Caret session is already authenticated")
+		return true, nil
+	}
+
+	verboseLog("Verifying Caret authentication with server...")
+	client, err := getAuthClient(ctx)
+	if err != nil {
+		return false, fmt.Errorf("failed to get client for Caret auth check: %w", err)
+	}
+
+	_, err = client.Caretaccount.GetCaretUserCredits(ctx, &cline.EmptyRequest{})
+	if err != nil {
+		// Treat transient/internal server failures as authenticated to avoid blocking login when credits API is unavailable.
+		if status.Code(err) == codes.Internal && allowInternalAuthFallback {
+			verboseLog("Caret server verification returned internal error during auth; treating as authenticated for this session: %v", err)
+			isCaretSessionAuthenticated = true
+			return true, nil
+		}
+		return false, fmt.Errorf("failed to get latest getCaretUserCredits: %w", err)
+	}
+
+	verboseLog("Caret server verification successful, updating session flag")
+	isCaretSessionAuthenticated = true
+	return true, nil
+}
+
 func (l *CaretAuthStatusListener) readStream() {
 	defer close(l.updatesCh)
 	defer close(l.errCh)
@@ -235,14 +265,42 @@ func (l *CaretAuthStatusListener) WaitForAuthentication(timeout time.Duration) e
 	timer := time.NewTimer(timeout)
 	defer timer.Stop()
 
+	prevInternalFallback := allowInternalAuthFallback
+	allowInternalAuthFallback = true
+	defer func() {
+		allowInternalAuthFallback = prevInternalFallback
+	}()
+
+	var pollCh <-chan time.Time
+	if caretAuthPollInterval > 0 {
+		ticker := time.NewTicker(caretAuthPollInterval)
+		defer ticker.Stop()
+		pollCh = ticker.C
+	}
+
+	var lastErr error
+
 	for {
 		select {
 		case <-timer.C:
+			if lastErr != nil {
+				return fmt.Errorf("authentication timeout after %v (last error: %v) - please try again", timeout, lastErr)
+			}
 			return fmt.Errorf("authentication timeout after %v - please try again", timeout)
 		case <-l.ctx.Done():
 			return fmt.Errorf("authentication cancelled")
 		case err := <-l.errCh:
 			return fmt.Errorf("authentication stream error: %w", err)
+		case <-pollCh:
+			isAuthed, err := caretAuthCheckFn(l.ctx)
+			if err != nil {
+				lastErr = err
+				continue
+			}
+			if isAuthed {
+				verboseLog("Caret authentication successful via direct check")
+				return nil
+			}
 		case state := <-l.updatesCh:
 			if isCaretAuthenticatedState(state) {
 				verboseLog("Caret authentication successful!")
@@ -326,6 +384,11 @@ func configureDefaultCaretModel(ctx context.Context) error {
 		return fmt.Errorf("failed to create task manager: %w", err)
 	}
 
+	if caretHasExistingModel(ctx, manager) {
+		verboseLog("Caret model already configured; skipping default model assignment")
+		return nil
+	}
+
 	if err := SetDefaultCaretModel(ctx, manager); err != nil {
 		return err
 	}
@@ -349,4 +412,66 @@ func applyCaretModelConfiguration(ctx context.Context, manager *task.Manager, mo
 	}
 
 	return UpdateProviderPartial(ctx, manager, provider, updates, true)
+}
+
+func caretHasExistingModel(ctx context.Context, manager *task.Manager) bool {
+	providers, err := GetProviderConfigurations(ctx, manager)
+	if err != nil || providers == nil {
+		return false
+	}
+
+	for _, p := range []*ProviderDisplay{providers.ActProvider, providers.PlanProvider} {
+		if p != nil && p.Provider == cline.ApiProvider_CARET && p.ModelID != "" {
+			return true
+		}
+	}
+	return false
+}
+
+func clearCaretLocalSession() {
+	configDir := ""
+	if global.Config != nil && global.Config.ConfigPath != "" {
+		configDir = global.Config.ConfigPath
+	} else {
+		if path, err := common.DefaultConfigPath(); err == nil {
+			configDir = path
+		}
+	}
+	if configDir == "" {
+		return
+	}
+
+	dataDir := filepath.Join(configDir, "data")
+	paths := []string{
+		filepath.Join(dataDir, "secrets.json"),
+		filepath.Join(dataDir, "globalState.json"),
+	}
+	keys := []string{"caret:caretAccountId", "caretAccountId", "userInfo"}
+
+	for _, path := range paths {
+		payload, err := os.ReadFile(path)
+		if err != nil {
+			continue
+		}
+		var data map[string]interface{}
+		if err := json.Unmarshal(payload, &data); err != nil {
+			continue
+		}
+		changed := false
+		for _, key := range keys {
+			if _, ok := data[key]; ok {
+				delete(data, key)
+				changed = true
+			}
+		}
+		if !changed {
+			continue
+		}
+		updated, err := json.MarshalIndent(data, "", "  ")
+		if err != nil {
+			continue
+		}
+		_ = os.MkdirAll(filepath.Dir(path), 0755)
+		_ = os.WriteFile(path, updated, 0644)
+	}
 }

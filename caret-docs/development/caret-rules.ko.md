@@ -15,8 +15,8 @@
 ### 파일 매핑 (동기화 구조)
 ```
 .caretrules/caret-rules.json           ↔ caret-docs/development/caret-rules.ko.md (본 문서)
-.caretrules/workflows/*.md             ↔ caret-docs/development-en/workflows/*.md
-.caretrules/workflows/ai-work-index.md ↔ caret-docs/development/ai-work-index.md
+.caretrules/workflows/*.md             ↔ caret-docs/development/*.md (대응 가이드)
+.caretrules/workflows/atoms/*.md        ↔ caret-docs/development/ 내 관련 가이드(예: testing-guide.md)
 ```
 
 ## 핵심 원칙
@@ -111,7 +111,7 @@ Caret의 webview와 Extension Host 간 통신 표준 패턴:
 - AI는 워크플로우를 통해 개발자와 동일한 정보에 접근해야 함
 
 ### 사용 가능한 워크플로우
-상세 절차는 `caret-docs/development-en/workflows/` 참조:
+상세 절차는 `.caretrules/workflows/` 참조:
 
 - **주요 워크플로우**: `ai-work-index.md`, `ai-work-protocol.md`, `caret-development.md`
 - **중요 검증**: `critical-verification.md`
@@ -183,17 +183,12 @@ content = content.replace(/cline\.GetCaretModeResponse/g, "caret.GetCaretModeRes
 
 ---
 
-## 이중 언어 문서 구조
+## 문서 구조 (KO 우선, features만 EN 병행)
 
-이 문서는 Caret의 이중 언어 문서 시스템의 일부입니다:
-
-- **한국어**: `caret-docs/development/` - 개발자를 위한 한국어 문서
-- **영어**: `caret-docs/development-en/` - 개발자를 위한 영어 문서
-- **JSON**: `.caretrules/caret-rules.json` - AI 시스템을 위한 구조화된 규칙
-
-세 가지 형식 모두 특정 사용 사례에 최적화하면서 의미적 동등성을 유지합니다.
+- **규칙/워크플로우 (AI & 프로젝트 규칙)**: `.caretrules/caret-rules.json`, `.caretrules/workflows/*`
+- **개발자 문서 (KO 우선)**: `caret-docs/development/index.md`
+- **기능 스펙 (EN 병행 유지)**: `caret-docs/features.en/index.md`
 
 **상호 참조**:
-- 영문 버전: [Caret Development Rules (English)](../development-en/caret-rules.md)
-- AI 버전: [.caretrules/caret-rules.json](../../.caretrules/caret-rules.json)
-- 워크플로우: [development-en/workflows/](../development-en/workflows/)
+- AI 규칙 인덱스: [.caretrules/caret-rules.json](../../.caretrules/caret-rules.json)
+- Knowledge Parity(F12): [f12-ai-developer-knowledge-parity.md](../features.en/f12-ai-developer-knowledge-parity.md)

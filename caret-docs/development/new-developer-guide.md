@@ -1,7 +1,6 @@
-# Caret 프로젝트 새로운 개발자 온보딩 가이드 🚀
+# Caret 프로젝트 새로운 개발자 온보딩 가이드
 
-마스터의 새로운 동료 개발자님, Caret 프로젝트에 오신 것을 진심으로 환영합니다! 🎉
-이 가이드는 여러분의 개발 여정을 도울 AI 어시스턴트와 함께 프로젝트에 빠르게 적응하고 즐겁게 기여하시는 데 도움이 되기를 바랍니다! ｡•ᴗ•｡
+KO 우선 개발 문서와 `.caretrules` 기반 규칙 체계를 빠르게 이해할 수 있도록 안내합니다.
 
 ## 1. Caret 시작하기: 3단계 빠른 여정 🗺️
 
@@ -26,8 +25,9 @@ Caret 프로젝트의 첫걸음을 돕기 위한 3단계 빠른 여정입니다.
 
 코드를 작성하기 전에, 잠시 시간을 내어 Caret 프로젝트의 핵심 철학과 구조를 이해하는 것이 중요해요. 아래 순서대로 문서를 읽어보시는 것을 강력히 추천합니다.
 
-1.  **📜 프로젝트의 헌법 (`caretrules.ko.md`):**
-    - 가장 먼저 **[`caretrules.ko.md`](../caretrules.ko.md)**를 정독해주세요. 이 문서는 Caret의 모든 개발 규칙, 프로세스, AI 작업 프로토콜을 정의하는 마스터 문서입니다.
+1.  **📜 프로젝트 규칙 (Single Source of Truth):**
+    - AI/개발 규칙의 진입점은 `.caretrules/caret-rules.json` 입니다.
+    - 개발자 문서 측 요약본은 **[`caret-rules.ko.md`](./caret-rules.ko.md)** 입니다.
 
 2.  **🏗️ 프로젝트의 설계도 (`caret-architecture-and-implementation-guide.md`):**
     - 다음으로 **[`caret-architecture-and-implementation-guide.md`](./caret-architecture-and-implementation-guide.md)**를 통해 Cline 포크 기반 구조, 디렉토리 구성, 핵심 개발 원칙을 파악하세요.
@@ -37,44 +37,39 @@ Caret 프로젝트의 첫걸음을 돕기 위한 3단계 빠른 여정입니다.
 
 ### 3단계: AI와 첫 협업 시작하기
 
-이제 프로젝트에 기여할 준비가 되셨습니다! `caret-docs/tasks/task-status.md`에서 진행할 태스크를 확인하고, AI 어시스턴트에게 첫 작업을 요청해보세요.
+이제 프로젝트에 기여할 준비가 되셨습니다. 작업 기록은 `caret-docs/work-logs/<username>/` 아래에 남기는 것을 권장합니다.
 
 > **예시 요청:** "알파, '003번 태스크, 페르소나 UI 개선' 작업을 시작할게. 오늘 날짜로 내 작업 로그 파일을 만들어주고, 이 태스크에 대한 계획 수립을 도와줘."
 
-## 2. 업무 사이클: 태스크와 일일 로그 🗓️✅
+## 2. 업무 사이클: 일일 로그
 
-Caret 프로젝트의 모든 업무는 '태스크' 단위로 관리되며, '일일 로그'를 통해 기록됩니다.
-
-- **태스크 관리:** `caret-docs/tasks/task-status.md`에서 새로운 태스크의 번호를 할당받고, 관련 계획/체크리스트/보고서 문서를 `caret-docs/tasks/` 아래에 생성하여 작업을 진행합니다.
-- **일일 작업 로그:** `caret-docs/work-logs/{your-username}/{YYYY-MM-DD}.md` 파일에 그날 진행한 내용을 기록합니다. AI에게 요청하면 대부분 자동으로 처리해 줄 거예요.
+- **일일 작업 로그:** `caret-docs/work-logs/{your-username}/...` 파일에 그날 진행한 내용을 기록합니다.
+- **규칙/워크플로우:** `.caretrules/workflows/*`를 온디맨드로 읽고 절차를 준수합니다.
 
 ## 3. AI 어시스턴트와 협업하기: 심층 가이드 💡
 
 AI 어시스턴트 '알파'는 단순한 코딩 도구가 아닌, 여러분의 개발 동반자입니다. 최고의 시너지를 내기 위해 알파의 작동 방식을 조금 더 깊이 알아볼까요?
 
-### 3.1. AI의 작업 시작 프로토콜: `.caretrules`의 비밀
+### 3.1. AI의 작업 시작 프로토콜: `.caretrules`
 
-"AI가 어떻게 내 작업 의도를 파악하고 관련 문서를 참고할까?" 그 비밀은 바로 **`.caretrules`** 파일에 있습니다. AI는 작업을 시작하기 전, `.caretrules`의 `ai_task_protocol.task_nature_mandatory_documents` 섹션을 **반드시** 확인합니다.
+"AI가 어떻게 내 작업 의도를 파악하고 관련 문서를 참고할까?" 그 비밀은 **`.caretrules/caret-rules.json`**의 인덱스 구조에 있습니다. AI는 작업을 시작하기 전, `workflows.index`를 참고해 필요한 워크플로우만 온디맨드로 로드합니다.
 
 ```json
-// .caretrules 파일 일부 예시
-"task_nature_mandatory_documents": {
-  "frontend_backend_interaction": [
-    "caret-docs/development/frontend-backend-interaction-patterns.md",
-    // ...
-  ],
-  "cline_original_modification": [
-    "File modification checklist in caret-docs/caretrules.ko.md",
-    // ...
-  ],
-  "component_ui_development": [
-    "caret-docs/development/component-architecture-principles.md",
-    // ...
-  ],
-  "testing_related": [
-    "caret-docs/development/testing-guide.md",
-    // ...
-  ]
+// .caretrules/caret-rules.json 일부 예시
+{
+  "ai_workflow": {
+    "mandatory_pre_checks": [
+      "NO coding without document review first",
+      "Identify work nature",
+      "TDD mandatory (integration first)"
+    ]
+  },
+  "workflows": {
+    "index": {
+      "cline_modification": ".caretrules/workflows/cline-modification.md",
+      "testing_work": ".caretrules/workflows/testing-work.md"
+    }
+  }
 }
 ```
 

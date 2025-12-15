@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 Atom은 `.caretrules/workflows/atoms/hardcoding-prevention.md`를 기준으로 보세요.
+
 # 하드코딩 방지 워크플로우
 
 AI는 하드코딩 방지 패턴을 따라 동적 시스템을 구축하고 있습니다.

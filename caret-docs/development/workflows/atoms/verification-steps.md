@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 Atom은 `.caretrules/workflows/atoms/verification-steps.md`를 기준으로 보세요.
+
 모든 변경사항 후 필수 검증 시퀀스를 따르고 있습니다.
 
 <detailed_sequence_of_steps>

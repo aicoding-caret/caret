@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 규칙은 `.caretrules/workflows/branding-and-logging.md` 및 개발 문서 `caret-docs/development/b2b-branding-workflow.md`를 기준으로 보세요.
+
 # B2B 브랜딩 워크플로우
 
 Caret의 기업용 브랜딩 작업 절차와 핵심 원칙을 정의합니다. AI 개발자는 이 워크플로우를 반드시 숙지하고 따라야 합니다.

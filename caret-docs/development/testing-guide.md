@@ -10,50 +10,38 @@
 
 **❌ 주의: `npm test` 사용 금지**
 
-- `npm test` 명령어는 전체 빌드 + 컴파일 + 린트 + 모든 테스트를 실행하여 매우 느립니다.
-- 개발 중에는 아래의 **개별 테스트 명령어**를 사용하는 것을 권장합니다.
+- `npm test`는 VSCode 통합 테스트(`vscode-test`)까지 포함할 수 있어 개발 중에는 비용이 큽니다.
+- 개발 중에는 아래의 **개별 테스트 명령어**를 권장합니다.
 
 ### 🎯 개별 테스트 실행 (개발 시 권장)
 
 ```bash
-# ✅ 특정 백엔드 테스트 파일 실행
-npm run test:backend caret-src/__tests__/your-test-file.test.ts
+# ✅ 백엔드(Extension) 단위 테스트: Mocha
+npm run test:unit
 
-# ✅ 특정 백엔드 테스트를 이름으로 실행
-npm run test:backend caret-src/__tests__/your-test-file.test.ts -t "your test name"
+# ✅ 특정 테스트만 실행(모카 옵션 전달)
+npm run test:unit -- -g "your test name"
 
 # ✅ 프론트엔드 테스트 실행 (React 컴포넌트, UI 로직)
 npm run test:webview
 
-# ✅ 백엔드 워치 모드 실행 (변경 시 자동 실행)
-npm run test:backend:watch
-
-# ✅ 빠른 개발 테스트 (웹뷰 제외, 첫 실패 시 중단)
-npm run dev:build-test:fast
+# ✅ VSCode 통합 테스트(Extension host)
+npm run test:integration
 ```
 
 ### 📊 모든 테스트 + 커버리지 실행 (CI/CD 또는 최종 검증용)
 
 ```bash
-# 🌟 강력 추천: 모든 테스트 + 커버리지 분석을 한 번에
-npm run test:all; npm run caret:coverage
+# 단위 + 통합
+npm run test:all
 
-# 또는 상세한 백엔드 커버리지 포함
-npm run test:all; npm run test:backend:coverage; npm run caret:coverage
-
-# 통합 테스트 (VSCode Extension 환경)
-npm run test:integration
+# 통합 테스트 커버리지(vscode-test 기반)
+npm run test:coverage
 ```
 
 ### 📈 커버리지 분석
 
 ```bash
-# Caret 전용 코드 커버리지 분석 (파일별 상세)
-npm run caret:coverage
-
-# 백엔드 Vitest 커버리지 (라인별 상세)
-npm run test:backend:coverage
-
 # VSCode Extension 통합 커버리지
 npm run test:coverage
 ```
@@ -61,20 +49,14 @@ npm run test:coverage
 ### 📝 실전 테스트 워크플로우 예시
 
 ```bash
-# 1. 개발 중: 특정 기능 테스트
-npm run test:backend caret-src/__tests__/json-overlay-real-files.test.ts
+# 1) 개발 중: 단위 테스트 빠르게 반복
+npm run test:unit
 
-# 2. 개발 중: 특정 케이스만 테스트
-npm run test:backend caret-src/__tests__/json-overlay-real-files.test.ts -t "should load and apply Alpha personality"
+# 2) 개발 중: 특정 케이스만 실행
+npm run test:unit -- -g "should load and apply"
 
-# 3. 워치 모드로 개발 (코드 변경 시 자동 테스트)
-npm run test:backend:watch
-
-# 4. 빠른 전체 검증 (첫 실패 시 중단)
-npm run dev:build-test:fast
-
-# 5. 최종 검증 (PR 전)
-npm run test:all && npm run caret:coverage
+# 3) 최종 검증: 단위 + 통합
+npm run test:all
 ```
 
 ## 2. 테스트 전략

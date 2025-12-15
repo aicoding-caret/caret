@@ -12,13 +12,13 @@ export GOCACHE="${ROOT}/.cache/go-build"
 export GOPATH="${ROOT}/.gopath" # CARET: isolate Go module/cache to project
 
 pushd "$ROOT" >/dev/null
-# CARET: 기본은 실행 중 인스턴스 보존, 강제 종료하려면 CARET_FORCE_KILL=1
-if [ -n "${CARET_FORCE_KILL:-}" ]; then
-  pkill -f "caret-host|cline-host|cline-core|caret-core" >/dev/null 2>&1 && \
-    echo "[info] Stopped existing caret/cline host/core processes before rebuild"
-  rm -f "$HOME/.caret/locks.db" "$HOME/.cline/locks.db"
+# CARET: 기본은 실행 중 인스턴스를 종료하고 빌드 (CARE_SKIP_KILL=1이면 보존)
+if [ -n "${CARET_SKIP_KILL:-}" ]; then
+  echo "[info] CARET_SKIP_KILL set; keeping existing host/core processes running during rebuild"
 else
-  echo "[info] CARET_FORCE_KILL not set; keeping existing host/core processes running during rebuild"
+  pkill -f "caret-host|cline-host|cline-core|caret-core|/bin/caret" >/dev/null 2>&1 && \
+    echo "[info] Stopped existing caret/cline host/core/cli processes before rebuild"
+  rm -f "$HOME/.caret/locks.db" "$HOME/.cline/locks.db"
 fi
 
 npm run protos

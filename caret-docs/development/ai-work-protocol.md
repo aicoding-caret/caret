@@ -1,11 +1,12 @@
-# AI 작업 프로토콜 - 단계별 개발
+# AI 작업 프로토콜 - 단계별 개발 (KO 우선)
 
 체계적인 개발 접근을 위해 상세한 AI 작업 프로토콜을 따릅니다.
 
 ## 0단계: 필수 사전 검토 및 아키텍처 결정
-1.  **사용자 식별**: `git config user.name` 확인
-2.  **날짜 확인**: OS 명령어로 현재 날짜 확인
-3.  **작업 로그 확인**: `caret-docs/work-logs/{username}/{YYYYMMDD-N-description}.md` 확인/생성 (N은 당일 작업의 순차 번호)
+1.  **규칙 로드**: `.caretrules/caret-rules.json` 확인(온디맨드 워크플로우 인덱스)
+2.  **사용자 식별**: `git config user.name` 확인
+3.  **날짜 확인**: OS 명령어로 현재 날짜 확인
+4.  **작업 로그 확인**: `caret-docs/work-logs/{username}/...` 하위에 기록(프로젝트 관례에 맞춰 디렉터리 선택)
 
 ### 중요 작업 성격 분석
 작업 키워드를 기반으로 관련 문서를 읽었는지 확인합니다 (`/ai-work-index` 먼저 사용):
@@ -25,7 +26,7 @@
 - i18n 국제화 패턴
 
 **테스트 관련**:
-- `testing-guide.md` (Vitest 모의 패턴)
+- `testing-guide.md` (Mocha/Vitest/vscode-test 실행 가이드)
 - TDD 필수 원칙 (RED → GREEN → REFACTOR)
 - 테스트 우선 접근 방식 시행
 

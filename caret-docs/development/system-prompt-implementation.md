@@ -295,8 +295,8 @@ Caret Chatbot 모드:   3,575 tokens (14,299 chars)  → 69.68% 절약 🚀
 
 **실험 설계 및 상세 결과:**
 
-- **[실험 계획서](../reports/experiment/json_caret_performance_test_20250713/experiment-design.md)**: 42회 실험 설계 방법론
-- **[종합 성능 보고서](../reports/experiment/json_caret_performance_test_20250713/comprehensive-performance-report-20250717.md)**: 상세 분석 결과
+- **[실험 계획서](../보고서%28reports%29/실험자료/JSON%20시스템프롬프트%20성능평가_20250713/experiment-design.md)**: 42회 실험 설계 방법론
+- **[종합 성능 보고서](../보고서%28reports%29/실험자료/JSON%20시스템프롬프트%20성능평가_20250713/comprehensive-performance-report-20250717.md)**: 상세 분석 결과
 
 #### **🔥 실제 API 성능 향상 (Pro 모델 기준 - 42회 실험 검증)**
 
@@ -437,7 +437,8 @@ interface JITLoadingSystem {
 
 ### **핵심 문서**
 
-- **[Task #003-04](../tasks/003-04-cline-system-prompt-json-conversion.md)**: JSON 변환 작업 완료 보고서
+- **[Prompt System Evolution Report](../reports/prompt-system-evolution-report.md)**: 프롬프트 시스템 변화 요약
+- **[System Prompt Comparison](../reports/system-prompt-comparison-cc-cline-caret.md)**: 비교 분석 보고서
 - **[Caret Architecture Guide](./caret-architecture-and-implementation-guide.md)**: 전체 아키텍처
 - **[Testing Guide](./testing-guide.md)**: TDD 방법론
 - **[Upstream Merging Guide](../guides/upstream-merging.md)**: Cline 업데이트 통합

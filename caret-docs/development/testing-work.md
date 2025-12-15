@@ -24,8 +24,8 @@
 ```bash
 # 테스트 인프라 확인
 npm run test:webview     # 프론트엔드 테스트 기능
-# npm run test:backend   # 백엔드 테스트 (계획됨)
-npm run test:coverage    # 커버리지 보고 가능
+npm run test:unit        # 백엔드(Extension) 단위 테스트(Mocha)
+npm run test:integration # VSCode 통합 테스트(vscode-test)
 ```
 
 ## TDD 구현 주기

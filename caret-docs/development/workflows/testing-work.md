@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 워크플로우는 `.caretrules/workflows/testing-work.md`를 기준으로 보세요.
+
 통합 우선 TDD 방법론을 따라 포괄적인 테스팅을 구현하고 있습니다.
 
 <detailed_sequence_of_steps>
