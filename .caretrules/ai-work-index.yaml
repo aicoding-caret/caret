@@ -41,7 +41,7 @@ steps:
         keywords: [Cline modification, source change, src/ directory, L1 L2 L3, proto]
         root: .caretrules/cline-modification.md      # Quick reference (78 lines)
         workflow: .caretrules/workflows/cline-modification.md # Detailed (146 lines)
-        note: Always check CARET MODIFICATION comment requirements (backup deprecated)
+        note: Always follow backup + `// CARET MODIFICATION:` comment requirements
 
       - name: Critical Verification
         keywords: [verification, critical analysis, 3-stage, balanced review]
@@ -98,7 +98,6 @@ steps:
         korean:
           - caret-docs/development/system-prompt-implementation.md
           - caret-docs/development/message-processing-architecture.md
-          - caret-docs/development/ai-message-flow-guide.md
 
       - name: UI/UX Development
         keywords: [UI, UX, persona, multilingual, i18n, button, interaction, link management]

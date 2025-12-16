@@ -20,19 +20,22 @@ Never skip Phase 0 - prevents architectural mistakes and ensures proper approach
 
 **Phase 1: TDD RED** 🛑 STOP - Integration Test First
 - [ ] Write integration/E2E test for actual usage scenario
-- [ ] Verify test file location (webview: `src/caret/**/*.test.tsx`, backend: `caret-src/__tests__/`)
+- [ ] Verify test type & location:
+  - webview: `webview-ui/src/**` (run: `npm run test:webview`)
+  - backend unit: `src/**/__tests__/*.ts` or `caret-src/core/task/tools/__tests__/*.ts` (run: `npm run test:unit`)
+  - extension integration: `src/test/**` (run: `npm run test:integration`)
 - [ ] Run test immediately after creation (must fail)
 
 **Phase 2: TDD GREEN** 🛑 STOP - Before Modifying Cline Files
 - [ ] Check if file is protected (src/, webview-ui/, proto/, scripts/, etc.)
-- [ ] Add `// CARET MODIFICATION:` comment (~~backup deprecated~~)
+- [ ] Create a `.cline` backup and add `// CARET MODIFICATION:` comment
 - [ ] Minimal changes (1-3 lines max per file)
 - [ ] New Caret features in `caret-src/`, `caret-docs/`
 - [ ] Compile immediately after modification
 
 **Phase 3: TDD REFACTOR**
 - [ ] Full system verification: `npm run compile`
-- [ ] All tests pass: `npm run test:webview`, `npm run test:backend`
+- [ ] All relevant tests pass: `npm run test:unit`, `npm run test:integration`, `npm run test:webview`
 - [ ] No impact on existing features
 
 ## Critical Work Nature Docs
@@ -61,4 +64,4 @@ Never skip Phase 0 - prevents architectural mistakes and ensures proper approach
 See `.caretrules/workflows/ai-work-protocol.md`
 
 **📖 For Korean developer documentation:**
-See `caret-docs/development/ai-work-protocol.md` (if exists)
+See `caret-docs/development/ai-work-protocol.md`

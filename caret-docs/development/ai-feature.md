@@ -214,7 +214,7 @@ class AIPersonaFeature {
 ```bash
 # AI 통합 종단 간 테스트
 npm run test:webview  # 프론트엔드 컴포넌트 테스트
-# npm run test:backend (사용 가능 시) # AI 서비스 통합 테스트
+# npm run test:unit / npm run test:integration  # AI 관련 단위/통합 테스트(있는 범위 내)
 
 # 컴파일 검증
 npm run compile

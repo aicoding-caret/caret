@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 Atom은 `.caretrules/workflows/atoms/i18n-dynamic-pattern.md`를 기준으로 보세요.
+
 # i18n 동적 번역 패턴 (원자 워크플로우)
 
 > **AI 재사용 가능 코드 패턴 블록**

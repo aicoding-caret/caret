@@ -11,7 +11,9 @@ export async function parseProtoForServices(protoFilePaths, protoDir) {
 	const services = {}
 
 	for (const protoFilePath of protoFilePaths) {
-		const content = await fs.readFile(path.join(protoDir, protoFilePath), "utf8")
+		const rawContent = await fs.readFile(path.join(protoDir, protoFilePath), "utf8")
+		// CARET MODIFICATION: strip line comments so commented-out RPCs are ignored by the parser
+		const content = rawContent.replace(/^\s*\/\/.*$/gm, "")
 		const serviceMatches = content.matchAll(/service\s+(\w+Service)\s*\{([\s\S]*?)\}/g)
 
 		// CARET MODIFICATION: handle caret-specific proto package

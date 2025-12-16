@@ -17,7 +17,7 @@ Use systematic 3-stage approach for balanced, constructive analysis.
 **Output**: Raw list of concerns and issues
 
 **Example**:
-- JSON rule says `npm run test:backend` but package.json has no such command
+- Documentation or rule mentions a script that doesn't exist in package.json
 - Documentation claims Biome but some configs show ESLint
 - References to directories that don't exist
 
@@ -31,7 +31,7 @@ Use systematic 3-stage approach for balanced, constructive analysis.
 **Output**: Balanced perspective on each concern
 
 **Example**:
-- `test:backend` might be a planned command, not implemented yet
+- Script name might have changed (verify in package.json)
 - Biome/ESLint mix might be gradual migration in progress
 - Missing directories might be part of architectural plan
 

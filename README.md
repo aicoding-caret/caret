@@ -7,22 +7,23 @@
   <table>
     <tr>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/README.md">
+      <td align="center">
+        <a href="./README.md">
           <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ko/README.md">
+        <a href="caret-docs/ko/README.md">
           <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ja/README.md">
+        <a href="caret-docs/ja/README.md">
           <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/zh-cn/README.md">
+        <a href="caret-docs/zh-cn/README.md">
           <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
         </a>
       </td>
@@ -89,7 +90,7 @@
 5. **⌨️ Better UX** — input history and handy shortcuts (Esc, Ctrl+Shift+R)
 6. **🎯 Massive model support** — 251 models, 20 providers (Cline v3.38.2 compatible)
 
-👉 **See all exclusive features**: [Feature index](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/index.md)
+👉 **See all exclusive features**: [Feature index](caret-docs/features.en/index.md)
 
 ---
 
@@ -161,23 +162,30 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 
 | Feature | Description | Docs |
 |---------|-------------|------|
-| **F00** | Cline bugfix & stability patch | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f00-cline-bugfix-patch.md) |
-| **F01** | Common utilities | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f01-common-util.md) |
-| **F02** | Multilingual i18n | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f02-multilingual-i18n.md) |
-| **F03** | Branding & UI system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f03-branding-ui.md) |
-| **F04** | Cline compatibility & CLI | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
-| **F05** | Caret account system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f05-caret-account.md) |
-| **F06** | Rule priority system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f06-rule-priority-system.md) |
-| **F07** | Caret prompt system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f07-caret-prompt-system.md) |
-| **F08** | Persona system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f08-persona-system.md) |
-| **F09** | Feature Config system | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f09-feature-config-system.md) |
-| **F10** | Enhanced provider setup | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f10-enhanced-provider-setup.md) |
-| **F11** | Input history & shortcuts | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f11-input-history-and-shortcuts.md) |
-| **F12** | AI-developer knowledge parity | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
+| **F00** | Cline bugfix & stability patch | [Details](caret-docs/features.en/f00-cline-bugfix-patch.md) |
+| **F01** | Common utilities | [Details](caret-docs/features.en/f01-common-util.md) |
+| **F02** | Multilingual i18n | [Details](caret-docs/features.en/f02-multilingual-i18n.md) |
+| **F03** | Branding & UI system | [Details](caret-docs/features.en/f03-branding-ui.md) |
+| **F04** | Cline compatibility & CLI | [Details](caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
+| **F05** | Caret account system | [Details](caret-docs/features.en/f05-caret-account.md) |
+| **F06** | Rule priority system | [Details](caret-docs/features.en/f06-rule-priority-system.md) |
+| **F07** | Caret prompt system | [Details](caret-docs/features.en/f07-caret-prompt-system.md) |
+| **F08** | Persona system | [Details](caret-docs/features.en/f08-persona-system.md) |
+| **F09** | Feature Config system | [Details](caret-docs/features.en/f09-feature-config-system.md) |
+| **F10** | Enhanced provider setup | [Details](caret-docs/features.en/f10-enhanced-provider-setup.md) |
+| **F11** | Input history & shortcuts | [Details](caret-docs/features.en/f11-input-history-and-shortcuts.md) |
+| **F12** | AI-developer knowledge parity | [Details](caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
 
 </div>
 
-→ **[Full feature index](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/index.md)**
+→ **[Full feature index](caret-docs/features.en/index.md)**
+
+---
+
+## 🛠 For Developers (KO-first)
+
+- 개발 문서 대시보드: `caret-docs/development/index.md` (환경/빌드/워크플로우/아키텍처 정리)
+- AI 규칙 ↔ 개발 문서 매핑: `.caretrules/caret-rules.json` + `.caretrules/workflows/*`는 대응되는 개발 가이드와 함께 유지됩니다. (F12 AI-Developer Knowledge Parity)
 
 ---
 
@@ -207,9 +215,8 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 
 ---
 
-## 🛠️ Developer Docs
+## 🛠️ For Developers
 
-- **[Developer Guide](https://github.com/aicoding-caret/caret/blob/main/DEVELOPER_GUIDE.md)** — build/test basics  
-- **[Caret Architecture](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)** — system overview  
-- **[New Developer Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/new-developer-guide.md)** — onboarding steps  
-- **[AI Work Method Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — required reading before contributing
+- **[🚀 Developer Documentation Dashboard](caret-docs/development/index.md)** — Your starting point for setup, building, and testing.
+- **[🏛️ Caret Architecture](caret-docs/development/caret-architecture-and-implementation-guide.md)** — A deep dive into the system architecture.
+- **[🤖 AI Work Method Guide](caret-docs/guides/ai-work-method-guide.md)** — Required reading for AI-based contributions.

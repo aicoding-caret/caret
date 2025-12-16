@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 워크플로우는 `.caretrules/workflows/new-component.md`를 기준으로 보세요.
+
 TDD와 일관된 패턴을 사용하여 새 컴포넌트를 생성하고 있습니다.
 
 <detailed_sequence_of_steps>
@@ -106,7 +108,7 @@ export class PersonaService {
 ```bash
 # 테스트 검증
 npm run test:webview      # React 컴포넌트용
-# (test:backend when available) # 서비스 클래스용
+# npm run test:unit # (서비스/백엔드 unit) Mocha 기준
 
 # 컴파일 검증  
 npm run compile

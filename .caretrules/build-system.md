@@ -30,15 +30,16 @@
 
 ```json
 {
-  "compile": "npm run check-types && npm run lint && node esbuild.mjs",
-  "check-types": "npm run protos && npx tsc && cd webview-ui && npx tsc -b --noEmit",
-  "watch:tsc": "tsc --watch --project tsconfig.json"
+  "compile": "GOPATH= npm run check-types:backend && npm run lint && node esbuild.mjs",
+  "check-types": "npm run check-types:backend && npm run check-types:frontend",
+  "check-types:backend": "npm run protos && npx tsc --noEmit",
+  "check-types:frontend": "cd webview-ui && npx tsc -b --noEmit",
+  "watch:tsc": "tsc --noEmit --watch --project tsconfig.json"
 }
 ```
 
 **Important**:
-- `tsc` runs for type checking only (noEmit in tsconfig.json)
-- No `--noEmit` flag needed in scripts (configured in tsconfig.json)
+- `tsc` runs for type checking only (noEmit in tsconfig.json and/or CLI flags)
 - esbuild.mjs handles all bundling
 
 ## Protected Directories
@@ -65,7 +66,7 @@
 
 2. **Clean build**:
    ```bash
-   npm run clean
+   npm run clean:build
    npm run compile
    ```
 
@@ -118,8 +119,8 @@ find src caret-src -name "*.js" -o -name "*.js.map"
 3. ✅ Test in VSCode: F5 (Run Extension)
 
 ### When modifying package.json scripts
-1. ✅ Never add `--noEmit` to scripts (configured in tsconfig.json)
-2. ✅ Keep separation: tsc for types, esbuild for bundling
+1. ✅ Ensure TypeScript does not emit JS into source directories (`src/`, `caret-src/`)
+2. ✅ Keep separation: tsc for type-checking, esbuild for bundling
 3. ✅ Test full build: `npm run compile`
 
 ## Integration with Development Workflow
@@ -149,14 +150,11 @@ npm run watch:tsc
 
 # Terminal 2: Build watching
 npm run watch
-
-# Terminal 3: Test watching (optional)
-npm run test:backend:watch
 ```
 
 ## Reference Documents
 
 - **Problem Analysis**: `caret-docs/work-logs/alpha/2025-10-16-js-file-generation-issue.md`
 - **Improvement Plan**: `caret-docs/work-logs/alpha/2025-10-16-build-script-improvements.md`
-- **Build Commands**: `CLAUDE.md` - Common Commands section
-- **Architecture**: `CLAUDE.md` - Architecture Overview section
+- **Build Commands**: `caret-docs/development/build-and-test.md`
+- **Developer Dashboard**: `caret-docs/development/index.md`

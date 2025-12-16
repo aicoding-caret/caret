@@ -108,7 +108,7 @@ export class PersonaService {
 ```bash
 # 테스트 검증
 npm run test:webview      # React 컴포넌트용
-# (test:backend 사용 가능 시) # 서비스 클래스용
+# npm run test:unit        # (서비스/백엔드 unit) Mocha 기준
 
 # 컴파일 검증
 npm run compile

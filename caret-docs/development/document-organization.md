@@ -1,101 +1,55 @@
-개발자 지식과 AI 지식 간의 1:1 패리티를 달성하기 위해 문서 시스템을 조직화하고 있습니다.
+개발자 지식과 AI 지식 간의 1:1 패리티(AI-Developer Knowledge Parity)를 유지하기 위한 문서 정리 가이드입니다.
 
 <detailed_sequence_of_steps>
 # 문서 조직화 워크플로우 - 지식 패리티 시스템
 
 ## 핵심 원칙
-**개발자 지식 = AI 지식 (1:1 패리티 필요)**
-- 개발자가 필요한 모든 개념은 워크플로우를 통해 AI가 접근 가능해야 함
-- 모든 워크플로우는 개발자 문서와 대응되어야 함
-- 인간과 AI 시스템 간에 지식 사일로 없음
+- **SoT는 `.caretrules`** 입니다. (AI는 `.caretrules/caret-rules.json` → 필요한 workflow/atom만 온디맨드 로드)
+- 개발자 문서는 **KO 우선**으로 `caret-docs/development/**`에 두고, 진입점은 `caret-docs/development/index.md`로 통일합니다.
+- `features`는 **EN 중심(`caret-docs/features.en/**`)**으로 유지하고, 필요 시 KO 가이드로 링크를 연결합니다.
+- 동일 내용을 여러 위치에 “복사”해 두기보다 **포인터(링크)로 연결**해 파편화를 막습니다.
 
-## 현재 분석
-**caret-docs/development/**: 22개 문서 (개발자 지식)
-**caret-docs/guides/**: 6개 가이드 (개발자 지식)
-**.caretrules/workflows/**: 4개 워크플로우 (AI 지식)
+## SoT(규칙/워크플로우) 구조
+- 진입점: `.caretrules/caret-rules.json`
+- 워크플로우: `.caretrules/workflows/*.md`
+- 원자(Atoms): `.caretrules/workflows/atoms/*`
 
-**문제**: 대규모 지식 격차 (28 vs 4)
+## 개발자 문서(사람용) 구조
+- 개발 문서 대시보드: `caret-docs/development/index.md`
+- 개발 가이드: `caret-docs/development/**`
+- 기능 스펙: `caret-docs/features.en/**` (EN)
+- 작업 기록: `caret-docs/work-logs/**`
 
-## 원자적 워크플로우 전략
+## 문서 추가/수정 시 체크리스트
+1) 문서 종류를 먼저 결정합니다.
+- **AI가 따라야 하는 절차/규칙**: `.caretrules`에 반영(SoT 우선)
+- **로컬 개발/빌드/테스트/실행 가이드**: `caret-docs/development/**`에 반영
+- **제품 기능 스펙**: `caret-docs/features.en/**`에 반영
 
-### 1단계: 지식 원자 식별
-복잡한 문서를 재사용 가능한 지식 원자로 분해:
+2) 미러링(중복) 대신 연결을 우선합니다.
+- SoT workflow가 있으면, 개발 문서에서는 **핵심만 요약**하고 **SoT로 링크**합니다.
+- `caret-docs/development/workflows/**` 같이 과거 미러가 남아 있다면, “Deprecated mirror”로 표기하고 SoT를 가리키도록 유지합니다.
 
-**핵심 원자들**:
-- `/backup-protocol`: 파일 백업 절차 (.cline 형식)
-- `/tdd-cycle`: RED→GREEN→REFACTOR 방법론
-- `/modification-levels`: L1→L2→L3 결정 프레임워크
-- `/storage-patterns`: workspaceState vs globalState 규칙
-- `/naming-conventions`: 파일 및 컴포넌트 명명 표준
-- `/verification-steps`: Test→Compile→Execute 순서
-- `/comment-protocol`: CARET MODIFICATION 요구사항
+3) 네비게이션을 갱신합니다.
+- 새 문서/중요 문서는 `caret-docs/development/index.md`에서 항상 접근 가능해야 합니다.
 
-**도메인 원자들**:
-- `/component-patterns`: React 컴포넌트 아키텍처
-- `/message-flow`: 프론트엔드↔백엔드 통신
-- `/ai-integration`: 시스템 프롬프트 및 메시지 처리
-- `/file-operations`: 스토리지, 로딩 및 처리
-- `/testing-strategies`: 통합 우선 테스팅 접근법
+## 정합성 검증(증거 기반)
+```bash
+# 문서/규칙에 남아있는 오래된 스크립트/경로 참조 탐지
+rg -n "npm run (test:backend|clean\\b|CLAUDE\\.md)" .caretrules caret-docs/development || true
+rg -n "src/caret" .caretrules caret-docs/development || true
 
-### 2단계: 개발자 문서를 원자적 워크플로우에 매핑
-**아키텍처 도메인**:
-- caret-architecture-and-implementation-guide.md → `/modification-levels` + `/backup-protocol`
-- component-architecture-principles.md → `/component-patterns` + `/naming-conventions`
-
-**통신 도메인**:
-- frontend-backend-interaction-patterns.md → `/message-flow` + `/storage-patterns`
-- webview-extension-communication.md → `/message-flow` + `/verification-steps`
-
-**AI 도메인**:
-- ai-message-flow-guide.md → `/ai-integration` + `/message-flow`
-- system-prompt-implementation.md → `/ai-integration` + `/component-patterns`
-
-**테스팅 도메인**:
-- testing-guide.md → `/tdd-cycle` + `/testing-strategies` + `/verification-steps`
-
-### 3단계: 복합 워크플로우 생성
-특정 작업 시나리오를 위해 원자들 결합:
-
-```json
-"composite_workflows": {
-  "/cline-modification": ["backup-protocol", "modification-levels", "comment-protocol", "verification-steps"],
-  "/new-component": ["component-patterns", "tdd-cycle", "naming-conventions", "testing-strategies"],
-  "/ai-feature": ["ai-integration", "message-flow", "tdd-cycle", "verification-steps"],
-  "/storage-feature": ["storage-patterns", "file-operations", "tdd-cycle", "verification-steps"]
-}
+# 실제 스크립트 SoT
+cat package.json | sed -n '310,390p'
 ```
 
-### 4단계: 검증 전략
-**각 원자적 워크플로우에 대해**:
-- [ ] 특정 개발자 문서 섹션에 매핑
-- [ ] 정보뿐만 아니라 실행 가능한 절차 포함
-- [ ] 다른 원자들과 결합 가능
-- [ ] 개발자 문서와 동일한 지식 수준 제공
-
-**각 개발자 문서에 대해**:
-- [ ] 핵심 지식이 원자적 워크플로우로 추출됨
-- [ ] AI 접근을 위한 원자적 워크플로우 참조
-- [ ] 인간이 읽기 쉬운 형식 유지
-- [ ] 관련 원자들과의 상호 참조
-
-## 구현 프로세스
-1. **감사 단계**: 28개 개발자 문서 전반의 모든 고유 지식 개념 나열
-2. **원자화 단계**: 각 개념에 대한 원자적 워크플로우 생성
-3. **매핑 단계**: 워크플로우 참조로 개발자 문서 업데이트
-4. **구성 단계**: 일반적인 시나리오에 대한 복합 워크플로우 생성
-5. **검증 단계**: 1:1 지식 패리티 보장
-
 ## 성공 기준
-- AI가 원자적 워크플로우를 통해 개발자가 갖는 모든 지식에 접근 가능
-- 개발자가 자신의 문서에 대응하는 워크플로우를 볼 수 있음
-- 시스템 간 지식 사일로나 격차 없음
-- 원자적 구성을 통한 효율적인 토큰 사용
+- `.caretrules`와 `caret-docs/development`가 동일한 현실(경로/스크립트/구조)을 설명함
+- `caret-docs/development/index.md`에서 고립 문서 없이 탐색 가능
+- 기능 스펙은 `caret-docs/features.en/**`에 있고, 개발 runbook과 중복되지 않음
 </detailed_sequence_of_steps>
 
 <general_guidelines>
-이 워크플로우는 원자적 분해와 구성을 통해 체계적으로 지식 패리티를 달성합니다.
-
-목표는 효율성을 유지하고 중복을 피하면서 지식 격차를 제거하는 것입니다.
-
-모든 개발자 문서는 동등한 지식 접근을 제공하는 원자적 워크플로우의 조합에 매핑되어야 합니다.
+- 삭제/이동은 합의 전 보류하고, 먼저 deprecate + 링크로 안전하게 정리합니다.
+- “문서 개수/워크플로우 개수” 같은 스냅샷 수치는 워크플로우에 쓰지 않습니다(드리프트 원인).
 </general_guidelines>

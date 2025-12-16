@@ -168,7 +168,7 @@ console.log("Debug info") // Will appear in user's DevTools
 - Apply `/cline-modification` when touching existing Cline logging code
 - Use `/new-component` when adding components that need logging
 - Consider `/critical-verification` when logging changes affect error handling
-- When executing a B2B branding run (e.g., Caret → CodeCenter), follow `slexn-codecenter/tools/brand-converter.js`, capture notes in `slexn-codecenter/worklog/`, and mirror any rule-handling updates here, in `AGENTS.md`, and in `CLAUDE.md` when that file is editable.
+- When executing a B2B branding run, capture notes in `caret-docs/work-logs/` and mirror any rule-handling updates here and in `AGENTS.md`.
 </detailed_sequence_of_steps>
 
 <general_guidelines>

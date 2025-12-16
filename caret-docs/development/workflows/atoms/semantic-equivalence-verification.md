@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 Atom은 `.caretrules/workflows/atoms/semantic-equivalence-verification.md`를 기준으로 보세요.
+
 확립된 방법론을 사용하여 Markdown과 JSON 워크플로우 형식 간의 의미적 동등성을 검증하고 있습니다.
 
 <detailed_sequence_of_steps>

@@ -45,3 +45,7 @@ Provider labels/descriptions live under `providers.{id}.*` within `settings` nam
 
 ## 🔮 Extensibility
 - Add new providers by implementing a fetch controller, defining RPC in `system.proto`, and wiring a settings component under `providers/`.
+
+## 🔗 Related
+- **F12 - Caret CLI**: CLI BYO/LiteLLM 옵션을 동일한 기본값/검증 흐름으로 사용.
+- **F05 - Caret Account**: Caret 계정/토큰을 사용하는 provider 설정 시 UI·CLI 모두 동일 데이터 소스를 공유.

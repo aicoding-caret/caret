@@ -1,7 +1,7 @@
 # F04 - Cline Compatibility & CLI Extensions
 
 **Status**: ✅ Phase D complete  
-**Scope**: Core (prompt/mode), Webview (banner/settings), CLI (Go/packaging)  
+**Scope**: Core (prompt/mode), Webview (banner/settings)  
 **Priority**: 🔴 High
 
 ---
@@ -9,6 +9,8 @@
 ## 📋 Overview
 
 Caret remains 100% compatible with all Cline features (Plan/Act, MCP, providers, etc.) while offering a **Dual Mode System**. Users can switch between `Cline Mode` (pure compatibility) and `Caret Mode` (extended features such as JSON prompts, enhanced CLI, dedicated authentication) through settings or UI toggles.
+
+> Note: CLI-specific behavior is now tracked separately in **F12 - Caret CLI**.
 
 ---
 
@@ -18,9 +20,8 @@ Caret remains 100% compatible with all Cline features (Plan/Act, MCP, providers,
 | --- | --- | --- |
 | **Operating Modes** | Single Plan/Act system only | **Dual Mode System** (Caret ↔ Cline) with fully separated prompts/tools/UI per mode |
 | **System Prompt** | Hardcoded text prompt (`src/core/prompts/system.ts`) | **Dynamic JSON Prompt System** (`caret-src/core/prompts`) with structured control |
-| **CLI Tooling** | `cline` CLI only | **Unified CLI wrapper**: the `caret` command drives either Caret or Cline backends depending on mode |
 | **Auth/Domain** | Fixed `cline.bot` | **Multi-domain**: handles `caret.team` (Caret) and `cline.bot` (Cline) separately to avoid account conflicts |
-| **Subagents** | Experimental, UI hidden | **Full UI support**: settings toggles/output limit slider, mode-aware CLI install hints/buttons, i18n (en/ko/ja/zh) |
+| **Subagents** | Experimental, UI hidden | **Full UI support**: settings toggles/output limit slider, i18n (en/ko/ja/zh) |
 
 ---
 
@@ -42,10 +43,6 @@ Key files to verify during merges:
 - **`webview-ui/src/components/settings/sections/FeatureSettingsSection.tsx`**: restores subagent settings UI and mode-aware CLI hints.
 - **`webview-ui/src/components/settings/SubagentOutputLineLimitSlider.tsx`**: output limit slider displayed when the toggle is on.
 - **`webview-ui/src/caret/locale/{en,ko,ja,zh}/settings.json`**: adds translation keys for subagent toggle/install hint/output limit labels.
-
-### 3. CLI (Go & Packaging)
-- **`cli-caret/pkg/cli/auth/`**: `auth_menu.go`, `providers_list.go` branch Caret/Cline/BYO menus and apply the `caret.team` domain.
-- **`cli-caret/scripts/`**: `build-local.sh`, `publish-caret-cli.sh` package both binaries (includes `cline`) into a single distribution.
 
 ---
 

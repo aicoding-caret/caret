@@ -11,16 +11,21 @@ You are following the mandatory verification sequence after every change.
 
 ### Backend Changes:
 ```bash
-# Fast backend-specific tests
-npm run test:webview  # For webview changes
-# Note: test:backend planned but not yet implemented
+# Backend unit tests (Mocha)
+npm run test:unit
+
+# Frontend tests (Vitest)
+npm run test:webview
+
+# VSCode integration tests
+npm run test:integration
 ```
 
 ### Full Test Coverage:
 ```bash
 # When comprehensive testing needed
-npm run test:all
-npm run test:coverage  # For coverage analysis
+npm run test
+npm run test:coverage
 ```
 
 ### Test Requirements:

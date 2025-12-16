@@ -25,7 +25,7 @@
 - [ ] REFACTOR: Improve quality, add error handling, optimize
 
 **Verification:**
-- [ ] `npm run test:webview` (React) or `npm run test:backend` (service)
+- [ ] `npm run test:webview` (React) or `npm run test:unit` (backend unit)
 - [ ] `npm run compile` - TypeScript compilation succeeds
 - [ ] Manual test - F5 in VSCode development window
 

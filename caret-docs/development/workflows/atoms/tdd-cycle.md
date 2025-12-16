@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 Atom은 `.caretrules/workflows/atoms/tdd-cycle.md`를 기준으로 보세요.
+
 통합 우선 접근법을 사용한 TDD (Test-Driven Development) 사이클을 따르고 있습니다.
 
 <detailed_sequence_of_steps>

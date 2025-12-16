@@ -2,7 +2,7 @@
 
 > **Note:** This document provides a brief overview. For the complete and authoritative guide on i18n patterns, rules, and implementation, please refer to the primary documentation:
 >
-> **➡️ [Comprehensive i18n System Guide](../../features/f02-multilingual-i18n.md)**
+> **➡️ [Comprehensive i18n System Guide (EN)](../features.en/f02-multilingual-i18n.md)**
 
 ## Core Principles Summary
 
@@ -20,4 +20,4 @@ All translation keys related to API Providers must be consolidated within the `s
 -   **Example**: `t('providers.openrouter.apiKeyLabel', 'settings')`
 
 ---
-*Please refer to the [main guide](../../features/f02-multilingual-i18n.md) for detailed implementation steps, code examples, and management processes.*
+*Please refer to the [main guide (EN)](../features.en/f02-multilingual-i18n.md) for detailed implementation steps, code examples, and management processes.*

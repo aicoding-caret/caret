@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 워크플로우는 `.caretrules/workflows/testing-work.md`를 기준으로 보세요.
+
 통합 우선 TDD 방법론을 따라 포괄적인 테스팅을 구현하고 있습니다.
 
 <detailed_sequence_of_steps>
@@ -22,7 +24,8 @@
 ```bash
 # 테스트 인프라 확인
 npm run test:webview     # 프론트엔드 테스트 기능
-# npm run test:backend   # 백엔드 테스트 (계획된)
+# npm run test:unit        # 백엔드(unit) 테스트
+# npm run test:integration # VSCode 통합 테스트(필요 시)
 npm run test:coverage    # 커버리지 보고 가능
 ```
 

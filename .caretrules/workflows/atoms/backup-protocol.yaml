@@ -4,15 +4,14 @@ description: File backup procedures when modifying Cline original files
 
 context: You are modifying a Cline original file and need to create a backup.
 
-deprecatedMethod:
-  format: "{filename}.{extension}.cline"
-  status: NO LONGER USED
-  reason: Complexity and merge conflicts
-
 currentMethod:
-  format: CARET MODIFICATION comment only
-  backup: Not required
-  comment: "// CARET MODIFICATION: [clear description]"
+  backup:
+    required: true
+    format: "{filename}.cline"
+    rule: Never overwrite an existing .cline backup
+  comment:
+    required: true
+    format: "// CARET MODIFICATION: [clear description]"
 
 protectedDirectories:
   - src/
@@ -26,6 +25,7 @@ protectedDirectories:
 
 modificationRules:
   - Check if file is in protected directories
+  - If modifying Cline original file: create a .cline backup if it doesn't exist
   - Add CARET MODIFICATION comment before changes
   - Keep changes minimal (1-3 lines max per file)
   - Never comment out old code, replace completely

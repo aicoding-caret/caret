@@ -59,3 +59,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - Keep Cline logic untouched; route through `caret-src/**` where possible.
 - When adding models, update `src/shared/api.ts` and regenerate CLI definitions (`npm run cli-providers`).
 - Proto changes require `npm run protos` (TS) and `npm run protos-go` (Go) plus post-processing steps already scripted.
+
+## 🔗 Related
+- **F12 - Caret CLI**: caret 모드 강제 CLI에서 계정/프로바이더 흐름을 동일하게 사용.
+- **F10 - Enhanced Provider Setup**: Caret 토큰을 활용한 provider 설정/모델 선택이 UI·CLI 양쪽에 일관 적용.

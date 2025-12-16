@@ -271,6 +271,6 @@ getLink("EDUCATION_PROGRAM") // ✅ OK
 
 ## 🔗 관련 문서
 
-- [Caret 다국어화(i18n) 가이드](../../features/f02-multilingual-i18n.md)
+- [Caret 다국어화(i18n) 가이드 (EN)](../features.en/f02-multilingual-i18n.md)
 - [웹뷰-익스텐션 통신](./webview-extension-communication.md)
 - [개발 가이드 인덱스](./index.md)

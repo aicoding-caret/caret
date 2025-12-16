@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/cline/cli/pkg/common"
@@ -37,14 +36,15 @@ var (
 
 func InitializeGlobalConfig(cfg *GlobalConfig) error {
 	if cfg.ConfigPath == "" {
-		homeDir, err := os.UserHomeDir()
+		// CARET MODIFICATION: use brand-aware default config dir (.caret)
+		defaultPath, err := common.DefaultConfigPath()
 		if err != nil {
-			return fmt.Errorf("failed to get home directory: %w", err)
+			return fmt.Errorf("failed to get default config directory: %w", err)
 		}
-		cfg.ConfigPath = filepath.Join(homeDir, ".cline")
+		cfg.ConfigPath = defaultPath
 	}
 
-	// Ensure .cline directory exists
+	// Ensure config directory exists
 	if err := os.MkdirAll(cfg.ConfigPath, 0755); err != nil {
 		return fmt.Errorf("failed to create config directory: %w", err)
 	}

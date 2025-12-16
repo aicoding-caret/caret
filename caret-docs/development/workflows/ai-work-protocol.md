@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 워크플로우는 `.caretrules/workflows/ai-work-protocol.md`를 기준으로 보세요.
+
 체계적인 개발 접근을 위한 상세한 AI 작업 프로토콜을 따르고 있습니다.
 
 <detailed_sequence_of_steps>

@@ -25,7 +25,7 @@
 - [ ] REFACTOR: Add edge case tests, error handling, performance tests
 
 **Validation:**
-- [ ] `npm run test:webview` (frontend) or `npm run test:backend` (backend)
+- [ ] `npm run test:webview` (frontend), `npm run test:unit` (backend unit), `npm run test:integration` (extension integration)
 - [ ] `npm run test:coverage` - Target: >90% line coverage
 - [ ] `npm run compile` - TypeScript compilation succeeds
 - [ ] `npm run watch` - Manual runtime testing (F5)

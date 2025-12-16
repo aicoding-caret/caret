@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 Atom은 `.caretrules/workflows/atoms/verification-steps.md`를 기준으로 보세요.
+
 모든 변경사항 후 필수 검증 시퀀스를 따르고 있습니다.
 
 <detailed_sequence_of_steps>
@@ -11,9 +13,11 @@
 
 ### Backend 변경사항:
 ```bash
-# 빠른 backend 관련 테스트
-npm run test:webview  # webview 변경사항의 경우
-# 참고: test:backend는 계획되어 있지만 아직 구현되지 않음
+# 백엔드(unit) 테스트
+npm run test:unit
+
+# VSCode 통합 테스트(필요 시)
+npm run test:integration
 ```
 
 ### 전체 테스트 커버리지:

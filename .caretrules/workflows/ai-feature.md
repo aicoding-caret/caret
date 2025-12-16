@@ -212,7 +212,7 @@ class AIPersonaFeature {
 ```bash
 # Test AI integration end-to-end
 npm run test:webview  # Frontend component tests
-# npm run test:backend (when available) # AI service integration tests
+npm run test:unit     # Backend/service tests (Mocha)
 
 # Compile verification
 npm run compile

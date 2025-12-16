@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/charmbracelet/huh"
-	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/task"
 	"github.com/cline/grpc-go/cline"
 	"google.golang.org/protobuf/proto"
@@ -107,20 +106,20 @@ type ocaAuthStream interface {
 
 // OcaAuthStatusListener manages subscription to OCA auth status updates
 type OcaAuthStatusListener struct {
-	stream        ocaAuthStream
-	updatesCh     chan *cline.OcaAuthState
-	errCh         chan error
-	ctx           context.Context
-	cancel        context.CancelFunc
-	mu            sync.RWMutex
-	lastState     *cline.OcaAuthState
-	firstEventCh  chan struct{}
+	stream         ocaAuthStream
+	updatesCh      chan *cline.OcaAuthState
+	errCh          chan error
+	ctx            context.Context
+	cancel         context.CancelFunc
+	mu             sync.RWMutex
+	lastState      *cline.OcaAuthState
+	firstEventCh   chan struct{}
 	firstEventOnce sync.Once
 }
 
 // NewOcaAuthStatusListener creates a new OCA auth status listener
 func NewOcaAuthStatusListener(parentCtx context.Context) (*OcaAuthStatusListener, error) {
-	client, err := global.GetDefaultClient(parentCtx)
+	client, err := getAuthClient(parentCtx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get client: %w", err)
 	}
@@ -295,7 +294,7 @@ func IsOCAAuthenticated(ctx context.Context) bool {
 	return l.IsAuthenticated()
 }
 
- // LatestState returns the last received OCA auth state (may be nil)
+// LatestState returns the last received OCA auth state (may be nil)
 func (l *OcaAuthStatusListener) LatestState() *cline.OcaAuthState {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
@@ -334,7 +333,7 @@ func ensureOcaAuthenticated(ctx context.Context) error {
 	}
 
 	// Create gRPC client for initiating login
-	client, err := global.GetDefaultClient(ctx)
+	client, err := getAuthClient(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to obtain client: %w", err)
 	}

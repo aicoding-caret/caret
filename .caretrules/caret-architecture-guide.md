@@ -168,7 +168,7 @@ WebviewPanel ↔ Controller ↔ Task
 ## Verification Protocol
 
 Every change must pass:
-1. **Test**: `npm run test:backend` or `test:webview`
+1. **Test**: `npm run test:unit`, `npm run test:integration`, `npm run test:webview`
 2. **Compile**: `npm run compile`
 3. **Execute**: Manual testing in development window
 

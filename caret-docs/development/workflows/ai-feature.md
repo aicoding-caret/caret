@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 워크플로우는 `.caretrules/workflows/ai-feature.md`를 기준으로 보세요.
+
 적절한 메시지 플로우와 테스팅으로 AI 관련 기능을 구현하고 있습니다.
 
 <detailed_sequence_of_steps>
@@ -228,7 +230,7 @@ class AIPersonaFeature {
 ```bash
 # AI 통합 end-to-end 테스트
 npm run test:webview  # 프론트엔드 컴포넌트 테스트
-# npm run test:backend (when available) # AI 서비스 통합 테스트
+# npm run test:unit / npm run test:integration  # AI 서비스 단위/통합 테스트(있는 범위 내)
 
 # 컴파일 검증
 npm run compile

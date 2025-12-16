@@ -27,7 +27,7 @@
 
 **Verification:**
 - [ ] `npm run test:webview` - Frontend tests pass
-- [ ] `npm run test:backend` - Backend integration tests pass
+- [ ] `npm run test:unit` / `npm run test:integration` - Backend/unit & extension integration tests pass
 - [ ] `npm run compile` - TypeScript compilation succeeds
 - [ ] Manual test: Full AI interaction flow works in development window
 

@@ -1,3 +1,5 @@
+> ⚠️ (Deprecated mirror) 최신 워크플로우는 `.caretrules/workflows/i18n-static-translation-fix.md`를 기준으로 보세요.
+
 # i18n 정적 번역 문제 해결 워크플로우
 
 > **AI 작업자를 위한 정적 i18n 번역 문제 자동 해결 가이드**

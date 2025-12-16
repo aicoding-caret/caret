@@ -3,11 +3,14 @@ package auth
 import (
 	"context"
 	"fmt"
+	"os"
+	"time"
 
 	"github.com/charmbracelet/huh"
 	"github.com/cline/cli/pkg/cli/display"
 	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/task"
+	"github.com/cline/cli/pkg/common"
 	"github.com/cline/grpc-go/cline"
 )
 
@@ -46,19 +49,46 @@ const (
 // RunAuthFlow is the entry point for the entire auth flow with instance management
 // It spawns a fresh instance for auth operations and cleans it up when done
 func RunAuthFlow(ctx context.Context, args []string) error {
+	// CARET MODIFICATION: allow reusing a running instance when address is provided
+	addressOverride := os.Getenv("CARET_AUTH_ADDRESS")
+	if addressOverride == "" && global.Config != nil && global.Config.CoreAddress != "" &&
+		global.Config.CoreAddress != fmt.Sprintf("localhost:%d", common.DEFAULT_CLINE_CORE_PORT) {
+		addressOverride = global.Config.CoreAddress
+	}
+	if addressOverride != "" {
+		checkCtx, cancel := context.WithTimeout(ctx, 3*time.Second)
+		defer cancel()
+		if common.IsInstanceHealthy(checkCtx, addressOverride) {
+			verboseLog("Using provided auth instance at %s (reuse mode)", addressOverride)
+			authCtx := context.WithValue(ctx, authInstanceAddressKey, addressOverride)
+			return HandleAuthCommand(authCtx, args)
+		}
+		verboseLog("Provided auth instance at %s is unreachable; starting a temporary auth instance instead", addressOverride)
+	}
+
+	// CARET MODIFICATION: default = keep spawned auth instance; set CARET_AUTH_KILL to tear down
+	persistAuth := true
+	if os.Getenv("CARET_AUTH_KILL") != "" {
+		persistAuth = false
+	}
+
 	// Spawn a fresh instance for auth operations
 	instanceInfo, err := global.Clients.StartNewInstance(ctx)
 	if err != nil {
 		return fmt.Errorf("failed to start auth instance: %w", err)
 	}
 
-	// Cleanup when done (success, error, or panic)
-	defer func() {
-		verboseLog("Shutting down auth instance at %s", instanceInfo.Address)
-		if err := global.KillInstanceByAddress(context.Background(), global.Clients.GetRegistry(), instanceInfo.Address); err != nil {
-			verboseLog("Warning: Failed to kill auth instance: %v", err)
-		}
-	}()
+	// Cleanup when done (success, error, or panic) unless persistence is requested
+	if persistAuth {
+		verboseLog("Leaving auth instance running at %s (set CARET_AUTH_KILL=1 to tear down)", instanceInfo.Address)
+	} else {
+		defer func() {
+			verboseLog("Shutting down auth instance at %s", instanceInfo.Address)
+			if err := global.KillInstanceByAddress(context.Background(), global.Clients.GetRegistry(), instanceInfo.Address); err != nil {
+				verboseLog("Warning: Failed to kill auth instance: %v", err)
+			}
+		}()
+	}
 
 	// Store instance address in context for all auth handlers to use
 	authCtx := context.WithValue(ctx, authInstanceAddressKey, instanceInfo.Address)

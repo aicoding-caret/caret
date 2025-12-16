@@ -14,6 +14,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/output"
+	"github.com/cline/cli/pkg/common"
 )
 
 type cacheData struct {
@@ -29,7 +30,7 @@ type npmRegistryResponse struct {
 }
 
 const (
-	checkInterval = 24 * time.Hour
+	checkInterval  = 24 * time.Hour
 	requestTimeout = 3 * time.Second
 )
 
@@ -193,7 +194,7 @@ func checkAndUpdateInternal(bypassCache bool) error {
 	// Attempt update
 	if verbose {
 		output.Printf("[updater] Running: npm install -g cline%s\n",
-			map[bool]string{true: "@"+channel, false: ""}[channel == "nightly"])
+			map[bool]string{true: "@" + channel, false: ""}[channel == "nightly"])
 	}
 
 	if err := attemptUpdate(channel); err != nil {
@@ -374,7 +375,8 @@ func showFailureMessage(channel string) {
 }
 
 func getCacheFilePath() string {
-	configDir := filepath.Join(os.Getenv("HOME"), ".cline", "data")
+	// CARET MODIFICATION: use brand config directory
+	configDir := filepath.Join(os.Getenv("HOME"), common.ConfigDirName, "data")
 	return filepath.Join(configDir, "cli-update-cache")
 }
 

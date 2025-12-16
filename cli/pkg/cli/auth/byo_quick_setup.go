@@ -57,8 +57,22 @@ func QuickSetupFromFlags(ctx context.Context, provider, apiKey, modelID, baseURL
 		}
 	}
 
+	var usePromptCache *bool
+	var thinkingBudget *int64
+	var liteLlmModelInfo *cline.LiteLLMModelInfo
+	if providerEnum == cline.ApiProvider_LITELLM {
+		defaults := getLiteLlmDefaults(ctx, manager)
+		usePromptCache = &defaults.UsePromptCache
+		thinkingBudget = &defaults.ThinkingBudgetTokens
+		liteLlmModelInfo = buildLiteLlmModelInfo(defaults)
+	}
+
 	// Configure the provider using existing AddProviderPartial function
-	if err := AddProviderPartial(ctx, manager, providerEnum, finalModelID, finalAPIKey, finalBaseURL, modelInfo); err != nil {
+	if modelInfo == nil && liteLlmModelInfo != nil {
+		modelInfo = liteLlmModelInfo
+	}
+
+	if err := AddProviderPartial(ctx, manager, providerEnum, finalModelID, finalAPIKey, finalBaseURL, modelInfo, usePromptCache, thinkingBudget); err != nil {
 		return fmt.Errorf("failed to configure provider: %w", err)
 	}
 

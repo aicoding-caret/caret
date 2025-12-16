@@ -10,6 +10,7 @@ import (
 	"github.com/cline/cli/pkg/cli/display"
 	"github.com/cline/cli/pkg/cli/global"
 	"github.com/cline/cli/pkg/cli/types"
+	"github.com/cline/cli/pkg/common"
 	"github.com/cline/grpc-go/cline"
 )
 
@@ -21,7 +22,8 @@ func ListTasksFromDisk() error {
 		return fmt.Errorf("failed to get home directory: %w", err)
 	}
 
-	filePath := filepath.Join(homeDir, ".cline", "data", "state", "taskHistory.json")
+	// CARET MODIFICATION: use brand config directory for task history
+	filePath := filepath.Join(homeDir, common.ConfigDirName, "data", "state", "taskHistory.json")
 
 	// Read the file
 	data, err := os.ReadFile(filePath)

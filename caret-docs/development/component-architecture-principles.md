@@ -316,4 +316,4 @@ When developing a new component, please verify the following:
 
 - [Caret Architecture Guide](./caret-architecture-and-implementation-guide.md)
 - [Testing Guide](./testing-guide.md)
-- [i18n Development Guide](../../features/f02-multilingual-i18n.md)
+- [i18n Development Guide (EN)](../features.en/f02-multilingual-i18n.md)
