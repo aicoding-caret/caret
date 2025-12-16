@@ -19,12 +19,12 @@
 - [ ] Verify required patterns and constraints
 
 **2. TDD Implementation**
-- [ ] RED: Write failing integration test (`src/caret/**/*.test.tsx`)
+- [ ] RED: Write failing integration test (type에 따라 위치가 다름: `src/test/**` 또는 `webview-ui/src/**`)
 - [ ] GREEN: Minimal implementation (add `// CARET MODIFICATION:` if touching Cline files)
 - [ ] REFACTOR: Improve code quality while tests pass
 
 **3. Verification**
-- [ ] `npm run test:backend`, `npm run test:webview`
+- [ ] `npm run test:unit`, `npm run test:integration`, `npm run test:webview`
 - [ ] `npm run compile`, `npm run check-types`, `npm run lint`
 - [ ] Manual test: `npm run watch` (F5 in VSCode)
 - [ ] Verify Cline original functionality intact
@@ -36,7 +36,7 @@
 
 ## Mandatory Docs by Work Type
 
-**Cline Modification**: ~~Backup rules~~ (deprecated), CARET MODIFICATION comment requirements
+**Cline Modification**: Backup + `// CARET MODIFICATION:` comment requirements
 **Frontend-Backend**: Interaction patterns, architecture guide (sections 10-11)
 **Component/UI**: Component principles, theme integration, i18n patterns
 **Testing**: TDD protocols, testing guide, Vitest mocking patterns

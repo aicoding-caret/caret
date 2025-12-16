@@ -33,7 +33,7 @@ Caret의 **AI-Developer Knowledge Parity**는 AI와 개발자가 동일한 지�
 
 ### 2. Knowledge Base
 - **`.caretrules/workflows/`**: 작업별 절차 정의 (AI용).
-- **`.caretrules/atoms/`**: 재사용 가능한 최소 단위 지식 (TDD 사이클, 네이밍 규칙 등).
+- **`.caretrules/workflows/atoms/`**: 재사용 가능한 최소 단위 지식 (TDD 사이클, 네이밍 규칙 등).
 
 ### 3. Developer Docs
 - **`caret-docs/`**: 개발자가 읽는 문서 (AI 규칙의 Human-readable 버전).

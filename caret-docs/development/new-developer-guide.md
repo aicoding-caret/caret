@@ -244,10 +244,10 @@ Cline 코드베이스는 명시적인 파일 명명 규칙은 없지만, 관찰�
 
 | 목적               | 명령어                       | 설명                                       |
 | :----------------- | :--------------------------- | :----------------------------------------- |
-| **전체 테스트**    | `npm test`                   | 백엔드와 프론트엔드 테스트 모두 실행       |
-| **백엔드 테스트**  | `npm run test:backend`       | Vitest로 백엔드 코드 테스트                |
-| **웹뷰 테스트**    | `npm run test:webview`       | Vitest로 프론트엔드(React) 코드 테스트     |
-| **자동 테스트**    | `npm run test:backend:watch` | 코드 변경 시 자동으로 백엔드 테스트 재실행 |
+| **전체 테스트**    | `npm test`                   | 단위(Mocha) + 통합(vscode-test) 테스트 실행 (webview 제외) |
+| **백엔드 단위**    | `npm run test:unit`          | Mocha로 백엔드(unit) 테스트 실행           |
+| **통합 테스트**    | `npm run test:integration`   | VSCode 통합 테스트 실행                    |
+| **웹뷰 테스트**    | `npm run test:webview`       | webview-ui(Vitest) 테스트 실행             |
 | **개발 서버**      | `npm run watch`              | 백엔드 코드 변경을 감지하여 자동 컴파일    |
 | **웹뷰 개발 서버** | `npm run dev:webview`        | HMR을 지원하는 웹뷰 전용 개발 서버 실행    |
 | **커버리지 분석**  | `npm run test:coverage`      | 테스트 커버리지 리포트 생성                |

@@ -30,10 +30,12 @@ You are working on Caret project development following the established patterns 
 1. **RED Phase**: Write failing integration test first
    ```bash
    # Create test file in correct location
-   touch src/caret/**/*.test.{ts,tsx}
+   touch src/test/my-feature.test.ts
+   # or for webview:
+   # touch webview-ui/src/**/MyComponent.test.tsx
    
    # Verify test runs and fails
-   npm run test:webview
+   npm run test:unit
    ```
 
 2. **GREEN Phase**: Minimal implementation to pass test
@@ -53,11 +55,11 @@ You are working on Caret project development following the established patterns 
 1. Run comprehensive tests:
    ```bash
    # Backend tests
-   npm run test:backend
+   npm run test:unit
    
    # Frontend tests  
    npm run test:webview
-   
+
    # Type checking
    npm run check-types
    

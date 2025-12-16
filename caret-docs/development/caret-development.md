@@ -52,9 +52,12 @@
 ## 3. 검증 단계
 1. 포괄적인 테스트 실행:
    ```bash
-   # Backend 테스트
-   npm run test:backend
+   # Backend 단위 테스트
+   npm run test:unit
    
+   # VSCode 통합 테스트
+   npm run test:integration
+    
    # Frontend 테스트  
    npm run test:webview
    

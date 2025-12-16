@@ -14,18 +14,24 @@ tddOrder:
     - "REFACTOR: Improve code quality while keeping integration test passing"
 
 testEnvironment:
-  framework: Vitest (NOT Jest)
+  frameworks:
+    backendUnit: Mocha (ts-node)
+    webview: Vitest
   fastCommands:
-    backend: npm run test:backend
+    backendUnit: npm run test:unit
+    integration: npm run test:integration
     webview: npm run test:webview
-  neverUse: npm test (too slow)
+  note: npm test runs unit + integration (slower)
   typeChecking: npm run check-types
   compilation: npm run compile
 
 testFileLocations:
-  backendTests: caret-src/__tests__/ (Caret features)
-  webviewTests: src/caret/**/*.test.tsx (Caret UI components)
-  clineTests: Follow existing patterns in src/
+  backendUnitTests:
+    - src/**/__tests__/*.ts
+    - caret-src/core/task/tools/__tests__/*.ts
+  integrationTests: src/test/**
+  webviewTests: webview-ui/src/**
+  note: Follow existing patterns in the repository; .mocharc.json defines Mocha globs.
 
 tddExamples:
   webview:

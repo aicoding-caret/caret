@@ -160,14 +160,11 @@ npm run watch:tsc
 
 # 터미널 2: 빌드 감시
 npm run watch
-
-# 터미널 3: 테스트 감시 (선택 사항)
-npm run test:backend:watch
 ```
 
 ## 참조 문서
 
 - **문제 분석**: `caret-docs/work-logs/alpha/2025-10-16-js-file-generation-issue.md`
 - **개선 계획**: `caret-docs/work-logs/alpha/2025-10-16-build-script-improvements.md`
-- **빌드 명령어**: `CLAUDE.md` - Common Commands 섹션
-- **아키텍처**: `CLAUDE.md` - Architecture Overview 섹션
+- **빌드/테스트 요약**: `caret-docs/development/build-and-test.md`
+- **개발 문서 대시보드**: `caret-docs/development/index.md`

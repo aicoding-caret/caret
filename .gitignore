@@ -3,19 +3,15 @@ dist
 dist-standalone
 node_modules
 tmp
-.vscode-test/
+work-logs
+.vscode-test
 *.vsix
-
 .DS_Store
 .idea
-
 pnpm-lock.yaml
-
 .clineignore
 .venv
 .actrc
-
-
 
 # Ignore built JavaScript files and copy assets
 webview-ui/src/**/*.js
@@ -43,3 +39,8 @@ comparison/
 
 #Brand
 slexn-codecenter
+
+# Local build caches (CARET)
+.cache/
+.gopath/
+caret-build-auth.out

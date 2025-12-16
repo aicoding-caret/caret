@@ -19,4 +19,4 @@ Merge the latest Cline upstream version into Caret while preserving all Caret fe
 
 3. **Verification**:
    - Verify `Critical Files` (App.tsx, Providers.tsx, etc.) as listed in the Master Guide.
-   - Run `npm run compile` and `npm run test:backend`.
+   - Run `npm run compile` and `npm run test`.

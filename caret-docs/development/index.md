@@ -6,6 +6,7 @@ Caret 개발자가 확인해야 할 KO 우선 문서 모음입니다. `features`
 - **[환경 설정 및 보안](./configuration.md)** — `.env`, 비밀 관리
 - **[빌드 및 테스트](./build-and-test.md)** — Core/Webview/CLI 빌드·테스트 스크립트
 - **[CLI 개발 가이드](./cli-development.md)** — CLI 빌드/실행/TDD
+- **[CLI 인증 플로우(서버 요구사항/목업)](./caret-cli-auth-flow.md)** — 서버팀 공유용, 목업으로 E2E 검증
 
 ## 🧭 개발 워크플로우 ('.caretrules/workflows' 매핑)
 - **[Caret 개발 흐름](./caret-development.md)** ↔ `.caretrules/workflows/caret-development.md`

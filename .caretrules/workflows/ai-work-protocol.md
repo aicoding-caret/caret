@@ -44,8 +44,9 @@ Based on work keywords, ensure you've read relevant docs (use `/ai-work-index` f
 - **NOT**: Start with `isValidInput()` unit test
 
 🛑 **STOP POINT**: Verify test file location
-- webview: `src/caret/**/*.test.tsx` only
-- backend: `caret-src/__tests__/`
+- webview: `webview-ui/src/**`
+- backend unit: `src/**/__tests__/*.ts` (and `caret-src/core/task/tools/__tests__/*.ts`)
+- extension integration: `src/test/**`
 - Immediate verification: run test after creation
 
 ## Phase 2: TDD GREEN - Test Passing Implementation

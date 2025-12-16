@@ -13,9 +13,11 @@
 
 ### Backend 변경사항:
 ```bash
-# 빠른 backend 관련 테스트
-npm run test:webview  # webview 변경사항의 경우
-# 참고: test:backend는 계획되어 있지만 아직 구현되지 않음
+# 백엔드(unit) 테스트
+npm run test:unit
+
+# VSCode 통합 테스트(필요 시)
+npm run test:integration
 ```
 
 ### 전체 테스트 커버리지:

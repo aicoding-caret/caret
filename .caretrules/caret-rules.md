@@ -6,8 +6,8 @@
 - **AI reads**: `.caretrules/caret-rules.json` (English JSON, core principles only)
 - **AI workflows**: `.caretrules/workflows/*.md` (English MD, detailed procedures when needed)
 - **Human reads (Korean)**: `caret-docs/development/caret-rules.ko.md` (Korean MD, developer reference)
-- **Human reads (English)**: `caret-docs/development-en/caret-rules.md` (English MD, developer reference)
-- **Sync method**: AI auto-syncs all formats when editing rules
+- **Human reads (Features EN)**: `caret-docs/features.en/index.md` (feature specs, English)
+- **Sync method**: Keep `.caretrules` as the Single Source of Truth; update `caret-docs/development/` as the KO-first developer counterpart
 - **Reading flow**: AI: JSON rules → (if needed) workflow MD → implementation
 
 ### ⚠️ Document Editing Guidelines
@@ -16,13 +16,11 @@
 
 ### File Mapping
 ```
-.caretrules/caret-rules.json           ↔ caret-docs/development-en/caret-rules.md (EN)
-                                       ↔ caret-docs/development/caret-rules.ko.md (KO)
-.caretrules/workflows/*.md             ↔ caret-docs/development-en/workflows/*.md
-.caretrules/workflows/ai-work-index.md ↔ caret-docs/development/ai-work-index.md
-.caretrules/workflows/ai-work-protocol.md ↔ caret-docs/guides/ai-work-method-guide.md
-.caretrules/workflows/caret-development.md ↔ caret-docs/development/caret-rules.ko.md
-.caretrules/workflows/merge-strategy.md ↔ caret-docs/guides/merging-strategy-guide.md
+.caretrules/caret-rules.json              ↔ caret-docs/development/caret-rules.ko.md (KO counterpart)
+.caretrules/workflows/*.md                ↔ caret-docs/development/index.md (KO dashboard links out to matching guides)
+.caretrules/workflows/atoms/*.md|*.yaml    ↔ caret-docs/development/* (referenced where needed)
+.caretrules/workflows/ai-work-protocol.md ↔ caret-docs/development/ai-work-protocol.md
+.caretrules/workflows/ai-work-index*      ↔ caret-docs/development/ai-work-index.md
 ```
 
 ## Core Principles
@@ -116,7 +114,7 @@
 - AI must access same information developers have via workflows
 
 ### Available Workflows
-See `caret-docs/development-en/workflows/` for detailed procedures:
+See `.caretrules/workflows/` for detailed procedures:
 
 - **Main Workflows**: `ai-work-index.md`, `ai-work-protocol.md`, `caret-development.md`
 - **Critical Verification**: `critical-verification.md`
@@ -125,8 +123,8 @@ See `caret-docs/development-en/workflows/` for detailed procedures:
 - **Development**: `cline-modification.md`, `new-component.md`, `ai-feature.md`, `testing-work.md`
 
 ### Atomic Workflows (`workflows/atoms/`)
-- `backup-protocol.md` - Cline file backup procedures
-- `tdd-cycle.md` - RED→GREEN→REFACTOR cycle
+- `backup-protocol.yaml` - Cline file backup procedures
+- `tdd-cycle.yaml` - RED→GREEN→REFACTOR cycle
 - `modification-levels.md` - L1→L2→L3 decision framework
 - `verification-steps.md` - Test→Compile→Execute sequence
 - `storage-patterns.md` - workspaceState vs globalState usage
@@ -161,15 +159,12 @@ See `caret-docs/development-en/workflows/` for detailed procedures:
 
 ## Bilingual Documentation Structure
 
-This document is part of Caret's bilingual documentation system:
+This document is part of Caret's knowledge parity system:
 
-- **Korean**: `caret-docs/development/` - Korean documentation for developers
-- **English**: `caret-docs/development-en/` - English documentation for developers  
-- **JSON**: `.caretrules/caret-rules.json` - Structured rules for AI systems
-
-All three formats maintain semantic equivalence while optimizing for their specific use cases.
+- **Rules/Workflows (SoT)**: `.caretrules/caret-rules.json`, `.caretrules/workflows/*`
+- **Developer docs (KO-first)**: `caret-docs/development/index.md`
+- **Feature specs (EN)**: `caret-docs/features.en/index.md`
 
 **Cross-references**:
-- Korean version: [Caret 개발 규칙 (한국어)](../development/caret-rules.ko.md)
-- AI version: [.caretrules/caret-rules.json](../../.caretrules/caret-rules.json)
-- Workflows: [development-en/workflows/](./workflows/)
+- KO counterpart: `caret-docs/development/caret-rules.ko.md`
+- SoT index: `.caretrules/caret-rules.json`

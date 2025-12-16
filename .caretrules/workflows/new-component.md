@@ -106,7 +106,7 @@ export class PersonaService {
 ```bash
 # Test verification
 npm run test:webview      # For React components
-# (test:backend when available) # For service classes
+npm run test:unit         # For service classes (Mocha)
 
 # Compile verification  
 npm run compile

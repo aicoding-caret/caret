@@ -22,8 +22,9 @@ You are implementing comprehensive testing following integration-first TDD metho
 ```bash
 # Verify test infrastructure
 npm run test:webview     # Frontend testing capability
-# npm run test:backend   # Backend testing (planned)
-npm run test:coverage    # Coverage reporting available
+npm run test:unit        # Backend unit tests (Mocha)
+npm run test:integration # VSCode integration tests
+npm run test:coverage    # Integration coverage (vscode-test)
 ```
 
 ## TDD Implementation Cycle

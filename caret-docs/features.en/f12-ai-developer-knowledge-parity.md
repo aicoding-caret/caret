@@ -32,7 +32,7 @@ Implemented through project structure and documentation rather than runtime code
 
 ### 2. Knowledge Base
 - **`.caretrules/workflows/`**: Task-specific procedures (for AI).  
-- **`.caretrules/atoms/`**: Reusable knowledge atoms (TDD cycle, naming rules, etc.).
+- **`.caretrules/workflows/atoms/`**: Reusable knowledge atoms (TDD cycle, naming rules, etc.).
 
 ### 3. Developer Docs
 - **`caret-docs/`**: Human-readable counterparts to the AI rules.
