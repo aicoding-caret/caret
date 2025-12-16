@@ -6,9 +6,9 @@ context: You are modifying a Cline original file and need to create a backup.
 
 currentMethod:
   backup:
-    required: true
-    format: "{filename}.cline"
-    rule: Never overwrite an existing .cline backup
+    required: false
+    deprecated: true
+    note: "Do NOT create new .cline backups. Use git history + CARET MODIFICATION comments."
   comment:
     required: true
     format: "// CARET MODIFICATION: [clear description]"
@@ -25,7 +25,6 @@ protectedDirectories:
 
 modificationRules:
   - Check if file is in protected directories
-  - If modifying Cline original file: create a .cline backup if it doesn't exist
   - Add CARET MODIFICATION comment before changes
   - Keep changes minimal (1-3 lines max per file)
   - Never comment out old code, replace completely

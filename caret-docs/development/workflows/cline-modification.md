@@ -6,7 +6,6 @@
 # Cline 수정 - 안전한 통합 워크플로우
 
 ## 사용된 원자 컴포넌트
-- `/backup-protocol` - 파일 안전 절차
 - `/modification-levels` - L1→L2→L3 결정 프레임워크
 - `/comment-protocol` - CARET MODIFICATION 추적
 - `/verification-steps` - Test→Compile→Execute 검증
@@ -18,16 +17,9 @@
 - [ ] Level 2 (최소한의 Cline 변경)여야 하는가? → 워크플로우 계속
 - [ ] Level 3 (대규모 변경) 필요한가? → 완전한 문서화 필요
 
-### 2단계: 백업 생성 (`/backup-protocol`)
-```bash
-# 백업이 이미 존재하는지 확인
-ls filename.ext.cline
-
-# 백업이 없으면 생성
-cp filename.ext filename.ext.cline
-
-# 절대 기존 .cline 백업을 덮어쓰지 않음
-```
+### 2단계: 백업 정책
+- `.cline` 백업 생성은 Deprecated (새로 만들지 않음)
+- 안전장치는 `// CARET MODIFICATION:` + 최소 변경 + 테스트/컴파일 검증으로 대체
 
 ## 수정 단계
 
@@ -73,11 +65,8 @@ npm run watch  # 그 다음 F5로 확장 테스트
 
 ### 검증 실패 시:
 ```bash
-# 백업에서 복원
-cp filename.ext.cline filename.ext
-
-# 가능하면 caret-src/에서 문제 수정
-# 또는 최소 수정 접근법 수정
+# git 기준으로 되돌립니다(예: git checkout -- filename.ext)
+# 가능하면 caret-src/에서 문제 수정 또는 최소 수정 접근법 재검토
 ```
 
 ### 통합 문제 시:
@@ -91,8 +80,7 @@ cp filename.ext.cline filename.ext
 // 예시: extension.ts에 Caret 프로바이더 통합 추가
 
 // 1. 레벨 평가: Cline 활성화와 통합해야 함 → Level 2
-// 2. 백업: cp src/extension.ts src/extension.ts.cline
-// 3. 최소 수정:
+// 2. 최소 수정:
 
 export async function activate(context: vscode.ExtensionContext) {
   // CARET MODIFICATION: 향상된 기능을 위한 Caret 래퍼 초기화
@@ -118,6 +106,9 @@ export async function activate(context: vscode.ExtensionContext) {
 ### 피해야 할 경우:
 - 복잡한 로직 변경
 - 주요 아키텍처 수정
+
+## 신규 파일 예외(테스트 등)
+- 보호 디렉토리(`src/`, `webview-ui/` 등)에 신규 파일 추가가 불가피하면, 파일 최상단에 `// CARET MODIFICATION:`으로 Caret 추가 파일임을 표시
 - 단일 기능을 위한 여러 파일 변경
 
 ## 관련 워크플로우

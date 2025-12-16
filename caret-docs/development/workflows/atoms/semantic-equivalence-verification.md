@@ -32,14 +32,14 @@
 
 Markdown 형식 결과:
 1. Cline 원본인지 확인: ✓
-2. 백업 생성: cp src/extension.ts src/extension.ts.cline  
+2. (Deprecated) `.cline` 백업 생성 단계는 사용하지 않음
 3. 주석 추가: // CARET MODIFICATION: [설명]
 4. 변경 제한: 최대 1-3줄
 5. 검증: npm run compile
 
 JSON 형식 결과:
 1. protected_dirs 확인: ✓
-2. backup_commands 실행: cp src/extension.ts src/extension.ts.cline
+2. (Deprecated) backup_commands 단계는 사용하지 않음
 3. modification_rules.comment 적용: // CARET MODIFICATION: [설명]  
 4. modification_rules.max_lines 강제: 3
 5. modification_rules.verification 실행: npm run compile

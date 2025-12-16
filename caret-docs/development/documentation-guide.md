@@ -36,7 +36,7 @@ Caret의 지식 시스템은 AI를 위한 `.caretrules`와 개발자를 위한 `
 -   **역할**: 개발 작업의 가장 근본적이고 재사용 가능한 최소 단위 규칙입니다.
 -   **예시**:
     -   `tdd-cycle.yaml`: TDD(테스트 주도 개발)의 기본 사이클 (Red-Green-Refactor)을 정의합니다.
-    -   `backup-protocol.yaml`: Cline 원본 파일 수정 시 백업(`.cline`)을 생성하는 규칙을 정의합니다.
+    -   `backup-protocol.yaml`: (Deprecated) 과거 `.cline` 백업 규칙이었으나, 현재는 주석(`// CARET MODIFICATION:`) + git 기반 복구로 대체합니다.
     -   `verification-steps.md`: 작업 후 'Test→Compile→Execute' 검증 절차를 정의합니다.
 
 #### 2. 복합 워크플로우 (Composite Workflows)

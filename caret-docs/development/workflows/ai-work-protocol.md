@@ -19,7 +19,7 @@
 
 **Cline 원본 수정**:
 - .caretrules의 파일 수정 체크리스트
-- 백업 생성 규칙 검증
+- `.cline` 백업 생성 규칙은 Deprecated (새로 만들지 않음)
 - CARET MODIFICATION 주석 요구사항
 
 **컴포넌트/UI 개발**:
@@ -53,13 +53,14 @@
 ## Phase 2: TDD GREEN - 테스트 통과 구현
 🛑 **중지점**: Cline 원본 파일 수정 전
 - 보호되는 파일인가? (src/, webview-ui/, proto/, scripts/, evals/, docs/, locales/, root configs)
-- 백업 생성: `cp filename.ts filename.ts.cline` (기존 .cline 파일 덮어쓰기 금지)
+- `.cline` 백업 생성은 Deprecated (새로 만들지 않음)
 - 주석 추가: `// CARET MODIFICATION: [명확한 설명]`
 - 최소 변경: 파일당 최대 1-3줄
 - 완전 교체: 기존 코드 주석 처리 금지
 
 🛑 **중지점**: 새 파일 생성 디렉토리 확인
 - Caret 기능은 `caret-src/`, `caret-docs/`에 (완전 자유)
+- (예외) 테스트 등으로 보호 디렉토리 내 신규 파일 추가가 불가피하면, 파일 상단에 `// CARET MODIFICATION:`로 Caret 추가 파일임을 표기
 - import 경로가 올바른지 확인
 - 즉시 검증: 수정 후 컴파일
 

@@ -23,27 +23,23 @@ You are helping with Caret project merging strategy. Follow the merging-strategy
    - Example: `CaretProvider extends WebviewProvider`
 
 2. **When Level 2 (Conditional Integration) needed**:
-   - Backup original file: `cp original.ts original.ts.cline`
    - Add `// CARET MODIFICATION:` comment
+   - `.cline` 백업 파일은 생성하지 않음(Deprecated)
    - Make minimal 1-3 line changes
    - Use conditional logic: `if (isCaretMode()) { ... }`
 
 3. **Level 3 (Direct Modification) - Last Resort**:
    - Only when inheritance/composition impossible
-   - Must backup original file first
    - Document reason in CARET MODIFICATION comment
    - Test both Cline and Caret functionality
 
 ## 3. Verification Steps
-1. Verify backups exist and are restorable:
+1. Verify changes are traceable and reversible:
    ```bash
-   # Check backup files exist
-   find . -name "*.cline" | head -10
-   
-   # Test restoration process
-   cp src/extension.ts.cline src/extension.ts
-   npm run compile  # Should work
-   git checkout src/extension.ts  # Restore modification
+   # Find CARET MODIFICATION comments (future merge aid)
+   rg "CARET MODIFICATION" src/ webview-ui/ --glob="*.ts" --glob="*.tsx"
+   # Restore with git if needed
+   git checkout -- src/extension.ts
    ```
 
 2. Test both modes:
@@ -71,10 +67,10 @@ Before applying any Level 2 or Level 3 modifications:
    
    Modification reason: {reason}
    Change scope: {number} lines
-   Backup will be created: {filename}.cline
+   Backup: none (comment-only; restore via git if needed)
    
    Would you like me to proceed with this Cline file modification?</question>
-   <options>["Yes, proceed with backup", "No, find alternative approach", "Let me review the change first"]</options>
+   <options>["Yes, proceed (comment-only)", "No, find alternative approach", "Let me review the change first"]</options>
    </ask_followup_question>
    ```
 </detailed_sequence_of_steps>

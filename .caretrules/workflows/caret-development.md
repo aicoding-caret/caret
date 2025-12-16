@@ -40,8 +40,8 @@ You are working on Caret project development following the established patterns 
 
 2. **GREEN Phase**: Minimal implementation to pass test
    - Check if Cline file modification needed
-   - If yes: Create backup `cp original.ts original.ts.cline`
    - Add `// CARET MODIFICATION:` comment
+   - `.cline` 백업 파일은 생성하지 않음(Deprecated)
    - Make minimal 1-3 line changes
 
 3. **REFACTOR Phase**: Improve code quality
@@ -87,12 +87,12 @@ Before making any Cline file modifications:
    
    Reason: {modification_reason}
    Lines affected: {number}
-   Backup will be created as: {filename}.cline
+   Backup: `.cline` 백업은 생성하지 않음(Deprecated)
    
    This follows Level 2 conditional integration approach.
    
    Proceed with modification?</question>
-   <options>["Yes, create backup and modify", "No, find alternative approach", "Show me the planned changes first"]</options>
+   <options>["Yes, proceed (comment-only)", "No, find alternative approach", "Show me the planned changes first"]</options>
    </ask_followup_question>
    ```
 </detailed_sequence_of_steps>
@@ -100,7 +100,7 @@ Before making any Cline file modifications:
 <general_guidelines>
 Always follow the TDD cycle: integration test first, then minimal implementation, then refactor.
 
-Never modify Cline files without backup and CARET MODIFICATION comment.
+Never modify Cline files without `// CARET MODIFICATION:` comment (backup `.cline` is deprecated).
 
 Prefer Level 1 (independent modules) over Level 2 (conditional integration).
 

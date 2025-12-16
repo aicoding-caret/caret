@@ -263,6 +263,7 @@ src/services/mcp/McpHub.ts
 - F04 (CaretAccount)는 Frontend 의존성으로 Phase 5로 연기
 - 수정 파일은 1-3 lines 이내로 제한
 - 수정 시 백업 불필요 (`.cline` 백업 deprecated)
+- (예외) 테스트 등으로 보호 디렉토리 내 신규 파일 추가가 불가피하면, 파일 상단에 `// CARET MODIFICATION:`로 Caret 추가 파일임을 표시
 
 ---
 

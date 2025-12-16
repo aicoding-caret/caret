@@ -50,7 +50,7 @@ if (!(String.prototype as any).toPosix) {
 Module.prototype.require = function (path: string) {
 	// VS Code mocks
 	if (path === "vscode") {
-		return require("./vscode-mock")
+		return require("./vscode-mock.cjs") // CARET MODIFICATION: Node/ts-node 환경에서 ESM 변환 충돌을 피하기 위해 CJS mock을 사용
 	}
 	if (path === "@integrations/checkpoints") {
 		return {}

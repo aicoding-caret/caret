@@ -38,7 +38,7 @@
 
 2. **GREEN Phase**: 테스트를 통과시키는 최소한의 구현
    - Cline 파일 수정이 필요한지 확인
-   - 필요시: 백업 생성 `cp original.ts original.ts.cline`
+   - `.cline` 백업 생성은 Deprecated (새로 만들지 않음)
    - `// CARET MODIFICATION:` 주석 추가
    - 최소한의 1-3줄 변경
 
@@ -88,12 +88,12 @@ Cline 파일을 수정하기 전:
    
    이유: {modification_reason}
    영향 받는 라인: {number}
-   백업이 생성될 위치: {filename}.cline
+   백업: `.cline` 백업은 생성하지 않음(Deprecated)
    
    이는 Level 2 조건부 통합 접근법을 따릅니다.
    
    수정을 진행하시겠습니까?</question>
-   <options>["예, 백업 생성 후 수정", "아니요, 대안 접근법 찾기", "계획된 변경사항을 먼저 보여주세요"]</options>
+   <options>["예, 진행(주석 기반)", "아니요, 대안 접근법 찾기", "계획된 변경사항을 먼저 보여주세요"]</options>
    </ask_followup_question>
    ```
 </detailed_sequence_of_steps>
@@ -101,7 +101,7 @@ Cline 파일을 수정하기 전:
 <general_guidelines>
 항상 TDD 사이클을 따르세요: 통합 테스트 우선, 그 다음 최소한의 구현, 그리고 리팩터링.
 
-백업과 CARET MODIFICATION 주석 없이는 절대 Cline 파일을 수정하지 마세요.
+`.cline` 백업은 Deprecated이며, CARET MODIFICATION 주석 없이는 절대 Cline 파일을 수정하지 마세요.
 
 Level 2 (조건부 통합)보다 Level 1 (독립 모듈)을 선호하세요.
 

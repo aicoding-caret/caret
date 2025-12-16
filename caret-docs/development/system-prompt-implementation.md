@@ -255,7 +255,7 @@ npm run test caret-src/__tests__/cline-feature-validation.test.ts
 
 #### **수정 작업**
 
-1. **백업 생성**: 수정 전 `.cline` 백업 파일 생성
+1. **백업**: `.cline` 백업은 Deprecated (새로 만들지 않음, git 기반 복구 사용)
 2. **점진적 수정**: 작은 단위로 변경
 3. **즉시 검증**: 각 변경 후 검증 실행
 4. **CARET MODIFICATION 주석**: 모든 수정에 명확한 주석
@@ -404,7 +404,7 @@ interface JITLoadingSystem {
 
 ### **필수사항**
 
-- ✅ **백업 생성**: 수정 전 `.cline` 백업 필수
+- ✅ **백업**: `.cline` 백업은 Deprecated (git 기반 복구 사용)
 - ✅ **CARET MODIFICATION 주석**: 모든 수정에 명확한 주석
 - ✅ **점진적 변경**: 작은 단위로 변경 후 즉시 검증
 - ✅ **문서 동기화**: 이 가이드와 관련 문서 업데이트

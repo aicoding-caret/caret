@@ -8,23 +8,23 @@
 
 ## Markdown 워크플로우 기반 작업 계획
 1. src/extension.ts는 Cline 원본 파일 → 체크리스트 적용  
-2. `ls src/extension.ts.cline` 으로 백업 확인
-3. 백업 없으면 `cp src/extension.ts src/extension.ts.cline`
+2. 작업 전 `git status`로 변경사항 확인
+3. 복구 경로 확인: `git checkout -- src/extension.ts` (또는 `git restore src/extension.ts`)
 4. `// CARET MODIFICATION: Initialize Caret wrapper` 주석 추가
 5. 1-3줄 내에서 코드 추가
 6. `npm run compile`로 검증
 
 ## JSON 워크플로우 기반 작업 계획  
 1. src/extension.ts가 protected_dirs에 포함 → 체크 필요
-2. `ls src/extension.ts.cline` 으로 백업 확인 (pre_checks[1])
-3. 백업 없으면 `cp src/extension.ts src/extension.ts.cline` (backup_commands 패턴)
+2. 작업 전 `git status`로 변경사항 확인 (pre_checks)
+3. 복구 경로 확인: `git checkout -- src/extension.ts` (recovery)
 4. `// CARET MODIFICATION: Initialize Caret wrapper` 주석 추가 (modification_rules.comment)
 5. max_lines: 3 제한 내에서 코드 추가
 6. `npm run compile`로 검증 (modification_rules.verification)
 
 ## 결과 비교
 ✅ **체크리스트**: 완전히 동일
-✅ **백업 명령어**: 완전히 동일  
+✅ **복구/롤백 경로**: 완전히 동일(git 기반)  
 ✅ **주석 형식**: 완전히 동일
 ✅ **라인 수 제한**: 완전히 동일
 ✅ **검증 명령어**: 완전히 동일

@@ -61,20 +61,17 @@
 ```
 src/core/context/instructions/user-instructions/
 ├── external-rules.ts              # 핵심 우선순위 로직
-└── external-rules-ts.cline        # Cline 원본 백업
 
 src/core/prompts/
 ├── system.ts                      # 프롬프트 통합 지점
-├── system-ts.cline                # Cline 원본 백업
 └── model_prompts/
     ├── claude4.ts                 # Claude 4 전용 프롬프트
-    └── claude4-ts.cline           # Cline 원본 백업
 ```
 
 **수정 방식:**
 
 - **CARET MODIFICATION** 마커로 수정 부분 명확히 표시
-- 원본 Cline 코드는 `.cline` 확장자로 백업 보존
+- 원본/비교/복구는 `.cline` 백업이 아니라 **git history(또는 업스트림 태그/브랜치)** 로 추적
 - `addUserInstructions` 함수에 우선순위 로직 추가
 
 #### **1.3 머징 정보**
@@ -596,11 +593,11 @@ caret/
 └── src/                           # Cline 원본 (최소 수정 원칙)
     ├── core/
     │   ├── context/instructions/
-    │   │   └── external-rules.ts  # CARET MODIFICATION (백업 .cline)
+    │   │   └── external-rules.ts  # CARET MODIFICATION (git로 원본/복구 추적)
     │   ├── prompts/
-    │   │   ├── system.ts          # CARET MODIFICATION (백업 .cline)
+    │   │   ├── system.ts          # CARET MODIFICATION (git로 원본/복구 추적)
     │   │   └── model_prompts/
-    │   │       └── claude4.ts     # CARET MODIFICATION (백업 .cline)
+    │   │       └── claude4.ts     # CARET MODIFICATION (git로 원본/복구 추적)
     │   └── task/
     │       └── index.ts           # Mode 시스템 분기 (복잡)
     ├── services/account/
@@ -614,14 +611,14 @@ caret/
 **수정 방식:**
 
 - **CARET MODIFICATION** 마커로 수정 부분 명확 표시
-- 원본 파일은 `.cline` 확장자로 백업 보존
+- 원본 파일은 `.cline` 확장자 백업 대신 **git history(또는 업스트림 태그/브랜치)** 로 보존/비교
 - 최소 수정 원칙: 필요한 부분만 정확히 수정
 
 **예시:**
 
 ```typescript
 // src/core/prompts/system.ts (CARET MODIFICATION)
-// src/core/prompts/system.ts.cline (원본 보존)
+// 원본 비교/복구는 git로 수행: `git show <ref>:src/core/prompts/system.ts` / `git checkout -- src/core/prompts/system.ts`
 
 // CARET MODIFICATION: 우선순위 로직 추가
 const ruleFiles = [".caretrules", ".clinerules", ".cursorrules", ".windsurfrules"]

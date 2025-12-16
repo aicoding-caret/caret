@@ -65,7 +65,7 @@
 			"NO coding without document review first",
 			"Identify work nature",
 			"TDD mandatory (integration first)",
-			"Cline file modification: backup + comment"
+			"Cline file modification: comment-only (no .cline backups); new files in protected dirs must have CARET MODIFICATION header"
 		]
 	},
 	"workflows": {
