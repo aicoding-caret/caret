@@ -64,9 +64,12 @@ export function wrapLogsExporterWithDiagnostics(exporter: any, protocol: string,
 		exportCount++
 		const startTime = Date.now()
 
+		// CARET MODIFICATION: Debug OTLP /v1/logs export payload (can include PII) when explicitly enabled
+		if (process.env.TEL_DEBUG_OTLP_LOGS_PAYLOAD === "true") console.log(`[OTEL LOGS] Export #${exportCount} PAYLOAD:`, logs)
+
 		const wrappedCallback = (result: any) => {
 			const elapsed = Date.now() - startTime
-			const logsCount = logs?.resourceLogs?.[0]?.scopeLogs?.[0]?.logRecords?.length || 0
+			const logsCount = Array.isArray(logs) ? logs.length : logs?.resourceLogs?.[0]?.scopeLogs?.[0]?.logRecords?.length || 0
 
 			if (result.code === 0) {
 				console.log(
