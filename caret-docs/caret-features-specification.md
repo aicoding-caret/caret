@@ -105,9 +105,9 @@ src/services/account/
 
 src/core/controller/
 ├── index.ts                       # Controller에 CaretAccountService 통합
-├── index.ts.cline                 # 원본 ClineAccountService 백업
+├── (원본/비교/복구는 git history 또는 upstream tag/branch로 추적)
 └── account/
-    └── accountLoginClicked.ts.cline # 원본 백업
+    └── accountLoginClicked.ts      # 로그인 이벤트 처리
 ```
 
 **프론트엔드 UI:**
@@ -224,7 +224,7 @@ webview-ui/src/caret/components/
 ```
 src/core/task/
 ├── index.ts                       # 핵심 모드 분기 처리 (1700+ 라인)
-└── index.ts.cline                 # Cline 원본 백업
+└── (원본/비교/복구는 git history 또는 upstream tag/branch로 추적)
 
 src/shared/
 ├── ChatSettings.ts                # Mode 타입 정의
@@ -336,7 +336,7 @@ assets/template_characters/
 
 caret-src/utils/
 ├── persona-initializer.ts        # 페르소나 초기화 로직
-└── persona-initializer.ts.cline  # 백업
+└── (원본/비교/복구는 git history 또는 upstream tag/branch로 추적)
 ```
 
 **UI 컴포넌트:**

@@ -4,6 +4,18 @@ import "should"
 import { Task } from "../index"
 import { TaskState } from "../TaskState"
 
+class SimpleMutex {
+	private queue = Promise.resolve<void>(undefined)
+	withLock<T>(fn: () => T | Promise<T>): Promise<T> {
+		const run = this.queue.then(() => fn())
+		this.queue = run.then(
+			() => undefined,
+			() => undefined,
+		)
+		return run
+	}
+}
+
 class FakeMessageStateHandler {
 	private messages: any[] = []
 	getClineMessages() {
@@ -22,6 +34,7 @@ describe("Task.ask concurrency", () => {
 		;(task as any).taskState = new TaskState()
 		;(task as any).messageStateHandler = new FakeMessageStateHandler()
 		;(task as any).postStateToWebview = async () => {}
+		;(task as any).askMutex = new SimpleMutex()
 
 		const askPromise = task.ask("tool" as any, "approve?")
 		await tick()
@@ -41,24 +54,21 @@ describe("Task.ask concurrency", () => {
 		;(task as any).taskState = new TaskState()
 		;(task as any).messageStateHandler = new FakeMessageStateHandler()
 		;(task as any).postStateToWebview = async () => {}
+		;(task as any).askMutex = new SimpleMutex()
 
 		const ask1 = task.ask("tool" as any, "first?")
 		await tick()
 		const ask2 = task.ask("tool" as any, "second?")
 		await tick()
 
+		// 기대 동작: ask는 직렬화되어 ask1 → ask2 순으로 처리되어야 한다.
+		await task.handleWebviewAskResponse("yesButtonClicked" as any)
+		const result1 = await ask1
+		result1.response.should.equal("yesButtonClicked")
+
+		await tick()
 		await task.handleWebviewAskResponse("yesButtonClicked" as any)
 		const result2 = await ask2
 		result2.response.should.equal("yesButtonClicked")
-
-		let ask1Error: any
-		try {
-			await ask1
-		} catch (e) {
-			ask1Error = e
-		}
-
-		;(ask1Error instanceof Error).should.equal(true)
-		ask1Error.message.should.equal("Current ask promise was ignored")
 	})
 })

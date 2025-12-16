@@ -16,7 +16,7 @@
 **Pre-Modification:**
 - [ ] Level Assessment: Can this be L1 (caret-src/)? If yes, STOP
 - [ ] Must be L2 minimal change? Continue workflow
-- [ ] ~~Backup: `cp filename.ext filename.ext.cline`~~ (deprecated, use comment only)
+- [ ] `.cline` 백업은 생성하지 않음 (comment-only + git 복구)
 
 **Modification:**
 - [ ] Add `// CARET MODIFICATION: [what and why]` comment
@@ -39,9 +39,9 @@ optional string next_field = 1073;
 ```
 
 **Recovery** (if verification fails):
-~~1. Restore: `cp filename.ext.cline filename.ext`~~ (deprecated)
-1. Fix in caret-src/ if possible
-2. Revise minimal modification approach
+1. `git checkout -- filename.ext` (또는 `git restore filename.ext`)
+2. Fix in caret-src/ if possible
+3. Revise minimal modification approach
 
 ## Works Well With / Avoid
 
@@ -72,7 +72,7 @@ optional string next_field = 1073;
 ---
 
 **📖 For detailed workflow with backup, proto field numbering, and examples:**
-See `.caretrules/workflows/cline-modification.md`
+See `.caretrules/workflows/cline-modification.md` (comment-only + git 복구)
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/cline-modification.md` (if exists)

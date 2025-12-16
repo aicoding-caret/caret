@@ -110,7 +110,7 @@
 - NO coding without document review first
 - Identify work nature: architecture/ai/frontend/ui/test/cline-modification
 - TDD mandatory: integration test first, NEVER unit test first
-- Cline file modification: backup + CARET MODIFICATION comment required
+- Cline file modification: `.cline` 백업은 deprecated, `// CARET MODIFICATION:` 주석으로만 추적 (복구는 git)
 - AI must access same information developers have via workflows
 
 ### Available Workflows
@@ -123,7 +123,7 @@ See `.caretrules/workflows/` for detailed procedures:
 - **Development**: `cline-modification.md`, `new-component.md`, `ai-feature.md`, `testing-work.md`
 
 ### Atomic Workflows (`workflows/atoms/`)
-- `backup-protocol.yaml` - Cline file backup procedures
+- `backup-protocol.yaml` - (Deprecated) `.cline` 백업 대신 comment-only + git 복구 원칙
 - `tdd-cycle.yaml` - RED→GREEN→REFACTOR cycle
 - `modification-levels.md` - L1→L2→L3 decision framework
 - `verification-steps.md` - Test→Compile→Execute sequence

@@ -129,59 +129,59 @@
 		},
 		"commands": [
 			{
-				"command": "cline.plusButtonClicked",
+				"command": "caretive.caret.plusButtonClicked",
 				"title": "New Task",
 				"icon": "$(add)"
 			},
 			{
-				"command": "cline.mcpButtonClicked",
+				"command": "caretive.caret.mcpButtonClicked",
 				"title": "MCP Servers",
 				"icon": "$(server)"
 			},
 			{
-				"command": "cline.historyButtonClicked",
+				"command": "caretive.caret.historyButtonClicked",
 				"title": "History",
 				"icon": "$(history)"
 			},
 			{
-				"command": "cline.accountButtonClicked",
+				"command": "caretive.caret.accountButtonClicked",
 				"title": "Account",
 				"icon": "$(account)"
 			},
 			{
-				"command": "cline.settingsButtonClicked",
+				"command": "caretive.caret.settingsButtonClicked",
 				"title": "Settings",
 				"icon": "$(settings-gear)"
 			},
 			{
-				"command": "cline.dev.createTestTasks",
+				"command": "caretive.caret.dev.createTestTasks",
 				"title": "Create Test Tasks",
 				"category": "Caret",
 				"when": "cline.isDevMode"
 			},
 			{
-				"command": "cline.dev.expireMcpOAuthTokens",
+				"command": "caretive.caret.dev.expireMcpOAuthTokens",
 				"title": "Expire MCP OAuth Tokens (for testing)",
 				"category": "Caret",
 				"when": "cline.isDevMode"
 			},
 			{
-				"command": "cline.addToChat",
+				"command": "caretive.caret.addToChat",
 				"title": "Add to Caret",
 				"category": "Caret"
 			},
 			{
-				"command": "cline.addTerminalOutputToChat",
+				"command": "caretive.caret.addTerminalOutputToChat",
 				"title": "Add to Caret",
 				"category": "Caret"
 			},
 			{
-				"command": "cline.focusChatInput",
+				"command": "caretive.caret.focusChatInput",
 				"title": "Jump to Chat Input",
 				"category": "Caret"
 			},
 			{
-				"command": "cline.generateGitCommitMessage",
+				"command": "caretive.caret.generateGitCommitMessage",
 				"title": "Generate Commit Message with Caret",
 				"category": "Caret",
 				"icon": {
@@ -190,35 +190,35 @@
 				}
 			},
 			{
-				"command": "cline.abortGitCommitMessage",
+				"command": "caretive.caret.abortGitCommitMessage",
 				"title": "Generate Commit Message with Caret - Stop",
 				"category": "Caret",
 				"icon": "$(debug-stop)"
 			},
 			{
-				"command": "cline.explainCode",
+				"command": "caretive.caret.explainCode",
 				"title": "Explain with Caret",
 				"category": "Caret"
 			},
 			{
-				"command": "cline.improveCode",
+				"command": "caretive.caret.improveCode",
 				"title": "Improve with Caret",
 				"category": "Caret"
 			},
 			{
-				"command": "cline.openWalkthrough",
+				"command": "caretive.caret.openWalkthrough",
 				"title": "Open Walkthrough",
 				"category": "Caret"
 			},
 			{
-				"command": "cline.reconstructTaskHistory",
+				"command": "caretive.caret.reconstructTaskHistory",
 				"title": "Reconstruct Task History",
 				"category": "Caret"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "cline.addToChat",
+				"command": "caretive.caret.addToChat",
 				"key": "cmd+'",
 				"mac": "cmd+'",
 				"win": "ctrl+'",
@@ -226,11 +226,11 @@
 				"when": "editorHasSelection"
 			},
 			{
-				"command": "cline.generateGitCommitMessage",
+				"command": "caretive.caret.generateGitCommitMessage",
 				"when": "config.git.enabled && scmProvider == git"
 			},
 			{
-				"command": "cline.focusChatInput",
+				"command": "caretive.caret.focusChatInput",
 				"key": "cmd+'",
 				"mac": "cmd+'",
 				"win": "ctrl+'",
@@ -241,63 +241,63 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "cline.plusButtonClicked",
+					"command": "caretive.caret.plusButtonClicked",
 					"group": "navigation@1",
 					"when": "view == caret.SidebarProvider"
 				},
 				{
-					"command": "cline.mcpButtonClicked",
+					"command": "caretive.caret.mcpButtonClicked",
 					"group": "navigation@2",
 					"when": "view == caret.SidebarProvider"
 				},
 				{
-					"command": "cline.historyButtonClicked",
+					"command": "caretive.caret.historyButtonClicked",
 					"group": "navigation@3",
 					"when": "view == caret.SidebarProvider"
 				},
 				{
-					"command": "cline.accountButtonClicked",
+					"command": "caretive.caret.accountButtonClicked",
 					"group": "navigation@5",
 					"when": "view == caret.SidebarProvider"
 				},
 				{
-					"command": "cline.settingsButtonClicked",
+					"command": "caretive.caret.settingsButtonClicked",
 					"group": "navigation@6",
 					"when": "view == caret.SidebarProvider"
 				}
 			],
 			"editor/context": [
 				{
-					"command": "cline.addToChat",
+					"command": "caretive.caret.addToChat",
 					"group": "navigation",
 					"when": "editorHasSelection"
 				}
 			],
 			"terminal/context": [
 				{
-					"command": "cline.addTerminalOutputToChat",
+					"command": "caretive.caret.addTerminalOutputToChat",
 					"group": "navigation"
 				}
 			],
 			"scm/title": [
 				{
-					"command": "cline.generateGitCommitMessage",
+					"command": "caretive.caret.generateGitCommitMessage",
 					"group": "navigation",
 					"when": "config.git.enabled && scmProvider == git && !cline.isGeneratingCommit"
 				},
 				{
-					"command": "cline.abortGitCommitMessage",
+					"command": "caretive.caret.abortGitCommitMessage",
 					"group": "navigation",
 					"when": "config.git.enabled && scmProvider == git && cline.isGeneratingCommit"
 				}
 			],
 			"commandPalette": [
 				{
-					"command": "cline.generateGitCommitMessage",
+					"command": "caretive.caret.generateGitCommitMessage",
 					"when": "config.git.enabled && !cline.isGeneratingCommit"
 				},
 				{
-					"command": "cline.abortGitCommitMessage",
+					"command": "caretive.caret.abortGitCommitMessage",
 					"when": "config.git.enabled && cline.isGeneratingCommit"
 				}
 			]
