@@ -339,7 +339,7 @@
 		"watch-tests": "tsc -p . -w --outDir out",
 		"check-types": "npm run check-types:backend && npm run check-types:frontend",
 		"check-types:backend": "npm run protos && npx tsc --noEmit",
-		"check-types:frontend": "cd webview-ui && npx tsc -b --noEmit",
+		"check-types:frontend": "cd webview-ui && npm run copy:assets && npx tsc -b --noEmit",
 		"lint": "biome lint --no-errors-on-unmatched --files-ignore-unknown=true --diagnostic-level=error && npm run lint:proto",
 		"lint:proto": "bash ./scripts/proto-lint.sh",
 		"format": "biome format --changed --no-errors-on-unmatched --files-ignore-unknown=true --diagnostic-level=error",
