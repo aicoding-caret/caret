@@ -3,7 +3,7 @@ dist
 dist-standalone
 node_modules
 tmp
-work-logs
+# work-logs
 .vscode-test
 *.vsix
 .DS_Store
