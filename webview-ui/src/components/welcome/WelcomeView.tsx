@@ -1,5 +1,5 @@
 // CARET MODIFICATION: Refactored to use caret-main architecture with improved navigation
-// Original Cline backed up to: WelcomeView.tsx.cline
+// CARET MODIFICATION: .cline 백업 규칙은 deprecated — 원본/복구는 git history로 추적
 
 // CARET MODIFICATION: Import feature configuration for redirect behavior
 // Frontend는 ExtensionState의 featureConfig 사용

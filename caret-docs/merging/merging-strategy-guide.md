@@ -85,10 +85,10 @@ webview-ui/src/caret/ # Caret 전용 UI
 #### **🔗 Level 2: 조건부 통합 (주의 필요)**
 ```
 src/core/prompts/    # CARET MODIFICATION 마커로 수정
-+ 백업 파일(.cline)
++ 원본/복구는 git history로 추적
 ```
 - **장점**: 기존 시스템과 자연스러운 통합
-- **주의**: 백업 필수, 충돌 가능성 관리
+- **주의**: 최소 변경(1~3줄) + 주석 필수, 필요 시 git으로 롤백
 - **적용**: Rule Priority, JSON Prompt
 
 #### **⚠️ Level 3: 복잡한 통합 (정리 후 적용)**
@@ -103,15 +103,15 @@ src/core/prompts/    # CARET MODIFICATION 마커로 수정
 
 #### **🔴 Cline 원본 수정 시 (최소화)**
 ```bash
-# 1. 백업 생성
-cp original.ts original.ts.cline
-
-# 2. CARET MODIFICATION 마커 추가
+# 1. CARET MODIFICATION 마커 추가
 # CARET MODIFICATION: [간단한 설명]
 # 수정된 코드...
 
-# 3. 수정 부분 최소화
+# 2. 수정 부분 최소화
 # 조건문으로 Caret 기능을 optional하게 구현
+
+# 3. 필요 시 롤백
+git checkout -- original.ts
 ```
 
 #### **⚠️ 코드 고고학 원칙 (신규 추가)**

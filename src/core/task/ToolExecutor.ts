@@ -365,6 +365,7 @@ export class ToolExecutor {
 			}
 
 			// Handle complete blocks
+			this.taskState.didAlreadyUseTool = true // CARET MODIFICATION: complete tool block 동시 실행 레이스(approval ask 중복) 방지
 			await this.handleCompleteBlock(block, config)
 			await this.saveCheckpoint()
 			return true

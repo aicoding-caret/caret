@@ -28,7 +28,8 @@ Never skip Phase 0 - prevents architectural mistakes and ensures proper approach
 
 **Phase 2: TDD GREEN** 🛑 STOP - Before Modifying Cline Files
 - [ ] Check if file is protected (src/, webview-ui/, proto/, scripts/, etc.)
-- [ ] Create a `.cline` backup and add `// CARET MODIFICATION:` comment
+- [ ] `.cline` 백업은 생성하지 않음(Deprecated). `// CARET MODIFICATION:` 주석으로만 변경 이력을 남김
+- [ ] (불가피한 경우) 보호 디렉토리 내 신규 파일 추가 시 파일 상단에 `// CARET MODIFICATION:`로 Caret 추가 파일임을 명시
 - [ ] Minimal changes (1-3 lines max per file)
 - [ ] New Caret features in `caret-src/`, `caret-docs/`
 - [ ] Compile immediately after modification

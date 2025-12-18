@@ -30,7 +30,7 @@ describe("Cline Extension", () => {
 		}
 
 		await new Promise((resolve) => setTimeout(resolve, 400))
-		await vscode.commands.executeCommand("cline.plusButtonClicked")
+		await vscode.commands.executeCommand(`${id}.plusButtonClicked`)
 	})
 
 	// New test to verify xvfb and webview functionality

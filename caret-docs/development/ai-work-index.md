@@ -36,5 +36,6 @@
 
 ## 기본 체크리스트
 - [ ] `.caretrules` 기반 워크플로우를 먼저 선택했는가
-- [ ] Cline 원본 수정이면 `.cline` 백업 + `// CARET MODIFICATION:` 최소 변경 규칙을 지켰는가
+- [ ] Cline 원본 수정이면 `.cline` 백업 없이(Deprecated) `// CARET MODIFICATION:` + 최소 변경(1-3줄) 규칙을 지켰는가
+- [ ] (예외) 테스트 등으로 보호 디렉토리 내 신규 파일 추가가 불가피하면, 파일 상단에 `// CARET MODIFICATION:`로 Caret 추가 파일임을 표기했는가
 - [ ] TDD(RED→GREEN→REFACTOR)로 테스트부터 진행했는가

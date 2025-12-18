@@ -122,9 +122,9 @@ describe('Rule Priority System', () => {
 
 ##### **🔧 우선순위 로직 구현**
 ```bash
-# 백업 생성
-cp src/core/context/instructions/user-instructions/external-rules.ts \
-   src/core/context/instructions/user-instructions/external-rules.ts.cline
+# NOTE: `.cline` 백업은 deprecated. 원본/복구는 git으로 처리.
+# 필요 시 롤백:
+git checkout -- src/core/context/instructions/user-instructions/external-rules.ts
 
 # CARET MODIFICATION 적용
 # 우선순위 로직: .caretrules > .clinerules > .cursorrules > .windsurfrules

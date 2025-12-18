@@ -27,6 +27,7 @@ export class TaskState {
 	askResponseImages?: string[]
 	askResponseFiles?: string[]
 	lastMessageTs?: number
+	lastAskTs?: number // CARET MODIFICATION: ask 대기 취소 판정을 say() 갱신과 분리해 동시성 레이스를 완화
 
 	// Plan mode specific state
 	isAwaitingPlanResponse = false

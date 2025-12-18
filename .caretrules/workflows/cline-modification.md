@@ -4,7 +4,6 @@ You are safely modifying Cline original files using the atomic workflow combinat
 # Cline Modification - Safe Integration Workflow
 
 ## Atomic Components Used
-- `/backup-protocol` - File safety procedures
 - `/modification-levels` - L1→L2→L3 decision framework
 - `/comment-protocol` - CARET MODIFICATION tracking
 - `/verification-steps` - Test→Compile→Execute validation
@@ -16,16 +15,9 @@ You are safely modifying Cline original files using the atomic workflow combinat
 - [ ] Must be Level 2 (minimal Cline change)? → Continue workflow
 - [ ] Requires Level 3 (major change)? → Requires full documentation
 
-### Step 2: Backup Creation (`/backup-protocol`)
-```bash
-# Check if backup already exists
-ls filename.ext.cline
-
-# If no backup exists, create one
-cp filename.ext filename.ext.cline
-
-# NEVER overwrite existing .cline backups
-```
+### Step 2: Backup 정책
+- `.cline` 백업 파일 생성 규칙은 **deprecated** 입니다(새로 만들지 않습니다).
+- 안전장치는 `// CARET MODIFICATION:` 주석 + 최소 변경 + 테스트/컴파일 검증으로 대체합니다.
 
 ## Modification Phase
 
@@ -85,11 +77,8 @@ npm run watch  # Then F5 to test extension
 
 ### If Verification Fails:
 ```bash
-# Restore from backup
-cp filename.ext.cline filename.ext
-
-# Fix issues in caret-src/ if possible
-# Or revise the minimal modification approach
+# git을 기준으로 되돌립니다(예: git checkout -- filename.ext)
+# 가능하면 caret-src/로 이동하거나, 최소 변경으로 재조정합니다.
 ```
 
 ### If Integration Issues:
@@ -103,8 +92,7 @@ cp filename.ext.cline filename.ext
 // Example: Adding Caret provider integration to extension.ts
 
 // 1. Level Assessment: Must integrate with Cline activation → Level 2
-// 2. Backup: cp src/extension.ts src/extension.ts.cline  
-// 3. Minimal modification:
+// 2. Minimal modification:
 
 export async function activate(context: vscode.ExtensionContext) {
   // CARET MODIFICATION: Initialize Caret wrapper for enhanced features
@@ -131,6 +119,10 @@ export async function activate(context: vscode.ExtensionContext) {
 - Complex logic changes
 - Major architectural modifications
 - Multiple file changes for single feature
+
+## New File Exception (tests etc.)
+- 불가피하게 보호 디렉토리(`src/`, `webview-ui/` 등)에 **신규 파일**을 추가해야 하는 경우(예: TDD 테스트),
+  파일 최상단에 `// CARET MODIFICATION:`으로 “Caret에서 추가한 파일”임을 명확히 표시합니다.
 
 ## Related Workflows
 - Use `/critical-verification` when uncertain about approach

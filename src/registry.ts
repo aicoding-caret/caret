@@ -1,8 +1,8 @@
 import { name, publisher, version } from "../package.json"
 
-// Command prefix: use "cline" for consistency with package.json command definitions
-// This ensures commands registered in code match those defined in package.json
-const prefix = "cline"
+// CARET MODIFICATION: command ID 충돌 방지 위해 extension id(prefix)를 사용
+// (Cline과 Caret를 동시에 설치할 때 'cline.*' 커맨드가 중복 등록되면 활성화가 실패할 수 있음)
+const prefix = `${publisher}.${name}`
 
 /**
  * List of commands with the name of the extension they are registered under.

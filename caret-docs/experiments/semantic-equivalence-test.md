@@ -11,7 +11,7 @@ Markdown 워크플로우와 JSON 워크플로우가 **동일한 작업 결과**�
 #### Markdown 정보 요소들:
 - [ ] 핵심 원칙 (Core Principle)
 - [ ] 사전 체크리스트 (Pre-Modification Checklist)  
-- [ ] 백업 생성 명령어 (Backup Creation Commands)
+- [ ] (Deprecated) 백업 생성 규칙 / 복구 경로
 - [ ] 수정 규칙 4가지 (Modification Rules)
 - [ ] 검증 단계 (Verification Steps)
 - [ ] 복구 절차 (Recovery Process)
@@ -20,7 +20,7 @@ Markdown 워크플로우와 JSON 워크플로우가 **동일한 작업 결과**�
 #### JSON 대응 요소들:
 - [x] core_principle ✅
 - [x] pre_checks ✅  
-- [x] backup_commands ✅
+- [x] backup_commands (deprecated) ✅
 - [x] modification_rules (4개 모두) ✅
 - [x] verification_steps ✅
 - [x] recovery ✅
@@ -32,22 +32,17 @@ Markdown 워크플로우와 JSON 워크플로우가 **동일한 작업 결과**�
 **동일한 명령어와 절차를 제공하는가?**
 
 #### 백업 명령어 비교:
-- **Markdown**: 
+- **Markdown**: (deprecated) `.cline` 백업 대신 **git 롤백**을 사용
   ```bash
-  cp original.ts original.ts.cline
-  cp package.json package.json.cline  
-  cp README.md README.md.cline
+  git checkout -- original.ts
   ```
-- **JSON**: 
+- **JSON**:
   ```json
-  "backup_commands": [
-    "cp original.ts original.ts.cline",
-    "cp package.json package.json.cline", 
-    "cp README.md README.md.cline"
-  ]
+  "backup_commands": [],
+  "recovery": "git checkout -- filename.ext"
   ```
 
-**결과**: ✅ **명령어 동일 - 실행 가능성 보장**
+**결과**: ✅ **복구 경로 동일 - 실행 가능성 보장**
 
 ### 3. 논리적 순서 검증
 **작업 흐름이 동일한가?**
@@ -76,9 +71,9 @@ Markdown 워크플로우와 JSON 워크플로우가 **동일한 작업 결과**�
   - Markdown: 체크리스트 항목으로 언급
   - JSON: `"protected_dirs"` 배열로 명시 ✅
 
-- **백업 덮어쓰기 금지**: "NEVER overwrite existing .cline backup"  
-  - Markdown: 강조 표시로 명시
-  - JSON: `"If exists: NEVER overwrite existing .cline backup"` ✅
+- **`.cline` 백업 비사용**: `.cline` 백업 대신 git 기반 복구
+  - Markdown: deprecated 처리 + git 복구 절차로 대체
+  - JSON: `backup_format: "deprecated"`, `recovery: git checkout ...` ✅
 
 - **최대 수정 라인**: "Maximum 1-3 lines per file"
   - Markdown: 규칙 2번에 명시

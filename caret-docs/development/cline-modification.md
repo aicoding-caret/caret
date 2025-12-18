@@ -59,11 +59,8 @@ npm run watch  # 그 다음 F5로 확장 프로그램 테스트
 
 ### 검증 실패 시:
 ```bash
-# 백업에서 복원
-cp filename.ext.cline filename.ext
-
-# 가능하다면 caret-src/에서 문제 수정
-# 또는 최소한의 수정 접근법 재검토
+# git 기준으로 되돌립니다(예: git checkout -- filename.ext)
+# 가능하다면 caret-src/에서 문제 수정 또는 최소한의 수정 접근법 재검토
 ```
 
 ### 통합 문제 발생 시:

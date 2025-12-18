@@ -22,7 +22,7 @@
 **🚨 CRITICAL: 아키텍처 결정 체크리스트**
 
 - **Caret vs Cline 디렉토리 결정**: 새 기능은 `caret/` 폴더, Cline 원본은 최소 수정
-- **백업 요구사항**: Cline 원본 수정 시 `.cline` 백업 파일 생성 필수
+- **백업 요구사항**: `.cline` 백업 파일은 deprecated (comment-only + git history로 원본/복구 추적)
 - **테스트 파일 위치**: webview 테스트는 `src/caret/**/*.test.tsx`만 허용
 
 **🚨 업무 성격별 필수 체크 문서:**
@@ -234,10 +234,11 @@ test('웹뷰에서 백엔드 메시지가 한국어로 번역되어야 함', () 
 ### Cline 원본 수정
 
 - [ ] **Level 1 독립 모듈 우선 고려** (`caret-*` 디렉토리 사용)
-- [ ] 불가피한 경우에만 백업 파일 생성: `{filename}-{extension}.cline`
 - [ ] `// CARET MODIFICATION: [간단한 설명]` 주석 필수 추가
 - [ ] 최소 수정 원칙 (1-3라인) 준수
 - [ ] 파일 수정 체크리스트 완료
+- [ ] 보호 디렉토리에 신규 파일 추가가 불가피한 경우(예: 테스트) 파일 상단에 `// CARET MODIFICATION:` 헤더로 Caret 추가 파일임을 표기
+- [ ] 필요 시 롤백: `git checkout -- <file>` (또는 `git restore <file>`)
 
 ### 테스트 및 모킹 ⚡ **NEW**
 

@@ -16,7 +16,7 @@ Caret 프로젝트 병합 전략을 도와드립니다. Cline 코드 수정을 �
 2. 수정 수준 분류:
    - **레벨 1**: 독립 모듈 (caret-src/, caret-docs/) - 완전 자유도
    - **레벨 2**: 조건부 통합 - 최소한의 Cline 코드 변경
-   - **레벨 3**: 직접 수정 - 백업과 함께 최후의 수단
+   - **레벨 3**: 직접 수정 - 최후의 수단(백업 `.cline`은 Deprecated)
 
 ## 2. 병합 전략 적용
 1. **레벨 1 우선 (독립 모듈)**:
@@ -25,27 +25,23 @@ Caret 프로젝트 병합 전략을 도와드립니다. Cline 코드 수정을 �
    - 예시: `CaretProvider extends WebviewProvider`
 
 2. **레벨 2 필요 시 (조건부 통합)**:
-   - 원본 파일 백업: `cp original.ts original.ts.cline`
    - `// CARET MODIFICATION:` 주석 추가
+   - `.cline` 백업은 생성하지 않음(Deprecated)
    - 최소 1-3줄 변경
    - 조건부 로직 사용: `if (isCaretMode()) { ... }`
 
 3. **레벨 3 (직접 수정) - 최후의 수단**:
    - 상속/구성이 불가능한 경우에만 사용
-   - 반드시 원본 파일 백업
    - CARET MODIFICATION 주석에 이유 문서화
    - Cline과 Caret 기능 모두 테스트
 
 ## 3. 검증 단계
-1. 백업 존재 및 복원 가능성 확인:
+1. 변경사항 추적/복구 가능성 확인:
    ```bash
-   # 백업 파일 존재 확인
-   find . -name "*.cline" | head -10
-   
-   # 복원 프로세스 테스트
-   cp src/extension.ts.cline src/extension.ts
-   npm run compile  # 작동해야 함
-   git checkout src/extension.ts  # 수정사항 복원
+   # 모든 CARET MODIFICATION 주석 찾기
+   rg "CARET MODIFICATION" src/ webview-ui/ --glob="*.ts" --glob="*.tsx"
+   # git 기준으로 복구(예)
+   git checkout -- src/extension.ts
    ```
 
 2. 양쪽 모드 테스트:
@@ -73,10 +69,10 @@ Caret 프로젝트 병합 전략을 도와드립니다. Cline 코드 수정을 �
    
    수정 이유: {reason}
    변경 범위: {number} 줄
-   백업 생성 예정: {filename}.cline
+   백업: `.cline` 백업은 생성하지 않음(Deprecated)
    
    이 Cline 파일 수정을 진행하시겠습니까?</question>
-   <options>["예, 백업과 함께 진행", "아니요, 대안 방법 찾기", "변경사항을 먼저 검토하겠습니다"]</options>
+   <options>["예, 진행(주석 기반)", "아니요, 대안 방법 찾기", "변경사항을 먼저 검토하겠습니다"]</options>
    </ask_followup_question>
    ```
 </detailed_sequence_of_steps>

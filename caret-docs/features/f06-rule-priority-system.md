@@ -78,7 +78,7 @@ src/test/
 ### **수정 방식**
 
 - **CARET MODIFICATION** 마커로 수정 부분 명확히 표시
-- 원본 Cline 코드는 `.cline` 확장자로 백업 보존
+- 원본/비교/복구는 `.cline` 백업이 아니라 **git history(또는 upstream tag/branch)** 로 추적
 - `addUserInstructions` 함수에 우선순위 로직 추가
 
 ### **핵심 로직 (실제 구현)**
@@ -281,7 +281,7 @@ npm run test:unit -- --testPathPattern=rule-priority
 
 #### **⚠️ 머징 시 주의사항**
 
-- [ ] **백업 필수**: 원본 파일 수정 전 `.backup` 또는 `.cline` 백업 생성
+- [ ] **백업 없음**: `.cline` 백업은 deprecated (comment-only + git 복구)
 - [ ] **마커 확인**: `// CARET MODIFICATION:` 주석으로 수정 부분 명확히 표시
 - [ ] **테스트 우선**: 기능 이식 전 테스트 코드부터 이식
 - [ ] **로그 확인**: 규칙 로딩 과정이 로그에 올바르게 기록되는지 확인
