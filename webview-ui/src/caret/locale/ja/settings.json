@@ -307,6 +307,11 @@
 			"shortName": "ブラウザ",
 			"description": "Caretがブラウザで任意のウェブサイトを実行および操作できるようにします。"
 		},
+		"generateImages": {
+			"label": "画像生成",
+			"shortName": "画像",
+			"description": "Caretが画像生成ツールで画像を生成できるようにします。"
+		},
 		"useMcp": {
 			"label": "MCPサーバーを使用する",
 			"shortName": "MCP",

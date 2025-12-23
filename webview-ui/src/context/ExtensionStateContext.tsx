@@ -77,6 +77,7 @@ export interface ExtensionStateContextType extends ExtensionState {
 	totalTasksSize: number | null
 	availableTerminalProfiles: TerminalProfile[]
 	expandTaskHeader: boolean
+	toolImageCache: Record<string, string>
 	// CARET MODIFICATION: Add caretBanner for Caret welcome page logo
 	caretBanner: string
 
@@ -335,6 +336,8 @@ export const ExtensionStateContextProvider: React.FC<{
 	const [totalTasksSize, setTotalTasksSize] = useState<number | null>(null)
 	const [availableTerminalProfiles, setAvailableTerminalProfiles] = useState<TerminalProfile[]>([])
 	const [expandTaskHeader, setExpandTaskHeader] = useState(true)
+	const [toolImageCache, setToolImageCache] = useState<Record<string, string>>({})
+	const toolImageCacheOrderRef = useRef<string[]>([])
 
 	const [openAiModels, _setOpenAiModels] = useState<string[]>([])
 	const [requestyModels, setRequestyModels] = useState<Record<string, ModelInfo>>({
@@ -367,6 +370,7 @@ export const ExtensionStateContextProvider: React.FC<{
 	const accountButtonClickedSubscriptionRef = useRef<(() => void) | null>(null)
 	const settingsButtonClickedSubscriptionRef = useRef<(() => void) | null>(null)
 	const partialMessageUnsubscribeRef = useRef<(() => void) | null>(null)
+	const toolImageEventsUnsubscribeRef = useRef<(() => void) | null>(null)
 	const mcpMarketplaceUnsubscribeRef = useRef<(() => void) | null>(null)
 	const openRouterModelsUnsubscribeRef = useRef<(() => void) | null>(null)
 	const workspaceUpdatesUnsubscribeRef = useRef<(() => void) | null>(null)
@@ -643,6 +647,46 @@ export const ExtensionStateContextProvider: React.FC<{
 			},
 		})
 
+		// Subscribe to tool image events (ephemeral UI cache)
+		toolImageEventsUnsubscribeRef.current = UiServiceClient.subscribeToToolImageEvents(EmptyRequest.create({}), {
+			onResponse: (event) => {
+				try {
+					if (!event.requestId || !event.base64) {
+						return
+					}
+					const mimeType = event.mimeType || "image/png"
+					const dataUrl = `data:${mimeType};base64,${event.base64}`
+					const maxCacheSize = 20
+
+					setToolImageCache((prev) => {
+						const next = { ...prev, [event.requestId]: dataUrl }
+						const order = toolImageCacheOrderRef.current
+						const existingIndex = order.indexOf(event.requestId)
+						if (existingIndex !== -1) {
+							order.splice(existingIndex, 1)
+						}
+						order.push(event.requestId)
+						while (order.length > maxCacheSize) {
+							const oldest = order.shift()
+							if (oldest) {
+								delete next[oldest]
+							}
+						}
+						toolImageCacheOrderRef.current = order
+						return next
+					})
+				} catch (error) {
+					console.error("Failed to process tool image event:", error)
+				}
+			},
+			onError: (error) => {
+				console.error("Error in toolImageEvents subscription:", error)
+			},
+			onComplete: () => {
+				console.log("[DEBUG] toolImageEvents subscription completed")
+			},
+		})
+
 		// Subscribe to MCP marketplace catalog updates
 		mcpMarketplaceUnsubscribeRef.current = McpServiceClient.subscribeToMcpMarketplaceCatalog(EmptyRequest.create({}), {
 			onResponse: (catalog) => {
@@ -817,6 +861,10 @@ export const ExtensionStateContextProvider: React.FC<{
 				partialMessageUnsubscribeRef.current()
 				partialMessageUnsubscribeRef.current = null
 			}
+			if (toolImageEventsUnsubscribeRef.current) {
+				toolImageEventsUnsubscribeRef.current()
+				toolImageEventsUnsubscribeRef.current = null
+			}
 			if (mcpMarketplaceUnsubscribeRef.current) {
 				mcpMarketplaceUnsubscribeRef.current()
 				mcpMarketplaceUnsubscribeRef.current = null
@@ -904,6 +952,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		totalTasksSize,
 		availableTerminalProfiles,
 		expandTaskHeader,
+		toolImageCache,
 		// CARET MODIFICATION: Add caretBanner to context value with window injection fallback
 		caretBanner: (window as any).caretBannerImage || state.caretBanner || caretBannerAsset,
 

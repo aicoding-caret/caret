@@ -153,7 +153,8 @@ export const ChatRowContent = memo(
 		onSetQuote,
 	}: ChatRowContentProps) => {
 		// CARET MODIFICATION: Use featureConfig from ExtensionState instead of getCurrentFeatureConfig
-		const { mcpServers, mcpMarketplaceCatalog, onRelinquishControl, enablePersonaSystem, featureConfig } = useExtensionState()
+		const { mcpServers, mcpMarketplaceCatalog, onRelinquishControl, enablePersonaSystem, featureConfig, toolImageCache } =
+			useExtensionState()
 
 		// CARET MODIFICATION: Get persona profile from Caret context
 		const { personaProfile } = useCaretState()
@@ -740,6 +741,97 @@ export const ChatRowContent = memo(
 							{/* <div style={{ paddingTop: 5, fontSize: '0.9em', opacity: 0.8 }}>{tool.content}</div> */}
 						</>
 					)
+				case "generateImage": {
+					const imageUrl = tool.requestId ? toolImageCache[tool.requestId] : undefined
+					const status = tool.status || (message.partial ? "generating" : "completed")
+					const isGenerating = status === "pending" || status === "generating" || message.partial
+
+					return (
+						<>
+							<div style={headerStyle}>
+								{toolIcon("device-camera")}
+								<span style={{ fontWeight: "bold" }}>{t("tool.generateImage", "chat")}:</span>
+								{isGenerating && <ProgressIndicator />}
+							</div>
+							<div
+								style={{
+									borderRadius: 3,
+									backgroundColor: CODE_BLOCK_BG_COLOR,
+									overflow: "hidden",
+									border: "1px solid var(--vscode-editorGroup-border)",
+								}}>
+								<div style={{ padding: "9px 10px", display: "flex", flexDirection: "column", gap: "6px" }}>
+									{tool.prompt && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.generateImagePrompt", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>{tool.prompt}</span>
+										</div>
+									)}
+									{tool.model && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.generateImageModel", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>{tool.model}</span>
+										</div>
+									)}
+									{tool.aspectRatio && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.generateImageAspectRatio", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>{tool.aspectRatio}</span>
+										</div>
+									)}
+									{tool.imageSize && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.generateImageSize", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>{tool.imageSize}</span>
+										</div>
+									)}
+									{tool.progressText && (
+										<div className="ph-no-capture" style={{ color: "var(--vscode-descriptionForeground)" }}>
+											{tool.progressText}
+										</div>
+									)}
+									{status === "error" && tool.errorMessage && (
+										<div className="ph-no-capture" style={{ color: errorColor }}>
+											{tool.errorMessage}
+										</div>
+									)}
+								</div>
+								<div
+									style={{
+										borderTop: "1px solid var(--vscode-editorGroup-border)",
+										backgroundColor: "var(--vscode-editor-background)",
+									}}>
+									{imageUrl ? (
+										<img
+											alt={t("tool.generateImageAlt", "chat")}
+											src={imageUrl}
+											style={{ width: "100%", height: "auto", display: "block" }}
+										/>
+									) : (
+										<div
+											className="ph-no-capture"
+											style={{
+												padding: "10px",
+												color: "var(--vscode-descriptionForeground)",
+											}}>
+											{isGenerating
+												? t("tool.generateImageStatusGenerating", "chat")
+												: t("tool.generateImageImageUnavailable", "chat")}
+										</div>
+									)}
+								</div>
+							</div>
+						</>
+					)
+				}
 				default:
 					return null
 			}

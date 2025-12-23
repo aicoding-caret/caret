@@ -361,6 +361,11 @@
 			"shortName": "浏览器",
 			"description": "允许 Caret 在浏览器中启动并与任何网站交互。"
 		},
+		"generateImages": {
+			"label": "生成图像",
+			"shortName": "图像",
+			"description": "允许 Caret 使用图像生成工具生成图像。"
+		},
 		"useMcp": {
 			"label": "使用 MCP 服务器",
 			"shortName": "MCP",

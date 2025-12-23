@@ -342,6 +342,11 @@
 			"shortName": "브라우저",
 			"description": "Caret이 브라우저에서 모든 웹사이트를 실행하고 상호 작용하도록 허용합니다."
 		},
+		"generateImages": {
+			"label": "이미지 생성",
+			"shortName": "이미지",
+			"description": "Caret이 이미지 생성 도구를 사용해 이미지를 생성하도록 허용합니다."
+		},
 		"useMcp": {
 			"label": "MCP 서버 사용",
 			"shortName": "MCP",
