@@ -54,6 +54,12 @@ import {
 	UiServiceClient,
 } from "../services/grpc-client"
 
+type ToolImageCacheEntry = {
+	dataUrl: string
+	workspaceRelativePath?: string
+	workspaceAbsolutePath?: string
+}
+
 // CARET NOTE: CaretUser type now imported from @shared/CaretAccount above
 
 export interface ExtensionStateContextType extends ExtensionState {
@@ -77,7 +83,7 @@ export interface ExtensionStateContextType extends ExtensionState {
 	totalTasksSize: number | null
 	availableTerminalProfiles: TerminalProfile[]
 	expandTaskHeader: boolean
-	toolImageCache: Record<string, string>
+	toolImageCache: Record<string, ToolImageCacheEntry>
 	// CARET MODIFICATION: Add caretBanner for Caret welcome page logo
 	caretBanner: string
 
@@ -304,6 +310,8 @@ export const ExtensionStateContextProvider: React.FC<{
 		customPrompt: undefined,
 		useAutoCondense: false,
 		autoCondenseThreshold: undefined,
+		imageGenerationAspectRatio: undefined,
+		imageGenerationSize: undefined,
 		// CARET MODIFICATION: Initialize caretBanner with actual banner image
 		caretBanner: caretBannerAsset,
 		// CARET MODIFICATION: Initialize persona system from backend globalState only
@@ -336,7 +344,7 @@ export const ExtensionStateContextProvider: React.FC<{
 	const [totalTasksSize, setTotalTasksSize] = useState<number | null>(null)
 	const [availableTerminalProfiles, setAvailableTerminalProfiles] = useState<TerminalProfile[]>([])
 	const [expandTaskHeader, setExpandTaskHeader] = useState(true)
-	const [toolImageCache, setToolImageCache] = useState<Record<string, string>>({})
+	const [toolImageCache, setToolImageCache] = useState<Record<string, ToolImageCacheEntry>>({})
 	const toolImageCacheOrderRef = useRef<string[]>([])
 
 	const [openAiModels, _setOpenAiModels] = useState<string[]>([])
@@ -659,7 +667,15 @@ export const ExtensionStateContextProvider: React.FC<{
 					const maxCacheSize = 20
 
 					setToolImageCache((prev) => {
-						const next = { ...prev, [event.requestId]: dataUrl }
+						const existingEntry = prev[event.requestId]
+						const next = {
+							...prev,
+							[event.requestId]: {
+								dataUrl,
+								workspaceRelativePath: event.workspaceRelativePath || existingEntry?.workspaceRelativePath,
+								workspaceAbsolutePath: event.workspaceAbsolutePath || existingEntry?.workspaceAbsolutePath,
+							},
+						}
 						const order = toolImageCacheOrderRef.current
 						const existingIndex = order.indexOf(event.requestId)
 						if (existingIndex !== -1) {

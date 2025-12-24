@@ -190,6 +190,8 @@ message ToolImageEvent {
   string request_id = 1;
   string mime_type = 2;
   string base64 = 3;
+  optional string workspace_relative_path = 4;
+  optional string workspace_absolute_path = 5;
 }
 
 message ClineModelInfo {

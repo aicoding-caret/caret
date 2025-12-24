@@ -35,6 +35,7 @@
 		"generateImageStatusGenerating": "正在生成图片...",
 		"generateImageImageUnavailable": "无法显示图片",
 		"generateImageAlt": "生成的图片",
+		"generateImageSavedPath": "已保存到 {{path}}",
 		"commandOutput": "命令输出",
 		"commandApprovalRequired": "模型已确定此命令需要明确批准。",
 		"mcpNotification": "MCP通知",

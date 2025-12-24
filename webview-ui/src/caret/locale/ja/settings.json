@@ -394,7 +394,13 @@
 		"supportsCacheLabel": "プロンプトキャッシュをサポート:",
 		"doesNotSupportImagesLabel": "画像をサポートしていません:",
 		"doesNotSupportComputerUseLabel": "コンピュータ使用をサポートしていません:",
-		"doesNotSupportCacheLabel": "プロンプトキャッシュをサポートしていません:"
+		"doesNotSupportCacheLabel": "プロンプトキャッシュをサポートしていません:",
+		"imageGeneration": {
+			"title": "画像生成のデフォルト",
+			"aspectRatio": "アスペクト比",
+			"size": "サイズ",
+			"auto": "自動（モデルのデフォルト）"
+		}
 	},
 	"modelSelector": {
 		"label": "モデル",

@@ -35,6 +35,7 @@
 		"generateImageStatusGenerating": "画像生成中...",
 		"generateImageImageUnavailable": "画像を表示できません",
 		"generateImageAlt": "生成された画像",
+		"generateImageSavedPath": "保存先: {{path}}",
 		"commandOutput": "コマンド出力",
 		"commandApprovalRequired": "モデルはこのコマンドに明示的な承認が必要であると判断しました。",
 		"mcpNotification": "MCP通知",

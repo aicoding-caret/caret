@@ -36,6 +36,7 @@
 		"generateImageStatusGenerating": "Generating image...",
 		"generateImageImageUnavailable": "Image unavailable",
 		"generateImageAlt": "Generated image",
+		"generateImageSavedPath": "Saved to {{path}}",
 		"commandOutput": "Command Output",
 		"commandApprovalRequired": "The model has determined this command requires explicit approval.",
 		"mcpNotification": "MCP Notification",

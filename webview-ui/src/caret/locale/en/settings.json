@@ -425,7 +425,13 @@
 		"supportsCacheLabel": "Supports prompt caching:",
 		"doesNotSupportImagesLabel": "Does not support images:",
 		"doesNotSupportComputerUseLabel": "Does not support computer use:",
-		"doesNotSupportCacheLabel": "Does not support prompt caching:"
+		"doesNotSupportCacheLabel": "Does not support prompt caching:",
+		"imageGeneration": {
+			"title": "Image generation defaults",
+			"aspectRatio": "Aspect ratio",
+			"size": "Image size",
+			"auto": "Automatic (model default)"
+		}
 	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "Search and select a model...",

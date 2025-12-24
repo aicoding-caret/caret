@@ -92,6 +92,8 @@ export interface ExtensionState {
 	dictationSettings: DictationSettings
 	customPrompt?: string
 	autoCondenseThreshold?: number
+	imageGenerationAspectRatio?: string
+	imageGenerationSize?: string
 	favoritedModelIds: string[]
 	// NEW: Add workspace information
 	workspaceRoots: WorkspaceRoot[]

@@ -543,6 +543,9 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const caretModeSystem = context.globalState.get<GlobalStateAndSettings["caretModeSystem"]>("caretModeSystem")
 		const enablePersonaSystem = context.globalState.get<GlobalStateAndSettings["enablePersonaSystem"]>("enablePersonaSystem")
 		const currentPersona = context.globalState.get<GlobalStateAndSettings["currentPersona"]>("currentPersona")
+		const imageGenerationAspectRatio =
+			context.globalState.get<GlobalStateAndSettings["imageGenerationAspectRatio"]>("imageGenerationAspectRatio")
+		const imageGenerationSize = context.globalState.get<GlobalStateAndSettings["imageGenerationSize"]>("imageGenerationSize")
 
 		return {
 			// api configuration fields
@@ -727,6 +730,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			caretModeSystem: caretModeSystem ?? "caret",
 			enablePersonaSystem: enablePersonaSystem ?? true,
 			currentPersona: currentPersona ?? undefined,
+			imageGenerationAspectRatio,
+			imageGenerationSize,
 			// Multi-root workspace support
 			workspaceRoots,
 			primaryRootIndex: primaryRootIndex ?? 0,

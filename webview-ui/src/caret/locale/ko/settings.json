@@ -433,7 +433,13 @@
 		"supportsCacheLabel": "프롬프트 캐싱 지원:",
 		"doesNotSupportImagesLabel": "이미지 미지원:",
 		"doesNotSupportComputerUseLabel": "컴퓨터 사용 미지원:",
-		"doesNotSupportCacheLabel": "프롬프트 캐싱 미지원:"
+		"doesNotSupportCacheLabel": "프롬프트 캐싱 미지원:",
+		"imageGeneration": {
+			"title": "이미지 생성 기본값",
+			"aspectRatio": "비율",
+			"size": "크기",
+			"auto": "자동 (모델 기본값)"
+		}
 	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "모델 검색 및 선택...",

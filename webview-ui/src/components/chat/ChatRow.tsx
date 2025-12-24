@@ -742,10 +742,27 @@ export const ChatRowContent = memo(
 						</>
 					)
 				case "generateImage": {
-					const imageUrl = tool.requestId ? toolImageCache[tool.requestId] : undefined
+					const imageEntry = tool.requestId ? toolImageCache[tool.requestId] : undefined
+					const imageUrl = imageEntry?.dataUrl
+					const workspaceRelativePath = imageEntry?.workspaceRelativePath
+					const workspaceAbsolutePath = imageEntry?.workspaceAbsolutePath
 					const status = tool.status || (message.partial ? "generating" : "completed")
 					const isGenerating = status === "pending" || status === "generating" || message.partial
 					const handleOpenImage = () => {
+						if (workspaceAbsolutePath) {
+							FileServiceClient.openFile(StringRequest.create({ value: workspaceAbsolutePath })).catch((err) => {
+								console.error("Failed to open image:", err)
+							})
+							return
+						}
+						if (workspaceRelativePath) {
+							FileServiceClient.openFileRelativePath(StringRequest.create({ value: workspaceRelativePath })).catch(
+								(err) => {
+									console.error("Failed to open image:", err)
+								},
+							)
+							return
+						}
 						if (!imageUrl) {
 							return
 						}
@@ -818,13 +835,30 @@ export const ChatRowContent = memo(
 										backgroundColor: "var(--vscode-editor-background)",
 									}}>
 									{imageUrl ? (
-										<img
-											alt={t("tool.generateImageAlt", "chat")}
-											onClick={handleOpenImage}
-											src={imageUrl}
-											style={{ width: "100%", height: "auto", display: "block", cursor: "pointer" }}
-											title="Open image"
-										/>
+										<>
+											<img
+												alt={t("tool.generateImageAlt", "chat")}
+												onClick={handleOpenImage}
+												src={imageUrl}
+												style={{ width: "100%", height: "auto", display: "block", cursor: "pointer" }}
+												title="Open image"
+											/>
+											{workspaceRelativePath && (
+												<div
+													className="ph-no-capture"
+													onClick={handleOpenImage}
+													style={{
+														padding: "8px 10px",
+														color: "var(--vscode-descriptionForeground)",
+														fontSize: 12,
+														cursor: "pointer",
+														borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+													}}
+													title={workspaceRelativePath}>
+													{t("tool.generateImageSavedPath", "chat", { path: workspaceRelativePath })}
+												</div>
+											)}
+										</>
 									) : (
 										<div
 											className="ph-no-capture"

@@ -448,7 +448,13 @@
 		"supportsCacheLabel": "支持提示缓存：",
 		"doesNotSupportImagesLabel": "不支持图像：",
 		"doesNotSupportComputerUseLabel": "不支持计算机使用：",
-		"doesNotSupportCacheLabel": "不支持提示缓存："
+		"doesNotSupportCacheLabel": "不支持提示缓存：",
+		"imageGeneration": {
+			"title": "图像生成默认值",
+			"aspectRatio": "纵横比",
+			"size": "尺寸",
+			"auto": "自动（模型默认）"
+		}
 	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "搜索并选择模型...",

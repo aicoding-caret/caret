@@ -1,7 +1,10 @@
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 import { ClineAsk, ClineSayTool } from "@shared/ExtensionMessage"
+import type { ToolImageEvent } from "@shared/proto/cline/ui"
 import { ClineDefaultTool } from "@shared/tools"
+import * as fs from "fs/promises"
+import * as path from "path"
 import { sendToolImageEvent } from "@/core/controller/ui/subscribeToToolImageEvents"
 import { buildClineExtraHeaders } from "@/services/EnvUtils"
 import { telemetryService } from "@/services/telemetry"
@@ -38,6 +41,89 @@ type ToolImageMessage = ClineSayTool & {
 }
 
 const MAX_PROGRESS_TEXT_LENGTH = 240
+const DEFAULT_IMAGE_EXTENSION = "png"
+const IMAGE_EXTENSION_BY_MIME: Record<string, string> = {
+	"image/png": "png",
+	"image/jpeg": "jpg",
+	"image/jpg": "jpg",
+	"image/webp": "webp",
+	"image/gif": "gif",
+	"image/avif": "avif",
+	"image/svg+xml": "svg",
+}
+
+const getImageExtension = (mimeType?: string): string => {
+	const normalized = mimeType?.toLowerCase().trim()
+	if (normalized && IMAGE_EXTENSION_BY_MIME[normalized]) {
+		return IMAGE_EXTENSION_BY_MIME[normalized]
+	}
+	return DEFAULT_IMAGE_EXTENSION
+}
+
+const extractBase64Payload = (
+	value: string,
+): {
+	base64: string
+	mimeType?: string
+} => {
+	const match = value.match(/^data:(.+);base64,(.+)$/)
+	if (!match) {
+		return { base64: value }
+	}
+	return { mimeType: match[1], base64: match[2] }
+}
+
+const buildImageMarkdown = ({
+	prompt,
+	model,
+	aspectRatio,
+	imageSize,
+	requestId,
+	mimeType,
+	imageFileName,
+	createdAt,
+}: {
+	prompt: string
+	model?: string
+	aspectRatio?: string
+	imageSize?: string
+	requestId: string
+	mimeType: string
+	imageFileName: string
+	createdAt: string
+}): string => {
+	const promptLines = prompt.split(/\r?\n/)
+	const promptBlock = promptLines.length ? promptLines.map((line) => `  ${line}`).join("\n") : "  "
+
+	const frontmatterLines = [
+		"---",
+		`request_id: "${requestId}"`,
+		`created_at: "${createdAt}"`,
+		model ? `model: "${model}"` : undefined,
+		aspectRatio ? `aspect_ratio: "${aspectRatio}"` : undefined,
+		imageSize ? `image_size: "${imageSize}"` : undefined,
+		`mime_type: "${mimeType}"`,
+		`image_file: "${imageFileName}"`,
+		"prompt: |",
+		promptBlock,
+		"---",
+	]
+		.filter(Boolean)
+		.join("\n")
+
+	return `${frontmatterLines}
+
+## Prompt
+
+\`\`\`text
+${prompt}
+\`\`\`
+
+## Image
+
+![Generated image](./${imageFileName})
+`
+}
 
 export class GenerateImageToolHandler implements IFullyManagedTool {
 	readonly name = ClineDefaultTool.GENERATE_IMAGE
@@ -71,6 +157,10 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			const model = (block.params.model || "").trim()
 			const aspectRatio = (block.params.aspect_ratio || "").trim()
 			const imageSize = (block.params.image_size || "").trim()
+			const globalAspectRatio = config.services.stateManager.getGlobalSettingsKey("imageGenerationAspectRatio")?.trim()
+			const globalImageSize = config.services.stateManager.getGlobalSettingsKey("imageGenerationSize")?.trim()
+			const finalAspectRatio = aspectRatio || globalAspectRatio || undefined
+			const finalImageSize = imageSize || globalImageSize || undefined
 
 			// Extract provider information for telemetry
 			const apiConfig = config.services.stateManager.getApiConfiguration()
@@ -91,8 +181,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					requestId,
 					prompt,
 					model: model || undefined,
-					aspectRatio: aspectRatio || undefined,
-					imageSize: imageSize || undefined,
+					aspectRatio: finalAspectRatio,
+					imageSize: finalImageSize,
 					status: "generating",
 					progressText: "Generating image...",
 					...overrides,
@@ -172,8 +262,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			const body = {
 				prompt,
 				model: model || undefined,
-				aspect_ratio: aspectRatio || undefined,
-				image_size: imageSize || undefined,
+				aspect_ratio: finalAspectRatio,
+				image_size: finalImageSize,
 				stream: true,
 			}
 
@@ -200,6 +290,11 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			let usage: ToolImageUsage | undefined
 			let streamError: string | undefined
 			let didReceiveDone = false
+			let savedImagePath: string | undefined
+			let savedMarkdownPath: string | undefined
+			let savedImageRelativePath: string | undefined
+			const workspaceRoot = config.workspaceManager?.getPrimaryRoot()?.path ?? config.cwd
+			const assetsDir = path.join(workspaceRoot, "assets")
 
 			const updateToolMessage = async (overrides: Partial<ToolImageMessage>) => {
 				const nextProgress = overrides.progressText ? overrides.progressText.trim() : progressText
@@ -262,12 +357,50 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 						}
 						case "image": {
 							if (typeof parsed.base64 === "string" && parsed.base64) {
-								const mimeType = typeof parsed.mimeType === "string" ? parsed.mimeType : "image/png"
-								await sendToolImageEvent({
+								const rawMimeType = typeof parsed.mimeType === "string" ? parsed.mimeType : "image/png"
+								if (!savedImagePath && !savedMarkdownPath) {
+									try {
+										const { base64, mimeType: inlineMimeType } = extractBase64Payload(parsed.base64.trim())
+										const finalMimeType = inlineMimeType || rawMimeType
+										const extension = getImageExtension(finalMimeType)
+										const imageFileName = `${requestId}.${extension}`
+										const markdownFileName = `${requestId}.md`
+										const imagePath = path.join(assetsDir, imageFileName)
+										const markdownPath = path.join(assetsDir, markdownFileName)
+
+										await fs.mkdir(assetsDir, { recursive: true })
+										const imageBuffer = Buffer.from(base64.replace(/\s/g, ""), "base64")
+										await fs.writeFile(imagePath, imageBuffer)
+
+										const markdown = buildImageMarkdown({
+											prompt,
+											model: model || undefined,
+											aspectRatio: finalAspectRatio,
+											imageSize: finalImageSize,
+											requestId,
+											mimeType: finalMimeType,
+											imageFileName,
+											createdAt: new Date().toISOString(),
+										})
+										await fs.writeFile(markdownPath, markdown, "utf8")
+
+										savedImagePath = imagePath
+										savedMarkdownPath = markdownPath
+										const relativePath = path.relative(workspaceRoot, imagePath)
+										savedImageRelativePath = relativePath.split(path.sep).join(path.posix.sep)
+									} catch (error) {
+										console.error("Failed to save generated image assets:", error)
+									}
+								}
+								const toolImageEvent: ToolImageEvent = {
 									requestId,
-									mimeType,
+									mimeType: rawMimeType,
 									base64: parsed.base64,
-								})
+									workspaceRelativePath: savedImageRelativePath || "",
+									workspaceAbsolutePath: savedImagePath || "",
+								}
+
+								await sendToolImageEvent(toolImageEvent)
 								await updateToolMessage({ status: "generating" })
 							}
 							break
@@ -317,11 +450,17 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			await config.callbacks.say("tool", buildMessage({ status: "completed", usage }), undefined, undefined, false)
 
+			const savedMarkdownRelativePath = savedMarkdownPath
+				? path.relative(workspaceRoot, savedMarkdownPath).split(path.sep).join(path.posix.sep)
+				: undefined
+
 			const summaryParts = [
 				"Image generated.",
 				model ? `Model: ${model}` : undefined,
-				aspectRatio ? `Aspect ratio: ${aspectRatio}` : undefined,
-				imageSize ? `Image size: ${imageSize}` : undefined,
+				finalAspectRatio ? `Aspect ratio: ${finalAspectRatio}` : undefined,
+				finalImageSize ? `Image size: ${finalImageSize}` : undefined,
+				savedImageRelativePath ? `Image file: ${savedImageRelativePath}` : undefined,
+				savedMarkdownRelativePath ? `Metadata file: ${savedMarkdownRelativePath}` : undefined,
 				textOutputs.length ? `Text output: ${textOutputs.join(" ")}` : undefined,
 			].filter(Boolean)
 
