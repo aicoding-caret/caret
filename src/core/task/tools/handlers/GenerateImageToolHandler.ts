@@ -318,7 +318,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			await config.callbacks.say("tool", buildMessage({ status: "completed", usage }), undefined, undefined, false)
 
 			const summaryParts = [
-				`Image generated for prompt: "${prompt}"`,
+				"Image generated.",
 				model ? `Model: ${model}` : undefined,
 				aspectRatio ? `Aspect ratio: ${aspectRatio}` : undefined,
 				imageSize ? `Image size: ${imageSize}` : undefined,

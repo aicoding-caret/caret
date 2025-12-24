@@ -745,6 +745,14 @@ export const ChatRowContent = memo(
 					const imageUrl = tool.requestId ? toolImageCache[tool.requestId] : undefined
 					const status = tool.status || (message.partial ? "generating" : "completed")
 					const isGenerating = status === "pending" || status === "generating" || message.partial
+					const handleOpenImage = () => {
+						if (!imageUrl) {
+							return
+						}
+						FileServiceClient.openImage(StringRequest.create({ value: imageUrl })).catch((err) => {
+							console.error("Failed to open image:", err)
+						})
+					}
 
 					return (
 						<>
@@ -812,8 +820,10 @@ export const ChatRowContent = memo(
 									{imageUrl ? (
 										<img
 											alt={t("tool.generateImageAlt", "chat")}
+											onClick={handleOpenImage}
 											src={imageUrl}
-											style={{ width: "100%", height: "auto", display: "block" }}
+											style={{ width: "100%", height: "auto", display: "block", cursor: "pointer" }}
+											title="Open image"
 										/>
 									) : (
 										<div
