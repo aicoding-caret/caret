@@ -238,6 +238,9 @@ export interface ClineSayTool {
 	imageSize?: string
 	status?: string
 	progressText?: string
+	workspaceRelativePath?: string
+	workspaceAbsolutePath?: string
+	imageUrl?: string
 	usage?: {
 		inputTokens?: number
 		outputTokens?: number

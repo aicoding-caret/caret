@@ -73,6 +73,7 @@ import { isClaude4PlusModelFamily, isGPT5ModelFamily, isLocalModel, isNextGenMod
 import { arePathsEqual, getDesktopDir } from "@utils/path"
 import { filterExistingFiles } from "@utils/tabFiltering"
 import cloneDeep from "clone-deep"
+import * as fs from "fs"
 import Mutex from "p-mutex"
 import pWaitFor from "p-wait-for"
 import * as path from "path"
@@ -144,6 +145,7 @@ export class Task {
 	readonly taskId: string
 	readonly ulid: string
 	private taskIsFavorited?: boolean
+	private historyItem?: HistoryItem
 	private cwd: string
 	private taskInitializationStartTime: number
 
@@ -342,6 +344,7 @@ export class Task {
 		})
 
 		this.taskId = taskId
+		this.historyItem = historyItem
 
 		// Initialize taskId first
 		if (historyItem) {
@@ -363,6 +366,7 @@ export class Task {
 			taskState: this.taskState,
 			taskIsFavorited: this.taskIsFavorited,
 			updateTaskHistory: this.updateTaskHistory,
+			cwdOnTaskInitialization: this.cwd,
 		})
 
 		// Initialize file context tracker
@@ -957,6 +961,168 @@ export class Task {
 		}
 	}
 
+	private addAbsolutePathsToGenerateImageMessages(messages: ClineMessage[]): ClineMessage[] {
+		const candidateRoots = new Set<string>()
+		const historyWorkspaceRoot = this.historyItem?.cwdOnTaskInitialization
+		if (historyWorkspaceRoot) {
+			candidateRoots.add(historyWorkspaceRoot)
+		}
+		if (this.cwd) {
+			candidateRoots.add(this.cwd)
+		}
+		for (const root of this.workspaceManager?.getRoots() ?? []) {
+			if (root.path) {
+				candidateRoots.add(root.path)
+			}
+		}
+
+		let didUpdate = false
+		const resolveAbsolutePath = (relativePath: string): string | undefined => {
+			if (path.isAbsolute(relativePath)) {
+				return relativePath
+			}
+			for (const root of candidateRoots) {
+				const candidate = path.join(root, relativePath)
+				if (fs.existsSync(candidate)) {
+					return candidate
+				}
+			}
+			return undefined
+		}
+		const nextMessages = messages.map((message) => {
+			const isToolMessage =
+				(message.type === "say" && message.say === "tool") || (message.type === "ask" && message.ask === "tool")
+			if (!isToolMessage || !message.text) {
+				return message
+			}
+
+			let parsed: unknown
+			try {
+				parsed = JSON.parse(message.text)
+			} catch {
+				return message
+			}
+
+			if (!parsed || typeof parsed !== "object") {
+				return message
+			}
+
+			const payload = parsed as Record<string, unknown>
+
+			if (payload.tool !== "generateImage") {
+				return message
+			}
+
+			if (typeof payload.workspaceAbsolutePath === "string" && payload.workspaceAbsolutePath.length > 0) {
+				return message
+			}
+
+			const relativePath = typeof payload.workspaceRelativePath === "string" ? payload.workspaceRelativePath : ""
+			if (!relativePath) {
+				return message
+			}
+
+			const absolutePath = resolveAbsolutePath(relativePath)
+			if (!absolutePath) {
+				return message
+			}
+			didUpdate = true
+
+			return {
+				...message,
+				text: JSON.stringify({
+					...payload,
+					workspaceAbsolutePath: absolutePath,
+				}),
+			}
+		})
+
+		return didUpdate ? nextMessages : messages
+	}
+
+	private async addImageDataUrlsToGenerateImageMessages(messages: ClineMessage[]): Promise<ClineMessage[]> {
+		const mimeByExtension: Record<string, string> = {
+			".png": "image/png",
+			".jpg": "image/jpeg",
+			".jpeg": "image/jpeg",
+			".webp": "image/webp",
+			".gif": "image/gif",
+			".avif": "image/avif",
+			".svg": "image/svg+xml",
+		}
+		let didUpdate = false
+
+		const readDataUrl = async (absolutePath: string): Promise<string | undefined> => {
+			try {
+				if (!fs.existsSync(absolutePath)) {
+					return undefined
+				}
+				const buffer = await fs.promises.readFile(absolutePath)
+				const extension = path.extname(absolutePath).toLowerCase()
+				const mimeType = mimeByExtension[extension] ?? "application/octet-stream"
+				return `data:${mimeType};base64,${buffer.toString("base64")}`
+			} catch (error) {
+				console.error(`[Task ${this.taskId}] Failed to read image for history preview`, absolutePath, error)
+				return undefined
+			}
+		}
+
+		const nextMessages = await Promise.all(
+			messages.map(async (message) => {
+				const isToolMessage =
+					(message.type === "say" && message.say === "tool") || (message.type === "ask" && message.ask === "tool")
+				if (!isToolMessage || !message.text) {
+					return message
+				}
+
+				let parsed: unknown
+				try {
+					parsed = JSON.parse(message.text)
+				} catch {
+					return message
+				}
+
+				if (!parsed || typeof parsed !== "object") {
+					return message
+				}
+
+				const payload = parsed as Record<string, unknown>
+
+				if (payload.tool !== "generateImage") {
+					return message
+				}
+
+				if (typeof payload.imageUrl === "string" && payload.imageUrl.length > 0) {
+					return message
+				}
+
+				const absolutePath =
+					typeof payload.workspaceAbsolutePath === "string" && payload.workspaceAbsolutePath.length > 0
+						? payload.workspaceAbsolutePath
+						: undefined
+				if (!absolutePath) {
+					return message
+				}
+
+				const dataUrl = await readDataUrl(absolutePath)
+				if (!dataUrl) {
+					return message
+				}
+
+				didUpdate = true
+				return {
+					...message,
+					text: JSON.stringify({
+						...payload,
+						imageUrl: dataUrl,
+					}),
+				}
+			}),
+		)
+
+		return didUpdate ? nextMessages : messages
+	}
+
 	// Task lifecycle
 
 	public async startTask(task?: string, images?: string[], files?: string[]): Promise<void> {
@@ -1106,7 +1272,9 @@ export class Task {
 			}
 		}
 
-		await this.messageStateHandler.overwriteClineMessages(savedClineMessages)
+		const patchedClineMessages = this.addAbsolutePathsToGenerateImageMessages(savedClineMessages)
+		const patchedWithImageUrls = await this.addImageDataUrlsToGenerateImageMessages(patchedClineMessages)
+		await this.messageStateHandler.overwriteClineMessages(patchedWithImageUrls)
 		this.messageStateHandler.setClineMessages(await getSavedClineMessages(this.taskId))
 
 		// Now present the cline messages to the user and ask if they want to resume (NOTE: we ran into a bug before where the apiconversationhistory wouldn't be initialized when opening a old task, and it was because we were waiting for resume)

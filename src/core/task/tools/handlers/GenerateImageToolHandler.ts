@@ -36,6 +36,9 @@ type ToolImageMessage = ClineSayTool & {
 	imageSize?: string
 	status?: ToolImageStatus
 	progressText?: string
+	workspaceRelativePath?: string
+	workspaceAbsolutePath?: string
+	imageUrl?: string
 	usage?: ToolImageUsage
 	errorMessage?: string
 }
@@ -308,6 +311,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					"tool",
 					buildMessage({
 						progressText: progressText || undefined,
+						workspaceRelativePath: savedImageRelativePath,
+						workspaceAbsolutePath: savedImagePath,
 						usage,
 						...overrides,
 					}),
@@ -358,7 +363,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 						case "image": {
 							if (typeof parsed.base64 === "string" && parsed.base64) {
 								const rawMimeType = typeof parsed.mimeType === "string" ? parsed.mimeType : "image/png"
-								if (!savedImagePath && !savedMarkdownPath) {
+								if (!savedImagePath || !savedMarkdownPath) {
 									try {
 										const { base64, mimeType: inlineMimeType } = extractBase64Payload(parsed.base64.trim())
 										const finalMimeType = inlineMimeType || rawMimeType
@@ -369,25 +374,29 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 										const markdownPath = path.join(assetsDir, markdownFileName)
 
 										await fs.mkdir(assetsDir, { recursive: true })
-										const imageBuffer = Buffer.from(base64.replace(/\s/g, ""), "base64")
-										await fs.writeFile(imagePath, imageBuffer)
+										if (!savedImagePath) {
+											const imageBuffer = Buffer.from(base64.replace(/\s/g, ""), "base64")
+											await fs.writeFile(imagePath, imageBuffer)
 
-										const markdown = buildImageMarkdown({
-											prompt,
-											model: model || undefined,
-											aspectRatio: finalAspectRatio,
-											imageSize: finalImageSize,
-											requestId,
-											mimeType: finalMimeType,
-											imageFileName,
-											createdAt: new Date().toISOString(),
-										})
-										await fs.writeFile(markdownPath, markdown, "utf8")
+											savedImagePath = imagePath
+											const relativePath = path.relative(workspaceRoot, imagePath)
+											savedImageRelativePath = relativePath.split(path.sep).join(path.posix.sep)
+										}
 
-										savedImagePath = imagePath
-										savedMarkdownPath = markdownPath
-										const relativePath = path.relative(workspaceRoot, imagePath)
-										savedImageRelativePath = relativePath.split(path.sep).join(path.posix.sep)
+										if (!savedMarkdownPath) {
+											const markdown = buildImageMarkdown({
+												prompt,
+												model: model || undefined,
+												aspectRatio: finalAspectRatio,
+												imageSize: finalImageSize,
+												requestId,
+												mimeType: finalMimeType,
+												imageFileName,
+												createdAt: new Date().toISOString(),
+											})
+											await fs.writeFile(markdownPath, markdown, "utf8")
+											savedMarkdownPath = markdownPath
+										}
 									} catch (error) {
 										console.error("Failed to save generated image assets:", error)
 									}
@@ -440,7 +449,12 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			if (streamError) {
 				await config.callbacks.say(
 					"tool",
-					buildMessage({ status: "error", errorMessage: streamError }),
+					buildMessage({
+						status: "error",
+						errorMessage: streamError,
+						workspaceRelativePath: savedImageRelativePath,
+						workspaceAbsolutePath: savedImagePath,
+					}),
 					undefined,
 					undefined,
 					false,
@@ -448,7 +462,18 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				return formatResponse.toolError(streamError)
 			}
 
-			await config.callbacks.say("tool", buildMessage({ status: "completed", usage }), undefined, undefined, false)
+			await config.callbacks.say(
+				"tool",
+				buildMessage({
+					status: "completed",
+					usage,
+					workspaceRelativePath: savedImageRelativePath,
+					workspaceAbsolutePath: savedImagePath,
+				}),
+				undefined,
+				undefined,
+				false,
+			)
 
 			const savedMarkdownRelativePath = savedMarkdownPath
 				? path.relative(workspaceRoot, savedMarkdownPath).split(path.sep).join(path.posix.sep)

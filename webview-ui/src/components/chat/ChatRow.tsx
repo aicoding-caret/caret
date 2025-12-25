@@ -153,8 +153,7 @@ export const ChatRowContent = memo(
 		onSetQuote,
 	}: ChatRowContentProps) => {
 		// CARET MODIFICATION: Use featureConfig from ExtensionState instead of getCurrentFeatureConfig
-		const { mcpServers, mcpMarketplaceCatalog, onRelinquishControl, enablePersonaSystem, featureConfig, toolImageCache } =
-			useExtensionState()
+		const { mcpServers, mcpMarketplaceCatalog, onRelinquishControl, enablePersonaSystem, featureConfig } = useExtensionState()
 
 		// CARET MODIFICATION: Get persona profile from Caret context
 		const { personaProfile } = useCaretState()
@@ -165,6 +164,9 @@ export const ChatRowContent = memo(
 			left: 0,
 			selectedText: "",
 		})
+		const [resolvedImageUrl, setResolvedImageUrl] = useState<string | undefined>(undefined)
+		const [resolvedImageRelativePath, setResolvedImageRelativePath] = useState<string | undefined>(undefined)
+		const lastImageRequestKeyRef = useRef<string | null>(null)
 		const contentRef = useRef<HTMLDivElement>(null)
 		const [cost, apiReqCancelReason, apiReqStreamingFailedMessage, retryStatus] = useMemo(() => {
 			if (message.text != null && message.say === "api_req_started") {
@@ -400,6 +402,90 @@ export const ChatRowContent = memo(
 			}
 			return null
 		}, [message.ask, message.say, message.text])
+
+		const imageRelativePath = tool?.tool === "generateImage" ? tool.workspaceRelativePath : undefined
+		const imageAbsolutePath = tool?.tool === "generateImage" ? tool.workspaceAbsolutePath : undefined
+		const imageInlineUrl = tool?.tool === "generateImage" ? tool.imageUrl : undefined
+		const imageAbsoluteFallback = !imageAbsolutePath && imageRelativePath?.startsWith("/") ? imageRelativePath : undefined
+		const imageAbsoluteCandidate = imageAbsolutePath ?? imageAbsoluteFallback
+		const imageRequestId = tool?.tool === "generateImage" ? tool.requestId : undefined
+		const imageStatus = tool?.tool === "generateImage" ? tool.status : undefined
+
+		useEffect(() => {
+			if (imageInlineUrl) {
+				setResolvedImageUrl(imageInlineUrl)
+				setResolvedImageRelativePath(undefined)
+				lastImageRequestKeyRef.current = `inline:${imageRequestId ?? "unknown"}`
+				return
+			}
+
+			if (!imageRelativePath && !imageAbsoluteCandidate && !imageRequestId) {
+				setResolvedImageUrl(undefined)
+				setResolvedImageRelativePath(undefined)
+				lastImageRequestKeyRef.current = null
+				return
+			}
+
+			const requestKey = `${imageRequestId ?? "unknown"}:${imageRelativePath ?? ""}:${imageAbsoluteCandidate ?? ""}:${imageStatus ?? ""}`
+			if (lastImageRequestKeyRef.current === requestKey) {
+				return
+			}
+			lastImageRequestKeyRef.current = requestKey
+			setResolvedImageUrl(undefined)
+			setResolvedImageRelativePath(undefined)
+
+			let cancelled = false
+			const loadImage = async () => {
+				try {
+					const tryRead = async (pathValue: string) => {
+						const response = await FileServiceClient.readFileDataUrlRelativePath(
+							StringRequest.create({ value: pathValue }),
+						)
+						if (!cancelled && response.value) {
+							setResolvedImageUrl(response.value)
+							return true
+						}
+						return false
+					}
+
+					if (imageAbsoluteCandidate) {
+						await tryRead(imageAbsoluteCandidate)
+						return
+					}
+
+					if (imageRelativePath && (await tryRead(imageRelativePath))) {
+						return
+					}
+
+					if (!imageRequestId) {
+						return
+					}
+
+					const extensions = ["png", "jpg", "jpeg", "webp", "gif", "avif", "svg"]
+					for (const extension of extensions) {
+						const candidate = `assets/${imageRequestId}.${extension}`
+						if (await tryRead(candidate)) {
+							setResolvedImageRelativePath(candidate)
+							return
+						}
+						if (cancelled) {
+							return
+						}
+					}
+				} catch (err: unknown) {
+					if (!cancelled) {
+						console.error("Failed to load image file:", err)
+						setResolvedImageUrl(undefined)
+					}
+				}
+			}
+
+			void loadImage()
+
+			return () => {
+				cancelled = true
+			}
+		}, [imageRelativePath, imageAbsoluteCandidate, imageRequestId, imageStatus, imageInlineUrl])
 
 		// Helper function to check if file is an image
 		const isImageFile = (filePath: string): boolean => {
@@ -742,10 +828,11 @@ export const ChatRowContent = memo(
 						</>
 					)
 				case "generateImage": {
-					const imageEntry = tool.requestId ? toolImageCache[tool.requestId] : undefined
-					const imageUrl = imageEntry?.dataUrl
-					const workspaceRelativePath = imageEntry?.workspaceRelativePath
-					const workspaceAbsolutePath = imageEntry?.workspaceAbsolutePath
+					const imageUrl = resolvedImageUrl ?? imageInlineUrl
+					console.log("imageURL", imageUrl)
+					const workspaceRelativePath = tool.workspaceRelativePath ?? resolvedImageRelativePath
+					const workspaceAbsolutePath = tool.workspaceAbsolutePath
+					const displayPath = workspaceAbsolutePath ?? workspaceRelativePath
 					const status = tool.status || (message.partial ? "generating" : "completed")
 					const isGenerating = status === "pending" || status === "generating" || message.partial
 					const handleOpenImage = () => {
@@ -770,6 +857,8 @@ export const ChatRowContent = memo(
 							console.error("Failed to open image:", err)
 						})
 					}
+
+					console.log("workspaceAbsolutePath", workspaceAbsolutePath)
 
 					return (
 						<>
@@ -869,6 +958,23 @@ export const ChatRowContent = memo(
 											{isGenerating
 												? t("tool.generateImageStatusGenerating", "chat")
 												: t("tool.generateImageImageUnavailable", "chat")}
+											{displayPath && (
+												<div
+													className="ph-no-capture"
+													onClick={handleOpenImage}
+													style={{
+														paddingTop: "8px",
+														color: "var(--vscode-descriptionForeground)",
+														fontSize: 12,
+														cursor: "pointer",
+														whiteSpace: "nowrap",
+														overflow: "hidden",
+														textOverflow: "ellipsis",
+													}}
+													title={displayPath}>
+													{t("tool.generateImageSavedPath", "chat", { path: displayPath })}
+												</div>
+											)}
 										</div>
 									)}
 								</div>
