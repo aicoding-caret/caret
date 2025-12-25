@@ -218,6 +218,9 @@ export function getButtonConfig(message: ClineMessage | undefined, _mode: Mode =
 	if (!message) {
 		return BUTTON_CONFIGS.default
 	}
+	if (message.askResolved) {
+		return BUTTON_CONFIGS.default
+	}
 
 	const isCompletionResultSay = message.type === "say" && message.say === "completion_result"
 	const isStreaming = message.partial === true
@@ -295,6 +298,9 @@ export function getButtonConfig(message: ClineMessage | undefined, _mode: Mode =
 	if (message.type === "say") {
 		if (message.say === "api_req_started") {
 			return BUTTON_CONFIGS.api_req_active
+		}
+		if (message.say === "command_output") {
+			return BUTTON_CONFIGS.default
 		}
 		if (message.say === "completion_result") {
 			return BUTTON_CONFIGS.completion_result
