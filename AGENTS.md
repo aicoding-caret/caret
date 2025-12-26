@@ -25,6 +25,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `.cline` 백업 파일 생성 규칙은 **deprecated** 입니다(새로 만들지 않습니다).
 - 보호 디렉토리(`src/`, `webview-ui/` 등) 내에 불가피하게 신규 파일을 추가해야 한다면(예: 테스트), 파일 상단에 `// CARET MODIFICATION:`으로 Caret 추가 파일임을 표기합니다.
 
+## 🗂 work-logs
+- `work-logs` 디렉토리는 상태/변경 질문 없이 무시합니다(사용자가 명시적으로 요청한 경우에만 언급).
+
 ## 🪪 Branding Utilities (필수)
 - 브랜드명/표기/규칙을 사용할 때는 반드시 **공용 유틸**을 호출합니다.
   - TypeScript/Extension: `caret-src/utils/brand-utils.ts`

@@ -13,7 +13,12 @@ export GOCACHE="${ROOT}/.cache/go-build"
 pushd "$ROOT" >/dev/null
 npm run protos
 npm run protos-go
+# CARET MODIFICATION: Node 버전 불일치로 인한 better-sqlite3 로딩 실패 방지
+npm rebuild better-sqlite3
 bash scripts/build-cli.sh
+# CARET MODIFICATION: standalone 빌드 산출물(cline-core.js) 포함
+npm run compile-standalone
+npm run postcompile-standalone
 export PATH="${ROOT}/dist-standalone/bin:$PATH"
 
 if [ "$#" -eq 0 ]; then
