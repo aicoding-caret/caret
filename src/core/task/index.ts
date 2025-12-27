@@ -1514,6 +1514,14 @@ export class Task {
 			const didEndLoop = await this.recursivelyMakeClineRequests(nextUserContent, includeFileDetails)
 			includeFileDetails = false // we only need file details the first time
 
+			if (this.taskState.retryUserContent) {
+				nextUserContent = this.taskState.retryUserContent
+				includeFileDetails = this.taskState.retryIncludeFileDetails ?? includeFileDetails
+				this.taskState.retryUserContent = undefined
+				this.taskState.retryIncludeFileDetails = undefined
+				continue
+			}
+
 			//  The way this agentic loop works is that cline will be given a task that he then calls tools to complete. unless there's an attempt_completion call, we keep responding back to him with his tool's responses until he either attempt_completion or does not use anymore tools. If he does not use anymore tools, we ask him to consider if he's completed the task and then call attempt_completion, otherwise proceed with completing the task.
 
 			//const totalCost = this.calculateApiCost(totalInputTokens, totalOutputTokens)
@@ -2778,6 +2786,7 @@ export class Task {
 		if (this.taskState.abort) {
 			throw new Error("Task instance aborted")
 		}
+		const baseUserContent = [...userContent]
 
 		// Increment API request counter for focus chain list management
 		this.taskState.apiRequestCount++
@@ -3556,17 +3565,24 @@ export class Task {
 					"Invalid API Response: The provider returned an empty or unparsable response. This is a provider-side issue where the model failed to generate valid output or returned tool calls that Cline cannot process. Retrying the request may help resolve this issue."
 				const errorText = reqId ? `${baseErrorMessage} (Request ID: ${reqId})` : baseErrorMessage
 
+				if (lastApiReqIndex !== -1) {
+					await updateApiReqMsg({
+						messageStateHandler: this.messageStateHandler,
+						lastApiReqIndex,
+						inputTokens,
+						outputTokens,
+						cacheWriteTokens,
+						cacheReadTokens,
+						totalCost,
+						api: this.api,
+						cancelReason: "streaming_failed",
+						streamingFailedMessage: errorText,
+					})
+					await this.messageStateHandler.saveClineMessagesAndUpdateHistory()
+					await this.postStateToWebview()
+				}
+
 				await this.say("error", errorText)
-				await this.messageStateHandler.addToApiConversationHistory({
-					role: "assistant",
-					content: [
-						{
-							type: "text",
-							text: "Failure: I did not provide a response.",
-						},
-					],
-					modelInfo,
-				})
 
 				let response: ClineAskResponse
 
@@ -3609,9 +3625,27 @@ export class Task {
 				}
 
 				if (response === "yesButtonClicked") {
+					const apiHistory = this.messageStateHandler.getApiConversationHistory()
+					const lastMessage = apiHistory.at(-1)
+					if (lastMessage?.role === "user") {
+						await this.messageStateHandler.overwriteApiConversationHistory(apiHistory.slice(0, -1))
+					}
+					this.taskState.retryUserContent = baseUserContent
+					this.taskState.retryIncludeFileDetails = includeFileDetails
 					// Signal the loop to continue (i.e., do not end), so it will attempt again
 					return false
 				}
+
+				await this.messageStateHandler.addToApiConversationHistory({
+					role: "assistant",
+					content: [
+						{
+							type: "text",
+							text: "Failure: I did not provide a response.",
+						},
+					],
+					modelInfo,
+				})
 
 				// Returns early to avoid retry since user dismissed
 				return true
