@@ -1,9 +1,11 @@
+// CARET MODIFICATION: Use Logger for backend error reporting.
 import { workspaceResolver } from "@core/workspace"
 import { openFile as openFileIntegration } from "@integrations/misc/open-file"
 import { Empty, StringRequest } from "@shared/proto/cline/common"
 import { getWorkspacePath } from "@utils/path"
 import * as fs from "fs"
 import { HostProvider } from "@/hosts/host-provider"
+import { Logger } from "@/services/logging/Logger"
 import { HistoryItem } from "@/shared/HistoryItem"
 import { Controller } from ".."
 
@@ -42,7 +44,7 @@ export async function openFileRelativePath(controller: Controller, request: Stri
 
 	const rootList = Array.from(uniqueRoots)
 	if (rootList.length === 0) {
-		console.error("Error in openFileRelativePath: No workspace path available")
+		Logger.error("Error in openFileRelativePath: No workspace path available")
 		return Empty.create()
 	}
 
@@ -61,6 +63,6 @@ export async function openFileRelativePath(controller: Controller, request: Stri
 		} catch {}
 	}
 
-	console.error("Error in openFileRelativePath: Failed to resolve path", request.value)
+	Logger.error(`Error in openFileRelativePath: Failed to resolve path ${request.value}`)
 	return Empty.create()
 }

@@ -1,3 +1,4 @@
+// CARET MODIFICATION: Support data URL reads for tool-generated images with safe path checks.
 import { workspaceResolver } from "@core/workspace"
 import { String, StringRequest } from "@shared/proto/cline/common"
 import { getWorkspacePath } from "@utils/path"
@@ -6,6 +7,7 @@ import path from "path"
 import { fileURLToPath } from "url"
 import { getSavedClineMessages } from "@/core/storage/disk"
 import { HostProvider } from "@/hosts/host-provider"
+import { Logger } from "@/services/logging/Logger"
 import type { ClineMessage } from "@/shared/ExtensionMessage"
 import { HistoryItem } from "@/shared/HistoryItem"
 import { Controller } from ".."
@@ -41,7 +43,7 @@ export async function readFileDataUrlRelativePath(controller: Controller, reques
 			return `data:${mimeType};base64,${base64}`
 		} catch (error) {
 			if (logError) {
-				console.error("Error in readFileDataUrlRelativePath: Failed to read file", absolutePath, error)
+				Logger.error(`Error in readFileDataUrlRelativePath: Failed to read file ${absolutePath}`, error as Error)
 			}
 			return undefined
 		}
@@ -64,10 +66,48 @@ export async function readFileDataUrlRelativePath(controller: Controller, reques
 		return String.create({ value: "" })
 	}
 
+	const workspacePaths = (await HostProvider.workspace.getWorkspacePaths({})).paths
+	const uniqueRoots = new Set(workspacePaths.filter(Boolean))
+	if (uniqueRoots.size === 0) {
+		const fallbackRoot = await getWorkspacePath()
+		if (fallbackRoot) {
+			uniqueRoots.add(fallbackRoot)
+		}
+	}
+
+	for (const root of controller.getWorkspaceManager()?.getRoots() ?? []) {
+		if (root.path) {
+			uniqueRoots.add(root.path)
+		}
+	}
+
+	const taskHistory = controller.stateManager.getGlobalStateKey("taskHistory") as HistoryItem[] | undefined
+	for (const item of taskHistory ?? []) {
+		if (item?.cwdOnTaskInitialization) {
+			uniqueRoots.add(item.cwdOnTaskInitialization)
+		}
+	}
+
+	const rootList = Array.from(uniqueRoots)
+	const isPathWithinRoots = (absolutePath: string): boolean => {
+		if (rootList.length === 0) {
+			return false
+		}
+		const normalizedPath = path.resolve(absolutePath)
+		return rootList.some((root) => {
+			const normalizedRoot = path.resolve(root)
+			return normalizedPath === normalizedRoot || normalizedPath.startsWith(`${normalizedRoot}${path.sep}`)
+		})
+	}
+
 	if (path.isAbsolute(requestPath)) {
+		if (!isPathWithinRoots(requestPath)) {
+			Logger.warn(`Error in readFileDataUrlRelativePath: Refusing absolute path ${requestPath}`)
+			return String.create({ value: "" })
+		}
 		const dataUrl = await readDataUrl(requestPath, true)
 		if (!dataUrl) {
-			console.error("Error in readFileDataUrlRelativePath: Failed to read absolute path", requestPath)
+			Logger.error(`Error in readFileDataUrlRelativePath: Failed to read absolute path ${requestPath}`)
 		}
 		return String.create({ value: dataUrl ?? "" })
 	}
@@ -110,7 +150,7 @@ export async function readFileDataUrlRelativePath(controller: Controller, reques
 			const savedMessages = await getSavedClineMessages(controller.task.taskId)
 			taskAbsolutePath = findAbsolutePathInMessages(savedMessages, requestPath)
 		} catch (error) {
-			console.error("Error in readFileDataUrlRelativePath: Failed to read saved task messages", error)
+			Logger.error("Error in readFileDataUrlRelativePath: Failed to read saved task messages", error as Error)
 		}
 	}
 	if (taskAbsolutePath) {
@@ -120,32 +160,8 @@ export async function readFileDataUrlRelativePath(controller: Controller, reques
 		}
 	}
 
-	const workspacePaths = (await HostProvider.workspace.getWorkspacePaths({})).paths
-	const uniqueRoots = new Set(workspacePaths.filter(Boolean))
-	if (uniqueRoots.size === 0) {
-		const fallbackRoot = await getWorkspacePath()
-		if (fallbackRoot) {
-			uniqueRoots.add(fallbackRoot)
-		}
-	}
-
-	for (const root of controller.getWorkspaceManager()?.getRoots() ?? []) {
-		if (root.path) {
-			uniqueRoots.add(root.path)
-		}
-	}
-
-	const taskHistory = controller.stateManager.getGlobalStateKey("taskHistory") as HistoryItem[] | undefined
-	for (const item of taskHistory ?? []) {
-		if (item?.cwdOnTaskInitialization) {
-			uniqueRoots.add(item.cwdOnTaskInitialization)
-		}
-	}
-
-	const rootList = Array.from(uniqueRoots)
-
 	if (rootList.length === 0) {
-		console.error("Error in readFileDataUrlRelativePath: No workspace path available")
+		Logger.error("Error in readFileDataUrlRelativePath: No workspace path available")
 		return String.create({ value: "" })
 	}
 
@@ -164,6 +180,6 @@ export async function readFileDataUrlRelativePath(controller: Controller, reques
 		} catch {}
 	}
 
-	console.error("Error in readFileDataUrlRelativePath: Failed to resolve path", requestPath)
+	Logger.error(`Error in readFileDataUrlRelativePath: Failed to resolve path ${requestPath}`)
 	return String.create({ value: "" })
 }

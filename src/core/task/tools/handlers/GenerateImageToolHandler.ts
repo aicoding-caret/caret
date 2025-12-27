@@ -1,5 +1,7 @@
+// CARET MODIFICATION: Generate images via Caret API with branded notifications and Logger output.
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
+import { getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
 import { ClineAsk, ClineSayTool } from "@shared/ExtensionMessage"
 import type { ToolImageEvent } from "@shared/proto/cline/ui"
 import { ClineDefaultTool } from "@shared/tools"
@@ -7,6 +9,7 @@ import * as fs from "fs/promises"
 import * as path from "path"
 import { sendToolImageEvent } from "@/core/controller/ui/subscribeToToolImageEvents"
 import { buildClineExtraHeaders } from "@/services/EnvUtils"
+import { Logger } from "@/services/logging/Logger"
 import { telemetryService } from "@/services/telemetry"
 import { fetch } from "@/shared/net"
 import { ToolUse } from "../../../assistant-message"
@@ -207,7 +210,11 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					block.isNativeToolCall,
 				)
 			} else {
-				showNotificationForApproval(`Caret wants to generate an image`, config.autoApprovalSettings.enableNotifications)
+				const brandName = getCurrentBrandDisplayName()
+				showNotificationForApproval(
+					`${brandName} wants to generate an image`,
+					config.autoApprovalSettings.enableNotifications,
+				)
 				await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")
 
 				const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config)
@@ -398,7 +405,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 											savedMarkdownPath = markdownPath
 										}
 									} catch (error) {
-										console.error("Failed to save generated image assets:", error)
+										Logger.error("Failed to save generated image assets", error as Error)
 									}
 								}
 								const toolImageEvent: ToolImageEvent = {

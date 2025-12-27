@@ -156,6 +156,14 @@ export function getBrandMcpSettingsFileName(): string {
 }
 
 /**
+ * CARET MODIFICATION: Get brand-specific assets directory name (e.g., ".caretassets").
+ */
+export function getBrandAssetsDirName(): string {
+	const brandName = getCurrentBrandName().toLowerCase()
+	return `.${brandName}assets`
+}
+
+/**
  * CARET MODIFICATION: Get brand-specific ignore filename (e.g., ".caretignore")
  */
 export function getBrandIgnoreFileName(): string {

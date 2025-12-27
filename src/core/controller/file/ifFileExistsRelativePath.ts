@@ -1,8 +1,10 @@
+// CARET MODIFICATION: Use Logger for backend error reporting.
 import { workspaceResolver } from "@core/workspace"
 import { BooleanResponse, StringRequest } from "@shared/proto/cline/common"
 import { getWorkspacePath } from "@utils/path"
 import * as fs from "fs"
 import { HostProvider } from "@/hosts/host-provider"
+import { Logger } from "@/services/logging/Logger"
 import { HistoryItem } from "@/shared/HistoryItem"
 import { Controller } from ".."
 
@@ -44,7 +46,7 @@ export async function ifFileExistsRelativePath(controller: Controller, request: 
 
 	if (rootList.length === 0) {
 		// If no workspace is open, return false
-		console.error("Error in ifFileExistsRelativePath: No workspace path available") // TODO
+		Logger.error("Error in ifFileExistsRelativePath: No workspace path available")
 		return BooleanResponse.create({ value: false })
 	}
 

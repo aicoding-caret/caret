@@ -1,3 +1,4 @@
+// CARET MODIFICATION: Add generate_image tool specification for image generation.
 import { ModelFamily } from "@/shared/prompts"
 import { ClineDefaultTool } from "@/shared/tools"
 import type { ClineToolSpec } from "../spec"

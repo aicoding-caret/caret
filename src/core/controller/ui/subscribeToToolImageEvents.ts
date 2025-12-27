@@ -1,5 +1,7 @@
+// CARET MODIFICATION: Stream tool image events with Logger-based error reporting.
 import { EmptyRequest } from "@shared/proto/cline/common"
 import { ToolImageEvent } from "@shared/proto/cline/ui"
+import { Logger } from "@/services/logging/Logger"
 import { getRequestRegistry, StreamingResponseHandler } from "../grpc-handler"
 import { Controller } from "../index"
 
@@ -34,7 +36,7 @@ export async function sendToolImageEvent(event: ToolImageEvent): Promise<void> {
 		try {
 			await responseStream(event, false)
 		} catch (error) {
-			console.error("Error sending tool image event:", error)
+			Logger.error("Error sending tool image event", error as Error)
 			activeToolImageSubscriptions.delete(responseStream)
 		}
 	})
