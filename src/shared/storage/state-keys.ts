@@ -125,6 +125,8 @@ export interface Settings {
 	customPrompt: "compact" | undefined
 	difyBaseUrl: string | undefined
 	autoCondenseThreshold: number | undefined // number from 0 to 1
+	imageGenerationAspectRatio: string | undefined
+	imageGenerationSize: string | undefined
 	ocaBaseUrl: string | undefined
 	minimaxApiLine: string | undefined
 	ocaMode: string | undefined

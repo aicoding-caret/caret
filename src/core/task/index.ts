@@ -73,6 +73,7 @@ import { isClaude4PlusModelFamily, isGPT5ModelFamily, isLocalModel, isNextGenMod
 import { arePathsEqual, getDesktopDir } from "@utils/path"
 import { filterExistingFiles } from "@utils/tabFiltering"
 import cloneDeep from "clone-deep"
+import * as fs from "fs"
 import Mutex from "p-mutex"
 import pWaitFor from "p-wait-for"
 import * as path from "path"
@@ -144,6 +145,7 @@ export class Task {
 	readonly taskId: string
 	readonly ulid: string
 	private taskIsFavorited?: boolean
+	private historyItem?: HistoryItem
 	private cwd: string
 	private taskInitializationStartTime: number
 
@@ -342,6 +344,7 @@ export class Task {
 		})
 
 		this.taskId = taskId
+		this.historyItem = historyItem
 
 		// Initialize taskId first
 		if (historyItem) {
@@ -363,6 +366,7 @@ export class Task {
 			taskState: this.taskState,
 			taskIsFavorited: this.taskIsFavorited,
 			updateTaskHistory: this.updateTaskHistory,
+			cwdOnTaskInitialization: this.cwd,
 		})
 
 		// Initialize file context tracker
@@ -681,6 +685,21 @@ export class Task {
 				throw new Error("Cline instance aborted")
 			}
 			if (this.taskState.lastAskTs !== askTs) {
+				try {
+					const clineMessages = this.messageStateHandler.getClineMessages()
+					const ignoredAskIndex = findLastIndex(
+						clineMessages,
+						(message) => message.type === "ask" && message.ts === askTs,
+					)
+					if (ignoredAskIndex !== -1) {
+						await this.messageStateHandler.updateClineMessage(ignoredAskIndex, {
+							askResolved: true,
+						})
+						await this.postStateToWebview()
+					}
+				} catch (error) {
+					Logger.error(`[Task ${this.taskId}] Failed to mark ignored ask as resolved`, error)
+				}
 				throw new Error("Current ask promise was ignored") // could happen if we send multiple asks in a row i.e. with command_output. It's important that when we know an ask could fail, it is handled gracefully
 			}
 			const result = {
@@ -703,10 +722,33 @@ export class Task {
 	}
 
 	async handleWebviewAskResponse(askResponse: ClineAskResponse, text?: string, images?: string[], files?: string[]) {
-		this.taskState.askResponse = askResponse
-		this.taskState.askResponseText = text
-		this.taskState.askResponseImages = images
-		this.taskState.askResponseFiles = files
+		const lastAskTs = this.taskState.lastAskTs
+		if (!lastAskTs) {
+			return
+		}
+
+		try {
+			const clineMessages = this.messageStateHandler.getClineMessages()
+			const lastAskMessage = findLast(clineMessages, (message) => message.type === "ask" && message.ts === lastAskTs)
+			if (!lastAskMessage || lastAskMessage.askResolved) {
+				return
+			}
+
+			this.taskState.askResponse = askResponse
+			this.taskState.askResponseText = text
+			this.taskState.askResponseImages = images
+			this.taskState.askResponseFiles = files
+
+			const lastAskIndex = findLastIndex(clineMessages, (message) => message.type === "ask" && message.ts === lastAskTs)
+			if (lastAskIndex !== -1) {
+				await this.messageStateHandler.updateClineMessage(lastAskIndex, {
+					askResolved: true,
+				})
+				await this.postStateToWebview()
+			}
+		} catch (error) {
+			Logger.error(`[Task ${this.taskId}] Failed to mark ask as resolved`, error)
+		}
 	}
 
 	async say(
@@ -919,6 +961,168 @@ export class Task {
 		}
 	}
 
+	private addAbsolutePathsToGenerateImageMessages(messages: ClineMessage[]): ClineMessage[] {
+		const candidateRoots = new Set<string>()
+		const historyWorkspaceRoot = this.historyItem?.cwdOnTaskInitialization
+		if (historyWorkspaceRoot) {
+			candidateRoots.add(historyWorkspaceRoot)
+		}
+		if (this.cwd) {
+			candidateRoots.add(this.cwd)
+		}
+		for (const root of this.workspaceManager?.getRoots() ?? []) {
+			if (root.path) {
+				candidateRoots.add(root.path)
+			}
+		}
+
+		let didUpdate = false
+		const resolveAbsolutePath = (relativePath: string): string | undefined => {
+			if (path.isAbsolute(relativePath)) {
+				return relativePath
+			}
+			for (const root of candidateRoots) {
+				const candidate = path.join(root, relativePath)
+				if (fs.existsSync(candidate)) {
+					return candidate
+				}
+			}
+			return undefined
+		}
+		const nextMessages = messages.map((message) => {
+			const isToolMessage =
+				(message.type === "say" && message.say === "tool") || (message.type === "ask" && message.ask === "tool")
+			if (!isToolMessage || !message.text) {
+				return message
+			}
+
+			let parsed: unknown
+			try {
+				parsed = JSON.parse(message.text)
+			} catch {
+				return message
+			}
+
+			if (!parsed || typeof parsed !== "object") {
+				return message
+			}
+
+			const payload = parsed as Record<string, unknown>
+
+			if (payload.tool !== "generateImage") {
+				return message
+			}
+
+			if (typeof payload.workspaceAbsolutePath === "string" && payload.workspaceAbsolutePath.length > 0) {
+				return message
+			}
+
+			const relativePath = typeof payload.workspaceRelativePath === "string" ? payload.workspaceRelativePath : ""
+			if (!relativePath) {
+				return message
+			}
+
+			const absolutePath = resolveAbsolutePath(relativePath)
+			if (!absolutePath) {
+				return message
+			}
+			didUpdate = true
+
+			return {
+				...message,
+				text: JSON.stringify({
+					...payload,
+					workspaceAbsolutePath: absolutePath,
+				}),
+			}
+		})
+
+		return didUpdate ? nextMessages : messages
+	}
+
+	private async addImageDataUrlsToGenerateImageMessages(messages: ClineMessage[]): Promise<ClineMessage[]> {
+		const mimeByExtension: Record<string, string> = {
+			".png": "image/png",
+			".jpg": "image/jpeg",
+			".jpeg": "image/jpeg",
+			".webp": "image/webp",
+			".gif": "image/gif",
+			".avif": "image/avif",
+			".svg": "image/svg+xml",
+		}
+		let didUpdate = false
+
+		const readDataUrl = async (absolutePath: string): Promise<string | undefined> => {
+			try {
+				if (!fs.existsSync(absolutePath)) {
+					return undefined
+				}
+				const buffer = await fs.promises.readFile(absolutePath)
+				const extension = path.extname(absolutePath).toLowerCase()
+				const mimeType = mimeByExtension[extension] ?? "application/octet-stream"
+				return `data:${mimeType};base64,${buffer.toString("base64")}`
+			} catch (error) {
+				console.error(`[Task ${this.taskId}] Failed to read image for history preview`, absolutePath, error)
+				return undefined
+			}
+		}
+
+		const nextMessages = await Promise.all(
+			messages.map(async (message) => {
+				const isToolMessage =
+					(message.type === "say" && message.say === "tool") || (message.type === "ask" && message.ask === "tool")
+				if (!isToolMessage || !message.text) {
+					return message
+				}
+
+				let parsed: unknown
+				try {
+					parsed = JSON.parse(message.text)
+				} catch {
+					return message
+				}
+
+				if (!parsed || typeof parsed !== "object") {
+					return message
+				}
+
+				const payload = parsed as Record<string, unknown>
+
+				if (payload.tool !== "generateImage") {
+					return message
+				}
+
+				if (typeof payload.imageUrl === "string" && payload.imageUrl.length > 0) {
+					return message
+				}
+
+				const absolutePath =
+					typeof payload.workspaceAbsolutePath === "string" && payload.workspaceAbsolutePath.length > 0
+						? payload.workspaceAbsolutePath
+						: undefined
+				if (!absolutePath) {
+					return message
+				}
+
+				const dataUrl = await readDataUrl(absolutePath)
+				if (!dataUrl) {
+					return message
+				}
+
+				didUpdate = true
+				return {
+					...message,
+					text: JSON.stringify({
+						...payload,
+						imageUrl: dataUrl,
+					}),
+				}
+			}),
+		)
+
+		return didUpdate ? nextMessages : messages
+	}
+
 	// Task lifecycle
 
 	public async startTask(task?: string, images?: string[], files?: string[]): Promise<void> {
@@ -1068,7 +1272,9 @@ export class Task {
 			}
 		}
 
-		await this.messageStateHandler.overwriteClineMessages(savedClineMessages)
+		const patchedClineMessages = this.addAbsolutePathsToGenerateImageMessages(savedClineMessages)
+		const patchedWithImageUrls = await this.addImageDataUrlsToGenerateImageMessages(patchedClineMessages)
+		await this.messageStateHandler.overwriteClineMessages(patchedWithImageUrls)
 		this.messageStateHandler.setClineMessages(await getSavedClineMessages(this.taskId))
 
 		// Now present the cline messages to the user and ask if they want to resume (NOTE: we ran into a bug before where the apiconversationhistory wouldn't be initialized when opening a old task, and it was because we were waiting for resume)
@@ -1308,6 +1514,14 @@ export class Task {
 			const didEndLoop = await this.recursivelyMakeClineRequests(nextUserContent, includeFileDetails)
 			includeFileDetails = false // we only need file details the first time
 
+			if (this.taskState.retryUserContent) {
+				nextUserContent = this.taskState.retryUserContent
+				includeFileDetails = this.taskState.retryIncludeFileDetails ?? includeFileDetails
+				this.taskState.retryUserContent = undefined
+				this.taskState.retryIncludeFileDetails = undefined
+				continue
+			}
+
 			//  The way this agentic loop works is that cline will be given a task that he then calls tools to complete. unless there's an attempt_completion call, we keep responding back to him with his tool's responses until he either attempt_completion or does not use anymore tools. If he does not use anymore tools, we ask him to consider if he's completed the task and then call attempt_completion, otherwise proceed with completing the task.
 
 			//const totalCost = this.calculateApiCost(totalInputTokens, totalOutputTokens)
@@ -1508,7 +1722,11 @@ export class Task {
 	}
 
 	// Tools
-	async executeCommandTool(command: string, timeoutSeconds: number | undefined): Promise<[boolean, ClineToolResponseContent]> {
+	async executeCommandTool(
+		command: string,
+		timeoutSeconds: number | undefined,
+		options?: { autoContinueOnOutput?: boolean; autoContinueDelayMs?: number },
+	): Promise<[boolean, ClineToolResponseContent]> {
 		// For Cline CLI subagents, we want to parse and process the command to ensure flags are correct
 		const isSubagent = isSubagentCommand(command)
 
@@ -1597,9 +1815,77 @@ export class Task {
 				clearCommandState()
 			})
 
+		const autoContinueOnOutput = options?.autoContinueOnOutput ?? false
+		const autoContinueDelayMs = options?.autoContinueDelayMs ?? 1000
+
 		let userFeedback: { text?: string; images?: string[]; files?: string[] } | undefined
 		let didContinue = false
 		let didCancelViaUi = false
+		let completed = false
+		let pendingCommandOutputAsk = false
+		let autoResolvedCommandOutputAsk = false
+		let didResolveCommandOutputAsk = false
+		let autoContinueTimer: NodeJS.Timeout | null = null
+
+		const resolvePendingCommandOutputAsk = async (reason: string) => {
+			if (!pendingCommandOutputAsk || didResolveCommandOutputAsk) {
+				return false
+			}
+
+			didResolveCommandOutputAsk = true
+			pendingCommandOutputAsk = false
+			autoResolvedCommandOutputAsk = true
+
+			try {
+				const clineMessages = this.messageStateHandler.getClineMessages()
+				const lastCommandOutputAskIndex = findLastIndex(
+					clineMessages,
+					(message) => message.type === "ask" && message.ask === "command_output",
+				)
+				if (lastCommandOutputAskIndex !== -1) {
+					await this.messageStateHandler.updateClineMessage(lastCommandOutputAskIndex, {
+						type: "say",
+						say: "command_output",
+						ask: undefined,
+					})
+					await this.postStateToWebview()
+				}
+			} catch (error) {
+				Logger.error(`[Task ${this.taskId}] Failed to resolve command_output ask (${reason})`, error)
+			}
+
+			this.handleWebviewAskResponse("yesButtonClicked")
+			return true
+		}
+
+		const clearAutoContinueTimer = () => {
+			if (autoContinueTimer) {
+				clearTimeout(autoContinueTimer)
+				autoContinueTimer = null
+			}
+		}
+
+		const triggerAutoContinue = async (reason: string) => {
+			if (!autoContinueOnOutput || didContinue || didCancelViaUi || completed) {
+				return false
+			}
+			clearAutoContinueTimer()
+			didContinue = true
+			pendingCommandOutputAsk = false
+			autoResolvedCommandOutputAsk = false
+			if (chunkTimer) {
+				clearTimeout(chunkTimer)
+				chunkTimer = null
+			}
+			outputBuffer = []
+			outputBufferSize = 0
+			try {
+				process.continue()
+			} catch (error) {
+				Logger.error(`[Task ${this.taskId}] Failed to auto-continue command (${reason})`, error)
+			}
+			return true
+		}
 
 		// Chunked terminal output buffering
 		const CHUNK_LINE_COUNT = 20
@@ -1614,6 +1900,12 @@ export class Task {
 		let bufferStuckTimer: NodeJS.Timeout | null = null
 		const BUFFER_STUCK_TIMEOUT_MS = 6000 // 6 seconds
 
+		if (autoContinueOnOutput) {
+			autoContinueTimer = setTimeout(() => {
+				void triggerAutoContinue("auto_continue_timeout")
+			}, autoContinueDelayMs)
+		}
+
 		const flushBuffer = async (force = false) => {
 			if (outputBuffer.length === 0) {
 				if (force) {
@@ -1626,6 +1918,22 @@ export class Task {
 			outputBuffer = []
 			outputBufferSize = 0
 
+			if (completed) {
+				await this.say("command_output", chunk)
+				return
+			}
+			if (didContinue) {
+				await this.say("command_output", chunk)
+				return
+			}
+
+			if (autoContinueOnOutput && !didContinue) {
+				clearAutoContinueTimer()
+				await this.say("command_output", chunk)
+				await triggerAutoContinue("auto_continue_output")
+				return
+			}
+
 			// Start timer to detect if buffer gets stuck
 			bufferStuckTimer = setTimeout(() => {
 				telemetryService.captureTerminalHang(TerminalHangStage.BUFFER_STUCK)
@@ -1633,10 +1941,15 @@ export class Task {
 			}, BUFFER_STUCK_TIMEOUT_MS)
 
 			try {
+				pendingCommandOutputAsk = true
 				const { response, text, images, files } = await this.ask("command_output", chunk)
+				const wasAutoResolved = autoResolvedCommandOutputAsk
+				autoResolvedCommandOutputAsk = false
 				if (response === "yesButtonClicked") {
 					// Track when user clicks "Process while Running"
-					telemetryService.captureTerminalUserIntervention(TerminalUserInterventionAction.PROCESS_WHILE_RUNNING)
+					if (!wasAutoResolved) {
+						telemetryService.captureTerminalUserIntervention(TerminalUserInterventionAction.PROCESS_WHILE_RUNNING)
+					}
 					// proceed while running - but still capture user feedback if provided
 					if (text || (images && images.length > 0) || (files && files.length > 0)) {
 						userFeedback = { text, images, files }
@@ -1649,6 +1962,7 @@ export class Task {
 					userFeedback = { text, images, files }
 				}
 				didContinue = true
+				clearAutoContinueTimer()
 				process.continue()
 
 				if (didCancelViaUi) {
@@ -1664,6 +1978,8 @@ export class Task {
 			} catch {
 				Logger.error("Error while asking for command output")
 			} finally {
+				pendingCommandOutputAsk = false
+				autoResolvedCommandOutputAsk = false
 				// If the command finishes execution before the 'command_output' ask promise resolves (in other words before the user responded to the ask, which is expected when the command finishes execution first), this block is reached. This is expected and safe to ignore, as no further handling is required.
 
 				// Clear the stuck timer
@@ -1710,7 +2026,6 @@ export class Task {
 			}
 		})
 
-		let completed = false
 		let completionTimer: NodeJS.Timeout | null = null
 		const COMPLETION_TIMEOUT_MS = 6000 // 6 seconds
 
@@ -1724,6 +2039,8 @@ export class Task {
 
 		process.once("completed", async () => {
 			completed = true
+			clearAutoContinueTimer()
+			await resolvePendingCommandOutputAsk("completed")
 			//await this.say("shell_integration_warning_with_suggestion")
 			// Clear the completion timer
 			if (completionTimer) {
@@ -1750,6 +2067,11 @@ export class Task {
 			}
 		})
 
+		process.once("error", async () => {
+			clearAutoContinueTimer()
+			await resolvePendingCommandOutputAsk("error")
+		})
+
 		//await process
 
 		if (!didCancelViaUi) {
@@ -1765,6 +2087,7 @@ export class Task {
 				} catch (error) {
 					// This will continue running the command in the background
 					didContinue = true
+					clearAutoContinueTimer()
 					process.continue()
 
 					// Clear all our timers
@@ -1801,6 +2124,7 @@ export class Task {
 			clearTimeout(completionTimer)
 			completionTimer = null
 		}
+		clearAutoContinueTimer()
 
 		// Wait for a short delay to ensure all messages are sent to the webview
 		// This delay allows time for non-awaited promises to be created and
@@ -2462,6 +2786,7 @@ export class Task {
 		if (this.taskState.abort) {
 			throw new Error("Task instance aborted")
 		}
+		const baseUserContent = [...userContent]
 
 		// Increment API request counter for focus chain list management
 		this.taskState.apiRequestCount++
@@ -3240,17 +3565,24 @@ export class Task {
 					"Invalid API Response: The provider returned an empty or unparsable response. This is a provider-side issue where the model failed to generate valid output or returned tool calls that Cline cannot process. Retrying the request may help resolve this issue."
 				const errorText = reqId ? `${baseErrorMessage} (Request ID: ${reqId})` : baseErrorMessage
 
+				if (lastApiReqIndex !== -1) {
+					await updateApiReqMsg({
+						messageStateHandler: this.messageStateHandler,
+						lastApiReqIndex,
+						inputTokens,
+						outputTokens,
+						cacheWriteTokens,
+						cacheReadTokens,
+						totalCost,
+						api: this.api,
+						cancelReason: "streaming_failed",
+						streamingFailedMessage: errorText,
+					})
+					await this.messageStateHandler.saveClineMessagesAndUpdateHistory()
+					await this.postStateToWebview()
+				}
+
 				await this.say("error", errorText)
-				await this.messageStateHandler.addToApiConversationHistory({
-					role: "assistant",
-					content: [
-						{
-							type: "text",
-							text: "Failure: I did not provide a response.",
-						},
-					],
-					modelInfo,
-				})
 
 				let response: ClineAskResponse
 
@@ -3293,9 +3625,27 @@ export class Task {
 				}
 
 				if (response === "yesButtonClicked") {
+					const apiHistory = this.messageStateHandler.getApiConversationHistory()
+					const lastMessage = apiHistory.at(-1)
+					if (lastMessage?.role === "user") {
+						await this.messageStateHandler.overwriteApiConversationHistory(apiHistory.slice(0, -1))
+					}
+					this.taskState.retryUserContent = baseUserContent
+					this.taskState.retryIncludeFileDetails = includeFileDetails
 					// Signal the loop to continue (i.e., do not end), so it will attempt again
 					return false
 				}
+
+				await this.messageStateHandler.addToApiConversationHistory({
+					role: "assistant",
+					content: [
+						{
+							type: "text",
+							text: "Failure: I did not provide a response.",
+						},
+					],
+					modelInfo,
+				})
 
 				// Returns early to avoid retry since user dismissed
 				return true
