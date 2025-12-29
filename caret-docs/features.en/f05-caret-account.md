@@ -14,7 +14,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - Dual account routing (Caret + Cline coexistence).
 - Caret Auth API flow (`/v1/auth/*`) with JWT access tokens.
 - Caret provider via OpenAI-compatible API (`/v1/chat/completions`).
-- Image generation tool (`/v1/generate/image`) with workspace asset outputs.
+- Image generation tool (`/v1/generate/image`) with workspace generated-assets outputs.
 
 ## 🆚 Improvements vs Cline
 | Area | Cline | Caret |
@@ -47,9 +47,9 @@ Caret account + provider stack that branches at the entry points while keeping C
 - **Auth state**: `CaretAuthContext` subscribes to Caret auth stream; `CaretAuthService` refreshes tokens and exposes `getAuthToken()` for provider + image calls.
 - **Provider selection**: Settings `CaretProvider` + `CaretModelPicker` write `caretModelId`/`caretModelInfo` into `ExtensionStateContext` (plan/act mode fields).
 - **Provider execution**: `src/core/api/index.ts` dispatches `"caret"` to `CaretHandler` (OpenAI SDK over `${apiBaseUrl}/v1` with Caret auth token and extra headers). Reasoning passthrough respects `shouldSkipReasoningForModel`.
-- **Image outputs**: `generate_image` writes files under `<workspace>/assets/`:
-  - `assets/<request_id>.<ext>` (image)
-  - `assets/<request_id>.md` (frontmatter + prompt + image link)
+- **Image outputs**: `generate_image` writes files under `<workspace>/.agents/generated-assets/`:
+  - `.agents/generated-assets/<request_id>.<ext>` (image)
+  - `.agents/generated-assets/<request_id>.md` (frontmatter + prompt + image link)
 - **CLI parity**: `auth_caret_provider.go` uses static models from generated definitions, sets default model, and calls the same gRPC auth endpoints.
 
 ## 🌐 API Surface (caret.team)
@@ -71,7 +71,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 1) Webview: F5 → Account tab → CaretAccountView renders with balance/usage/profile via gRPC.
 2) Settings: Caret login button works; model picker lists Caret models; selected model stored per mode.
 3) Provider: Send chat with Caret provider; verify `CaretHandler` uses Caret token and selected model, reasoning skip logic behaves.
-4) Image tool: generate image and confirm `assets/<request_id>.*` files are created and relative paths are shown in tool output.
+4) Image tool: generate image and confirm `.agents/generated-assets/<request_id>.*` files are created and relative paths are shown in tool output.
 5) CLI: `npm run cli-providers` (after model changes) and `npm run protos-go` if proto changes; `cline auth` → Caret login + default model applied.
 
 ## 🧭 Maintenance Notes

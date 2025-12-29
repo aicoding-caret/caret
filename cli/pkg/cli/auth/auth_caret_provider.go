@@ -30,7 +30,7 @@ func HandleCaretAuth(ctx context.Context) error {
 
 	if err := configureDefaultCaretModel(ctx); err != nil {
 		fmt.Printf("Warning: Could not configure default Caret model: %v\n", err)
-		fmt.Println("You can configure a model later with 'cline auth' and selecting 'Select active provider'")
+		fmt.Printf("You can configure a model later with '%s auth' and selecting 'Select active provider'\n", common.BrandCommandName())
 	}
 
 	return HandleAuthMenuNoArgs(ctx)
@@ -122,7 +122,7 @@ func caretSignIn(ctx context.Context) error {
 	if err := listener.WaitForAuthentication(5 * time.Minute); err != nil {
 		verboseLog("Caret authentication failed or timed out: %v", err)
 		fmt.Println("\n  Authentication failed or timed out.")
-		fmt.Println("  Please try again with 'caret auth'")
+		fmt.Printf("  Please try again with '%s auth'\n", common.BrandCommandName())
 		return err
 	}
 
@@ -160,7 +160,7 @@ func IsCaretAuthenticated(ctx context.Context) bool {
 func HandleChangeCaretModel(ctx context.Context) error {
 	// Ensure user is authenticated
 	if !IsCaretAuthenticated(ctx) {
-		return fmt.Errorf("you must be authenticated with Caret to change models. Run 'cline auth' to sign in")
+		return fmt.Errorf("you must be authenticated with Caret to change models. Run '%s auth' to sign in", common.BrandCommandName())
 	}
 
 	// Get task manager

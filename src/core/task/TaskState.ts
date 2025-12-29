@@ -54,6 +54,7 @@ export class TaskState {
 
 	// Task Initialization
 	isInitialized = false
+	agentsInitPrompted = false
 
 	// Focus Chain / Todo List Management
 	apiRequestCount: number = 0

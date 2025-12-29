@@ -431,18 +431,18 @@
 	"rules": {
 		"section": {
 			"title": "ルール管理",
-			"description": "プロジェクトルールファイルの管理と優先順位の設定。",
+			"description": "Caret のルールとワークフローを管理します。",
 			"workspaceRules": "ワークスペースルール",
 			"globalRules": "グローバルルール",
-			"caretRules": ".caretrulesファイル",
-			"clineRules": ".clinerulesファイル",
-			"cursorRules": ".cursorrulesファイル",
-			"windsurfRules": ".windsurfrulesファイル"
+			"caretRules": ".agents/context ディレクトリ",
+			"clineRules": "レガシー .agents/context（無視）",
+			"cursorRules": "レガシー .agents/context（無視）",
+			"windsurfRules": "レガシー .agents/context（無視）"
 		},
 		"priority": {
-			"title": "ルール優先順位",
-			"description": "ルールファイル優先順位: .caretrules > .clinerules > .cursorrules > .windsurfrules",
-			"info": "優先順位の高いルールが存在する場合、低い優先順位のルールは自動的に無効化されます。"
+			"title": "ルールのソース",
+			"description": "Caret は .agents/context と AGENTS.md（再帰）を読みます。レガシーのルールファイルは無視されます。",
+			"info": "ルールは結合して適用され、優先度の切り替えはありません。"
 		},
 		"buttons": {
 			"toggle": "切り替え",
@@ -983,6 +983,10 @@
 			"name": "Huawei Cloud MaaS",
 			"description": "Huawei Cloud MaaS (Model-as-a-Service) は、様々なAIモデルを提供します。",
 			"providerName": "Huawei Cloud MaaS"
+		},
+		"naver-cloud": {
+			"name": "Naver Cloud",
+			"description": "Naver Cloudは韓国語の文脈に最適化されたHyper Clova X (HCX)モデルを提供します。"
 		},
 		"dify": {
 			"name": "Dify.ai",

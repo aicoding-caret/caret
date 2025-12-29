@@ -48,7 +48,7 @@
   - package.json 메타데이터 (displayName, author, icons 등)
   - 아이콘 경로 (assets/icons ↔ assets/icons)  
   - 터미널 이름 및 이밎 (TerminalRegistry)
-  - 규칙 파일 (.clinerules ↔ .caretrules)
+  - 규칙 파일 (.agents/context)
 
 
 **2단계: 백엔드 메시지 및 브랜드 전환구축**

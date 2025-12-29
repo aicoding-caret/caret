@@ -6,6 +6,11 @@ export interface SlashCommand {
 
 export const DEFAULT_SLASH_COMMANDS: SlashCommand[] = [
 	{
+		name: "init",
+		description: "Scaffold and populate the .agents/context standard",
+		section: "default",
+	},
+	{
 		name: "newtask",
 		description: "Create a new task with context from the current task",
 		section: "default",

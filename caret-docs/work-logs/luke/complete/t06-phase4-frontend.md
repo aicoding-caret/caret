@@ -8,15 +8,15 @@
 TaskService","method":"askResponse","message":{"responseType":"messageResponse","text":"지금은 무슨 모드인데 ?","images":[],"files":[]},"request_id":"acc5835d-5dfc-424a-b478-945f25835052","is_streaming":false}}
 DEBUG [CaretProviderWrapper] Processing message type: grpc_request
 DEBUG [CaretProviderWrapper] Passing message to Cline: grpc_request
-DEBUG [CARET] Rules path: C:\Users\Luke(양병석)\Desktop\.caretrules
+DEBUG [CARET] Rules path: C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [CARET] Current toggles: {}
 DEBUG [CARET] Updated toggles: {}
-DEBUG [WINDSURF] Rules path: C:\Users\Luke(양병석)\Desktop\.windsurfrules
+DEBUG [WINDSURF] Rules path: C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [WINDSURF] Current toggles: {}
 DEBUG [WINDSURF] Updated toggles: {}
 DEBUG [CURSOR] Rules path (dir): C:\Users\Luke(양병석)\Desktop\.cursor\rules
 DEBUG [CURSOR] Current toggles: {}
-DEBUG [CURSOR] Rules path (file): C:\Users\Luke(양병석)\Desktop\.cursorrules
+DEBUG [CURSOR] Rules path (file): C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [CURSOR] Combined toggles: {}
 DEBUG [CARET] FINAL - returning toggles: {}
 DEBUG [WINDSURF] FINAL - returning toggles: {}
@@ -27,15 +27,15 @@ DEBUG [PromptSystemManager] Using adapter: caret
 DEBUG [CaretProviderWrapper] Received message: {"type":"grpc_request","grpc_request":{"service":"cline.StateService","method":"togglePlanActModeProto","message":{"mode":1,"chatContent":{"images":[],"files":[]}},"request_id":"a1784915-5835-49f5-8442-cd29c98d969e","is_streaming":false}}
 DEBUG [CaretProviderWrapper] Processing message type: grpc_request
 DEBUG [CaretProviderWrapper] Passing message to Cline: grpc_request
-DEBUG [CARET] Rules path: C:\Users\Luke(양병석)\Desktop\.caretrules
+DEBUG [CARET] Rules path: C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [CARET] Current toggles: {}
 DEBUG [CARET] Updated toggles: {}
-DEBUG [WINDSURF] Rules path: C:\Users\Luke(양병석)\Desktop\.windsurfrules
+DEBUG [WINDSURF] Rules path: C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [WINDSURF] Current toggles: {}
 DEBUG [WINDSURF] Updated toggles: {}
 DEBUG [CURSOR] Rules path (dir): C:\Users\Luke(양병석)\Desktop\.cursor\rules
 DEBUG [CURSOR] Current toggles: {}
-DEBUG [CURSOR] Rules path (file): C:\Users\Luke(양병석)\Desktop\.cursorrules
+DEBUG [CURSOR] Rules path (file): C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [CURSOR] Combined toggles: {}
 DEBUG [CARET] FINAL - returning toggles: {}
 DEBUG [WINDSURF] FINAL - returning toggles: {}
@@ -82,15 +82,15 @@ ExtensionStateContext.tsx:431 [DEBUG] ended "got subscribed state"
 DEBUG [CaretProviderWrapper] Received message: {"type":"grpc_request","grpc_request":{"service":"cline.TaskService","method":"askResponse","message":{"responseType":"messageResponse","text":"무슨 모드야 ?","images":[],"files":[]},"request_id":"38684bed-b6f5-4843-9fe9-cf9054d2691a","is_streaming":false}}
 DEBUG [CaretProviderWrapper] Processing message type: grpc_request
 DEBUG [CaretProviderWrapper] Passing message to Cline: grpc_request
-DEBUG [CARET] Rules path: C:\Users\Luke(양병석)\Desktop\.caretrules
+DEBUG [CARET] Rules path: C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [CARET] Current toggles: {}
 DEBUG [CARET] Updated toggles: {}
-DEBUG [WINDSURF] Rules path: C:\Users\Luke(양병석)\Desktop\.windsurfrules
+DEBUG [WINDSURF] Rules path: C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [WINDSURF] Current toggles: {}
 DEBUG [WINDSURF] Updated toggles: {}
 DEBUG [CURSOR] Rules path (dir): C:\Users\Luke(양병석)\Desktop\.cursor\rules
 DEBUG [CURSOR] Current toggles: {}
-DEBUG [CURSOR] Rules path (file): C:\Users\Luke(양병석)\Desktop\.cursorrules
+DEBUG [CURSOR] Rules path (file): C:\Users\Luke(양병석)\Desktop\.agents/context
 DEBUG [CURSOR] Combined toggles: {}
 DEBUG [CARET] FINAL - returning toggles: {}
 DEBUG [WINDSURF] FINAL - returning toggles: {}

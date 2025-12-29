@@ -2,18 +2,18 @@
 	"rules": {
 		"section": {
 			"title": "规则管理",
-			"description": "管理项目规则文件和设置优先级。",
+			"description": "管理 Caret 规则与工作流。",
 			"workspaceRules": "工作区规则",
 			"globalRules": "全局规则",
-			"caretRules": ".caretrules 文件",
-			"clineRules": ".clinerules 文件",
-			"cursorRules": ".cursorrules 文件",
-			"windsurfRules": ".windsurfrules 文件"
+			"caretRules": ".agents/context 目录",
+			"clineRules": "旧版 .agents/context（忽略）",
+			"cursorRules": "旧版 .agents/context（忽略）",
+			"windsurfRules": "旧版 .agents/context（忽略）"
 		},
 		"priority": {
-			"title": "规则优先级",
-			"description": "规则文件优先级：.caretrules > .clinerules > .cursorrules > .windsurfrules",
-			"info": "当存在更高优先级的规则时，较低优先级的规则会自动禁用。"
+			"title": "规则来源",
+			"description": "Caret 读取 .agents/context 与 AGENTS.md（递归）。旧版规则文件将被忽略。",
+			"info": "规则会合并应用，不再进行优先级切换。"
 		},
 		"buttons": {
 			"toggle": "切换",
@@ -976,6 +976,10 @@
 			"name": "华为云 MaaS",
 			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。",
 			"providerName": "华为云 MaaS"
+		},
+		"naver-cloud": {
+			"name": "Naver Cloud",
+			"description": "Naver Cloud 提供针对韩语语境优化的 Hyper Clova X (HCX) 模型。"
 		},
 		"dify": {
 			"name": "Dify.ai",

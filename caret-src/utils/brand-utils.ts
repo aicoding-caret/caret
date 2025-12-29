@@ -138,12 +138,19 @@ export function getBrandDescription(mode: CaretModeSystem): string {
 }
 
 /**
- * Get brand rules file name based on current brand
- * @returns Rules file name (e.g., ".caretrules", ".codecenterrules")
+ * Get standard agents context directory name.
+ * @returns Agents context directory name (".agents/context")
  */
 export function getBrandRulesFileName(): string {
-	const brandName = getCurrentBrandName().toLowerCase()
-	return `.${brandName}rules`
+	return ".agents/context"
+}
+
+/**
+ * Get standard agents workflows directory name.
+ * @returns Workflows directory name (".agents/context/workflows")
+ */
+export function getBrandWorkflowsDirName(): string {
+	return ".agents/context/workflows"
 }
 
 /**
@@ -161,6 +168,13 @@ export function getBrandMcpSettingsFileName(): string {
 export function getBrandAssetsDirName(): string {
 	const brandName = getCurrentBrandName().toLowerCase()
 	return `.${brandName}assets`
+}
+
+/**
+ * Get standard generated assets directory name (".agents/generated-assets").
+ */
+export function getBrandGeneratedAssetsDirName(): string {
+	return ".agents/generated-assets"
 }
 
 /**

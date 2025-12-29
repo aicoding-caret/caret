@@ -1,4 +1,10 @@
 import type { ApiProviderInfo } from "@core/api"
+import {
+	formatAgentsInitInstructions,
+	formatAgentsInitNotice,
+	getAgentsInitWorkflowInstructions,
+	initializeAgentsContext,
+} from "@core/context/instructions/user-instructions/agents-init"
 import { ClineRulesToggles } from "@shared/cline-rules"
 import fs from "fs/promises"
 import { telemetryService } from "@/services/telemetry"
@@ -40,8 +46,18 @@ export async function parseSlashCommands(
 	focusChainSettings?: { enabled: boolean },
 	enableNativeToolCalls?: boolean,
 	providerInfo?: ApiProviderInfo,
+	cwd?: string,
 ): Promise<{ processedText: string; needsClinerulesFileCheck: boolean }> {
-	const SUPPORTED_DEFAULT_COMMANDS = ["newtask", "smol", "compact", "newrule", "reportbug", "deep-planning", "subagent"]
+	const SUPPORTED_DEFAULT_COMMANDS = [
+		"init",
+		"newtask",
+		"smol",
+		"compact",
+		"newrule",
+		"reportbug",
+		"deep-planning",
+		"subagent",
+	]
 
 	// Determine if the current provider/model/setting actually uses native tool calling
 	const willUseNativeTools = providerInfo ? isNativeToolCallingConfig(providerInfo, enableNativeToolCalls || false) : false
@@ -98,6 +114,19 @@ export async function parseSlashCommands(
 
 			// we give preference to the default commands if the user has a file with the same name
 			if (SUPPORTED_DEFAULT_COMMANDS.includes(commandName)) {
+				if (commandName === "init") {
+					const workspaceRoot = cwd ?? process.cwd()
+					const initResult = await initializeAgentsContext(workspaceRoot)
+					const initInstructions = await getAgentsInitWorkflowInstructions(workspaceRoot, initResult.templatePath)
+					const initBlock = formatAgentsInitInstructions(initInstructions) ?? ""
+					const textWithoutSlashCommand = removeSlashCommand(text, contentStartIndex, slashMatch)
+					const processedText = `[init] ${formatAgentsInitNotice(initResult)}\n` + initBlock + textWithoutSlashCommand
+
+					telemetryService.captureSlashCommandUsed(ulid, commandName, "builtin")
+
+					return { processedText, needsClinerulesFileCheck: false }
+				}
+
 				// remove the slash command and add custom instructions at the top of this message
 				const textWithoutSlashCommand = removeSlashCommand(text, contentStartIndex, slashMatch)
 				const processedText = commandReplacements[commandName]() + textWithoutSlashCommand

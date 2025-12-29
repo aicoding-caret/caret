@@ -20,18 +20,16 @@ Caret-main에서 검증된 유용한 빌드 스크립트들을 이식하여 개�
     "test:all": "node caret-scripts/test-report.js",
     "package:release": "node caret-scripts/build/package-release.js",
     "caret:coverage": "node caret-scripts/caret-coverage-check.js",
-    "caretrules:sync": "node caret-scripts/sync-caretrules.js",
     "models:generate": "node caret-scripts/generate-support-model-list.js"
   }
 }
 ```
 
-**주요 스크립트 (6개):**
+**주요 스크립트 (5개):**
 - `setup-dev-env.js`: 크로스 플랫폼 개발 환경 설정
 - `test-report.js`: 통합 테스트 리포트 생성기
 - `package-release.js`: VSIX 릴리즈 패키지 빌드 자동화
 - `caret-coverage-check.js`: Caret vs Cline 코드 커버리지 분석
-- `sync-caretrules.js`: .caretrules 파일 자동 동기화 (.cursorrules, .clinerules 등)
 - `generate-support-model-list.js`: 지원 모델 문서 자동 생성
 - 색상 로깅 및 오류 처리 유틸리티 포함
 
@@ -108,9 +106,6 @@ npm run package:release
 
 # Caret vs Cline 코드 커버리지 분석
 npm run caret:coverage
-
-# .caretrules 파일 자동 동기화
-npm run caretrules:sync
 
 # 지원 모델 문서 생성
 npm run models:generate
@@ -224,13 +219,12 @@ declare module "vscode" {
 - **번들링**: `npm run compile` esbuild 성공
 
 ### ✅ Phase 3: 스크립트 기능 검증 완료
-모든 6개 스크립트 정상 동작 확인:
+모든 5개 스크립트 정상 동작 확인:
 - setup-dev-env.js: 크로스 플랫폼 개발환경 설정 ✅
 - test-report.js: TDD 통합 테스트 리포트 ✅  
 - package-release.js: VSIX 릴리즈 패키징 ✅
 - generate-support-model-list.js: 223개 모델 문서 생성 ✅
 - caret-coverage-check.js: Caret vs Cline 커버리지 비교 ✅
-- sync-caretrules.js: .caretrules 동기화 ✅
 
 ### ✅ Phase 4: 문서 업데이트 완료
 - **README 4개 언어**: 모델 통계 35개 제공자, 223개 모델로 업데이트
@@ -241,7 +235,7 @@ declare module "vscode" {
 ## 🎯 최종 성과
 
 - **100% 빌드 성공**: `npm run compile` 완전 통과
-- **모든 f01 기능 검증 완료**: 6개 스크립트 + 2개 유틸리티 정상 동작
+- **모든 f01 기능 검증 완료**: 5개 스크립트 + 2개 유틸리티 정상 동작
 - **문서 완전성 확보**: 모든 변경사항 체계적 문서화
 - **향후 머징 준비 완료**: 명확한 주석 원칙으로 추적 가능
 

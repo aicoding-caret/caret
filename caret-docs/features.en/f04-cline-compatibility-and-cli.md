@@ -8,7 +8,7 @@
 
 ## 📋 Overview
 
-Caret remains 100% compatible with all Cline features (Plan/Act, MCP, providers, etc.) while offering a **Dual Mode System**. Users can switch between `Cline Mode` (pure compatibility) and `Caret Mode` (extended features such as JSON prompts and dedicated authentication) through settings or UI toggles. CLI sessions default to **Cline prompt system** for compatibility (see `cli/pkg/cli/task/manager.go`).
+Caret remains compatible with core Cline behavior (Plan/Act, MCP, providers, etc.) while offering a **Dual Mode System**. Users can switch between `Cline Mode` (compatibility) and `Caret Mode` (extended features such as JSON prompts and dedicated authentication) through settings or UI toggles. CLI sessions default to **Cline prompt system** for compatibility (see `cli/pkg/cli/task/manager.go`).
 
 > Note: CLI-specific behavior is now tracked separately in **F12 - Caret CLI**.
 
@@ -29,7 +29,7 @@ Caret remains 100% compatible with all Cline features (Plan/Act, MCP, providers,
 
 | Feature | Cline (Original) | Caret (Enhanced) |
 | --- | --- | --- |
-| **Operating Modes** | Single Plan/Act system only | **Dual Mode System** (Caret ↔ Cline) with fully separated prompts/tools/UI per mode |
+| **Operating Modes** | Single Plan/Act system only | **Dual Mode System** (Caret ↔ Cline) with separated prompts/tools/UI per mode |
 | **System Prompt** | Prompt registry (`src/core/prompts/system-prompt/*`) | **Dynamic JSON Prompt System** (`caret-src/core/prompts/system`) via `CaretPromptWrapper` when `modeSystem === "caret"` |
 | **Auth/Domain** | Fixed `cline.bot` | **Multi-domain**: handles `caret.team` (Caret) and `cline.bot` (Cline) separately to avoid account conflicts |
 | **Subagents** | Experimental, UI hidden | **Full UI support**: settings toggles/output limit slider, i18n (en/ko/ja/zh) |
@@ -70,6 +70,17 @@ Key files to verify during merges:
 
 3. **Resource Separation**  
    - Keep Caret-only assets (images, JSON prompts, etc.) under `assets/` or `caret-src/` to avoid mixing with Cline originals.
+
+## ⚠️ Cline Mode Considerations (After Standardization)
+
+When running in **Cline Mode**, the following behavior is expected:
+
+- **Rules**: `.agents/context` is still the only workspace rule source. Legacy rule paths are ignored.
+- **Hooks**: `.agents/hooks` is the only hook directory. Legacy `.cline/hooks` paths are not read.
+- **Global rules**: still come from the user documents folder (Caret Rules), not legacy Cline paths.
+- **Prompt length**: `.agents/context` growth increases system prompt size for both modes; watch CLI/Claude Code limits.
+
+If a user previously relied on `.clinerules` or legacy hook paths, they must migrate into `.agents/context` / `.agents/hooks`.
 
 ## 🧪 Testing Checklist (TDD)
 - `mode-system.test.ts`: global state persistence, caret/cline branching, UI labels (Plan/Act).  

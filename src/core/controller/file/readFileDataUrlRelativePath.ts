@@ -1,6 +1,7 @@
 // CARET MODIFICATION: Support data URL reads for tool-generated images with safe path checks.
 import { workspaceResolver } from "@core/workspace"
 import { String, StringRequest } from "@shared/proto/cline/common"
+import { getBrandGeneratedAssetsDirName } from "@caret/utils/brand-utils" // CARET MODIFICATION: brand-aware generated assets path
 import { getWorkspacePath } from "@utils/path"
 import * as fs from "fs/promises"
 import path from "path"
@@ -113,7 +114,13 @@ export async function readFileDataUrlRelativePath(controller: Controller, reques
 	}
 
 	const findAbsolutePathInMessages = (messages: ClineMessage[], relativePath: string): string | undefined => {
-		const requestMatch = relativePath.match(/assets[\\/](img_[^\\/]+?)(?:\\.[^\\/]+)?$/)
+		const requestMatch = relativePath.match(
+			new RegExp(
+				`(?:${getBrandGeneratedAssetsDirName()
+					.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")
+					.replace(/\//g, "[\\\\/]")}|assets)[\\\\/](img_[^\\\\/]+?)(?:\\.[^\\\\/]+)?$`,
+			),
+		)
 		const requestId = requestMatch ? requestMatch[1] : undefined
 		for (const message of messages) {
 			const isToolMessage =

@@ -45,6 +45,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		sapAiCoreClientId,
 		sapAiCoreClientSecret,
 		huaweiCloudMaasApiKey,
+		naverCloudApiKey,
 		basetenApiKey,
 		zaiApiKey,
 		ollamaApiKey,
@@ -91,6 +92,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("sapAiCoreClientId") as Promise<Secrets["sapAiCoreClientId"]>,
 		context.secrets.get("sapAiCoreClientSecret") as Promise<Secrets["sapAiCoreClientSecret"]>,
 		context.secrets.get("huaweiCloudMaasApiKey") as Promise<Secrets["huaweiCloudMaasApiKey"]>,
+		context.secrets.get("naverCloudApiKey") as Promise<Secrets["naverCloudApiKey"]>,
 		context.secrets.get("basetenApiKey") as Promise<Secrets["basetenApiKey"]>,
 		context.secrets.get("zaiApiKey") as Promise<Secrets["zaiApiKey"]>,
 		context.secrets.get("ollamaApiKey") as Promise<Secrets["ollamaApiKey"]>,
@@ -116,6 +118,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		"caret:caretAccountId": caretAccountId,
 		huggingFaceApiKey,
 		huaweiCloudMaasApiKey,
+		naverCloudApiKey,
 		basetenApiKey,
 		zaiApiKey,
 		ollamaApiKey,
@@ -395,6 +398,11 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const planModeHuaweiCloudMaasModelInfo = context.globalState.get<
 			GlobalStateAndSettings["planModeHuaweiCloudMaasModelInfo"]
 		>("planModeHuaweiCloudMaasModelInfo")
+		// CARET MODIFICATION: Naver Cloud model selections
+		const planModeNaverCloudModelId =
+			context.globalState.get<GlobalStateAndSettings["planModeNaverCloudModelId"]>("planModeNaverCloudModelId")
+		const planModeNaverCloudModelInfo =
+			context.globalState.get<GlobalStateAndSettings["planModeNaverCloudModelInfo"]>("planModeNaverCloudModelInfo")
 		const planModeVercelAiGatewayModelId =
 			context.globalState.get<GlobalStateAndSettings["planModeVercelAiGatewayModelId"]>("planModeVercelAiGatewayModelId")
 		const planModeVercelAiGatewayModelInfo = context.globalState.get<
@@ -478,6 +486,11 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const actModeHuaweiCloudMaasModelInfo = context.globalState.get<
 			GlobalStateAndSettings["actModeHuaweiCloudMaasModelInfo"]
 		>("actModeHuaweiCloudMaasModelInfo")
+		// CARET MODIFICATION: Naver Cloud model selections
+		const actModeNaverCloudModelId =
+			context.globalState.get<GlobalStateAndSettings["actModeNaverCloudModelId"]>("actModeNaverCloudModelId")
+		const actModeNaverCloudModelInfo =
+			context.globalState.get<GlobalStateAndSettings["actModeNaverCloudModelInfo"]>("actModeNaverCloudModelInfo")
 		const actModeVercelAiGatewayModelId =
 			context.globalState.get<GlobalStateAndSettings["actModeVercelAiGatewayModelId"]>("actModeVercelAiGatewayModelId")
 		const actModeVercelAiGatewayModelInfo = context.globalState.get<
@@ -628,6 +641,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			planModeHuggingFaceModelInfo,
 			planModeHuaweiCloudMaasModelId,
 			planModeHuaweiCloudMaasModelInfo,
+			planModeNaverCloudModelId,
+			planModeNaverCloudModelInfo,
 			planModeVercelAiGatewayModelId,
 			planModeVercelAiGatewayModelInfo,
 			planModeBasetenModelId,
@@ -671,6 +686,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			actModeHuggingFaceModelInfo,
 			actModeHuaweiCloudMaasModelId,
 			actModeHuaweiCloudMaasModelInfo,
+			actModeNaverCloudModelId,
+			actModeNaverCloudModelInfo,
 			actModeVercelAiGatewayModelId,
 			actModeVercelAiGatewayModelInfo,
 			actModeBasetenModelId,
@@ -807,6 +824,7 @@ export async function resetGlobalState(controller: Controller) {
 		"nebiusApiKey",
 		"huggingFaceApiKey",
 		"huaweiCloudMaasApiKey",
+		"naverCloudApiKey",
 		"vercelAiGatewayApiKey",
 		"zaiApiKey",
 		"difyApiKey",

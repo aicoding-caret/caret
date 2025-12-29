@@ -454,18 +454,18 @@
 	"rules": {
 		"section": {
 			"title": "Rules Management",
-			"description": "Manage project rule files and set priorities.",
+			"description": "Manage Caret rule files and workflows.",
 			"workspaceRules": "Workspace Rules",
 			"globalRules": "Global Rules",
-			"caretRules": ".caretrules files",
-			"clineRules": ".clinerules files",
-			"cursorRules": ".cursorrules files",
-			"windsurfRules": ".windsurfrules files"
+			"caretRules": ".agents/context directory",
+			"clineRules": "Legacy .agents/context (ignored)",
+			"cursorRules": "Legacy .agents/context (ignored)",
+			"windsurfRules": "Legacy .agents/context (ignored)"
 		},
 		"priority": {
-			"title": "Rule Priority",
-			"description": "Rule file priority: .caretrules > .clinerules > .cursorrules > .windsurfrules",
-			"info": "When higher priority rules exist, lower priority rules are automatically disabled."
+			"title": "Rule Sources",
+			"description": "Caret reads .agents/context plus AGENTS.md (recursive). Legacy rule files are ignored.",
+			"info": "Rules are combined; no priority switching is applied."
 		},
 		"buttons": {
 			"toggle": "Toggle",
@@ -1025,6 +1025,10 @@
 			"name": "Huawei Cloud MaaS",
 			"description": "Huawei Cloud MaaS (Model-as-a-Service) offers a variety of AI models.",
 			"providerName": "Huawei Cloud MaaS"
+		},
+		"naver-cloud": {
+			"name": "Naver Cloud",
+			"description": "Naver Cloud provides Hyper Clova X (HCX) models optimized for Korean context."
 		},
 		"dify": {
 			"name": "Dify.ai",

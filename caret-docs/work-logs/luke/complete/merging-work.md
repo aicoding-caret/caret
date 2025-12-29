@@ -49,7 +49,7 @@
 
 ### f05 - 규칙 우선순위 시스템
 - **목적**: 다중 규칙 파일 우선순위 관리
-- **우선순위**: `.caretrules > .clinerules > .cursorrules > .windsurfrules`
+- **우선순위**: `.agents/context`
 - **상태**: 📋 대기중
 
 ### f06 - JSON 시스템 프롬프트

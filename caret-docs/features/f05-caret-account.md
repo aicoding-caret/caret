@@ -14,7 +14,7 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 - Caret/Cline 듀얼 계정 라우팅.
 - Caret Auth API(`/v1/auth/*`) 기반 JWT 인증.
 - OpenAI 호환 Caret 프로바이더(`/v1/chat/completions`).
-- 이미지 생성(`/v1/generate/image`) 및 워크스페이스 자산 저장.
+- 이미지 생성(`/v1/generate/image`) 및 워크스페이스 생성 자산 저장.
 
 ## 🆚 Cline 대비 개선점
 | 영역 | Cline | Caret |
@@ -45,9 +45,9 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 - **계정 데이터**: Webview gRPC → `CaretAccountServiceClient.*` → `CaretAccountService` → REST `${apiBaseUrl}/v1/profile/*`.
 - **인증 상태**: `CaretAuthContext`가 Caret auth 스트림을 구독, `CaretAuthService.getAuthToken()`으로 토큰 제공.
 - **Provider 실행**: `CaretHandler`가 `${apiBaseUrl}/v1` OpenAI 호환 API 호출 + `X-AnyLLM-Key` 헤더 적용.
-- **이미지 결과 저장**: `generate_image`가 `<workspace>/assets/`에 저장.
-  - `assets/<request_id>.<ext>` (이미지)
-  - `assets/<request_id>.md` (프롬프트/메타데이터)
+- **이미지 결과 저장**: `generate_image`가 `<workspace>/.agents/generated-assets/`에 저장.
+  - `.agents/generated-assets/<request_id>.<ext>` (이미지)
+  - `.agents/generated-assets/<request_id>.md` (프롬프트/메타데이터)
 
 ## 🌐 API 표면 (caret.team)
 - Base URL: `CaretEnv.config().apiBaseUrl` (프로덕션 `https://api.caret.team`).
@@ -67,7 +67,7 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 1) Webview: F5 → Account 탭 → CaretAccountView 렌더 + 잔액/사용량 확인.
 2) Settings: Caret 로그인 버튼/모델 선택 동작 확인.
 3) Provider: Caret 프로바이더로 대화 → 토큰/모델 반영 확인.
-4) Image: 이미지 생성 → `assets/<request_id>.*` 생성 및 경로 표시 확인.
+4) Image: 이미지 생성 → `.agents/generated-assets/<request_id>.*` 생성 및 경로 표시 확인.
 5) CLI: `cline auth` → Caret 로그인 + 기본 모델 설정 확인.
 
 ## 🧭 유지보수 메모

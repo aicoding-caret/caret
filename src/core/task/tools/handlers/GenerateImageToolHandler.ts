@@ -1,7 +1,7 @@
 // CARET MODIFICATION: Generate images via Caret API with branded notifications and Logger output.
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
-import { getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
+import { getBrandGeneratedAssetsDirName, getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
 import { ClineAsk, ClineSayTool } from "@shared/ExtensionMessage"
 import type { ToolImageEvent } from "@shared/proto/cline/ui"
 import { ClineDefaultTool } from "@shared/tools"
@@ -304,7 +304,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			let savedMarkdownPath: string | undefined
 			let savedImageRelativePath: string | undefined
 			const workspaceRoot = config.workspaceManager?.getPrimaryRoot()?.path ?? config.cwd
-			const assetsDir = path.join(workspaceRoot, "assets")
+			// CARET MODIFICATION: Save generated assets under standard .agents/generated-assets
+			const assetsDir = path.join(workspaceRoot, getBrandGeneratedAssetsDirName())
 
 			const updateToolMessage = async (overrides: Partial<ToolImageMessage>) => {
 				const nextProgress = overrides.progressText ? overrides.progressText.trim() : progressText

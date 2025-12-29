@@ -10,14 +10,18 @@ import { FileContextTracker } from "@core/context/context-tracking/FileContextTr
 import { ModelContextTracker } from "@core/context/context-tracking/ModelContextTracker"
 import {
 	getGlobalClineRules,
-	getLocalClineRules,
 	refreshClineRulesToggles,
 } from "@core/context/instructions/user-instructions/cline-rules"
 import {
+	formatAgentsInitInstructions,
+	formatAgentsInitNotice,
+	getAgentsInitWorkflowInstructions,
+	getAgentsStandardStatus,
+	initializeAgentsContext,
+} from "@core/context/instructions/user-instructions/agents-init"
+import {
 	getLocalAgentsRules,
 	getLocalCaretRules,
-	getLocalCursorRules,
-	getLocalWindsurfRules,
 	refreshExternalRulesToggles,
 } from "@core/context/instructions/user-instructions/external-rules"
 import { sendPartialMessageEvent } from "@core/controller/ui/subscribeToPartialMessage"
@@ -1125,6 +1129,71 @@ export class Task {
 
 	// Task lifecycle
 
+	private async maybeInitializeAgentsContext(userContent: ClineUserContent[]): Promise<void> {
+		if (this.taskState.agentsInitPrompted) {
+			return
+		}
+
+		const hasInitCommand = userContent.some(
+			(block) => block.type === "text" && typeof block.text === "string" && block.text.includes("/init"),
+		)
+		if (hasInitCommand) {
+			return
+		}
+
+		if (isInTestMode()) {
+			return
+		}
+
+		const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem") || CaretGlobalManager.currentMode
+		if (modeSystem !== "caret") {
+			return
+		}
+
+		const status = await getAgentsStandardStatus(this.cwd)
+		if (status.isStandard) {
+			return
+		}
+
+		this.taskState.agentsInitPrompted = true
+
+		const promptPayload = {
+			question: "AGENTS 표준 구조가 없습니다. 표준을 초기화하고 프로젝트 컨텍스트를 채울까요?",
+			options: ["초기화", "건너뛰기"],
+			type: "agents_init",
+		}
+
+		const { response, text } = await this.ask("followup", JSON.stringify(promptPayload))
+		if (response !== "messageResponse") {
+			return
+		}
+
+		const responseText = (text ?? "").trim()
+		const approved =
+			responseText.startsWith("초기화") ||
+			responseText.toLowerCase().startsWith("init") ||
+			responseText.startsWith("예")
+
+		if (!approved) {
+			return
+		}
+
+		const initResult = await initializeAgentsContext(this.cwd)
+		const initNotice = formatAgentsInitNotice(initResult)
+		if (initNotice) {
+			await this.say("text", initNotice)
+		}
+
+		const initInstructions = await getAgentsInitWorkflowInstructions(this.cwd, initResult.templatePath)
+		const formatted = formatAgentsInitInstructions(initInstructions)
+		if (formatted) {
+			userContent.unshift({
+				type: "text",
+				text: formatted,
+			})
+		}
+	}
+
 	public async startTask(task?: string, images?: string[], files?: string[]): Promise<void> {
 		try {
 			await this.clineIgnoreController.initialize()
@@ -1238,6 +1307,8 @@ export class Task {
 				text: `<hook_context source="UserPromptSubmit">\n${userPromptHookResult.contextModification}\n</hook_context>`,
 			})
 		}
+
+		await this.maybeInitializeAgentsContext(userContent)
 
 		await this.initiateTaskLoop(userContent)
 	}
@@ -2376,36 +2447,15 @@ export class Task {
 				: ""
 
 		const { globalToggles, localToggles } = await refreshClineRulesToggles(this.controller, this.cwd)
-		const {
-			caretLocalToggles,
-			clineLocalToggles,
-			cursorLocalToggles,
-			windsurfLocalToggles,
-			agentsLocalToggles,
-			activeSource,
-		} = await refreshExternalRulesToggles(this.controller, this.cwd, { clineLocalToggles: localToggles })
+		const { caretLocalToggles, agentsLocalToggles } = await refreshExternalRulesToggles(this.controller, this.cwd, {
+			caretLocalToggles: localToggles,
+		})
 
 		const globalClineRulesFilePath = await ensureRulesDirectoryExists()
 		const globalClineRulesFileInstructions = await getGlobalClineRules(globalClineRulesFilePath, globalToggles)
 
-		// CARET MODIFICATION: Respect rule priority and load only the active workspace rules source
-		let localClineRulesFileInstructions: string | undefined
-		let localCursorRulesFileInstructions: string | undefined
-		let localCursorRulesDirInstructions: string | undefined
-		let localWindsurfRulesFileInstructions: string | undefined
-
-		if (activeSource === "caret") {
-			localClineRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
-		} else if (activeSource === "cline") {
-			localClineRulesFileInstructions = await getLocalClineRules(this.cwd, clineLocalToggles)
-		} else if (activeSource === "cursor") {
-			;[localCursorRulesFileInstructions, localCursorRulesDirInstructions] = await getLocalCursorRules(
-				this.cwd,
-				cursorLocalToggles,
-			)
-		} else if (activeSource === "windsurf") {
-			localWindsurfRulesFileInstructions = await getLocalWindsurfRules(this.cwd, windsurfLocalToggles)
-		}
+			// CARET MODIFICATION: Only load .agents/context (plus AGENTS.md)
+		const localClineRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
 
 		const localAgentsRulesFileInstructions = await getLocalAgentsRules(this.cwd, agentsLocalToggles)
 
@@ -2451,9 +2501,9 @@ export class Task {
 			focusChainSettings: this.stateManager.getGlobalSettingsKey("focusChainSettings"),
 			globalClineRulesFileInstructions,
 			localClineRulesFileInstructions,
-			localCursorRulesFileInstructions,
-			localCursorRulesDirInstructions,
-			localWindsurfRulesFileInstructions,
+			localCursorRulesFileInstructions: undefined,
+			localCursorRulesDirInstructions: undefined,
+			localWindsurfRulesFileInstructions: undefined,
 			localAgentsRulesFileInstructions,
 			clineIgnoreInstructions,
 			preferredLanguageInstructions,
@@ -2989,11 +3039,11 @@ export class Task {
 				)
 			}
 
-			// error handling if the user uses the /newrule command & their .clinerules is a file, for file read operations didnt work properly
+			// error handling if the user uses the /newrule command & their .agents/context is a file, for file read operations didnt work properly
 			if (clinerulesError === true) {
 				await this.say(
 					"error",
-					"Issue with processing the /newrule command. Double check that, if '.clinerules' already exists, it's a directory and not a file. Otherwise there was an issue referencing this file/directory.",
+					"Issue with processing the /newrule command. Double check that, if '.agents/context' already exists, it's a directory and not a file. Otherwise there was an issue referencing this file/directory.",
 				)
 			}
 
@@ -3025,7 +3075,7 @@ export class Task {
 			if (clinerulesError === true) {
 				await this.say(
 					"error",
-					"Issue with processing the /newrule command. Double check that, if '.clinerules' already exists, it's a directory and not a file. Otherwise there was an issue referencing this file/directory.",
+					"Issue with processing the /newrule command. Double check that, if '.agents/context' already exists, it's a directory and not a file. Otherwise there was an issue referencing this file/directory.",
 				)
 			}
 
@@ -3177,6 +3227,7 @@ export class Task {
 
 			try {
 				for await (const chunk of stream) {
+					if (!chunk) continue // CARET MODIFICATION: Skip empty stream chunks to avoid runtime errors.
 					switch (chunk.type) {
 						case "usage":
 							didReceiveUsageChunk = true
@@ -3341,6 +3392,7 @@ export class Task {
 			} catch (error) {
 				// abandoned happens when extension is no longer waiting for the cline instance to finish aborting (error is thrown here when any function in the for loop throws due to this.abort)
 				if (!this.taskState.abandoned) {
+					Logger.error(`[Task ${this.taskId}] Streaming failed`, error) // CARET MODIFICATION: Log stream failure details.
 					const clineError = ErrorService.get().toClineError(error, this.api.getModel().id)
 					const errorMessage = clineError.serialize()
 					// Auto-retry for streaming failures (always enabled)
@@ -3699,6 +3751,7 @@ export class Task {
 								this.stateManager.getGlobalSettingsKey("focusChainSettings"),
 								this.useNativeToolCalls,
 								this.getCurrentProviderInfo(),
+								this.cwd,
 							)
 
 							if (needsCheck) {
@@ -3722,10 +3775,10 @@ export class Task {
 			this.getEnvironmentDetails(includeFileDetails),
 		])
 
-		// After processing content, check clinerulesData if needed
+		// After processing content, check agents context directory if needed
 		let clinerulesError = false
 		if (needsClinerulesFileCheck) {
-			clinerulesError = await ensureLocalClineDirExists(this.cwd, GlobalFileNames.clineRules)
+			clinerulesError = await ensureLocalClineDirExists(this.cwd, GlobalFileNames.caretRules)
 		}
 
 		// Add focus chain list instructions if needed

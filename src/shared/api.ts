@@ -34,6 +34,7 @@ export type ApiProvider =
 	| "groq"
 	| "huggingface"
 	| "huawei-cloud-maas"
+	| "naver-cloud" // CARET MODIFICATION: Naver Cloud provider
 	| "dify"
 	| "baseten"
 	| "vercel-ai-gateway"
@@ -83,6 +84,7 @@ export interface ApiHandlerSecrets {
 	sapAiCoreClientSecret?: string
 	groqApiKey?: string
 	huaweiCloudMaasApiKey?: string
+	naverCloudApiKey?: string // CARET MODIFICATION: Naver Cloud API key
 	basetenApiKey?: string
 	vercelAiGatewayApiKey?: string
 	difyApiKey?: string
@@ -181,6 +183,8 @@ export interface ApiHandlerOptions {
 	planModeHuggingFaceModelInfo?: ModelInfo
 	planModeHuaweiCloudMaasModelId?: string
 	planModeHuaweiCloudMaasModelInfo?: ModelInfo
+	planModeNaverCloudModelId?: string // CARET MODIFICATION: Naver Cloud
+	planModeNaverCloudModelInfo?: ModelInfo // CARET MODIFICATION: Naver Cloud
 	planModeOcaModelId?: string
 	planModeOcaModelInfo?: OcaModelInfo
 	planModeAihubmixModelId?: string
@@ -227,6 +231,8 @@ export interface ApiHandlerOptions {
 	actModeHuggingFaceModelInfo?: ModelInfo
 	actModeHuaweiCloudMaasModelId?: string
 	actModeHuaweiCloudMaasModelInfo?: ModelInfo
+	actModeNaverCloudModelId?: string // CARET MODIFICATION: Naver Cloud
+	actModeNaverCloudModelInfo?: ModelInfo // CARET MODIFICATION: Naver Cloud
 	actModeOcaModelId?: string
 	actModeOcaModelInfo?: OcaModelInfo
 	actModeAihubmixModelId?: string
@@ -3824,6 +3830,37 @@ export const huaweiCloudMaasModels = {
 			maxBudget: 4096,
 			outputPrice: 1.1,
 		},
+	},
+} as const satisfies Record<string, ModelInfo>
+
+// CARET MODIFICATION: Naver Cloud HyperCLOVA X
+export type NaverCloudModelId = keyof typeof naverCloudModels
+export interface NaverCloudModelInfo extends ModelInfo {}
+export const naverCloudDefaultModelId: NaverCloudModelId = "HCX-007"
+export const naverCloudModels = {
+	"HCX-007": {
+		maxTokens: 32_768,
+		contextWindow: 128_000,
+		supportsImages: false,
+		supportsPromptCache: false,
+		thinkingConfig: {
+			maxBudget: 20_480,
+		},
+		description: "HyperCLOVA X hybrid reasoning model with Thinking support.",
+	},
+	"HCX-005": {
+		maxTokens: 4_096,
+		contextWindow: 128_000,
+		supportsImages: true,
+		supportsPromptCache: false,
+		description: "HyperCLOVA X multimodal vision model.",
+	},
+	"HCX-DASH-002": {
+		maxTokens: 4_096,
+		contextWindow: 32_000,
+		supportsImages: false,
+		supportsPromptCache: false,
+		description: "HyperCLOVA X lightweight fast model.",
 	},
 } as const satisfies Record<string, ModelInfo>
 
