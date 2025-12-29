@@ -37,6 +37,12 @@ const GENERIC: ClineToolSpec = {
 			instruction: "Optional image size preset (e.g., 1K, 2K).",
 			usage: "1K",
 		},
+		{
+			name: "reference_images",
+			required: false,
+			instruction:
+				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images.",
+		},
 		TASK_PROGRESS_PARAMETER,
 	],
 }
@@ -66,6 +72,12 @@ const NATIVE_GPT_5: ClineToolSpec = {
 			name: "image_size",
 			required: false,
 			instruction: "Optional image size preset.",
+		},
+		{
+			name: "reference_images",
+			required: false,
+			instruction:
+				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images.",
 		},
 		TASK_PROGRESS_PARAMETER,
 	],

@@ -46,6 +46,7 @@ export const toolParamNames = [
 	"model",
 	"aspect_ratio",
 	"image_size",
+	"reference_images",
 	"stream",
 ] as const
 

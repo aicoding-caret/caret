@@ -2,6 +2,7 @@
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 import { getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
+import { findLast } from "@shared/array"
 import { ClineAsk, ClineSayTool } from "@shared/ExtensionMessage"
 import type { ToolImageEvent } from "@shared/proto/cline/ui"
 import { ClineDefaultTool } from "@shared/tools"
@@ -77,6 +78,55 @@ const extractBase64Payload = (
 		return { base64: value }
 	}
 	return { mimeType: match[1], base64: match[2] }
+}
+
+const parseReferenceImagesParam = (value?: string): string[] | undefined => {
+	if (!value) {
+		return undefined
+	}
+
+	const trimmed = value.trim()
+	if (!trimmed) {
+		return undefined
+	}
+
+	try {
+		const parsed = JSON.parse(trimmed)
+		if (Array.isArray(parsed)) {
+			const images = parsed.filter((item) => typeof item === "string" && item.trim().length > 0)
+			return images.length > 0 ? images : undefined
+		}
+	} catch {
+		// Fall back to treating the value as a single data URL.
+	}
+
+	if (trimmed.startsWith("data:")) {
+		return [trimmed]
+	}
+
+	return undefined
+}
+
+const resolveReferenceImages = (config: TaskConfig, paramValue?: string): string[] | undefined => {
+	const parsed = parseReferenceImagesParam(paramValue)
+	if (parsed?.length) {
+		return parsed
+	}
+
+	const messages = config.messageState.getClineMessages()
+	const lastUserFeedback = findLast(messages, (message) => {
+		return message.type === "say" && message.say === "user_feedback" && Boolean(message.images?.length)
+	})
+	if (lastUserFeedback?.images?.length) {
+		return lastUserFeedback.images
+	}
+
+	const firstMessage = messages.at(0)
+	if (firstMessage?.images?.length) {
+		return firstMessage.images
+	}
+
+	return undefined
 }
 
 const buildImageMarkdown = ({
@@ -163,6 +213,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			const model = (block.params.model || "").trim()
 			const aspectRatio = (block.params.aspect_ratio || "").trim()
 			const imageSize = (block.params.image_size || "").trim()
+			const referenceImages = resolveReferenceImages(config, block.params.reference_images)
 			const globalAspectRatio = config.services.stateManager.getGlobalSettingsKey("imageGenerationAspectRatio")?.trim()
 			const globalImageSize = config.services.stateManager.getGlobalSettingsKey("imageGenerationSize")?.trim()
 			const finalAspectRatio = aspectRatio || globalAspectRatio || undefined
@@ -274,6 +325,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				model: model || undefined,
 				aspect_ratio: finalAspectRatio,
 				image_size: finalImageSize,
+				reference_images: referenceImages && referenceImages.length > 0 ? referenceImages : undefined,
 				stream: true,
 			}
 

@@ -40,6 +40,7 @@ import {
 	shouldShowContextMenu,
 } from "@/utils/context-mentions"
 import { useMetaKeyDetection, useShortcut } from "@/utils/hooks"
+import { optimizeImageDataUrl } from "@/utils/imageOptimization"
 import { isSafari } from "@/utils/platformUtils"
 import {
 	getMatchingSlashCommands,
@@ -58,24 +59,6 @@ import ServersToggleModal from "./ServersToggleModal"
 import VoiceRecorder from "./VoiceRecorder"
 
 const { MAX_IMAGES_AND_FILES_PER_MESSAGE } = CHAT_CONSTANTS
-
-const getImageDimensions = (dataUrl: string): Promise<{ width: number; height: number }> => {
-	return new Promise((resolve, reject) => {
-		const img = new Image()
-		img.onload = () => {
-			if (img.naturalWidth > 7500 || img.naturalHeight > 7500) {
-				reject(new Error("Image dimensions exceed maximum allowed size of 7500px."))
-			} else {
-				resolve({ width: img.naturalWidth, height: img.naturalHeight })
-			}
-		}
-		img.onerror = (err) => {
-			console.error("Failed to load image for dimension check:", err)
-			reject(new Error("Failed to load image to check dimensions."))
-		}
-		img.src = dataUrl
-	})
-}
 
 // Set to "File" option by default
 const DEFAULT_CONTEXT_MENU_OPTION = getContextMenuOptionIndex(ContextMenuOptionType.File)
@@ -991,8 +974,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									const result = reader.result
 									if (typeof result === "string") {
 										try {
-											await getImageDimensions(result)
-											resolve(result)
+											const optimized = await optimizeImageDataUrl(result)
+											resolve(optimized)
 										} catch (error) {
 											console.warn((error as Error).message)
 											showDimensionErrorMessage()
@@ -1524,8 +1507,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									const result = reader.result
 									if (typeof result === "string") {
 										try {
-											await getImageDimensions(result) // Check dimensions
-											resolve(result)
+											const optimized = await optimizeImageDataUrl(result)
+											resolve(optimized)
 										} catch (error) {
 											console.warn((error as Error).message)
 											showDimensionErrorMessage() // Show error to user
