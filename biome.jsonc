@@ -125,6 +125,8 @@
 			"!**/generated",
 			"!**/proto",
 			"!**/tests/specs",
+			"!**/cline-latest",
+			"!**/cline-latest",
 			"!**/work-logs",
 			"!**/work-logs"
 		]

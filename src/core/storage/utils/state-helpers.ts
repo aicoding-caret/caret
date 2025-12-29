@@ -725,7 +725,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			lastDismissedInfoBannerVersion: lastDismissedInfoBannerVersion ?? 0,
 			lastDismissedModelBannerVersion: lastDismissedModelBannerVersion ?? 0,
 			lastDismissedCliBannerVersion: lastDismissedCliBannerVersion ?? 0,
-			nativeToolCallEnabled: nativeToolCallEnabled ?? false,
+			// CARET MODIFICATION: Match Cline latest default to avoid duplicate plan_mode_respond text.
+			nativeToolCallEnabled: nativeToolCallEnabled ?? true,
 			// CARET MODIFICATION: Caret-specific global state defaults
 			caretModeSystem: caretModeSystem ?? "caret",
 			enablePersonaSystem: enablePersonaSystem ?? true,
