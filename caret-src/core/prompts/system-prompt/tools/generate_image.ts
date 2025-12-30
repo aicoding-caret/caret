@@ -1,8 +1,8 @@
 // CARET MODIFICATION: Add generate_image tool specification for image generation.
 import { ModelFamily } from "@/shared/prompts"
 import { ClineDefaultTool } from "@/shared/tools"
-import type { ClineToolSpec } from "../spec"
-import { TASK_PROGRESS_PARAMETER } from "../types"
+import type { ClineToolSpec } from "@core/prompts/system-prompt/spec"
+import { TASK_PROGRESS_PARAMETER } from "@core/prompts/system-prompt/types"
 
 const id = ClineDefaultTool.GENERATE_IMAGE
 

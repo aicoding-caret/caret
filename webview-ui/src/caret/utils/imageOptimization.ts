@@ -1,3 +1,4 @@
+// CARET MODIFICATION: Webview image optimization helpers for image tool uploads.
 const MAX_IMAGE_DIMENSION = 1024
 const MAX_INPUT_DIMENSION = 7500
 const DEFAULT_IMAGE_QUALITY = 0.86

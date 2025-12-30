@@ -20,7 +20,8 @@ import type { MessageStateHandler } from "../../message-state"
 import type { TaskState } from "../../TaskState"
 import type { AutoApprove } from "../../tools/autoApprove"
 import type { HookExecution } from "../../types/HookExecution"
-import type { ImageRegistry } from "../../images/ImageRegistry"
+// CARET MODIFICATION: use caret image registry from caret-src
+import type { ImageRegistry } from "@caret/core/task/images/ImageRegistry"
 import type { ToolExecutorCoordinator } from "../ToolExecutorCoordinator"
 import { TASK_CALLBACKS_KEYS, TASK_CONFIG_KEYS, TASK_SERVICES_KEYS } from "../utils/ToolConstants"
 

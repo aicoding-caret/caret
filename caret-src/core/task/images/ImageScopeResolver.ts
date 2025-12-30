@@ -1,4 +1,4 @@
-import { normalizeImageId } from "@shared/images/image-id"
+import { normalizeImageId } from "@caret/shared/images/image-id"
 import type { ImageAttachmentSet, ImageRegistry } from "./ImageRegistry"
 
 const IMAGE_ID_REGEX = /\bimg-[0-9a-f]{6,16}\b/gi
@@ -50,9 +50,15 @@ export class ImageScopeResolver {
 		}
 
 		const selected = new Set<string>()
-		currentImageIds.forEach((id) => selected.add(id))
-		resolvedExplicit.forEach((id) => selected.add(id))
-		previousSet?.imageIds.forEach((id) => selected.add(id))
+		for (const id of currentImageIds) {
+			selected.add(id)
+		}
+		for (const id of resolvedExplicit) {
+			selected.add(id)
+		}
+		for (const id of previousSet?.imageIds ?? []) {
+			selected.add(id)
+		}
 
 		const applied = currentImageIds.length > 0 || explicitImageIds.length > 0 || wantsPrevious
 

@@ -8,10 +8,13 @@ import { useCallback, useEffect, useMemo } from "react"
 import { useMount } from "react-use"
 import { usePersistentInputHistory } from "@/caret/hooks/usePersistentInputHistory" // CARET MODIFICATION: Persistent input history
 import { t } from "@/caret/utils/i18n"
+// CARET MODIFICATION: use CaretWebviewLogger for webview logs
+import WebviewLogger from "@/caret/utils/CaretWebviewLogger"
 import { normalizeApiConfiguration } from "@/components/settings/utils/providerUtils"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { FileServiceClient, UiServiceClient } from "@/services/grpc-client"
-import { optimizeImageDataUrl } from "@/utils/imageOptimization"
+// CARET MODIFICATION: use caret image optimization utilities
+import { optimizeImageDataUrl } from "@/caret/utils/imageOptimization"
 import { Navbar } from "../menu/Navbar"
 import AutoApproveBar from "./auto-approve-menu/AutoApproveBar"
 // Import utilities and hooks from the new structure
@@ -43,6 +46,7 @@ const MAX_IMAGES_AND_FILES_PER_MESSAGE = CHAT_CONSTANTS.MAX_IMAGES_AND_FILES_PER
 const QUICK_WINS_HISTORY_THRESHOLD = 3
 
 const IS_STANDALONE = window?.__is_standalone__ ?? false
+const logger = new WebviewLogger("ChatView")
 
 const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryView }: ChatViewProps) => {
 	const {
@@ -173,11 +177,11 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 					if (textToCopy !== null) {
 						try {
 							FileServiceClient.copyToClipboard(StringRequest.create({ value: textToCopy })).catch((err) => {
-								console.error("Error copying to clipboard:", err)
+								logger.error("Error copying to clipboard", err)
 							})
 							e.preventDefault()
 						} catch (error) {
-							console.error("Error copying to clipboard:", error)
+							logger.error("Error copying to clipboard", error)
 						}
 					}
 				}
@@ -222,7 +226,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 						try {
 							return await optimizeImageDataUrl(dataUrl)
 						} catch (error) {
-							console.warn((error as Error).message)
+							logger.warn((error as Error).message)
 							return null
 						}
 					}),
@@ -246,7 +250,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 				}
 			}
 		} catch (error) {
-			console.error(t("errorSelectingFilesImages", "chat"), error)
+			logger.error(t("errorSelectingFilesImages", "chat"), error)
 		}
 	}, [selectedModelInfo.supportsImages, selectedImages, selectedFiles])
 
@@ -290,10 +294,10 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 				}
 			},
 			onError: (error) => {
-				console.error(t("errorInAddToInputSubscription", "chat"), error)
+				logger.error(t("errorInAddToInputSubscription", "chat"), error)
 			},
 			onComplete: () => {
-				console.log(t("addToInputSubscriptionCompleted", "chat"))
+				logger.info(t("addToInputSubscriptionCompleted", "chat"))
 			},
 		})
 

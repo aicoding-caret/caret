@@ -3,7 +3,8 @@ import { AssistantMessageContent } from "@core/assistant-message"
 import type { ClineContent } from "@shared/messages/content"
 import { ClineAskResponse } from "@shared/WebviewMessage"
 import type { HookExecution } from "./types/HookExecution"
-import type { ImageScopeResult } from "./images/ImageScopeResolver"
+// CARET MODIFICATION: use caret image scope types from caret-src
+import type { ImageScopeResult } from "@caret/core/task/images/ImageScopeResolver"
 
 export class TaskState {
 	// Streaming flags

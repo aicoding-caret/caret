@@ -3,7 +3,8 @@ import { GlobalFileNames, ensureTaskDirectoryExists } from "@core/storage/disk"
 import { fileExistsAtPath } from "@utils/fs"
 import fs from "fs/promises"
 import path from "path"
-import { createImageId } from "@shared/images/image-id"
+import { createImageId } from "@caret/shared/images/image-id"
+import { Logger } from "@/services/logging/Logger"
 
 export type ImageSource = "user" | "generated" | "tool" | "unknown"
 
@@ -29,6 +30,10 @@ type ImageRegistrySnapshot = {
 	images: ImageRecord[]
 	sets: ImageAttachmentSet[]
 }
+
+const MAX_PERSISTED_DATA_URL_BYTES = 2 * 1024 * 1024
+const MAX_PERSISTED_TOTAL_DATA_URL_BYTES = 6 * 1024 * 1024
+const getByteLength = (value: string): number => Buffer.byteLength(value, "utf8")
 
 export class ImageRegistry {
 	private images = new Map<string, ImageRecord>()
@@ -60,7 +65,7 @@ export class ImageRegistry {
 			this.images = new Map(parsed.images.map((record) => [record.id, record]))
 			this.sets = parsed.sets || []
 		} catch (error) {
-			console.error("Failed to load image registry:", error)
+			Logger.error("Failed to load image registry", error as Error)
 		}
 	}
 
@@ -69,13 +74,35 @@ export class ImageRegistry {
 			const filePath = await this.getFilePath()
 			const snapshot: ImageRegistrySnapshot = {
 				version: 1,
-				images: Array.from(this.images.values()),
+				images: this.getPersistedImages(),
 				sets: this.sets,
 			}
 			await fs.writeFile(filePath, JSON.stringify(snapshot, null, 2), "utf8")
 		} catch (error) {
-			console.error("Failed to save image registry:", error)
+			Logger.error("Failed to save image registry", error as Error)
 		}
+	}
+
+	private getPersistedImages(): ImageRecord[] {
+		const records = Array.from(this.images.values())
+		const sortedByRecent = [...records].sort((a, b) => b.createdAt - a.createdAt)
+		let remainingBytes = MAX_PERSISTED_TOTAL_DATA_URL_BYTES
+		const sanitized = new Map<string, ImageRecord>()
+
+		for (const record of sortedByRecent) {
+			let dataUrl = record.dataUrl
+			if (dataUrl) {
+				const size = getByteLength(dataUrl)
+				if (size > MAX_PERSISTED_DATA_URL_BYTES || size > remainingBytes) {
+					dataUrl = undefined
+				} else {
+					remainingBytes -= size
+				}
+			}
+			sanitized.set(record.id, { ...record, dataUrl })
+		}
+
+		return records.map((record) => sanitized.get(record.id) ?? record)
 	}
 
 	registerDataUrls(dataUrls: string[], source: ImageSource, originMessageTs?: number): string[] {
@@ -180,7 +207,7 @@ export class ImageRegistry {
 					record.dataUrl = dataUrl
 					results.push(dataUrl)
 				} catch (error) {
-					console.error("Failed to load image from file:", record.filePath, error)
+					Logger.error(`Failed to load image from file: ${record.filePath}`, error as Error)
 				}
 			}
 		}

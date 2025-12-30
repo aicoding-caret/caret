@@ -1,9 +1,12 @@
 import { cn } from "@heroui/react"
-import { createImageId } from "@shared/images/image-id"
+// CARET MODIFICATION: use caret image id helper
+import { createImageId } from "@caret/shared/images/image-id"
 import { StringRequest } from "@shared/proto/cline/common"
 import React, { memo, useLayoutEffect, useRef, useState } from "react"
 import { useWindowSize } from "react-use"
 import { t } from "@/caret/utils/i18n"
+// CARET MODIFICATION: use CaretWebviewLogger for webview logs
+import WebviewLogger from "@/caret/utils/CaretWebviewLogger"
 import { FileServiceClient } from "@/services/grpc-client"
 
 interface ThumbnailsProps {
@@ -15,6 +18,8 @@ interface ThumbnailsProps {
 	onHeightChange?: (height: number) => void
 	className?: string
 }
+
+const logger = new WebviewLogger("Thumbnails")
 
 const Thumbnails = ({ images, files, style, setImages, setFiles, onHeightChange, className }: ThumbnailsProps) => {
 	const [hoveredIndex, setHoveredIndex] = useState<string | null>(null)
@@ -46,13 +51,13 @@ const Thumbnails = ({ images, files, style, setImages, setFiles, onHeightChange,
 
 	const handleImageClick = (image: string) => {
 		FileServiceClient.openImage(StringRequest.create({ value: image })).catch((err) =>
-			console.error("Failed to open image:", err),
+			logger.error("Failed to open image", err),
 		)
 	}
 
 	const handleFileClick = (filePath: string) => {
 		FileServiceClient.openFile(StringRequest.create({ value: filePath })).catch((err) =>
-			console.error("Failed to open file:", err),
+			logger.error("Failed to open file", err),
 		)
 	}
 

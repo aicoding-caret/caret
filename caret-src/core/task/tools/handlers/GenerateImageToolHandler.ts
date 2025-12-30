@@ -12,14 +12,14 @@ import { buildClineExtraHeaders } from "@/services/EnvUtils"
 import { Logger } from "@/services/logging/Logger"
 import { telemetryService } from "@/services/telemetry"
 import { fetch } from "@/shared/net"
-import { ToolUse } from "../../../assistant-message"
-import { formatResponse } from "../../../prompts/responses"
-import { ToolResponse } from "../.."
-import { showNotificationForApproval } from "../../utils"
-import type { IFullyManagedTool } from "../ToolExecutorCoordinator"
-import type { TaskConfig } from "../types/TaskConfig"
-import type { StronglyTypedUIHelpers } from "../types/UIHelpers"
-import { ToolResultUtils } from "../utils/ToolResultUtils"
+import { ToolUse } from "@core/assistant-message"
+import { formatResponse } from "@core/prompts/responses"
+import type { ToolResponse } from "@core/task"
+import { showNotificationForApproval } from "@core/task/utils"
+import type { IFullyManagedTool } from "@core/task/tools/ToolExecutorCoordinator"
+import type { TaskConfig } from "@core/task/tools/types/TaskConfig"
+import type { StronglyTypedUIHelpers } from "@core/task/tools/types/UIHelpers"
+import { ToolResultUtils } from "@core/task/tools/utils/ToolResultUtils"
 
 type ToolImageUsage = {
 	inputTokens?: number
@@ -292,7 +292,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			// Run PreToolUse hook after approval but before execution
 			try {
-				const { ToolHookUtils } = await import("../utils/ToolHookUtils")
+				const { ToolHookUtils } = await import("@core/task/tools/utils/ToolHookUtils")
 				await ToolHookUtils.runPreToolUseIfEnabled(config, block)
 			} catch (error) {
 				const { PreToolUseHookCancellationError } = await import("@core/hooks/PreToolUseHookCancellationError")
@@ -304,7 +304,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			const authToken = await CaretAuthService.getInstance().getAuthToken()
 			if (!authToken) {
-				throw new Error("Caret account authentication required to generate images.")
+				throw new Error(`${getCurrentBrandDisplayName()} account authentication required to generate images.`)
 			}
 
 			const url = new URL("/v1/generate/image", CaretEnv.config().apiBaseUrl).toString()

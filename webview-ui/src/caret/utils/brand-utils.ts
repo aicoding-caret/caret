@@ -87,3 +87,10 @@ export function getBrandMcpMarketplaceTab(): string | undefined {
 export function getBrandIgnoreFileName(): string {
 	return getBrandInfo().ignoreFileName
 }
+
+/**
+ * CARET MODIFICATION: Generated assets directory name used by image tools.
+ */
+export function getBrandGeneratedAssetsDirName(): string {
+	return ".agents/generated-assets"
+}

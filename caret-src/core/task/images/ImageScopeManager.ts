@@ -1,7 +1,7 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import type { ClineContent } from "@shared/messages/content"
-import { createImageId } from "@shared/images/image-id"
-import { formatResponse } from "../../prompts/responses"
+import { createImageId } from "@caret/shared/images/image-id"
+import { formatResponse } from "@core/prompts/responses"
 import { ImageRegistry } from "./ImageRegistry"
 import { buildImageScopeMeta } from "./ImageScopeMetaBuilder"
 import { ImageScopeResolver, type ImageScopeResult } from "./ImageScopeResolver"
@@ -146,10 +146,10 @@ export class ImageScopeManager {
 		history: Anthropic.Messages.MessageParam[],
 		selectedImageIds: string[],
 	): Anthropic.Messages.MessageParam[] {
-		if (!selectedImageIds.length) {
-			return history.map((message) => this.stripImagesFromMessage(message, selectedImageIds)).filter(Boolean)
-		}
-		return history.map((message) => this.stripImagesFromMessage(message, selectedImageIds)).filter(Boolean)
+		const filtered = history
+			.map((message) => this.stripImagesFromMessage(message, selectedImageIds))
+			.filter((message): message is Anthropic.Messages.MessageParam => Boolean(message))
+		return filtered
 	}
 
 	private stripImagesFromMessage(

@@ -18,6 +18,10 @@ import styled from "styled-components"
 import PersonaAvatar from "@/caret/components/PersonaAvatar"
 import { useCaretState } from "@/caret/context/CaretStateContext"
 import { t } from "@/caret/utils/i18n"
+// CARET MODIFICATION: use CaretWebviewLogger for webview logs
+import WebviewLogger from "@/caret/utils/CaretWebviewLogger"
+// CARET MODIFICATION: use brand-aware generated assets path for image fallback
+import { getBrandGeneratedAssetsDirName } from "@/caret/utils/brand-utils"
 import { OptionsButtons } from "@/components/chat/OptionsButtons"
 import TaskFeedbackButtons from "@/components/chat/TaskFeedbackButtons"
 import { CheckmarkControl } from "@/components/common/CheckmarkControl"
@@ -45,6 +49,7 @@ const normalColor = "var(--vscode-foreground)"
 const errorColor = "var(--vscode-errorForeground)"
 const successColor = "var(--vscode-charts-green)"
 const _cancelledColor = "var(--vscode-descriptionForeground)"
+const logger = new WebviewLogger("ChatRow")
 
 const ChatRowContainer = styled.div`
 	padding: 10px 6px 10px 15px;
@@ -462,20 +467,20 @@ export const ChatRowContent = memo(
 						return
 					}
 
-					const extensions = ["png", "jpg", "jpeg", "webp", "gif", "avif", "svg"]
-					for (const extension of extensions) {
-						const candidate = `assets/${imageRequestId}.${extension}`
-						if (await tryRead(candidate)) {
-							setResolvedImageRelativePath(candidate)
-							return
-						}
+						const extensions = ["png", "jpg", "jpeg", "webp", "gif", "avif", "svg"]
+						for (const extension of extensions) {
+							const candidate = `${getBrandGeneratedAssetsDirName()}/${imageRequestId}.${extension}`
+							if (await tryRead(candidate)) {
+								setResolvedImageRelativePath(candidate)
+								return
+							}
 						if (cancelled) {
 							return
 						}
 					}
 				} catch (err: unknown) {
 					if (!cancelled) {
-						console.error("Failed to load image file:", err)
+						logger.error("Failed to load image file", err)
 						setResolvedImageUrl(undefined)
 					}
 				}
@@ -573,7 +578,7 @@ export const ChatRowContent = memo(
 											: () => {
 													FileServiceClient.openFile(
 														StringRequest.create({ value: tool.content }),
-													).catch((err) => console.error("Failed to open file:", err))
+													).catch((err) => logger.error("Failed to open file", err))
 												}
 									}
 									style={{
@@ -793,7 +798,7 @@ export const ChatRowContent = memo(
 									// Open the URL in the default browser using gRPC
 									if (tool.path) {
 										UiServiceClient.openUrl(StringRequest.create({ value: tool.path })).catch((err) => {
-											console.error("Failed to open URL:", err)
+											logger.error("Failed to open URL", err)
 										})
 									}
 								}}
@@ -830,7 +835,6 @@ export const ChatRowContent = memo(
 					)
 				case "generateImage": {
 					const imageUrl = resolvedImageUrl ?? imageInlineUrl
-					console.log("imageURL", imageUrl)
 					const workspaceRelativePath = tool.workspaceRelativePath ?? resolvedImageRelativePath
 					const workspaceAbsolutePath = tool.workspaceAbsolutePath
 					const displayPath = workspaceAbsolutePath ?? workspaceRelativePath
@@ -839,14 +843,14 @@ export const ChatRowContent = memo(
 					const handleOpenImage = () => {
 						if (workspaceAbsolutePath) {
 							FileServiceClient.openFile(StringRequest.create({ value: workspaceAbsolutePath })).catch((err) => {
-								console.error("Failed to open image:", err)
+								logger.error("Failed to open image", err)
 							})
 							return
 						}
 						if (workspaceRelativePath) {
 							FileServiceClient.openFileRelativePath(StringRequest.create({ value: workspaceRelativePath })).catch(
 								(err) => {
-									console.error("Failed to open image:", err)
+									logger.error("Failed to open image", err)
 								},
 							)
 							return
@@ -854,12 +858,10 @@ export const ChatRowContent = memo(
 						if (!imageUrl) {
 							return
 						}
-						FileServiceClient.openImage(StringRequest.create({ value: imageUrl })).catch((err) => {
-							console.error("Failed to open image:", err)
-						})
-					}
-
-					console.log("workspaceAbsolutePath", workspaceAbsolutePath)
+							FileServiceClient.openImage(StringRequest.create({ value: imageUrl })).catch((err) => {
+								logger.error("Failed to open image", err)
+							})
+						}
 
 					return (
 						<>
@@ -1455,7 +1457,7 @@ export const ChatRowContent = memo(
 														value: message.ts,
 													}),
 												).catch((err) =>
-													console.error("Failed to show task completion view changes:", err),
+													logger.error("Failed to show task completion view changes", err),
 												)
 											}}
 											style={{
@@ -1600,7 +1602,7 @@ export const ChatRowContent = memo(
 															value: message.ts,
 														}),
 													).catch((err) =>
-														console.error("Failed to show task completion view changes:", err),
+														logger.error("Failed to show task completion view changes", err),
 													)
 												}}>
 												<i

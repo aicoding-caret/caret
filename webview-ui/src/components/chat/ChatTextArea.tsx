@@ -17,6 +17,8 @@ import styled from "styled-components"
 import { useInputHistory } from "@/caret/hooks/useInputHistory"
 // CARET MODIFICATION: Import i18n for Chatbot/Agent mode labels
 import { t } from "@/caret/utils/i18n"
+// CARET MODIFICATION: use CaretWebviewLogger for webview logs
+import WebviewLogger from "@/caret/utils/CaretWebviewLogger"
 import ContextMenu from "@/components/chat/ContextMenu"
 import { CHAT_CONSTANTS } from "@/components/chat/chat-view/constants"
 import SlashCommandMenu from "@/components/chat/SlashCommandMenu"
@@ -40,7 +42,8 @@ import {
 	shouldShowContextMenu,
 } from "@/utils/context-mentions"
 import { useMetaKeyDetection, useShortcut } from "@/utils/hooks"
-import { optimizeImageDataUrl } from "@/utils/imageOptimization"
+// CARET MODIFICATION: use caret image optimization utilities
+import { optimizeImageDataUrl } from "@/caret/utils/imageOptimization"
 import { isSafari } from "@/utils/platformUtils"
 import {
 	getMatchingSlashCommands,
@@ -90,6 +93,7 @@ interface GitCommit {
 
 const PLAN_MODE_COLOR = "var(--vscode-activityWarningBadge-background)"
 const ACT_MODE_COLOR = "var(--vscode-focusBorder)"
+const logger = new WebviewLogger("ChatTextArea")
 
 const SwitchOption = styled.div.withConfig({
 	shouldForwardProp: (prop) => !["isActive"].includes(prop),
@@ -389,7 +393,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						}
 					})
 					.catch((error) => {
-						console.error("Error searching commits:", error)
+						logger.error("Error searching commits", error)
 					})
 			}
 		}, [selectedType, searchQuery])
@@ -477,7 +481,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									setSearchLoading(false)
 								})
 								.catch((error) => {
-									console.error("Error searching files:", error)
+									logger.error("Error searching files", error)
 									setFileSearchResults([])
 									setSearchLoading(false)
 								})
@@ -877,7 +881,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									setSearchLoading(false)
 								})
 								.catch((error) => {
-									console.error("Error searching files:", error)
+									logger.error("Error searching files", error)
 									setFileSearchResults([])
 									setSearchLoading(false)
 								})
@@ -968,7 +972,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							const reader = new FileReader()
 							reader.onloadend = async () => {
 								if (reader.error) {
-									console.error("Error reading file:", reader.error)
+									logger.error("Error reading file", reader.error)
 									resolve(null)
 								} else {
 									const result = reader.result
@@ -977,7 +981,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 											const optimized = await optimizeImageDataUrl(result)
 											resolve(optimized)
 										} catch (error) {
-											console.warn((error as Error).message)
+											logger.warn((error as Error).message)
 											showDimensionErrorMessage()
 											resolve(null)
 										}
@@ -1001,7 +1005,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							setSelectedImages((prevImages) => [...prevImages, ...dataUrls.slice(0, imagesToAdd)])
 						}
 					} else {
-						console.warn("No valid images were processed")
+						logger.warn("No valid images were processed")
 					}
 				}
 			},
@@ -1099,15 +1103,15 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						}),
 					)
 				} catch (error) {
-					console.error("Failed to update API configuration:", error)
+					logger.error("Failed to update API configuration", error)
 				}
 			} else {
 				StateServiceClient.getLatestState(EmptyRequest.create())
 					.then(() => {
-						console.log("State refreshed")
+						logger.info("State refreshed")
 					})
 					.catch((error) => {
-						console.error("Error refreshing state:", error)
+						logger.error("Error refreshing state", error)
 					})
 			}
 		}, [apiConfiguration, openRouterModels])
@@ -1137,19 +1141,19 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				if (modeSystem === "caret") {
 					try {
 						const newCaretMode = mode === "plan" ? "agent" : "chatbot"
-						console.log(`[ChatTextArea] Synchronizing Caret mode: plan/act ${mode} → Caret ${newCaretMode}`)
+						logger.debug(`Synchronizing Caret mode: plan/act ${mode} → Caret ${newCaretMode}`)
 
 						const caretResponse = await CaretSystemServiceClient.SetCaretMode({
 							mode: newCaretMode,
 						})
 
 						if (caretResponse.success) {
-							console.log(`[ChatTextArea] ✅ Caret mode synchronized: ${caretResponse.currentMode}`)
+							logger.info(`Caret mode synchronized: ${caretResponse.currentMode}`)
 						} else {
-							console.error(`[ChatTextArea] ❌ Failed to synchronize Caret mode: ${caretResponse.errorMessage}`)
+							logger.error(`Failed to synchronize Caret mode: ${caretResponse.errorMessage}`)
 						}
 					} catch (error) {
-						console.error(`[ChatTextArea] ❌ Error synchronizing Caret mode:`, error)
+						logger.error("Error synchronizing Caret mode", error)
 					}
 				}
 
@@ -1403,7 +1407,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					uris = JSON.parse(resourceUrlsData)
 					uris = uris.map((uri) => decodeURIComponent(uri))
 				} catch (error) {
-					console.error("Failed to parse resourceurls JSON:", error)
+					logger.error("Failed to parse resourceurls JSON", error)
 					uris = [] // Reset if parsing failed
 				}
 			}
@@ -1431,7 +1435,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						}
 					})
 					.catch((error) => {
-						console.error("Error getting relative paths:", error)
+						logger.error("Error getting relative paths", error)
 					})
 				return
 			}
@@ -1467,7 +1471,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					setSelectedImages((prevImages) => [...prevImages, ...dataUrls.slice(0, imagesToAdd)])
 				}
 			} else {
-				console.warn("No valid images were processed")
+				logger.warn("No valid images were processed")
 			}
 		}
 
@@ -1501,7 +1505,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							reader.onloadend = async () => {
 								// Make async
 								if (reader.error) {
-									console.error("Error reading file:", reader.error)
+									logger.error("Error reading file", reader.error)
 									resolve(null)
 								} else {
 									const result = reader.result
@@ -1510,7 +1514,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 											const optimized = await optimizeImageDataUrl(result)
 											resolve(optimized)
 										} catch (error) {
-											console.warn((error as Error).message)
+											logger.warn((error as Error).message)
 											showDimensionErrorMessage() // Show error to user
 											resolve(null) // Don't add this image
 										}
