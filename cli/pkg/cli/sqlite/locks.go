@@ -353,6 +353,10 @@ func (lm *LockManager) AcquireFileLock(filePath, heldBy string) error {
 	if err := lm.ensureConnection(); err != nil {
 		return err
 	}
+	// CARET MODIFICATION: missing DB should behave like no-op
+	if lm.db == nil {
+		return nil
+	}
 
 	now := time.Now().Unix() * 1000 // Convert to milliseconds
 
