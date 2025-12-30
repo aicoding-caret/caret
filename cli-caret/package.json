@@ -25,10 +25,12 @@
 		"dist-standalone/man/**",
 		"extension/**/*",
 		"README.md",
+		"postinstall.js",
 		"scripts/*.sh"
 	],
 	"scripts": {
 		"build": "./scripts/build-local.sh",
-		"pack": "npm pack"
+		"pack": "npm pack",
+		"postinstall": "node ./postinstall.js"
 	}
 }

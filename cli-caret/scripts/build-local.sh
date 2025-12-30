@@ -32,6 +32,18 @@ if [[ ! -f "${CORE_DIST}/cline-core.js" ]]; then
   echo "[caret-cli] ERROR: cline-core.js not found in dist-standalone. Run 'npm run compile-standalone-npm' first."
   exit 1
 fi
+# CARET MODIFICATION: ensure better-sqlite3 is present in dist-standalone runtime deps
+if command -v npm >/dev/null 2>&1 && [[ ! -d "${CORE_DIST}/node_modules/better-sqlite3" ]]; then
+  if [[ -d "${ROOT_DIR}/node_modules/better-sqlite3" ]]; then
+    mkdir -p "${CORE_DIST}/node_modules"
+    rsync -a --delete "${ROOT_DIR}/node_modules/better-sqlite3" "${CORE_DIST}/node_modules/"
+  else
+    (
+      cd "${CORE_DIST}"
+      npm install --no-audit --no-fund
+    )
+  fi
+fi
 mkdir -p "${PKG_DIR}/dist-standalone"
 rsync -a --delete "${CORE_DIST}/" "${PKG_DIR}/dist-standalone/"
 # also place top-level copy for core lookup fallback
