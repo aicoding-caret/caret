@@ -1,6 +1,7 @@
 console.log("Loading stub impls...")
 
 const { createStub } = require("./stub-utils")
+const path = require("path") // CARET MODIFICATION: use OS path joins for Uri.joinPath
 const { StandaloneTerminalManager } = require("./enhanced-terminal")
 
 // Import the base vscode object from stubs
@@ -168,8 +169,8 @@ vscode.Uri = {
 	},
 
 	joinPath: (...segments) => {
-		const joined = segments.map((s) => (typeof s === "string" ? s : s.path)).join("/")
-		return vscode.Uri.file("/" + joined.replace(/\/+/g, "/"))
+		const joined = path.join(...segments.map((s) => (typeof s === "string" ? s : s.fsPath || s.path)))
+		return vscode.Uri.file(joined)
 	},
 }
 
