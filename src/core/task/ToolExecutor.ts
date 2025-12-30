@@ -18,6 +18,7 @@ import { WorkspaceRootManager } from "../workspace"
 import { ToolResponse } from "."
 import { MessageStateHandler } from "./message-state"
 import { TaskState } from "./TaskState"
+import { ImageRegistry } from "./images/ImageRegistry"
 import { AutoApprove } from "./tools/autoApprove"
 import { AccessMcpResourceHandler } from "./tools/handlers/AccessMcpResourceHandler"
 import { ActModeRespondHandler } from "./tools/handlers/ActModeRespondHandler"
@@ -77,6 +78,7 @@ export class ToolExecutor {
 		private clineIgnoreController: ClineIgnoreController,
 		private contextManager: ContextManager,
 		private stateManager: StateManager,
+		private imageRegistry: ImageRegistry,
 
 		// Configuration & Settings
 
@@ -162,6 +164,7 @@ export class ToolExecutor {
 				clineIgnoreController: this.clineIgnoreController,
 				contextManager: this.contextManager,
 				stateManager: this.stateManager,
+				imageRegistry: this.imageRegistry,
 			},
 			callbacks: {
 				say: this.say,

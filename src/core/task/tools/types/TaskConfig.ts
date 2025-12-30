@@ -20,6 +20,7 @@ import type { MessageStateHandler } from "../../message-state"
 import type { TaskState } from "../../TaskState"
 import type { AutoApprove } from "../../tools/autoApprove"
 import type { HookExecution } from "../../types/HookExecution"
+import type { ImageRegistry } from "../../images/ImageRegistry"
 import type { ToolExecutorCoordinator } from "../ToolExecutorCoordinator"
 import { TASK_CALLBACKS_KEYS, TASK_CONFIG_KEYS, TASK_SERVICES_KEYS } from "../utils/ToolConstants"
 
@@ -74,6 +75,7 @@ export interface TaskServices {
 	clineIgnoreController: ClineIgnoreController
 	contextManager: ContextManager
 	stateManager: StateManager
+	imageRegistry: ImageRegistry
 }
 
 /**

@@ -11,6 +11,7 @@ import { t } from "@/caret/utils/i18n"
 import { normalizeApiConfiguration } from "@/components/settings/utils/providerUtils"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { FileServiceClient, UiServiceClient } from "@/services/grpc-client"
+import { optimizeImageDataUrl } from "@/utils/imageOptimization"
 import { Navbar } from "../menu/Navbar"
 import AutoApproveBar from "./auto-approve-menu/AutoApproveBar"
 // Import utilities and hooks from the new structure
@@ -216,14 +217,25 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 				response.values2 &&
 				(response.values1.length > 0 || response.values2.length > 0)
 			) {
+				const optimizedImages = await Promise.all(
+					response.values1.map(async (dataUrl) => {
+						try {
+							return await optimizeImageDataUrl(dataUrl)
+						} catch (error) {
+							console.warn((error as Error).message)
+							return null
+						}
+					}),
+				)
+				const filteredImages = optimizedImages.filter((dataUrl): dataUrl is string => dataUrl !== null)
 				const currentTotal = selectedImages.length + selectedFiles.length
 				const availableSlots = MAX_IMAGES_AND_FILES_PER_MESSAGE - currentTotal
 
 				if (availableSlots > 0) {
 					// Prioritize images first
-					const imagesToAdd = Math.min(response.values1.length, availableSlots)
+					const imagesToAdd = Math.min(filteredImages.length, availableSlots)
 					if (imagesToAdd > 0) {
-						setSelectedImages((prevImages) => [...prevImages, ...response.values1.slice(0, imagesToAdd)])
+						setSelectedImages((prevImages) => [...prevImages, ...filteredImages.slice(0, imagesToAdd)])
 					}
 
 					// Use remaining slots for files

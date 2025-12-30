@@ -1,4 +1,5 @@
 import { cn } from "@heroui/react"
+import { createImageId } from "@shared/images/image-id"
 import { StringRequest } from "@shared/proto/cline/common"
 import React, { memo, useLayoutEffect, useRef, useState } from "react"
 import { useWindowSize } from "react-use"
@@ -64,51 +65,73 @@ const Thumbnails = ({ images, files, style, setImages, setFiles, onHeightChange,
 				rowGap: 3,
 				...style,
 			}}>
-			{images.map((image, index) => (
-				<div
-					key={`image-${index}`}
-					onMouseEnter={() => setHoveredIndex(`image-${index}`)}
-					onMouseLeave={() => setHoveredIndex(null)}
-					style={{ position: "relative" }}>
-					<img
-						alt={t("thumbnails.thumbnailImage", "chat", { index: index + 1 })}
-						onClick={() => handleImageClick(image)}
-						src={image}
-						style={{
-							width: 34,
-							height: 34,
-							objectFit: "cover",
-							borderRadius: 4,
-							cursor: "pointer",
-						}}
-					/>
-					{isDeletableImages && hoveredIndex === `image-${index}` && (
-						<div
-							onClick={() => handleDeleteImages(index)}
+			{images.map((image, index) => {
+				const imageId = image ? createImageId(image) : undefined
+
+				return (
+					<div
+						key={`image-${index}`}
+						onMouseEnter={() => setHoveredIndex(`image-${index}`)}
+						onMouseLeave={() => setHoveredIndex(null)}
+						style={{ position: "relative" }}>
+						<img
+							alt={t("thumbnails.thumbnailImage", "chat", { index: index + 1 })}
+							onClick={() => handleImageClick(image)}
+							src={image}
 							style={{
-								position: "absolute",
-								top: -4,
-								right: -4,
-								width: 13,
-								height: 13,
-								borderRadius: "50%",
-								backgroundColor: "var(--vscode-badge-background)",
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center",
+								width: 34,
+								height: 34,
+								objectFit: "cover",
+								borderRadius: 4,
 								cursor: "pointer",
-							}}>
+							}}
+						/>
+						{imageId && (
 							<span
-								className="codicon codicon-close"
 								style={{
-									color: "var(--vscode-foreground)",
-									fontSize: 10,
-									fontWeight: "bold",
-								}}></span>
-						</div>
-					)}
-				</div>
-			))}
+									position: "absolute",
+									bottom: 2,
+									left: 2,
+									padding: "1px 3px",
+									borderRadius: 3,
+									backgroundColor: "rgba(0, 0, 0, 0.65)",
+									color: "#fff",
+									fontSize: 8,
+									lineHeight: 1.2,
+									letterSpacing: 0.2,
+								}}
+								title={imageId}>
+								{imageId}
+							</span>
+						)}
+						{isDeletableImages && hoveredIndex === `image-${index}` && (
+							<div
+								onClick={() => handleDeleteImages(index)}
+								style={{
+									position: "absolute",
+									top: -4,
+									right: -4,
+									width: 13,
+									height: 13,
+									borderRadius: "50%",
+									backgroundColor: "var(--vscode-badge-background)",
+									display: "flex",
+									justifyContent: "center",
+									alignItems: "center",
+									cursor: "pointer",
+								}}>
+								<span
+									className="codicon codicon-close"
+									style={{
+										color: "var(--vscode-foreground)",
+										fontSize: 10,
+										fontWeight: "bold",
+									}}></span>
+							</div>
+						)}
+					</div>
+				)
+			})}
 
 			{files.map((filePath, index) => {
 				const fileName = filePath.split(/[\\/]/).pop() || filePath

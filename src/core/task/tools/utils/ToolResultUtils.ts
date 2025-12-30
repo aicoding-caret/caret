@@ -53,7 +53,11 @@ export class ToolResultUtils {
 			// For complex content (arrays with text/image blocks), pass it through directly
 			// The content array should already be properly formatted with type, text, source, etc.
 			const toolUseId = toolUseIdMap?.get(block.name) || "cline"
-			userMessageContent.push(ToolResultUtils.createToolResultBlock(content, toolUseId))
+			if (toolUseId === "cline") {
+				userMessageContent.push(...content)
+			} else {
+				userMessageContent.push(ToolResultUtils.createToolResultBlock(content, toolUseId))
+			}
 		}
 		// once a tool result has been collected, ignore all other tool uses since we should only ever present one tool result per message
 		markToolAsUsed()

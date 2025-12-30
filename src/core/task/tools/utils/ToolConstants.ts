@@ -44,6 +44,7 @@ export const TASK_SERVICES_KEYS = [
 	"clineIgnoreController",
 	"contextManager",
 	"stateManager",
+	"imageRegistry",
 ] as const
 
 /**
