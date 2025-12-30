@@ -8,7 +8,6 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
-	"syscall"
 	"time"
 
 	"github.com/cline/cli/pkg/common"
@@ -299,9 +298,8 @@ func startClineHost(hostPort, corePort int) (*exec.Cmd, error) {
 	cmd.Stderr = logFile
 
 	// Put the child process in a new process group so Ctrl+C doesn't kill it
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Setpgid: true,
-	}
+	// CARET MODIFICATION: platform-safe process group handling
+	setChildProcessGroup(cmd)
 
 	if err := cmd.Start(); err != nil {
 		logFile.Close()
@@ -344,7 +342,8 @@ func KillInstanceByAddress(ctx context.Context, registry *ClientRegistry, addres
 	}
 
 	// Kill the process
-	if err := syscall.Kill(pid, syscall.SIGTERM); err != nil {
+	// CARET MODIFICATION: platform-safe process termination
+	if err := terminateProcess(pid); err != nil {
 		return fmt.Errorf("failed to kill process %d: %w", pid, err)
 	}
 
@@ -503,9 +502,8 @@ func startClineCore(corePort, hostPort int) (*exec.Cmd, error) {
 	cmd.Stderr = logFile
 
 	// Put the child process in a new process group so Ctrl+C doesn't kill it
-	cmd.SysProcAttr = &syscall.SysProcAttr{
-		Setpgid: true,
-	}
+	// CARET MODIFICATION: platform-safe process group handling
+	setChildProcessGroup(cmd)
 
 	// Set environment variables with NODE_PATH for both real and fake node_modules
 	// CARET MODIFICATION: include packaged dist-standalone node_modules for caret-cli

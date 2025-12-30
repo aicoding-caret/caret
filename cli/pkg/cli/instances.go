@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"syscall"
 	"text/tabwriter"
 	"time"
 
@@ -266,7 +265,8 @@ func killInstanceProcess(ctx context.Context, registry *global.ClientRegistry, a
 	pid := int(processInfo.ProcessId)
 
 	// Kill the process
-	if err := syscall.Kill(pid, syscall.SIGTERM); err != nil {
+	// CARET MODIFICATION: platform-safe process termination
+	if err := terminateProcess(pid); err != nil {
 		return killResult{address: address, pid: pid, err: err}
 	}
 
