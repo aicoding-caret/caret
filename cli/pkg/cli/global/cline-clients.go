@@ -263,13 +263,30 @@ func startClineHost(hostPort, corePort int) (*exec.Cmd, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to get executable path: %w", err)
 	}
-	binDir := path.Dir(execPath)
-	clineHostPath := path.Join(binDir, "cline-host")
-	// CARET MODIFICATION: support caret-host fallback for packaged caret CLI
-	if _, statErr := os.Stat(clineHostPath); statErr != nil {
-		alt := path.Join(binDir, "caret-host")
-		if _, altErr := os.Stat(alt); altErr == nil {
-			clineHostPath = alt
+	// CARET MODIFICATION: use filepath for Windows-style paths
+	binDir := filepath.Dir(execPath)
+	clineHostPath := filepath.Join(binDir, "cline-host")
+	// CARET MODIFICATION: prefer platform-specific host binaries on Windows
+	if runtime.GOOS == "windows" {
+		candidates := []string{
+			filepath.Join(binDir, "cline-host.exe"),
+			filepath.Join(binDir, "caret-host.exe"),
+			filepath.Join(binDir, "caret-host-windows-amd64.exe"),
+			filepath.Join(binDir, "cline-host-windows-amd64.exe"),
+		}
+		for _, candidate := range candidates {
+			if _, statErr := os.Stat(candidate); statErr == nil {
+				clineHostPath = candidate
+				break
+			}
+		}
+	} else {
+		// CARET MODIFICATION: support caret-host fallback for packaged caret CLI
+		if _, statErr := os.Stat(clineHostPath); statErr != nil {
+			alt := filepath.Join(binDir, "caret-host")
+			if _, altErr := os.Stat(alt); altErr == nil {
+				clineHostPath = alt
+			}
 		}
 	}
 
@@ -404,9 +421,10 @@ func startClineCore(corePort, hostPort int) (*exec.Cmd, error) {
 		}
 	}
 
-	binDir := path.Dir(realPath)
-	installDir := path.Dir(binDir)
-	clineCorePath := path.Join(installDir, "cline-core.js")
+	// CARET MODIFICATION: use filepath for Windows-style paths
+	binDir := filepath.Dir(realPath)
+	installDir := filepath.Dir(binDir)
+	clineCorePath := filepath.Join(installDir, "cline-core.js")
 
 	if Config.Verbose {
 		fmt.Printf("Executable path: %s\n", execPath)
@@ -429,13 +447,13 @@ func startClineCore(corePort, hostPort int) (*exec.Cmd, error) {
 			label      string
 		}{
 			{
-				corePath:   path.Join(binDir, "..", "..", "dist-standalone", "cline-core.js"), // dev mode
-				installDir: path.Join(binDir, "..", "..", "dist-standalone"),
+				corePath:   filepath.Join(binDir, "..", "..", "dist-standalone", "cline-core.js"), // dev mode
+				installDir: filepath.Join(binDir, "..", "..", "dist-standalone"),
 				label:      "development",
 			},
 			{
-				corePath:   path.Join(installDir, "dist-standalone", "cline-core.js"), // npm packaged dist
-				installDir: path.Join(installDir, "dist-standalone"),
+				corePath:   filepath.Join(installDir, "dist-standalone", "cline-core.js"), // npm packaged dist
+				installDir: filepath.Join(installDir, "dist-standalone"),
 				label:      "npm packaged",
 			},
 		}

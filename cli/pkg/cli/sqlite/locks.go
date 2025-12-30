@@ -130,6 +130,10 @@ func (lm *LockManager) GetInstanceLocks() ([]common.LockRow, error) {
 	if err := lm.ensureConnection(); err != nil {
 		return []common.LockRow{}, nil
 	}
+	// CARET MODIFICATION: missing DB should behave like empty registry
+	if lm.db == nil {
+		return []common.LockRow{}, nil
+	}
 
 	query := common.SelectInstanceLocksSQL
 
@@ -157,6 +161,10 @@ func (lm *LockManager) RemoveInstanceLock(address string) error {
 	if err := lm.ensureConnection(); err != nil {
 		return nil // Gracefully handle missing database for cleanup operations
 	}
+	// CARET MODIFICATION: missing DB should behave like no-op
+	if lm.db == nil {
+		return nil
+	}
 
 	query := common.DeleteInstanceLockSQL
 	_, err := lm.db.Exec(query, address)
@@ -171,6 +179,10 @@ func (lm *LockManager) RemoveInstanceLock(address string) error {
 func (lm *LockManager) HasInstanceAtAddress(address string) (bool, error) {
 	if err := lm.ensureConnection(); err != nil {
 		// CARET MODIFICATION: missing DB means no instances, not fatal
+		return false, nil
+	}
+	// CARET MODIFICATION: missing DB means no instances, not fatal
+	if lm.db == nil {
 		return false, nil
 	}
 
@@ -189,6 +201,10 @@ func (lm *LockManager) HasInstanceAtAddress(address string) (bool, error) {
 func (lm *LockManager) GetInstanceInfo(address string) (*common.CoreInstanceInfo, error) {
 	if err := lm.ensureConnection(); err != nil {
 		// CARET MODIFICATION: missing DB -> no info available
+		return nil, nil
+	}
+	// CARET MODIFICATION: missing DB -> no info available
+	if lm.db == nil {
 		return nil, nil
 	}
 
@@ -227,6 +243,10 @@ func (lm *LockManager) GetInstanceInfo(address string) (*common.CoreInstanceInfo
 // ListInstancesWithHealthCheck returns all instances with real-time health checks
 func (lm *LockManager) ListInstancesWithHealthCheck(ctx context.Context) ([]*common.CoreInstanceInfo, error) {
 	if err := lm.ensureConnection(); err != nil {
+		return []*common.CoreInstanceInfo{}, nil
+	}
+	// CARET MODIFICATION: missing DB should behave like empty registry
+	if lm.db == nil {
 		return []*common.CoreInstanceInfo{}, nil
 	}
 
