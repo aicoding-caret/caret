@@ -10,17 +10,26 @@ OUT_DIR="${ROOT_DIR}/cli-caret/bin"
 echo "[caret-cli] Building binaries into ${OUT_DIR} ..."
 mkdir -p "${OUT_DIR}"
 
-# Go toolchain check (auto-download to /tmp/go if missing)
-if ! command -v go >/dev/null 2>&1 && [[ ! -x "/tmp/go/bin/go" ]]; then
-  "${PKG_DIR}/scripts/ensure-go.sh"
-fi
+# Go toolchain check (auto-download to /tmp/go if missing or too old)
+"${PKG_DIR}/scripts/ensure-go.sh"
 export PATH="/tmp/go/bin:${PATH}"
+# CARET MODIFICATION: keep Go caches inside repo to avoid permission issues
+GOCACHE_DIR="${ROOT_DIR}/.cache/go-build"
+GOPATH_DIR="${ROOT_DIR}/.gopath"
+GOMODCACHE_DIR="${ROOT_DIR}/.cache/go-mod"
+mkdir -p "${GOCACHE_DIR}" "${GOPATH_DIR}" "${GOMODCACHE_DIR}"
+export GOCACHE="${GOCACHE_DIR}"
+export GOPATH="${GOPATH_DIR}"
+export GOMODCACHE="${GOMODCACHE_DIR}"
+# CARET MODIFICATION: avoid auto toolchain downloads triggered by go.work
+export GOWORK=off
+export GOTOOLCHAIN=local
 
 # Ensure protos (TS + Go)
 echo "[caret-cli] Running protos (TS)..."
 (cd "${ROOT_DIR}" && npm run protos)
 echo "[caret-cli] Running protos-go..."
-(cd "${ROOT_DIR}" && PATH=/tmp/go/bin:${PATH} npm run protos-go)
+(cd "${ROOT_DIR}" && PATH=/tmp/go/bin:${PATH} GOWORK=off GOTOOLCHAIN=local npm run protos-go)
 
 # Copy extension package.json (for dist-standalone usage)
 mkdir -p "${ROOT_DIR}/dist-standalone/extension"
@@ -40,7 +49,9 @@ if command -v npm >/dev/null 2>&1 && [[ ! -d "${CORE_DIST}/node_modules/better-s
   else
     (
       cd "${CORE_DIST}"
-      npm install --no-audit --no-fund
+      NPM_CACHE_DIR="${ROOT_DIR}/.npm-cache"
+      mkdir -p "${NPM_CACHE_DIR}"
+      NPM_CONFIG_CACHE="${NPM_CACHE_DIR}" npm install --no-audit --no-fund
     )
   fi
 fi
@@ -68,7 +79,11 @@ if command -v npm >/dev/null 2>&1; then
   if [[ -n "${BETTER_SQLITE_DIR}" ]]; then
     (
       cd "${BETTER_SQLITE_DIR}"
-      npm rebuild --build-from-source --unsafe-perm
+      NPM_CACHE_DIR="${ROOT_DIR}/.npm-cache"
+      mkdir -p "${NPM_CACHE_DIR}"
+      if ! NPM_CONFIG_CACHE="${NPM_CACHE_DIR}" npm rebuild --build-from-source --unsafe-perm; then
+        echo "[caret-cli] Warning: better-sqlite3 rebuild failed; continuing"
+      fi
     )
   else
     echo "[caret-cli] Warning: better-sqlite3 not found; skipping rebuild"
@@ -87,16 +102,67 @@ LDFLAGS="-X 'github.com/cline/cli/pkg/cli/global.Version=${CORE_VERSION}' \
          -X 'github.com/cline/cli/pkg/cli/global.Date=${DATE}' \
          -X 'github.com/cline/cli/pkg/cli/global.BuiltBy=${BUILT_BY}'"
 
-(
-  cd "${CLI_DIR}"
-  PATH=/tmp/go/bin:${PATH} GOWORK=off GOCACHE=/tmp/go-build \
-    go build -ldflags "$LDFLAGS" -o "${OUT_DIR}/caret" ./cmd/cline
-
-  PATH=/tmp/go/bin:${PATH} GOWORK=off GOCACHE=/tmp/go-build \
-    go build -ldflags "$LDFLAGS" -o "${OUT_DIR}/caret-host" ./cmd/cline-host
+# CARET MODIFICATION: build platform-specific binaries for cross-platform npm installs
+PLATFORMS=(
+  "darwin/arm64"
+  "darwin/amd64"
+  "linux/amd64"
+  "linux/arm64"
+  "windows/amd64"
 )
 
-# CARET MODIFICATION: provide Cline-compatible binary names to avoid patching core
+(
+  cd "${CLI_DIR}"
+  for platform in "${PLATFORMS[@]}"; do
+    GOOS=${platform%/*}
+    GOARCH=${platform#*/}
+    EXT=""
+    if [ "$GOOS" = "windows" ]; then
+      EXT=".exe"
+    fi
+
+    PATH=/tmp/go/bin:${PATH} GOWORK=off \
+      GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=0 \
+      go build -ldflags "$LDFLAGS" -o "${OUT_DIR}/caret-${GOOS}-${GOARCH}${EXT}" ./cmd/cline
+
+    PATH=/tmp/go/bin:${PATH} GOWORK=off \
+      GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=0 \
+      go build -ldflags "$LDFLAGS" -o "${OUT_DIR}/caret-host-${GOOS}-${GOARCH}${EXT}" ./cmd/cline-host
+  done
+)
+
+create_wrapper() {
+  local name="$1"
+  cat > "${OUT_DIR}/${name}" <<EOF
+#!/usr/bin/env node
+const fs = require("fs");
+const path = require("path");
+const { spawnSync } = require("child_process");
+
+const name = ${name@Q};
+const platform = process.platform === "win32" ? "windows" : process.platform;
+const arch = process.arch === "x64" ? "amd64" : process.arch;
+const ext = platform === "windows" ? ".exe" : "";
+const binary = path.join(__dirname, \`\${name}-\${platform}-\${arch}\${ext}\`);
+
+if (!fs.existsSync(binary)) {
+  console.error(\`[caret-cli] Missing binary: \${binary}\`);
+  process.exit(1);
+}
+
+const result = spawnSync(binary, process.argv.slice(2), { stdio: "inherit" });
+if (result.error) {
+  console.error(\`[caret-cli] Failed to run \${binary}: \${result.error.message}\`);
+  process.exit(1);
+}
+process.exit(result.status ?? 1);
+EOF
+  chmod +x "${OUT_DIR}/${name}"
+}
+
+create_wrapper "caret"
+create_wrapper "caret-host"
+# CARET MODIFICATION: provide Cline-compatible names for legacy lookups
 cp "${OUT_DIR}/caret" "${OUT_DIR}/cline"
 cp "${OUT_DIR}/caret-host" "${OUT_DIR}/cline-host"
 
