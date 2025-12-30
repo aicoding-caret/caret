@@ -162,6 +162,7 @@ const ApiOptions = ({
 			{ value: "gemini", label: t("providers.gemini.name", "settings") },
 			{ value: "openai", label: t("providers.openai.name", "settings") },
 			{ value: "anthropic", label: t("providers.anthropic.name", "settings") },
+			{ value: "naver-cloud", label: `${t("providers.naver-cloud.name", "settings")} ${t("providers.naver-cloud.newBadge", "settings")}` }, // CARET MODIFICATION: Place Naver Cloud before BizRouter with emoji badge
 			{ value: "bizrouter", label: t("providers.bizrouter.name", "settings") },
 			{ value: "bedrock", label: t("providers.bedrock.name", "settings") },
 			{ value: "vscode-lm", label: t("providers.vscode-lm.name", "settings") },
@@ -192,7 +193,6 @@ const ApiOptions = ({
 			{ value: "xai", label: t("providers.xai.name", "settings") },
 			{ value: "sambanova", label: t("providers.sambanova.name", "settings") },
 			{ value: "huawei-cloud-maas", label: t("providers.huawei-cloud-maas.name", "settings") },
-			{ value: "naver-cloud", label: t("providers.naver-cloud.name", "settings") },
 			{ value: "dify", label: t("providers.dify.name", "settings") },
 		]
 

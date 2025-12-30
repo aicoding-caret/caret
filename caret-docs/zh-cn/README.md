@@ -176,7 +176,7 @@
 ## 📞 支持与社区
 
 - 🏠 **网站**: https://caret.team  
-- 💬 **Facebook 群组**: https://www.facebook.com/groups/aicodingcaret  
+- 💬 **Discord 社区**: https://discord.gg/caret  
 - 📧 **邮箱**: support@caret.team  
 - 🐛 **Bug 报告**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)  
 

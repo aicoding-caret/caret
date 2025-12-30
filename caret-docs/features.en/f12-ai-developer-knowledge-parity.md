@@ -27,8 +27,8 @@ The **AI-Developer Knowledge Parity** system ensures AI and developers share the
 Implemented through project structure and documentation rather than runtime code changes.
 
 ### 1. Root Configuration
-- **`.agents/context/caret-rules.json`**: Index/entry point for the rule system.  
-- **`AGENTS.md`**: Instructs agents to read `.agents/context` first.
+- **`.agents/context/caret-rules.json`**: JSON index/entry point for the rule system.  
+- **`AGENTS.md`**: Entry point that instructs agents to read `caret-rules.json` and load workflows on demand.
 
 ### 2. Knowledge Base
 - **`.agents/context/workflows/`**: Task-specific procedures (for AI).  
@@ -43,15 +43,14 @@ Implemented through project structure and documentation rather than runtime code
 
 This is a contract about how docs are organized and how AI consumes them.
 
-### 1. Core File: `caret-rules.md`
-- **Location**: `.agents/context/caret-rules.md`  
-- **Role**: Explains the hierarchy and navigation path for the AI.  
-- **Key logic**:
-  ```markdown
-  ### Document Access Pattern (On-Demand System)
-  - **1. Initialize**: AI reads `.agents/context/caret-rules.json` (JSON index)
-  - **2. Analyze**: AI identifies the workflow from `workflows.index`
-  - **3. Load**: AI reads the specific workflow (e.g., `.agents/context/workflows/ai-feature.md`) only when needed
+### 1. Core File: `caret-rules.json`
+- **Location**: `.agents/context/caret-rules.json`  
+- **Role**: JSON index that defines how AI discovers workflows/atoms.  
+- **Access pattern**:
+  ```text
+  1) Read AGENTS.md
+  2) Read .agents/context/caret-rules.json
+  3) Load only the needed workflow (e.g., .agents/context/workflows/ai-feature.md)
   ```
 
 ---
@@ -61,7 +60,7 @@ This is a contract about how docs are organized and how AI consumes them.
 **Example: creating a new component**
 
 1. **Analyze the task**: AI reads the index (e.g., `ai-work-index.yaml`) and recognizes it as `new-component`.  
-2. **Load workflow**: Following `caret-rules.md`, it loads `.agents/context/workflows/new-component.md`.  
+2. **Load workflow**: Following `caret-rules.json`, it loads `.agents/context/workflows/new-component.md`.  
 3. **Compose atoms**: The workflow references required atoms (`tdd-cycle`, `naming-conventions`, etc.); AI loads them from `workflows/atoms/` and composes the full procedure.  
 4. **Execute**: AI follows the composed steps to write tests, implement the component, and iterate with TDD.
 

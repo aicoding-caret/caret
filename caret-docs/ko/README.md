@@ -199,7 +199,7 @@
 ## 📞 지원 & 커뮤니티
 
 - 🏠 **웹사이트**: https://caret.team  
-- 💬 **페이스북 그룹**: https://www.facebook.com/groups/aicodingcaret  
+- 💬 **디스코드**: https://discord.gg/caret  
 - 📧 **이메일**: support@caret.team  
 - 🐛 **버그 제보**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)  
 

@@ -39,6 +39,16 @@ npm run test:all
 npm run test:coverage
 ```
 
+### 🚀 문서 배포 빌드 (Vercel 기준)
+
+Vercel 배포를 전제로 한 문서 빌드 검증은 **기본 체크 항목**입니다.
+
+```bash
+# docs.caret.team 빌드 확인
+cd docs.caret.team
+npm run build
+```
+
 ### 📈 커버리지 분석
 
 ```bash

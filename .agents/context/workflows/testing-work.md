@@ -169,6 +169,9 @@ describe('PersonaSystem Performance', () => {
 npm run test:webview
 npm run test:coverage
 
+# Docs (Vercel deploy baseline)
+npm -C docs.caret.team run build
+
 # Verify coverage meets requirements
 # Target: >90% line coverage for new features
 # Target: 100% integration test coverage for user flows

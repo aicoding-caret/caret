@@ -976,7 +976,13 @@
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
-			"description": "Naver Cloud는 한국어 맥락에 최적화된 Hyper Clova X(HCX) 모델을 제공합니다."
+			"description": "Naver Cloud는 한국어 맥락에 최적화된 Hyper Clova X(HCX) 모델을 제공합니다.",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"naverCloudLinkText": "Naver Cloud",
+			"descriptionPart2": "는 한국어 맥락에 최적화된 ",
+			"hyperClovaLinkText": "Hyper Clova X(HCX)",
+			"descriptionPart3": " 모델을 제공합니다."
 		},
 		"dify": {
 			"name": "Dify.ai",

@@ -5,6 +5,7 @@ import { t } from "@/caret/utils/i18n"
 import { updateSetting } from "@/components/settings/utils/settingsHandlers"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ModelDescriptionMarkdown } from "../OpenRouterModelPicker"
+import { normalizeApiConfiguration } from "../utils/providerUtils" // CARET MODIFICATION: Gate image settings by provider
 import {
 	formatPrice,
 	formatTokenLimit,
@@ -163,8 +164,9 @@ export const ModelInfoView = ({ selectedModelId, modelInfo, isPopup }: ModelInfo
 	const isGemini = Object.keys(geminiModels).includes(selectedModelId)
 	const hasThinkingConfig = hasThinkingBudget(modelInfo)
 	const hasTiers = !!modelInfo.tiers && modelInfo.tiers.length > 0
-	const { imageGenerationAspectRatio, imageGenerationSize } = useExtensionState()
-	const shouldShowImageSettings = supportsImages(modelInfo)
+	const { imageGenerationAspectRatio, imageGenerationSize, apiConfiguration, mode } = useExtensionState() // CARET MODIFICATION: Use provider context
+	const shouldShowImageSettings =
+		supportsImages(modelInfo) && normalizeApiConfiguration(apiConfiguration, mode).selectedProvider === "caret" // CARET MODIFICATION: Caret-only image settings
 
 	const handleAspectRatioChange = useCallback(
 		(event: ChangeEvent<HTMLSelectElement>) => {

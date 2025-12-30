@@ -986,7 +986,13 @@
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
-			"description": "Naver Cloudは韓国語の文脈に最適化されたHyper Clova X (HCX)モデルを提供します。"
+			"description": "Naver Cloudは韓国語の文脈に最適化されたHyper Clova X (HCX)モデルを提供します。",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"naverCloudLinkText": "Naver Cloud",
+			"descriptionPart2": "は韓国語の文脈に最適化された",
+			"hyperClovaLinkText": "Hyper Clova X (HCX)",
+			"descriptionPart3": "モデルを提供します。"
 		},
 		"dify": {
 			"name": "Dify.ai",

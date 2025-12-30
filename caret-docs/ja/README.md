@@ -176,7 +176,7 @@
 ## 📞 サポート & コミュニティ
 
 - 🏠 **Webサイト**: https://caret.team  
-- 💬 **Facebookグループ**: https://www.facebook.com/groups/aicodingcaret  
+- 💬 **Discord**: https://discord.gg/caret  
 - 📧 **メール**: support@caret.team  
 - 🐛 **バグ報告**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)  
 

@@ -1,6 +1,8 @@
 // CARET MODIFICATION: Naver Cloud provider settings UI.
 import { naverCloudModels } from "@shared/api"
 import { Mode } from "@shared/storage/types"
+import { VSCodeLink } from "@vscode/webview-ui-toolkit/react"
+import { CARET_URLS } from "@/caret/constants/urls"
 import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ApiKeyField } from "../common/ApiKeyField"
@@ -30,7 +32,15 @@ export const NaverCloudProvider = ({ showModelOptions, isPopup, currentMode }: N
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
 			<p style={{ color: "var(--vscode-descriptionForeground)", fontSize: 13, margin: 0 }}>
-				{t("providers.naver-cloud.description", "settings")}
+				{t("providers.naver-cloud.descriptionPart1", "settings")}
+				<VSCodeLink href={CARET_URLS.NAVER_CLOUD_CORP} style={{ display: "inline", fontSize: "inherit" }}>
+					{t("providers.naver-cloud.naverCloudLinkText", "settings")}
+				</VSCodeLink>
+				{t("providers.naver-cloud.descriptionPart2", "settings")}
+				<VSCodeLink href={CARET_URLS.CLOVA_AI} style={{ display: "inline", fontSize: "inherit" }}>
+					{t("providers.naver-cloud.hyperClovaLinkText", "settings")}
+				</VSCodeLink>
+				{t("providers.naver-cloud.descriptionPart3", "settings")}
 			</p>
 			<ApiKeyField
 				initialValue={apiConfiguration?.naverCloudApiKey || ""}

@@ -979,7 +979,13 @@
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
-			"description": "Naver Cloud 提供针对韩语语境优化的 Hyper Clova X (HCX) 模型。"
+			"description": "Naver Cloud 提供针对韩语语境优化的 Hyper Clova X (HCX) 模型。",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"naverCloudLinkText": "Naver Cloud",
+			"descriptionPart2": " 提供针对韩语语境优化的 ",
+			"hyperClovaLinkText": "Hyper Clova X (HCX)",
+			"descriptionPart3": " 模型。"
 		},
 		"dify": {
 			"name": "Dify.ai",

@@ -202,7 +202,7 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 ## 📞 Support & Community
 
 - 🏠 **Website**: https://caret.team  
-- 💬 **Facebook Group**: https://www.facebook.com/groups/aicodingcaret  
+- 💬 **Discord**: https://discord.gg/caret  
 - 📧 **Email**: support@caret.team  
 - 🐛 **Bug reports**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)  
 

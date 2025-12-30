@@ -15,6 +15,10 @@ export const CARET_URLS = {
 	// BizRouter
 	BIZROUTER_DOCS: "https://bizrouter.ai/docs",
 	BIZROUTER_MODELS: "https://bizrouter.ai/docs/models",
+
+	// Naver Cloud
+	NAVER_CLOUD_CORP: "https://www.navercloudcorp.com/",
+	CLOVA_AI: "https://clova.ai/",
 } as const
 
 // Language-specific URLs for educational content and documentation

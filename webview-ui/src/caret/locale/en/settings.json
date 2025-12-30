@@ -1028,7 +1028,13 @@
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
-			"description": "Naver Cloud provides Hyper Clova X (HCX) models optimized for Korean context."
+			"description": "Naver Cloud provides Hyper Clova X (HCX) models optimized for Korean context.",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"naverCloudLinkText": "Naver Cloud",
+			"descriptionPart2": " provides ",
+			"hyperClovaLinkText": "Hyper Clova X (HCX)",
+			"descriptionPart3": " models optimized for Korean context."
 		},
 		"dify": {
 			"name": "Dify.ai",
