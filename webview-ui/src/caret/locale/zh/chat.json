@@ -32,6 +32,7 @@
 		"generateImageModel": "模型",
 		"generateImageAspectRatio": "宽高比",
 		"generateImageSize": "尺寸",
+		"generateImageId": "图片 ID",
 		"generateImageStatusGenerating": "正在生成图片...",
 		"generateImageImageUnavailable": "无法显示图片",
 		"generateImageAlt": "生成的图片",

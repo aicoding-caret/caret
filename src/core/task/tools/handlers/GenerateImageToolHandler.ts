@@ -38,6 +38,7 @@ type ToolImageMessage = ClineSayTool & {
 	model?: string
 	aspectRatio?: string
 	imageSize?: string
+	imageId?: string
 	status?: ToolImageStatus
 	progressText?: string
 	workspaceRelativePath?: string
@@ -107,23 +108,15 @@ const parseReferenceImagesParam = (value?: string): string[] | undefined => {
 	return undefined
 }
 
-const resolveReferenceImages = (config: TaskConfig, paramValue?: string): string[] | undefined => {
+const resolveReferenceImages = async (config: TaskConfig, paramValue?: string): Promise<string[] | undefined> => {
 	const parsed = parseReferenceImagesParam(paramValue)
 	if (parsed?.length) {
 		return parsed
 	}
 
-	const messages = config.messageState.getClineMessages()
-	const lastUserFeedback = findLast(messages, (message) => {
-		return message.type === "say" && message.say === "user_feedback" && Boolean(message.images?.length)
-	})
-	if (lastUserFeedback?.images?.length) {
-		return lastUserFeedback.images
-	}
-
-	const firstMessage = messages.at(0)
-	if (firstMessage?.images?.length) {
-		return firstMessage.images
+	const scopedIds = config.taskState.imageScope?.selectedImageIds ?? []
+	if (scopedIds.length > 0) {
+		return await config.services.imageRegistry.resolveDataUrls(scopedIds)
 	}
 
 	return undefined
@@ -213,7 +206,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			const model = (block.params.model || "").trim()
 			const aspectRatio = (block.params.aspect_ratio || "").trim()
 			const imageSize = (block.params.image_size || "").trim()
-			const referenceImages = resolveReferenceImages(config, block.params.reference_images)
+			const referenceImages = await resolveReferenceImages(config, block.params.reference_images)
 			const globalAspectRatio = config.services.stateManager.getGlobalSettingsKey("imageGenerationAspectRatio")?.trim()
 			const globalImageSize = config.services.stateManager.getGlobalSettingsKey("imageGenerationSize")?.trim()
 			const finalAspectRatio = aspectRatio || globalAspectRatio || undefined
@@ -232,6 +225,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			const requestId = `img_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
 
+			let generatedImageId: string | undefined
+
 			const buildMessage = (overrides: Partial<ToolImageMessage> = {}): string =>
 				JSON.stringify({
 					tool: "generateImage",
@@ -240,6 +235,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					model: model || undefined,
 					aspectRatio: finalAspectRatio,
 					imageSize: finalImageSize,
+					imageId: generatedImageId,
 					status: "generating",
 					progressText: "Generating image...",
 					...overrides,
@@ -440,6 +436,15 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 											savedImagePath = imagePath
 											const relativePath = path.relative(workspaceRoot, imagePath)
 											savedImageRelativePath = relativePath.split(path.sep).join(path.posix.sep)
+										}
+
+										if (!generatedImageId) {
+											const dataUrl = `data:${finalMimeType};base64,${base64}`
+											generatedImageId = config.services.imageRegistry.registerGeneratedImage({
+												dataUrl,
+												filePath: imagePath,
+												originMessageTs: config.taskState.lastMessageTs,
+											})
 										}
 
 										if (!savedMarkdownPath) {

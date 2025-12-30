@@ -33,6 +33,7 @@
 		"generateImageModel": "모델",
 		"generateImageAspectRatio": "비율",
 		"generateImageSize": "크기",
+		"generateImageId": "이미지 ID",
 		"generateImageStatusGenerating": "이미지 생성 중...",
 		"generateImageImageUnavailable": "이미지를 불러올 수 없습니다",
 		"generateImageAlt": "생성된 이미지",

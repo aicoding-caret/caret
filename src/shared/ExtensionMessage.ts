@@ -238,6 +238,7 @@ export interface ClineSayTool {
 	imageSize?: string
 	status?: string
 	progressText?: string
+	imageId?: string
 	workspaceRelativePath?: string
 	workspaceAbsolutePath?: string
 	imageUrl?: string

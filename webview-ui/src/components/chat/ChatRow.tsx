@@ -409,6 +409,7 @@ export const ChatRowContent = memo(
 		const imageAbsoluteFallback = !imageAbsolutePath && imageRelativePath?.startsWith("/") ? imageRelativePath : undefined
 		const imageAbsoluteCandidate = imageAbsolutePath ?? imageAbsoluteFallback
 		const imageRequestId = tool?.tool === "generateImage" ? tool.requestId : undefined
+		const imageId = tool?.tool === "generateImage" ? tool.imageId : undefined
 		const imageStatus = tool?.tool === "generateImage" ? tool.status : undefined
 
 		useEffect(() => {
@@ -905,6 +906,14 @@ export const ChatRowContent = memo(
 												{t("tool.generateImageSize", "chat")}:
 											</span>
 											<span style={{ color: "var(--vscode-foreground)" }}>{tool.imageSize}</span>
+										</div>
+									)}
+									{imageId && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.generateImageId", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>{imageId}</span>
 										</div>
 									)}
 									{tool.progressText && (

@@ -3,6 +3,7 @@ import { AssistantMessageContent } from "@core/assistant-message"
 import type { ClineContent } from "@shared/messages/content"
 import { ClineAskResponse } from "@shared/WebviewMessage"
 import type { HookExecution } from "./types/HookExecution"
+import type { ImageScopeResult } from "./images/ImageScopeResolver"
 
 export class TaskState {
 	// Streaming flags
@@ -72,4 +73,7 @@ export class TaskState {
 	// Auto-context summarization
 	currentlySummarizing: boolean = false
 	lastAutoCompactTriggerIndex?: number
+
+	// Image scope management
+	imageScope?: ImageScopeResult
 }

@@ -32,6 +32,7 @@
 		"generateImageModel": "モデル",
 		"generateImageAspectRatio": "アスペクト比",
 		"generateImageSize": "サイズ",
+		"generateImageId": "画像ID",
 		"generateImageStatusGenerating": "画像生成中...",
 		"generateImageImageUnavailable": "画像を表示できません",
 		"generateImageAlt": "生成された画像",

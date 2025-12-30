@@ -78,6 +78,8 @@ import Mutex from "p-mutex"
 import pWaitFor from "p-wait-for"
 import * as path from "path"
 import { ulid } from "ulid"
+import { ImageRegistry } from "./images/ImageRegistry"
+import { ImageScopeManager } from "./images/ImageScopeManager"
 import * as vscode from "vscode"
 import { ToolUseHandler } from "@/core/api/transform/tool-use-handler"
 import type { SystemPromptContext } from "@/core/prompts/system-prompt"
@@ -231,6 +233,8 @@ export class Task {
 	// Metadata tracking
 	private fileContextTracker: FileContextTracker
 	private modelContextTracker: ModelContextTracker
+	private imageRegistry: ImageRegistry
+	private imageScopeManager: ImageScopeManager
 
 	// Focus Chain
 	private FocusChainManager?: FocusChainManager
@@ -331,6 +335,8 @@ export class Task {
 		this.urlContentFetcher = new UrlContentFetcher(controller.context)
 		this.browserSession = new BrowserSession(stateManager)
 		this.contextManager = new ContextManager()
+		this.imageRegistry = new ImageRegistry(taskId)
+		this.imageScopeManager = new ImageScopeManager(this.imageRegistry)
 		this.diffViewProvider = HostProvider.get().createDiffViewProvider()
 		this.toolUseHandler = new ToolUseHandler()
 		this.cwd = cwd
@@ -533,6 +539,7 @@ export class Task {
 			this.clineIgnoreController,
 			this.contextManager,
 			this.stateManager,
+			this.imageRegistry,
 			cwd,
 			this.taskId,
 			this.ulid,
@@ -1132,6 +1139,7 @@ export class Task {
 			console.error("Failed to initialize ClineIgnoreController:", error)
 			// Optionally, inform the user or handle the error appropriately
 		}
+		this.imageRegistry.reset()
 		// conversationHistory (for API) and clineMessages (for webview) need to be in sync
 		// if the extension process were killed, then on restart the clineMessages might not be empty, so we need to set it to [] when we create a new Cline client (otherwise webview would show stale messages from previous session)
 		this.messageStateHandler.setClineMessages([])
@@ -1249,6 +1257,7 @@ export class Task {
 			console.error("Failed to initialize ClineIgnoreController:", error)
 			// Optionally, inform the user or handle the error appropriately
 		}
+		await this.imageRegistry.load()
 
 		const savedClineMessages = await getSavedClineMessages(this.taskId)
 
@@ -2487,7 +2496,14 @@ export class Task {
 			// saves task history item which we use to keep track of conversation history deleted range
 		}
 
-		const stream = this.api.createMessage(systemPrompt, contextManagementMetadata.truncatedConversationHistory, tools)
+		const historyForRequest = this.imageScopeManager.shouldFilterHistory(this.taskState.imageScope)
+			? this.imageScopeManager.filterHistory(
+					contextManagementMetadata.truncatedConversationHistory,
+					this.taskState.imageScope?.selectedImageIds ?? [],
+				)
+			: contextManagementMetadata.truncatedConversationHistory
+
+		const stream = this.api.createMessage(systemPrompt, historyForRequest, tools)
 
 		const iterator = stream[Symbol.asyncIterator]()
 
@@ -3033,6 +3049,10 @@ export class Task {
 
 			userContent.push({ type: "text", text: environmentDetails })
 		}
+
+		const imageScopeResult = await this.imageScopeManager.applyScope(userContent, this.taskState.lastMessageTs)
+		userContent = imageScopeResult.userContent
+		this.taskState.imageScope = imageScopeResult.scope
 
 		// getting verbose details is an expensive operation, it uses globby to top-down build file structure of project which for large projects can take a few seconds
 		// for the best UX we show a placeholder api_req_started message with a loading spinner as this happens

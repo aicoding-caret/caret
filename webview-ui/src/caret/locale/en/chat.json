@@ -33,6 +33,7 @@
 		"generateImageModel": "Model",
 		"generateImageAspectRatio": "Aspect ratio",
 		"generateImageSize": "Image size",
+		"generateImageId": "Image ID",
 		"generateImageStatusGenerating": "Generating image...",
 		"generateImageImageUnavailable": "Image unavailable",
 		"generateImageAlt": "Generated image",
