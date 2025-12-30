@@ -121,6 +121,8 @@
 			"!**/playwright",
 			"!**/test-results",
 			"!**/node_modules",
+			"!**/docs.caret.team",
+			"!**/docs.caret.team",
 			"!**/webview-ui/build",
 			"!**/generated",
 			"!**/proto",
