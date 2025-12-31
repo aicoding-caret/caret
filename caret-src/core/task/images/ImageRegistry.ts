@@ -6,7 +6,7 @@ import path from "path"
 import { createImageId } from "@caret/shared/images/image-id"
 import { Logger } from "@/services/logging/Logger"
 
-export type ImageSource = "user" | "generated" | "tool" | "unknown"
+export type ImageSource = "user" | "mention" | "generated" | "tool" | "unknown"
 
 export interface ImageRecord {
 	id: string

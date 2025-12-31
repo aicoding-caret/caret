@@ -137,6 +137,25 @@ Usage:
 <task_progress>Checklist here (optional)</task_progress>
 </list_code_definition_names>
 
+## generate_image
+Description: Generate a single image from a text prompt. The image will be shown in the UI as a single card. Do not request or include raw image data in your own response.
+Parameters:
+- prompt: (required) A clear text prompt describing the image to generate.
+- model: (optional) Optional image model id. If omitted, the default image model will be used.
+- aspect_ratio: (optional) Optional aspect ratio for the output image (e.g., 16:9, 1:1, 4:3).
+- image_size: (optional) Optional image size preset (e.g., 1K, 2K).
+- reference_images: (optional) Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images. If the user refers to @a/@b, treat them as the first/second attached images in the current message.
+- task_progress: (optional) A checklist showing task progress after this tool use is completed. The task_progress parameter must be included as a separate parameter inside of the parent tool call, it must be separate from other parameters such as content, arguments, etc. (See 'UPDATING TASK PROGRESS' section for more details)
+Usage:
+<generate_image>
+<prompt>A neon city skyline at dusk, cinematic lighting</prompt>
+<model>gemini-3-pro-image-preview</model>
+<aspect_ratio>16:9</aspect_ratio>
+<image_size>1K</image_size>
+<reference_images></reference_images>
+<task_progress>Checklist here (optional)</task_progress>
+</generate_image>
+
 ## use_mcp_tool
 Description: Request to use a tool provided by a connected MCP server. Each MCP server can provide multiple tools with different capabilities. Tools have defined input schemas that specify required and optional parameters.
 Parameters:

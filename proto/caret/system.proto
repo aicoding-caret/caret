@@ -32,6 +32,9 @@ service CaretSystemService {
 
   // CARET MODIFICATION: Resolve image mention data URLs
   rpc ResolveMentionImageDataUrls(ResolveMentionImageDataUrlsRequest) returns (ResolveMentionImageDataUrlsResponse);
+
+  // CARET MODIFICATION: Optimize image data URLs (resize + webp)
+  rpc OptimizeImageDataUrls(OptimizeImageDataUrlsRequest) returns (OptimizeImageDataUrlsResponse);
 }
 
 // Request to set prompt system mode
@@ -121,5 +124,14 @@ message ResolveMentionImageDataUrlsRequest {
 }
 
 message ResolveMentionImageDataUrlsResponse {
+  repeated string data_urls = 1;
+}
+
+// CARET MODIFICATION: Optimize image data URLs
+message OptimizeImageDataUrlsRequest {
+  repeated string data_urls = 1;
+}
+
+message OptimizeImageDataUrlsResponse {
   repeated string data_urls = 1;
 }

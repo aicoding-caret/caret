@@ -7,12 +7,15 @@ import type { ToolImageEvent } from "@shared/proto/cline/ui"
 import { ClineDefaultTool } from "@shared/tools"
 import * as fs from "fs/promises"
 import * as path from "path"
+import { fileURLToPath } from "url"
 import { sendToolImageEvent } from "@/core/controller/ui/subscribeToToolImageEvents"
 import { buildClineExtraHeaders } from "@/services/EnvUtils"
 import { Logger } from "@/services/logging/Logger"
 import { telemetryService } from "@/services/telemetry"
 import { fetch } from "@/shared/net"
+import { getMimeType } from "@integrations/misc/process-files"
 import { ToolUse } from "@core/assistant-message"
+import { optimizeImageDataUrl } from "@caret/utils/image-optimization"
 import { formatResponse } from "@core/prompts/responses"
 import type { ToolResponse } from "@core/task"
 import { showNotificationForApproval } from "@core/task/utils"
@@ -48,6 +51,8 @@ type ToolImageMessage = ClineSayTool & {
 }
 
 const MAX_PROGRESS_TEXT_LENGTH = 240
+const MAX_REFERENCE_IMAGE_BYTES = 2 * 1024 * 1024
+const MAX_REFERENCE_IMAGES_TOTAL_BYTES = 6 * 1024 * 1024
 const DEFAULT_IMAGE_EXTENSION = "png"
 const IMAGE_EXTENSION_BY_MIME: Record<string, string> = {
 	"image/png": "png",
@@ -80,7 +85,85 @@ const extractBase64Payload = (
 	return { mimeType: match[1], base64: match[2] }
 }
 
-const parseReferenceImagesParam = (value?: string): string[] | undefined => {
+type ReferenceImageParseResult = {
+	dataUrls: string[]
+	filePaths: string[]
+}
+
+type WorkspaceRootInfo = {
+	path: string
+	name?: string
+}
+
+const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif", ".svg"])
+
+const stripQuotes = (value: string): string => {
+	const trimmed = value.trim()
+	const match = trimmed.match(/^"(.*)"$/)
+	return match ? match[1] : trimmed
+}
+
+const isImagePath = (value: string): boolean => {
+	const ext = path.extname(value).toLowerCase()
+	return IMAGE_EXTENSIONS.has(ext)
+}
+
+const isWindowsDrivePath = (value: string): boolean => /^[a-zA-Z]:[\\/]/.test(value)
+
+const parseWorkspaceHint = (value: string): { workspaceHint: string; pathPart: string } | undefined => {
+	const match = value.match(/^([\w-]+):(.+)$/)
+	if (!match || value.includes("://")) {
+		return undefined
+	}
+	const [, workspaceHint, pathPart] = match
+	if (workspaceHint.length === 1 && isWindowsDrivePath(`${workspaceHint}:${pathPart}`)) {
+		return undefined
+	}
+	return { workspaceHint, pathPart }
+}
+
+const parseReferenceImagePath = (
+	value: string,
+): { workspaceHint?: string; relativePath?: string; absolutePath?: string } | undefined => {
+	if (!value) {
+		return undefined
+	}
+
+	let trimmed = stripQuotes(value)
+	if (!trimmed || trimmed.startsWith("data:") || trimmed.includes("://")) {
+		return undefined
+	}
+
+	if (trimmed.startsWith("file://")) {
+		try {
+			trimmed = fileURLToPath(trimmed)
+		} catch {
+			return undefined
+		}
+	}
+
+	if (trimmed.startsWith("@/")) {
+		trimmed = trimmed.slice(1)
+	}
+
+	const workspaceHint = parseWorkspaceHint(trimmed)
+	if (workspaceHint) {
+		const relPath = stripQuotes(workspaceHint.pathPart).replace(/^\/+/, "")
+		return { workspaceHint: workspaceHint.workspaceHint, relativePath: relPath }
+	}
+
+	if (trimmed.startsWith("/")) {
+		return { relativePath: trimmed.replace(/^\/+/, "") }
+	}
+
+	if (path.isAbsolute(trimmed)) {
+		return { absolutePath: trimmed }
+	}
+
+	return { relativePath: trimmed }
+}
+
+const parseReferenceImagesParam = (value?: string): ReferenceImageParseResult | undefined => {
 	if (!value) {
 		return undefined
 	}
@@ -90,32 +173,283 @@ const parseReferenceImagesParam = (value?: string): string[] | undefined => {
 		return undefined
 	}
 
+	const result: ReferenceImageParseResult = { dataUrls: [], filePaths: [] }
+	const pushValue = (item: string) => {
+		const normalized = item.trim()
+		if (!normalized) {
+			return
+		}
+		if (normalized.startsWith("data:")) {
+			result.dataUrls.push(normalized)
+		} else {
+			result.filePaths.push(normalized)
+		}
+	}
+
 	try {
 		const parsed = JSON.parse(trimmed)
 		if (Array.isArray(parsed)) {
-			const images = parsed.filter((item) => typeof item === "string" && item.trim().length > 0)
-			return images.length > 0 ? images : undefined
+			for (const item of parsed) {
+				if (typeof item === "string") {
+					pushValue(item)
+				}
+			}
+			if (result.dataUrls.length > 0 || result.filePaths.length > 0) {
+				return result
+			}
+			return undefined
 		}
 	} catch {
 		// Fall back to treating the value as a single data URL.
 	}
 
 	if (trimmed.startsWith("data:")) {
-		return [trimmed]
+		return { dataUrls: [trimmed], filePaths: [] }
 	}
 
-	return undefined
+	const lines = trimmed.split(/\r?\n/).map((line) => line.trim()).filter(Boolean)
+	if (lines.length > 1) {
+		for (const line of lines) {
+			pushValue(line)
+		}
+		if (result.dataUrls.length > 0 || result.filePaths.length > 0) {
+			return result
+		}
+	}
+
+	return { dataUrls: [], filePaths: [trimmed] }
 }
 
-const resolveReferenceImages = async (config: TaskConfig, paramValue?: string): Promise<string[] | undefined> => {
+const collectWorkspaceRoots = (config: TaskConfig): WorkspaceRootInfo[] => {
+	const roots = new Map<string, WorkspaceRootInfo>()
+	for (const root of config.workspaceManager?.getRoots() ?? []) {
+		if (!root.path) {
+			continue
+		}
+		roots.set(root.path, { path: root.path, name: root.name })
+	}
+	if (config.cwd) {
+		roots.set(config.cwd, { path: config.cwd })
+	}
+	return Array.from(roots.values())
+}
+
+const isPathWithinRoots = (absolutePath: string, roots: WorkspaceRootInfo[]): boolean => {
+	const normalizedPath = path.resolve(absolutePath)
+	return roots.some((root) => {
+		const normalizedRoot = path.resolve(root.path)
+		return normalizedPath === normalizedRoot || normalizedPath.startsWith(`${normalizedRoot}${path.sep}`)
+	})
+}
+
+const findRootByHint = (roots: WorkspaceRootInfo[], hint?: string): WorkspaceRootInfo | undefined => {
+	if (!hint) {
+		return undefined
+	}
+	const normalized = hint.trim().toLowerCase()
+	return (
+		roots.find((root) => root.name?.toLowerCase() === normalized) ??
+		roots.find((root) => path.basename(root.path).toLowerCase() === normalized)
+	)
+}
+
+const resolveReferenceImagePaths = async (config: TaskConfig, paths: string[]): Promise<string[]> => {
+	const roots = collectWorkspaceRoots(config)
+	if (roots.length === 0) {
+		Logger.warn("[GenerateImage] No workspace roots available for reference image resolution.")
+		return []
+	}
+	const rootNames = roots
+		.map((root) => root.name || path.basename(root.path))
+		.filter(Boolean)
+		.join(", ")
+	Logger.debug(`[GenerateImage] Reference image roots: count=${roots.length} names=${rootNames}`)
+	const results: string[] = []
+
+	for (const rawPath of paths) {
+		const parsed = parseReferenceImagePath(rawPath)
+		if (!parsed) {
+			continue
+		}
+
+		let absolutePath: string | undefined
+		if (parsed.absolutePath) {
+			if (!isPathWithinRoots(parsed.absolutePath, roots)) {
+				continue
+			}
+			absolutePath = parsed.absolutePath
+		} else if (parsed.relativePath) {
+			const candidateRoots = parsed.workspaceHint
+				? [findRootByHint(roots, parsed.workspaceHint)].filter(Boolean)
+				: roots
+
+			for (const root of candidateRoots) {
+				if (!root) {
+					continue
+				}
+				const candidatePath = path.resolve(root.path, parsed.relativePath)
+				try {
+					const stat = await fs.stat(candidatePath)
+					if (stat.isFile()) {
+						absolutePath = candidatePath
+						break
+					}
+				} catch {
+					continue
+				}
+			}
+		}
+
+		if (!absolutePath || !isImagePath(absolutePath)) {
+			continue
+		}
+
+		try {
+			const buffer = await fs.readFile(absolutePath)
+			const mimeType = getMimeType(absolutePath)
+			const rawDataUrl = `data:${mimeType};base64,${buffer.toString("base64")}`
+			try {
+				const optimized = await optimizeImageDataUrl(rawDataUrl)
+				if (optimized !== rawDataUrl) {
+					Logger.debug(
+						`[GenerateImage] Optimized reference image ${path.basename(absolutePath)} (before=${Buffer.byteLength(
+							rawDataUrl,
+							"utf8",
+						)} bytes, after=${Buffer.byteLength(optimized, "utf8")} bytes)`,
+					)
+				}
+				results.push(optimized)
+			} catch (error) {
+				const message = error instanceof Error ? ` ${error.message}` : ""
+				Logger.warn(`[GenerateImage] Failed to optimize reference image: ${absolutePath}${message}`)
+			}
+		} catch (error) {
+			const message = error instanceof Error ? ` ${error.message}` : ""
+			Logger.warn(`[GenerateImage] Failed to read reference image path: ${absolutePath}${message}`)
+		}
+	}
+
+	return results
+}
+
+const dedupeReferenceImages = (images: string[]): string[] => {
+	const seen = new Set<string>()
+	const result: string[] = []
+	for (const image of images) {
+		if (seen.has(image)) {
+			continue
+		}
+		seen.add(image)
+		result.push(image)
+	}
+	return result
+}
+
+const summarizeReferencePaths = (paths: string[]): string => {
+	const samples = paths
+		.slice(0, 3)
+		.map((value) => {
+			const trimmed = stripQuotes(value).replace(/^@/, "")
+			const withoutHint = trimmed.includes("://") ? trimmed : trimmed.split(":").pop() || trimmed
+			return path.basename(withoutHint)
+		})
+		.filter(Boolean)
+	return samples.join(", ")
+}
+
+const logReferenceImagesDebug = (source: string, images: string[]): void => {
+	if (images.length === 0) {
+		return
+	}
+	const totalBytes = images.reduce((sum, image) => sum + Buffer.byteLength(image, "utf8"), 0)
+	Logger.debug(
+		`[GenerateImage] Reference images resolved (source=${source}, count=${images.length}, totalBytes=${totalBytes})`,
+	)
+}
+
+const limitReferenceImagesBySize = (images: string[], source: string): string[] => {
+	let remainingBytes = MAX_REFERENCE_IMAGES_TOTAL_BYTES
+	const result: string[] = []
+
+	for (const image of images) {
+		const size = Buffer.byteLength(image, "utf8")
+		if (size > MAX_REFERENCE_IMAGE_BYTES) {
+			Logger.warn(`[GenerateImage] Reference image too large from ${source}, skipping.`)
+			continue
+		}
+		if (size > remainingBytes) {
+			Logger.warn(`[GenerateImage] Reference image budget exceeded for ${source}, skipping.`)
+			continue
+		}
+		remainingBytes -= size
+		result.push(image)
+	}
+
+	return result
+}
+
+export const resolveReferenceImages = async (config: TaskConfig, paramValue?: string): Promise<string[] | undefined> => {
+	if (paramValue) {
+		const trimmed = paramValue.trim()
+		Logger.debug(
+			`[GenerateImage] reference_images param received (length=${paramValue.length}, hasNewlines=${paramValue.includes("\n")}, startsWithArray=${trimmed.startsWith("[")})`,
+		)
+	}
 	const parsed = parseReferenceImagesParam(paramValue)
-	if (parsed?.length) {
-		return parsed
+	if (parsed) {
+		Logger.debug(
+			`[GenerateImage] reference_images parsed (dataUrls=${parsed.dataUrls.length}, filePaths=${parsed.filePaths.length})`,
+		)
+		const resolvedPaths =
+			parsed.filePaths.length > 0 ? await resolveReferenceImagePaths(config, parsed.filePaths) : []
+		const combined = dedupeReferenceImages([...parsed.dataUrls, ...resolvedPaths])
+		const limited = limitReferenceImagesBySize(combined, "reference_images")
+		if (limited.length > 0) {
+			logReferenceImagesDebug("reference_images", limited)
+			return limited
+		}
+		if (parsed.filePaths.length > 0 && resolvedPaths.length === 0) {
+			const mentionSet = config.services.imageRegistry.getLatestAttachmentSet("mention")
+			const mentionDataUrls = mentionSet?.imageIds.length
+				? await config.services.imageRegistry.resolveDataUrls(mentionSet.imageIds)
+				: []
+
+			if (mentionDataUrls.length > 0) {
+				const mentionCombined = dedupeReferenceImages([...parsed.dataUrls, ...mentionDataUrls])
+				const mentionLimited = limitReferenceImagesBySize(mentionCombined, "mention")
+				if (mentionLimited.length > 0) {
+					logReferenceImagesDebug("mention", mentionLimited)
+					return mentionLimited
+				}
+			}
+		}
+		if (parsed.filePaths.length > 0) {
+			Logger.warn(
+				`[GenerateImage] No reference images resolved (paths=${parsed.filePaths.length}, samples=${summarizeReferencePaths(
+					parsed.filePaths,
+				) || "n/a"})`,
+			)
+		}
 	}
 
 	const scopedIds = config.taskState.imageScope?.selectedImageIds ?? []
 	if (scopedIds.length > 0) {
-		return await config.services.imageRegistry.resolveDataUrls(scopedIds)
+		const scopedUrls = await config.services.imageRegistry.resolveDataUrls(scopedIds)
+		const limited = limitReferenceImagesBySize(scopedUrls, "scope")
+		if (limited.length > 0) {
+			logReferenceImagesDebug("scope", limited)
+			return limited
+		}
+	}
+
+	const mentionSet = config.services.imageRegistry.getLatestAttachmentSet("mention")
+	if (mentionSet?.imageIds.length) {
+		const mentionUrls = await config.services.imageRegistry.resolveDataUrls(mentionSet.imageIds)
+		const limited = limitReferenceImagesBySize(mentionUrls, "mention")
+		if (limited.length > 0) {
+			logReferenceImagesDebug("mention", limited)
+			return limited
+		}
 	}
 
 	return undefined
@@ -221,6 +555,9 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				return await config.callbacks.sayAndCreateMissingParamError(this.name, "prompt")
 			}
 			config.taskState.consecutiveMistakeCount = 0
+			Logger.debug(
+				`[GenerateImage] Request ready (promptLength=${prompt.length}, model=${model || "default"}, aspectRatio=${finalAspectRatio || "default"}, imageSize=${finalImageSize || "default"}, referenceImages=${referenceImages?.length ?? 0})`,
+			)
 
 			const requestId = `img_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
 

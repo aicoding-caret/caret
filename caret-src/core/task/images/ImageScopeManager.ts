@@ -1,4 +1,5 @@
 import { Anthropic } from "@anthropic-ai/sdk"
+import { mentionRegexGlobal } from "@shared/context-mentions"
 import type { ClineContent } from "@shared/messages/content"
 import { createImageId } from "@caret/shared/images/image-id"
 import { formatResponse } from "@core/prompts/responses"
@@ -8,6 +9,39 @@ import { ImageScopeResolver, type ImageScopeResult } from "./ImageScopeResolver"
 import { imageBlockToDataUrl } from "./image-utils"
 
 const USER_TEXT_TAGS = ["<task>", "<user_message>", "<answer>", "<feedback>"]
+const IMAGE_MENTION_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp"]
+
+const stripMentionQuotes = (value: string): string => {
+	const trimmed = value.trim()
+	const match = trimmed.match(/^"(.*)"$/)
+	return match ? match[1] : trimmed
+}
+
+const getMentionPathForExtension = (mention: string): string => {
+	const workspaceMatch = mention.match(/^([\w-]+):(.+)$/)
+	const pathPart = workspaceMatch && !mention.includes("://") ? workspaceMatch[2] : mention
+	return stripMentionQuotes(pathPart)
+}
+
+const isImageMention = (mention: string): boolean => {
+	const path = getMentionPathForExtension(mention)
+	if (!path || path.endsWith("/")) {
+		return false
+	}
+	const lower = path.toLowerCase()
+	return IMAGE_MENTION_EXTENSIONS.some((ext) => lower.endsWith(ext))
+}
+
+const hasImageMentions = (text: string): boolean => {
+	const matches = Array.from(text.matchAll(mentionRegexGlobal))
+	for (const match of matches) {
+		const mention = match[1]
+		if (mention && isImageMention(mention)) {
+			return true
+		}
+	}
+	return false
+}
 
 const extractUserText = (content: ClineContent[]): string => {
 	const candidateTexts: string[] = []
@@ -114,6 +148,9 @@ export class ImageScopeManager {
 		const currentSetId = this.registry.createAttachmentSet(currentImageIds, "user", originMessageTs)
 
 		const userText = extractUserText(userContent)
+		if (currentImageIds.length > 0 && hasImageMentions(userText)) {
+			this.registry.createAttachmentSet(currentImageIds, "mention", originMessageTs)
+		}
 		const scope = this.resolver.resolve({
 			userText,
 			currentImageIds,

@@ -284,9 +284,11 @@ export class NaverCloudHandler implements ApiHandler {
 
 			if (eventType === "result") {
 				if (!didYieldReasoning && parsed.message?.thinkingContent) {
+					didYieldReasoning = true // CARET MODIFICATION: track yielded reasoning from result events
 					yield { type: "reasoning", reasoning: parsed.message.thinkingContent }
 				}
 				if (!didYieldText && parsed.message?.content) {
+					didYieldText = true // CARET MODIFICATION: track yielded text from result events
 					yield { type: "text", text: parsed.message.content }
 				}
 				if (parsed.usage) {

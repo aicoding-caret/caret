@@ -2,8 +2,7 @@
 
 import { EventEmitter } from "node:events"
 import { createRequire } from "node:module"
-import { dirname, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import { resolve } from "node:path"
 import { expect } from "chai"
 import { describe, it } from "mocha"
 import * as sinon from "sinon"
@@ -30,13 +29,10 @@ describe("Standalone enhanced terminal", () => {
 			return createFakeChildProcess()
 		})
 
-		const require = createRequire(import.meta.url)
+		const require = createRequire(__filename)
 		const childProcess = require("child_process")
 		const originalSpawn = childProcess.spawn
-		const modulePath = resolve(
-			dirname(fileURLToPath(import.meta.url)),
-			"../../../standalone/runtime-files/vscode/enhanced-terminal.js",
-		)
+		const modulePath = resolve(__dirname, "../../../standalone/runtime-files/vscode/enhanced-terminal.js")
 
 		try {
 			childProcess.spawn = spawnStub
@@ -63,13 +59,10 @@ describe("Standalone enhanced terminal", () => {
 			return createFakeChildProcess()
 		})
 
-		const require = createRequire(import.meta.url)
+		const require = createRequire(__filename)
 		const childProcess = require("child_process")
 		const originalSpawn = childProcess.spawn
-		const modulePath = resolve(
-			dirname(fileURLToPath(import.meta.url)),
-			"../../../standalone/runtime-files/vscode/enhanced-terminal.js",
-		)
+		const modulePath = resolve(__dirname, "../../../standalone/runtime-files/vscode/enhanced-terminal.js")
 
 		try {
 			childProcess.spawn = spawnStub
