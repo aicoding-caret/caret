@@ -10,6 +10,8 @@ import { usePersistentInputHistory } from "@/caret/hooks/usePersistentInputHisto
 import { t } from "@/caret/utils/i18n"
 // CARET MODIFICATION: use CaretWebviewLogger for webview logs
 import WebviewLogger from "@/caret/utils/CaretWebviewLogger"
+// CARET MODIFICATION: Attach mention images before sending
+import { prepareMentionImagePayload } from "@/caret/utils/mention-image"
 import { normalizeApiConfiguration } from "@/components/settings/utils/providerUtils"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { FileServiceClient, UiServiceClient } from "@/services/grpc-client"
@@ -349,10 +351,17 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 			...messageHandlers,
 			handleSendMessage: async (text: string, images: string[], files: string[]) => {
 				addToHistory(text) // 히스토리에 추가
-				return await messageHandlers.handleSendMessage(text, images, files)
+				const prepared = await prepareMentionImagePayload({
+					text,
+					images,
+					files,
+					supportsImages: selectedModelInfo.supportsImages || false,
+					maxAttachments: MAX_IMAGES_AND_FILES_PER_MESSAGE,
+				})
+				return await messageHandlers.handleSendMessage(text, prepared.images, files)
 			},
 		}),
-		[messageHandlers, addToHistory],
+		[messageHandlers, addToHistory, selectedModelInfo.supportsImages],
 	)
 
 	// Use scroll behavior hook
@@ -371,7 +380,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 						apiMetrics={apiMetrics}
 						lastApiReqTotalTokens={lastApiReqTotalTokens}
 						lastProgressMessageText={lastProgressMessageText}
-						messageHandlers={messageHandlers}
+						messageHandlers={enhancedMessageHandlers}
 						scrollBehavior={scrollBehavior}
 						selectedModelInfo={{
 							supportsPromptCache: selectedModelInfo.supportsPromptCache,
@@ -394,7 +403,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 					<MessagesArea
 						chatState={chatState}
 						groupedMessages={groupedMessages}
-						messageHandlers={messageHandlers}
+						messageHandlers={enhancedMessageHandlers}
 						modifiedMessages={modifiedMessages}
 						scrollBehavior={scrollBehavior}
 						task={task}
@@ -405,7 +414,7 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 				<AutoApproveBar />
 				<ActionButtons
 					chatState={chatState}
-					messageHandlers={messageHandlers}
+					messageHandlers={enhancedMessageHandlers}
 					messages={messages}
 					mode={mode}
 					scrollBehavior={{

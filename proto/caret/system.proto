@@ -25,6 +25,13 @@ service CaretSystemService {
 
   // BizRouter model fetching service
   rpc FetchBizRouterModels(FetchBizRouterModelsRequest) returns (FetchBizRouterModelsResponse);
+
+  // CARET MODIFICATION: Toggle mention image sending
+  rpc GetMentionImageSendSetting(GetMentionImageSendSettingRequest) returns (GetMentionImageSendSettingResponse);
+  rpc SetMentionImageSendSetting(SetMentionImageSendSettingRequest) returns (SetMentionImageSendSettingResponse);
+
+  // CARET MODIFICATION: Resolve image mention data URLs
+  rpc ResolveMentionImageDataUrls(ResolveMentionImageDataUrlsRequest) returns (ResolveMentionImageDataUrlsResponse);
 }
 
 // Request to set prompt system mode
@@ -92,4 +99,27 @@ message FetchBizRouterModelsResponse {
   bool success = 1;
   repeated string models = 2; // List of available model names
   string error_message = 3; // Error message if failed
+}
+
+// CARET MODIFICATION: Mention image send setting
+message GetMentionImageSendSettingRequest {}
+message GetMentionImageSendSettingResponse {
+  bool enabled = 1;
+}
+
+message SetMentionImageSendSettingRequest {
+  bool enabled = 1;
+}
+
+message SetMentionImageSendSettingResponse {
+  bool enabled = 1;
+}
+
+// CARET MODIFICATION: Mention image data URL resolve
+message ResolveMentionImageDataUrlsRequest {
+  repeated string mentions = 1;
+}
+
+message ResolveMentionImageDataUrlsResponse {
+  repeated string data_urls = 1;
 }

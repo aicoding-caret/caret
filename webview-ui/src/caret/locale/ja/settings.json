@@ -212,6 +212,8 @@
 		"enableCheckpointsDescription": "作業中にワークスペースのチェックポイントを保存できるように拡張機能を有効にします。内部的にgitを使用するため、大規模なワークスペースでは正しく動作しない場合があります。",
 		"enableMcpMarketplace": "MCPマーケットプレイスを有効にする",
 		"enableMcpMarketplaceDescription": "MCPサーバーを検索してインストールできるMCPマーケットプレイスタブを有効にします。",
+		"mentionImageSend": "@メンションの画像ファイルを送信",
+		"mentionImageSendDescription": "@で言及した画像ファイルをパスと一緒に画像添付（base64）として送信します。",
 		"enableRichMcpDisplay": "豊富なMCP表示を有効にする",
 		"enableRichMcpDisplayDescription": "MCP応答のリッチフォーマットを有効にします。無効にすると、応答はプレーンテキストで表示されます。",
 		"subagents": {

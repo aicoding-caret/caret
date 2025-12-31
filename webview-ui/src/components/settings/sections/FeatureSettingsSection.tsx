@@ -4,6 +4,8 @@ import { EmptyRequest } from "@shared/proto/index.cline"
 import { OpenaiReasoningEffort } from "@shared/storage/types"
 import { VSCodeButton, VSCodeCheckbox, VSCodeDropdown, VSCodeOption, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { memo, useEffect, useMemo, useState } from "react"
+// CARET MODIFICATION: mention image send setting toggle
+import MentionImageSendToggle from "@/caret/components/MentionImageSendToggle"
 import { getLocalizedUrl } from "@/caret/constants/urls"
 import { useCaretI18nContext } from "@/caret/context/CaretI18nContext"
 import { t } from "@/caret/utils/i18n"
@@ -200,6 +202,9 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
 							{t("features.enableMcpMarketplaceDescription", "settings")}
 						</p>
+					</div>
+					<div style={{ marginTop: 10 }}>
+						<MentionImageSendToggle />
 					</div>
 					<div style={{ marginTop: 10 }}>
 						<label

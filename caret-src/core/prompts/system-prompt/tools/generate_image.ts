@@ -41,7 +41,7 @@ const GENERIC: ClineToolSpec = {
 			name: "reference_images",
 			required: false,
 			instruction:
-				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images.",
+				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images. If the user refers to @a/@b, treat them as the first/second attached images in the current message.",
 		},
 		TASK_PROGRESS_PARAMETER,
 	],
@@ -77,7 +77,7 @@ const NATIVE_GPT_5: ClineToolSpec = {
 			name: "reference_images",
 			required: false,
 			instruction:
-				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images.",
+				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images. If the user refers to @a/@b, treat them as the first/second attached images in the current message.",
 		},
 		TASK_PROGRESS_PARAMETER,
 	],

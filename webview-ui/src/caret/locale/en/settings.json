@@ -237,6 +237,8 @@
 		"enableCheckpointsDescription": "Enables the extension to save checkpoints of your workspace during tasks. This uses git internally and may not work correctly for large workspaces.",
 		"enableMcpMarketplace": "Enable MCP Marketplace",
 		"enableMcpMarketplaceDescription": "Enables the MCP Marketplace tab, allowing you to discover and install MCP servers.",
+		"mentionImageSend": "Send image files for @ mentions",
+		"mentionImageSendDescription": "When enabled, @-mentioned image files are sent as image attachments (base64) alongside their paths.",
 		"enableRichMcpDisplay": "Enable rich MCP display",
 		"enableRichMcpDisplayDescription": "Enables rich formatting for MCP responses. If disabled, responses will be displayed as plain text.",
 		"subagents": {

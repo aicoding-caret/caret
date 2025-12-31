@@ -266,6 +266,8 @@
 		"enableCheckpointsDescription": "允许扩展在任务期间保存工作区的检查点。这在内部使用 git，对于大型工作区可能无法正常工作。",
 		"enableMcpMarketplace": "启用 MCP 市场",
 		"enableMcpMarketplaceDescription": "启用 MCP 市场选项卡，允许您发现和安装 MCP 服务器。",
+		"mentionImageSend": "在 @ 提及时发送图片文件",
+		"mentionImageSendDescription": "启用后，@ 提到的图片文件会以图片附件（base64）与路径一并发送。",
 		"enableRichMcpDisplay": "启用丰富 MCP 显示",
 		"enableRichMcpDisplayDescription": "为 MCP 响应启用丰富格式。如果禁用，响应将显示为纯文本。",
 		"subagents": {

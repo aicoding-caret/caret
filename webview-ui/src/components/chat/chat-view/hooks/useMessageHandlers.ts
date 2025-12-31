@@ -3,6 +3,8 @@ import type { ClineMessage } from "@shared/ExtensionMessage"
 import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
 import { AskResponseRequest, NewTaskRequest } from "@shared/proto/cline/task"
 import { useCallback } from "react"
+// CARET MODIFICATION: use CaretWebviewLogger instead of console
+import WebviewLogger from "@/caret/utils/CaretWebviewLogger"
 import { SlashServiceClient, TaskServiceClient } from "@/services/grpc-client"
 import type { ButtonActionType } from "../shared/buttonConfig"
 import type { ChatState, MessageHandlers } from "../types/chatTypes"
@@ -12,6 +14,7 @@ import type { ChatState, MessageHandlers } from "../types/chatTypes"
  * Handles sending messages, button clicks, and task management
  */
 export function useMessageHandlers(messages: ClineMessage[], chatState: ChatState): MessageHandlers {
+	const logger = new WebviewLogger("MessageHandlers")
 	const {
 		setInputValue,
 		activeQuote,
@@ -46,7 +49,7 @@ export function useMessageHandlers(messages: ClineMessage[], chatState: ChatStat
 			if (hasContent) {
 				let didSend = false
 
-				console.log("[ChatView] handleSendMessage - Sending message:", messageToSend)
+				logger.debug("handleSendMessage - Sending message", { messageToSend })
 				if (messages.length === 0) {
 					await TaskServiceClient.newTask(NewTaskRequest.create({ text: messageToSend, images, files }))
 					didSend = true
@@ -89,7 +92,7 @@ export function useMessageHandlers(messages: ClineMessage[], chatState: ChatStat
 					setSelectedFiles([])
 					setEnableButtons(false)
 				} else {
-					console.warn("handleSendMessage: No pending ask to receive message response.", {
+					logger.warn("handleSendMessage: No pending ask to receive message response.", {
 						clineAsk,
 						effectiveAsk,
 						lastAskMessage,
@@ -199,7 +202,7 @@ export function useMessageHandlers(messages: ClineMessage[], chatState: ChatStat
 
 				case "new_task":
 					if (clineAsk === "new_task") {
-						console.info("new task button clicked!", {
+						logger.info("new task button clicked", {
 							lastMessage,
 							messages,
 							clineAsk,
@@ -226,13 +229,13 @@ export function useMessageHandlers(messages: ClineMessage[], chatState: ChatStat
 					switch (clineAsk) {
 						case "condense":
 							await SlashServiceClient.condense(StringRequest.create({ value: lastMessage?.text })).catch((err) =>
-								console.error(err),
+								logger.error("Failed to condense", err),
 							)
 							markAskResponded(pendingAskTs)
 							break
 						case "report_bug":
 							await SlashServiceClient.reportBug(StringRequest.create({ value: lastMessage?.text })).catch((err) =>
-								console.error(err),
+								logger.error("Failed to report bug", err),
 							)
 							markAskResponded(pendingAskTs)
 							break

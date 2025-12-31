@@ -3,6 +3,8 @@ import { VSCodeButton, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 // CARET MODIFICATION: Added useMemo for i18n reactivity
 import React, { useEffect, useRef, useState } from "react"
 import { useClickAway, useWindowSize } from "react-use"
+// CARET MODIFICATION: quick toggle for mention image sending
+import MentionImageSendToggle from "@/caret/components/MentionImageSendToggle"
 import { t } from "@/caret/utils/i18n"
 import { CODE_BLOCK_BG_COLOR } from "@/components/common/CodeBlock"
 import HeroTooltip from "@/components/common/HeroTooltip"
@@ -200,6 +202,7 @@ const AutoApproveModal: React.FC<AutoApproveModalProps> = ({
 						onToggle={updateAction}
 						onToggleFavorite={toggleFavorite}
 					/>
+					<MentionImageSendToggle className="mt-2" showDescription={false} />
 
 					<HeroTooltip content={t("autoApprove.maxRequestsTooltip", "settings")} placement="top">
 						<div className="flex items-center pl-1.5 my-2">

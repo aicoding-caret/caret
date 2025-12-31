@@ -15,6 +15,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - Caret Auth API flow (`/v1/auth/*`) with JWT access tokens.
 - Caret provider via OpenAI-compatible API (`/v1/chat/completions`).
 - Image generation tool (`/v1/generate/image`) with workspace generated-assets outputs.
+- Optional @-mention image attachments (base64) for reference-driven image generation.
 
 ## 🆚 Improvements vs Cline
 | Area | Cline | Caret |
@@ -31,6 +32,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - **Provider runtime**: `src/core/api/index.ts` → `caret-src/core/api/providers/caret.ts` (`CaretHandler`, OpenAI-compatible stream to `${apiBaseUrl}/v1/chat/completions`).
 - **Image generation tool**: `caret-src/core/task/tools/handlers/GenerateImageToolHandler.ts` (Caret token + `/v1/generate/image`, saves outputs to workspace).
 - **Image scope/registry**: `caret-src/core/task/images/*` (image attachment scope + registry snapshot persistence with size caps).
+- **Mention image sending**: `proto/caret/system.proto` (Get/Set/Resolve), handlers in `src/core/controller/persona/*`, webview toggle `webview-ui/src/caret/components/MentionImageSendToggle.tsx`, mention attach helper `webview-ui/src/caret/utils/mention-image.ts`.
 - **Provider config & models**: `src/shared/api.ts` (`ApiProvider` includes `caret`; static `caretModels`/`caretDefaultModelId`); CLI static definitions generated via `scripts/cli-providers.mjs` → `cli/pkg/generated/providers.go`.
 - **Webview**: Account entry branching in `webview-ui/src/components/account/AccountView.tsx`; Caret account UI in `webview-ui/src/caret/components/CaretAccountView.tsx`; auth state/context in `webview-ui/src/context/CaretAuthContext.tsx` and `ExtensionStateContext.tsx`; Settings provider UI in `webview-ui/src/components/settings/providers/CaretProvider.tsx` + `CaretModelPicker.tsx`; image helpers in `webview-ui/src/caret/utils/imageOptimization.ts` + `webview-ui/src/caret/shared/images/image-id.ts`.
 - **CLI**: `cli/pkg/cli/auth/auth_caret_provider.go` (login, default model set from static list; org selection currently unavailable) uses generated provider definitions.
@@ -52,6 +54,7 @@ Caret account + provider stack that branches at the entry points while keeping C
   - `.agents/generated-assets/<request_id>.<ext>` (image)
   - `.agents/generated-assets/<request_id>.md` (frontmatter + prompt + image link)
   - Image registry snapshots cap persisted data URLs to keep storage bounded (per-item + total limits).
+- **Mention image inputs**: When enabled, @-mentioned image paths are resolved to data URLs and attached to the current message so the model can use them as references (order follows mention order; @a/@b map to attachment order).
 - **CLI parity**: `auth_caret_provider.go` uses static models from generated definitions, sets default model, and calls the same gRPC auth endpoints.
 
 ## 🌐 API Surface (caret.team)
