@@ -3,8 +3,8 @@
 	"previousHeader": "Previous Updates:",
 	"bullets": {
 		"current": {
-			"0": "Nano Banana image support for Caret accounts",
-			"0-desc": "Integrated Gemini Nano Banana image generation for Caret accounts so outputs can be used as project assets.",
+			"0": "Caret account Nano Banana integration",
+			"0-desc": "Added Gemini 3 Flash preview to Caret accounts and integrated Nano Banana image generation so outputs can be used as project assets.",
 			"1": "Free Monthly Credits",
 			"1-desc": "New users get $0.1 (10 credits) monthly recurring! First month bonus: Start with up to $0.2. Available for Gemini 3, 2.5 Pro, Lite.",
 			"2": "Caret CLI official support",

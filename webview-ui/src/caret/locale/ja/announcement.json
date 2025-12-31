@@ -3,8 +3,8 @@
 	"previousHeader": "以前のアップデート:",
 	"bullets": {
 		"current": {
-			"0": "Caretアカウント Nano Banana画像対応",
-			"0-desc": "CaretアカウントでGeminiのNano Banana画像生成機能が統合され、生成物をプロジェクトのアセットとして利用できます。",
+			"0": "Caretアカウント Nano Banana統合",
+			"0-desc": "CaretアカウントにGemini 3 Flash Previewを追加し、Nano Banana画像生成機能を統合して生成物をプロジェクトのアセットとして利用できます。",
 			"1": "毎月の無料クレジット",
 			"1-desc": "新規ユーザーは毎月$0.1(10クレジット)を受け取れます！初月ボーナス：最大$0.2から始められます。Gemini 3、2.5 Pro、Liteで利用可能です。",
 			"2": "Caret CLI正式サポート",

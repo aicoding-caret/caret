@@ -28,7 +28,7 @@
 ## [0.4.4] 2025-12-30
 
 ### ✨ 改进
-- **Caret 账号 Nano Banana 集成**：在 Caret 账号中集成 Gemini 的 Nano Banana 图像生成功能，可将生成结果用作项目资产。
+- **Caret 账号 Nano Banana 集成**：Caret 账号新增 Gemini 3 Flash Preview，并整合 Nano Banana 图像生成功能，可将生成结果用作项目资产。
 - **Caret CLI**：正式发布支持 Caret 账号与 LiteLLM BYO 提供商的 Caret CLI。
 - **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**：新增 Naver Cloud 提供商与 HCX-007/HCX-005/HCX-DASH-002 模型。
 - **AAIF 国际标准 Agents.md 支持与项目初始化支持**：将原有 Caret/Cline 专用规则迁移为 AAIF 国际标准，并新增项目初始化支持功能。

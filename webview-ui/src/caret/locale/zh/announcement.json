@@ -3,8 +3,8 @@
 	"previousHeader": "以前的更新:",
 	"bullets": {
 		"current": {
-			"0": "Caret 账号 Nano Banana 图片支持",
-			"0-desc": "在 Caret 账号中集成 Gemini 的 Nano Banana 图像生成功能，可将生成结果用作项目资产。",
+			"0": "Caret 账号 Nano Banana 集成",
+			"0-desc": "Caret 账号新增 Gemini 3 Flash Preview，并整合 Nano Banana 图像生成功能，可将生成结果用作项目资产。",
 			"1": "每月免费积分",
 			"1-desc": "新用户每月可获得$0.1（10积分），首月最高$0.2。支持Gemini 3、2.5 Pro、Lite。",
 			"2": "Caret CLI 正式支持",

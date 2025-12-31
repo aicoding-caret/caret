@@ -60,7 +60,7 @@
 
 **What’s new in v0.4.4:**
 
-- 🖼️ **Nano Banana image generation**: Caret accounts can generate Gemini Nano Banana images and save them as project assets.
+- 🖼️ **Nano Banana image generation**: Caret accounts now include Gemini 3 Flash preview and integrated Nano Banana image generation, so outputs can be saved as project assets.
 - 💳 **Free monthly credits**: New users get **$0.1 (10 credits) monthly** (up to $0.2 for the first month).
 - 🧰 **Caret CLI official**: Caret CLI is now officially released with Caret account + LiteLLM BYO support.
 - ☁️ **[Naver Cloud](https://clova.ai/) Hyper Clova X**: Added the Naver Cloud provider and HCX-007/HCX-005/HCX-DASH-002 models.

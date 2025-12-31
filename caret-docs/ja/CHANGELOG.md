@@ -28,7 +28,7 @@
 ## [0.4.4] 2025-12-30
 
 ### ✨ 改善
-- **Caretアカウント Nano Banana統合**: CaretアカウントでGeminiのNano Banana画像生成機能を統合し、生成物をプロジェクトのアセットとして利用できます。
+- **Caretアカウント Nano Banana統合**: CaretアカウントにGemini 3 Flash Previewを追加し、Nano Banana画像生成機能を統合して生成物をプロジェクトのアセットとして利用できます。
 - **Caret CLI**: CaretアカウントとLiteLLM BYOプロバイダーをサポートするCaret CLIを正式リリースしました。
 - **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**: Naver Cloudの新規プロバイダーとHCX-007/HCX-005/HCX-DASH-002モデルを追加しました。
 - **AAIF国際標準Agents.md対応とプロジェクト初期設定支援**: 従来のCaret/Cline専用ルールをAAIF国際標準に合わせて改訂し、プロジェクト初期設定を支援する機能を追加しました。

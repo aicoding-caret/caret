@@ -28,7 +28,7 @@
 ## [0.4.4] 2025-12-30
 
 ### ✨ Improved
-- **Caret account Nano Banana integration**: Integrated Gemini Nano Banana image generation for Caret accounts so outputs can be used as project assets.
+- **Caret account Nano Banana integration**: Added Gemini 3 Flash preview to Caret accounts and integrated Nano Banana image generation so outputs can be used as project assets.
 - **Caret CLI**: Officially released the Caret CLI supporting Caret accounts and LiteLLM BYO providers.
 - **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**: Added the Naver Cloud provider and HCX-007/HCX-005/HCX-DASH-002 models.
 - **AAIF international-standard Agents.md + project initialization**: Migrated legacy Caret/Cline rules to the AAIF standard and added project initialization support.
