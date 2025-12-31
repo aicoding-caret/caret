@@ -29,7 +29,6 @@
 
 ### ✨ 改进
 - **Caret 账号 Nano Banana 集成**：Caret 账号新增 Gemini 3 Flash Preview，并整合 Nano Banana 图像生成功能，可将生成结果用作项目资产。
-- **Caret CLI**：正式发布支持 Caret 账号与 LiteLLM BYO 提供商的 Caret CLI。
 - **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**：新增 Naver Cloud 提供商与 HCX-007/HCX-005/HCX-DASH-002 模型。
 - **AAIF 国际标准 Agents.md 支持与项目初始化支持**：将原有 Caret/Cline 专用规则迁移为 AAIF 国际标准，并新增项目初始化支持功能。
 - **构建/发布**：稳定构建脚本并修正资产同步顺序，提高构建稳定性。
@@ -69,7 +68,6 @@
 ### 新增功能
 - **Cline v3.38.2 集成**: 所有上游功能，包括最新的模型支持（Claude Opus 4.5）。
 - **双账户系统**: 在 Caret 模式（扩展）和 Cline 模式（原生）之间切换。
-- **Caret CLI (测试版)**: 统一的 `caret` CLI，支持增强的身份验证和 LiteLLM。
 - **提供商设置**: 为 LiteLLM/BizRouter 自动获取模型，并进行实时健康检查。
 - **JSON 提示系统**: 通过 JSON 进行动态系统提示配置。
 - **输入历史**: 类似终端的持久化历史导航。

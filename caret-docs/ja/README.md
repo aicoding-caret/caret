@@ -1,7 +1,7 @@
 <div align="center">
   <p>
-    <strong>🚀 v0.4.4 ハイライト: Nano Banana画像、Caret CLI、<a href="https://clova.ai/">Naver Cloud</a> HCX、Agents.md + /init</strong><br>
-    Caret CLIの正式サポート、<a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X、AAIF Agents.md/プロジェクト初期化に加えて、毎月の無料クレジットもご利用いただけます。
+    <strong>🚀 v0.4.4 ハイライト: Nano Banana画像、<a href="https://clova.ai/">Naver Cloud</a> HCX、Agents.md + /init</strong><br>
+    <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X、AAIF Agents.md/プロジェクト初期化に加えて、毎月の無料クレジットもご利用いただけます。
   </p>
 
   <table>
@@ -49,7 +49,6 @@
 
 - 🖼️ **Nano Banana画像生成**: CaretアカウントでGemini Nano Banana画像を生成し、プロジェクトのアセットとして保存できます。
 - 💳 **毎月の無料クレジット**: 新規ユーザーは**毎月$0.1 (10クレジット)**がもらえます。(初月は最大$0.2)
-- 🧰 **Caret CLI正式サポート**: CaretアカウントとLiteLLM BYOプロバイダーをサポートするCaret CLIを正式リリースしました。
 - ☁️ **[Naver Cloud](https://clova.ai/) Hyper Clova X**: Naver CloudプロバイダーとHCX-007/HCX-005/HCX-DASH-002モデルを追加しました。
 - 🧩 **AAIF Agents.md + /init**: レガシールールをAAIF標準に移行し、プロジェクト初期化機能を追加しました。
 - 🔁 **デュアルアカウントシステム**: CaretアカウントとClineアカウントを同時に使用できます。
@@ -64,7 +63,6 @@
 ### ハイライト
 - ✅ **Cline v3.38.2の採用**: Claude Opus 4.5を含む、すべての最新のコア改善
 - ✅ **デュアルアカウントシステム**: 既存のClineアカウントを完全にサポート
-- ✅ **Caret CLI (ベータ版)**: LiteLLMをサポートする統一CLI
 - ✅ **入力履歴**: ターミナルのように過去のコマンドをナビゲート
 - ✅ **強化されたプロバイダー設定**: LiteLLM / [BizRouter](https://bizrouter.ai/)用のモデルを自動取得し、ヘルスチェックも実施
 - ✅ **251のユニークなAIモデル**: Claude Opus 4.5、GPT-5、Gemini 3を含む20のプロバイダー

@@ -1,7 +1,7 @@
 <div align="center">
   <p>
-    <strong>🚀 v0.4.4 亮点：Nano Banana 图片、Caret CLI、<a href="https://clova.ai/">Naver Cloud</a> HCX、Agents.md + /init</strong><br>
-    Caret CLI 正式支持、<a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X、AAIF Agents.md/项目初始化，以及每月免费积分一并上线。
+    <strong>🚀 v0.4.4 亮点：Nano Banana 图片、<a href="https://clova.ai/">Naver Cloud</a> HCX、Agents.md + /init</strong><br>
+    <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X、AAIF Agents.md/项目初始化，以及每月免费积分一并上线。
   </p>
 
   <table>
@@ -49,7 +49,6 @@
 
 - 🖼️ **Nano Banana 图片生成**：Caret 账号可生成 Gemini Nano Banana 图片，并保存为项目资产。
 - 💳 **每月免费积分**：新用户**每月可获得 0.1 美元（10 积分）**。（首月最高 0.2 美元）
-- 🧰 **Caret CLI 正式支持**：正式发布支持 Caret 账号与 LiteLLM BYO 的 Caret CLI。
 - ☁️ **[Naver Cloud](https://clova.ai/) Hyper Clova X**：新增 Naver Cloud 提供商与 HCX-007/HCX-005/HCX-DASH-002 模型。
 - 🧩 **AAIF Agents.md + /init**：将旧规则迁移为 AAIF 标准，并新增项目初始化功能。
 - 🔁 **双账户系统**：可同时使用 Caret 账号与 Cline 账号。
@@ -64,7 +63,6 @@
 ### 亮点
 - ✅ **采用 Cline v3.38.2**: 包括 Claude Opus 4.5 在内的所有最新核心改进
 - ✅ **双账户系统**: 完全支持现有的 Cline 账户
-- ✅ **Caret CLI (测试版)**: 支持 LiteLLM 的统一 CLI
 - ✅ **输入历史**: 像终端一样浏览过去的命令
 - ✅ **增强的提供商设置**: 自动获取 LiteLLM / [BizRouter](https://bizrouter.ai/) 的模型并进行健康检查
 - ✅ **251 种独特的 AI 模型**: 包括 Claude Opus 4.5、GPT-5、Gemini 3 在内的 20 家提供商

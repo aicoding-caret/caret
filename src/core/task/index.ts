@@ -104,7 +104,7 @@ import {
 	ClineUserContent,
 } from "@/shared/messages/content"
 import { ShowMessageType } from "@/shared/proto/index.host"
-import { isCaretCliInstalled, isClineCliInstalled, isCliSubagentContext } from "@/utils/cli-detector"
+import { isClineCliInstalled, isCliSubagentContext } from "@/utils/cli-detector"
 import { isInTestMode } from "../../services/test/TestMode"
 import { ensureLocalClineDirExists } from "../context/instructions/user-instructions/rule-helpers"
 import { refreshWorkflowToggles } from "../context/instructions/user-instructions/workflows"
@@ -2493,11 +2493,11 @@ export class Task {
 		})
 
 		const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem") || CaretGlobalManager.currentMode
-		// CARET MODIFICATION: Detect CLI per modeSystem for subagent availability
+		// CARET MODIFICATION: Disable subagents in Caret mode (v0.4.4)
 		const subagentsEnabled = this.stateManager.getGlobalSettingsKey("subagentsEnabled")
 		let isSubagentsEnabledAndCliInstalled = false
-		if (subagentsEnabled) {
-			const cliInstalled = modeSystem === "caret" ? await isCaretCliInstalled() : await isClineCliInstalled()
+		if (modeSystem !== "caret" && subagentsEnabled) {
+			const cliInstalled = await isClineCliInstalled()
 			isSubagentsEnabledAndCliInstalled = subagentsEnabled && cliInstalled
 		}
 

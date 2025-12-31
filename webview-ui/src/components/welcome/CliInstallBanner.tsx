@@ -29,8 +29,13 @@ const CliInstallBanner = () => {
 		[isCaretMode],
 	)
 
+	// CARET MODIFICATION: Hide CLI banner in Caret mode until Caret CLI is released
 	const shouldHideBanner =
-		isCliSubagent || isInstalled || isDismissed || (lastDismissedCliBannerVersion ?? 0) >= CURRENT_CLI_BANNER_VERSION
+		isCaretMode ||
+		isCliSubagent ||
+		isInstalled ||
+		isDismissed ||
+		(lastDismissedCliBannerVersion ?? 0) >= CURRENT_CLI_BANNER_VERSION
 
 	// Poll backend for CLI installation status (mode-aware on the controller side)
 	useEffect(() => {

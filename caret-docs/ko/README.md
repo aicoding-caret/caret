@@ -1,7 +1,7 @@
 <div align="center">
   <p>
-    <strong>🚀 v0.4.4 주요 업데이트: 나노바나나 이미지, Caret CLI, <a href="https://clova.ai/">Naver Cloud</a> HCX, Agents.md + /init</strong><br>
-    Caret CLI 정식 지원, <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X, AAIF Agents.md/프로젝트 초기화, 월간 무료 크레딧까지 모두 담았습니다.
+    <strong>🚀 v0.4.4 주요 업데이트: 나노바나나 이미지, <a href="https://clova.ai/">Naver Cloud</a> HCX, Agents.md + /init</strong><br>
+    <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X, AAIF Agents.md/프로젝트 초기화, 월간 무료 크레딧까지 모두 담았습니다.
   </p>
 
   <table>
@@ -61,7 +61,6 @@
 
 - 🖼️ **나노바나나 이미지 생성**: Caret 계정에서 Gemini 나노바나나 이미지를 생성하고 프로젝트 에셋으로 저장할 수 있습니다.
 - 💳 **월간 무료 크레딧**: 신규 사용자는 **매월 $0.1 (10 크레딧)**을 받습니다. (첫 달 최대 $0.2)
-- 🧰 **Caret CLI 정식 지원**: Caret 계정 + LiteLLM BYO를 지원하는 Caret CLI가 공식 배포되었습니다.
 - ☁️ **[Naver Cloud](https://clova.ai/) Hyper Clova X**: Naver Cloud 프로바이더와 HCX-007/HCX-005/HCX-DASH-002 모델을 추가했습니다.
 - 🧩 **AAIF Agents.md + /init**: 레거시 규칙을 AAIF 표준으로 전환하고 프로젝트 초기화 기능을 추가했습니다.
 - 🔁 **듀얼 계정 시스템**: Caret 계정과 Cline 계정을 동시에 사용할 수 있습니다.
@@ -76,7 +75,6 @@
 ### 주요 특징
 - ✅ **Cline v3.38.2 적용**: Claude Opus 4.5를 포함한 모든 최신 핵심 개선 사항
 - ✅ **듀얼 계정 시스템**: 기존 Cline 계정 완벽 지원
-- ✅ **Caret CLI (베타)**: LiteLLM을 지원하는 통합 CLI
 - ✅ **입력 기록**: 터미널처럼 이전 명령어 탐색
 - ✅ **향상된 Provider 설정**: LiteLLM / [BizRouter](https://bizrouter.ai/)용 모델 자동 가져오기 및 상태 확인
 - ✅ **251개의 독점 AI 모델**: Claude Opus 4.5, GPT-5, Gemini 3를 포함한 20개 Provider

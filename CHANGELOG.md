@@ -29,7 +29,6 @@
 
 ### ✨ Improved
 - **Caret account Nano Banana integration**: Added Gemini 3 Flash preview to Caret accounts and integrated Nano Banana image generation so outputs can be used as project assets.
-- **Caret CLI**: Officially released the Caret CLI supporting Caret accounts and LiteLLM BYO providers.
 - **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**: Added the Naver Cloud provider and HCX-007/HCX-005/HCX-DASH-002 models.
 - **AAIF international-standard Agents.md + project initialization**: Migrated legacy Caret/Cline rules to the AAIF standard and added project initialization support.
 - **Build/Release**: Stabilized build scripts and fixed asset sync order to improve build reliability.
@@ -69,7 +68,6 @@
 ### Added
 - **Cline v3.38.2 integration**: All upstream features including the latest model support (Claude Opus 4.5).
 - **Dual Account System**: Switch between Caret Mode (extended) and Cline Mode (stock).
-- **Caret CLI (beta)**: Unified `caret` CLI with enhanced auth and LiteLLM support.
 - **Provider setup**: Auto-fetch models for LiteLLM/BizRouter with real-time health checks.
 - **JSON prompt system**: Dynamic system prompt configuration via JSON.
 - **Input history**: Terminal-like history navigation with persistence.

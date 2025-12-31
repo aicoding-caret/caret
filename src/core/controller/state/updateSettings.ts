@@ -310,10 +310,16 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 			controller.stateManager.setGlobalState("hooksEnabled", isEnabled)
 		}
 
+		// CARET MODIFICATION: Prevent enabling subagents in Caret mode
+		const effectiveModeSystem = request.modeSystem ?? controller.stateManager.getGlobalStateKey("caretModeSystem") ?? "caret"
+
 		if (request.subagentsEnabled !== undefined) {
 			// CARET MODIFICATION: block enabling subagents on unsupported platforms (Windows)
 			if (request.subagentsEnabled && process.platform !== "darwin" && process.platform !== "linux") {
 				throw new Error("CLI subagents are only supported on macOS and Linux platforms")
+			}
+			if (request.subagentsEnabled && effectiveModeSystem === "caret") {
+				throw new Error("CLI subagents are disabled in Caret mode")
 			}
 			const currentSettings = controller.stateManager.getGlobalSettingsKey("subagentsEnabled")
 			const wasEnabled = currentSettings ?? false

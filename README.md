@@ -1,7 +1,7 @@
 <div align="center">
   <p>
-    <strong>🚀 v0.4.4 Highlights: Nano Banana images, Caret CLI, <a href="https://clova.ai/">Naver Cloud</a> HCX, Agents.md + /init</strong><br>
-    Official Caret CLI, <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X, AAIF Agents.md/project init, and more — plus free monthly credits.
+    <strong>🚀 v0.4.4 Highlights: Nano Banana images, <a href="https://clova.ai/">Naver Cloud</a> HCX, Agents.md + /init</strong><br>
+    <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X, AAIF Agents.md/project init, and more — plus free monthly credits.
   </p>
 
   <table>
@@ -62,7 +62,6 @@
 
 - 🖼️ **Nano Banana image generation**: Caret accounts now include Gemini 3 Flash preview and integrated Nano Banana image generation, so outputs can be saved as project assets.
 - 💳 **Free monthly credits**: New users get **$0.1 (10 credits) monthly** (up to $0.2 for the first month).
-- 🧰 **Caret CLI official**: Caret CLI is now officially released with Caret account + LiteLLM BYO support.
 - ☁️ **[Naver Cloud](https://clova.ai/) Hyper Clova X**: Added the Naver Cloud provider and HCX-007/HCX-005/HCX-DASH-002 models.
 - 🧩 **AAIF Agents.md + /init**: Migrated legacy rules to the AAIF standard and added project initialization support.
 - 🔁 **Dual account system**: Use Caret and Cline accounts together without restriction.
@@ -77,7 +76,6 @@
 ### Highlights
 - ✅ **Cline v3.38.2 adoption**: All latest core improvements plus Claude Opus 4.5
 - ✅ **Dual account system**: Full support for existing Cline accounts
-- ✅ **Caret CLI (Beta)**: Unified CLI with LiteLLM support
 - ✅ **Input history**: Navigate past commands like a terminal
 - ✅ **Enhanced provider setup**: Auto-fetch models for LiteLLM / [BizRouter](https://bizrouter.ai/) with health checks
 - ✅ **251 unique AI models**: 20 providers including Claude Opus 4.5, GPT-5, Gemini 3
