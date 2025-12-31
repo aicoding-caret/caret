@@ -16,6 +16,8 @@ Caret account + provider stack that branches at the entry points while keeping C
 - Caret provider via OpenAI-compatible API (`/v1/chat/completions`).
 - Image generation tool (`/v1/generate/image`) with workspace generated-assets outputs.
 - Optional @-mention image attachments (base64) for reference-driven image generation.
+- Reference images accept data URLs or workspace paths (resolved + optimized on the backend).
+- Shared image optimization (resize + webp) for uploads, mentions, and reference images.
 
 ## 🆚 Improvements vs Cline
 | Area | Cline | Caret |
@@ -32,9 +34,10 @@ Caret account + provider stack that branches at the entry points while keeping C
 - **Provider runtime**: `src/core/api/index.ts` → `caret-src/core/api/providers/caret.ts` (`CaretHandler`, OpenAI-compatible stream to `${apiBaseUrl}/v1/chat/completions`).
 - **Image generation tool**: `caret-src/core/task/tools/handlers/GenerateImageToolHandler.ts` (Caret token + `/v1/generate/image`, saves outputs to workspace).
 - **Image scope/registry**: `caret-src/core/task/images/*` (image attachment scope + registry snapshot persistence with size caps).
-- **Mention image sending**: `proto/caret/system.proto` (Get/Set/Resolve), handlers in `src/core/controller/persona/*`, webview toggle `webview-ui/src/caret/components/MentionImageSendToggle.tsx`, mention attach helper `webview-ui/src/caret/utils/mention-image.ts`.
+- **Image optimization**: `caret-src/utils/image-optimization.ts` (resize to 1024px max, webp conversion, reject >7500px).
+- **Mention image sending**: `proto/caret/system.proto` (Get/Set/Resolve + Optimize), handlers in `src/core/controller/persona/*`, webview toggle `webview-ui/src/caret/components/MentionImageSendToggle.tsx`, mention attach helper `webview-ui/src/caret/utils/mention-image.ts`.
 - **Provider config & models**: `src/shared/api.ts` (`ApiProvider` includes `caret`; static `caretModels`/`caretDefaultModelId`); CLI static definitions generated via `scripts/cli-providers.mjs` → `cli/pkg/generated/providers.go`.
-- **Webview**: Account entry branching in `webview-ui/src/components/account/AccountView.tsx`; Caret account UI in `webview-ui/src/caret/components/CaretAccountView.tsx`; auth state/context in `webview-ui/src/context/CaretAuthContext.tsx` and `ExtensionStateContext.tsx`; Settings provider UI in `webview-ui/src/components/settings/providers/CaretProvider.tsx` + `CaretModelPicker.tsx`; image helpers in `webview-ui/src/caret/utils/imageOptimization.ts` + `webview-ui/src/caret/shared/images/image-id.ts`.
+- **Webview**: Account entry branching in `webview-ui/src/components/account/AccountView.tsx`; Caret account UI in `webview-ui/src/caret/components/CaretAccountView.tsx`; auth state/context in `webview-ui/src/context/CaretAuthContext.tsx` and `ExtensionStateContext.tsx`; Settings provider UI in `webview-ui/src/components/settings/providers/CaretProvider.tsx` + `CaretModelPicker.tsx`; image helpers in `webview-ui/src/caret/utils/imageOptimization.ts` + `webview-ui/src/caret/shared/images/image-id.ts` (optimization delegates to backend gRPC).
 - **CLI**: `cli/pkg/cli/auth/auth_caret_provider.go` (login, default model set from static list; org selection currently unavailable) uses generated provider definitions.
 
 ## 🎯 Goals
@@ -53,8 +56,10 @@ Caret account + provider stack that branches at the entry points while keeping C
 - **Image outputs**: `generate_image` writes files under `<workspace>/.agents/generated-assets/`:
   - `.agents/generated-assets/<request_id>.<ext>` (image)
   - `.agents/generated-assets/<request_id>.md` (frontmatter + prompt + image link)
-  - Image registry snapshots cap persisted data URLs to keep storage bounded (per-item + total limits).
-- **Mention image inputs**: When enabled, @-mentioned image paths are resolved to data URLs and attached to the current message so the model can use them as references (order follows mention order; @a/@b map to attachment order).
+  - Image registry snapshots cap persisted data URLs to keep storage bounded (2MB per item, 6MB total).
+- **Reference image inputs**: `reference_images` supports data URLs or workspace paths. Paths are resolved, optimized (resize + webp), and filtered by size (2MB per image, 6MB total).
+- **Mention image inputs**: When enabled, @-mentioned image paths are resolved to data URLs and attached to the current message so the model can use them as references (order follows mention order; @a/@b map to attachment order). Optimization is delegated to backend gRPC.
+- **Optimization flow**: Webview calls `OptimizeImageDataUrls` (gRPC) for uploads/mentions; tool handler applies the same optimization for workspace path references.
 - **CLI parity**: `auth_caret_provider.go` uses static models from generated definitions, sets default model, and calls the same gRPC auth endpoints.
 
 ## 🌐 API Surface (caret.team)
@@ -77,8 +82,9 @@ Caret account + provider stack that branches at the entry points while keeping C
 2) Settings: Caret login button works; model picker lists Caret models; selected model stored per mode.
 3) Provider: Send chat with Caret provider; verify `CaretHandler` uses Caret token and selected model, reasoning skip logic behaves.
 4) Image tool: generate image and confirm `.agents/generated-assets/<request_id>.*` files are created and relative paths are shown in tool output.
-5) Image registry: large data URLs do not bloat `image_registry.json` (oversized payloads are dropped on save).
-5) CLI: `npm run cli-providers` (after model changes) and `npm run protos-go` if proto changes; `cline auth` → Caret login + default model applied.
+5) Reference images: pass data URLs + workspace paths; confirm optimized webp payloads and size caps are respected.
+6) Image registry: large data URLs do not bloat `image_registry.json` (oversized payloads are dropped on save).
+7) CLI: `npm run cli-providers` (after model changes) and `npm run protos-go` if proto changes; `cline auth` → Caret login + default model applied.
 
 ## 🧭 Maintenance Notes
 - Keep Cline logic untouched; route through `caret-src/**` where possible.
