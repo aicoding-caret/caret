@@ -1,5 +1,25 @@
 // CARET MODIFICATION: Backend image optimization shared across upload/mention/reference flows.
-import sharp from "sharp"
+type SharpFactory = typeof import("sharp")
+
+let sharpPromise: Promise<SharpFactory | null> | null = null
+
+const loadSharp = async (): Promise<SharpFactory | null> => {
+	if (sharpPromise) {
+		return sharpPromise
+	}
+	sharpPromise = (async () => {
+		try {
+			const mod = (await import("sharp")) as SharpFactory | { default?: SharpFactory }
+			if (typeof (mod as { default?: SharpFactory }).default === "function") {
+				return (mod as { default: SharpFactory }).default
+			}
+			return mod as SharpFactory
+		} catch {
+			return null
+		}
+	})()
+	return sharpPromise
+}
 
 const MAX_IMAGE_DIMENSION = 1024
 const MAX_INPUT_DIMENSION = 7500
@@ -16,6 +36,10 @@ const parseDataUrl = (value: string): { mimeType: string; base64: string } => {
 }
 
 export const optimizeImageDataUrl = async (dataUrl: string): Promise<string> => {
+	const sharp = await loadSharp()
+	if (!sharp) {
+		return dataUrl
+	}
 	const { mimeType, base64 } = parseDataUrl(dataUrl)
 	if (!SUPPORTED_INPUT_MIME_TYPES.has(mimeType)) {
 		return dataUrl

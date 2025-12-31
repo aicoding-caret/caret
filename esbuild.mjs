@@ -198,7 +198,7 @@ const extensionConfig = {
 	...baseConfig,
 	entryPoints: ["src/extension.ts"],
 	outfile: `${destDir}/extension.js`,
-	external: ["vscode"],
+	external: ["vscode", "sharp"], // CARET MODIFICATION: keep sharp external to avoid native addon load in VSIX
 }
 
 // Standalone-specific configuration
