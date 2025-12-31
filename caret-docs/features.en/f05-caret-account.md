@@ -72,6 +72,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 ## 🧩 Models (Caret provider)
 - Static list: `src/shared/api.ts` (`caretModels`, `caretDefaultModelId`).
   - `gemini/gemini-3-pro-preview`
+  - `gemini/gemini-3-flash-preview`
   - `gemini/gemini-2.5-pro`
   - `gemini/gemini-2.5-flash` (default)
 - Frontend merges static + backend-provided models in `ExtensionStateContext` but currently uses the static map.
@@ -84,7 +85,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 4) Image tool: generate image and confirm `.agents/generated-assets/<request_id>.*` files are created and relative paths are shown in tool output.
 5) Reference images: pass data URLs + workspace paths; confirm optimized webp payloads and size caps are respected.
 6) Image registry: large data URLs do not bloat `image_registry.json` (oversized payloads are dropped on save).
-7) CLI: `npm run cli-providers` (after model changes) and `npm run protos-go` if proto changes; `cline auth` → Caret login + default model applied.
+7) CLI: `npm run cli-providers` (after model changes) and `npm run protos-go` if proto changes; `caret auth` → Caret login + default model applied.
 
 ## 🧭 Maintenance Notes
 - Keep Cline logic untouched; route through `caret-src/**` where possible.

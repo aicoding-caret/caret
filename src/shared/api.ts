@@ -350,6 +350,34 @@ export const caretModels = {
 			},
 		],
 	},
+	"gemini/gemini-3-flash-preview": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		supportsGlobalEndpoint: true,
+		inputPrice: 0.5,
+		outputPrice: 3.0,
+		cacheWritesPrice: 0.05,
+		cacheReadsPrice: 0.03,
+		thinkingConfig: {
+			thinkingLevel: "low",
+		},
+		tiers: [
+			{
+				contextWindow: 200000,
+				inputPrice: 0.3,
+				outputPrice: 2.5,
+				cacheReadsPrice: 0.03,
+			},
+			{
+				contextWindow: Infinity,
+				inputPrice: 0.3,
+				outputPrice: 2.5,
+				cacheReadsPrice: 0.03,
+			},
+		],
+	},
 	"gemini/gemini-2.5-pro": {
 		maxTokens: 65536,
 		contextWindow: 1_048_576,

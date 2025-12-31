@@ -15,6 +15,8 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 - Caret Auth API(`/v1/auth/*`) 기반 JWT 인증.
 - OpenAI 호환 Caret 프로바이더(`/v1/chat/completions`).
 - 이미지 생성(`/v1/generate/image`) 및 워크스페이스 생성 자산 저장.
+- @멘션 이미지 첨부(옵션) 및 reference_images 경로/데이터 URL 지원.
+- 업로드/멘션/레퍼런스 공통 이미지 최적화(리사이즈 + webp).
 
 ## 🆚 Cline 대비 개선점
 | 영역 | Cline | Caret |
@@ -29,8 +31,11 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 - **Auth 서비스**: `caret-src/services/auth/CaretAuthService.ts`, `caret-src/services/auth/providers/CaretAuthProvider.ts`(authorize/token/refresh).
 - **Caret API 엔드포인트**: `caret-src/shared/caret/api.ts`(`/v1/auth/*`, `/v1/profile/*`).
 - **Provider 런타임**: `src/core/api/index.ts` → `caret-src/core/api/providers/caret.ts`(`CaretHandler`, `${apiBaseUrl}/v1/chat/completions`).
-- **이미지 생성 도구**: `src/core/task/tools/handlers/GenerateImageToolHandler.ts`(`/v1/generate/image`, 파일 저장).
-- **Webview**: `webview-ui/src/components/account/AccountView.tsx`, `webview-ui/src/caret/components/CaretAccountView.tsx`, `webview-ui/src/context/CaretAuthContext.tsx`, `webview-ui/src/components/settings/providers/CaretProvider.tsx`, `CaretModelPicker.tsx`.
+- **이미지 생성 도구**: `caret-src/core/task/tools/handlers/GenerateImageToolHandler.ts`(`/v1/generate/image`, 파일 저장 + reference_images 처리).
+- **이미지 스코프/레지스트리**: `caret-src/core/task/images/*`(첨부 스코프/레지스트리, size cap 포함).
+- **이미지 최적화**: `caret-src/utils/image-optimization.ts`(1024px 리사이즈 + webp, 7500px 초과 거부).
+- **멘션 이미지 전송**: `proto/caret/system.proto`(Get/Set/Resolve/Optimize), `src/core/controller/persona/*`, `webview-ui/src/caret/components/MentionImageSendToggle.tsx`, `webview-ui/src/caret/utils/mention-image.ts`.
+- **Webview**: `webview-ui/src/components/account/AccountView.tsx`, `webview-ui/src/caret/components/CaretAccountView.tsx`, `webview-ui/src/context/CaretAuthContext.tsx`, `webview-ui/src/components/settings/providers/CaretProvider.tsx`, `CaretModelPicker.tsx`, `webview-ui/src/caret/utils/imageOptimization.ts`(백엔드 최적화 위임).
 - **CLI**: `cli/pkg/cli/auth/auth_caret_provider.go`(로그인/기본 모델 설정, 조직 선택은 현재 비활성).
 
 ## 🎯 목표
@@ -48,6 +53,9 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 - **이미지 결과 저장**: `generate_image`가 `<workspace>/.agents/generated-assets/`에 저장.
   - `.agents/generated-assets/<request_id>.<ext>` (이미지)
   - `.agents/generated-assets/<request_id>.md` (프롬프트/메타데이터)
+- **reference_images 입력**: data URL 또는 워크스페이스 경로를 허용. 경로는 해석 후 최적화(webp/리사이즈)되고 사이즈 캡(2MB/장, 6MB/총합) 적용.
+- **@멘션 입력**: 설정 ON 시 @ 경로를 data URL로 변환해 첨부, 최적화는 gRPC `OptimizeImageDataUrls`로 위임.
+- **레지스트리 보존 한도**: 이미지 레지스트리 JSON에 저장되는 data URL은 2MB/장, 6MB/총합 제한.
 
 ## 🌐 API 표면 (caret.team)
 - Base URL: `CaretEnv.config().apiBaseUrl` (프로덕션 `https://api.caret.team`).
@@ -59,6 +67,7 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 ## 🧩 모델 (Caret provider)
 - 정적 목록: `src/shared/api.ts`(`caretModels`, `caretDefaultModelId`)
   - `gemini/gemini-3-pro-preview`
+  - `gemini/gemini-3-flash-preview`
   - `gemini/gemini-2.5-pro`
   - `gemini/gemini-2.5-flash`(기본)
 - CLI 정적 정의는 `npm run cli-providers`로 갱신(`cli/pkg/generated/providers.go`).
@@ -68,7 +77,9 @@ Caret 계정 + 프로바이더 스택은 Cline 코드를 그대로 보존하고 
 2) Settings: Caret 로그인 버튼/모델 선택 동작 확인.
 3) Provider: Caret 프로바이더로 대화 → 토큰/모델 반영 확인.
 4) Image: 이미지 생성 → `.agents/generated-assets/<request_id>.*` 생성 및 경로 표시 확인.
-5) CLI: `cline auth` → Caret 로그인 + 기본 모델 설정 확인.
+5) Reference images: data URL + 경로 입력 모두 작동, 최적화(webp) 및 사이즈 캡 확인.
+6) 이미지 레지스트리: 대용량 data URL이 `image_registry.json`을 과도하게 키우지 않는지 확인.
+7) CLI: `caret auth` → Caret 로그인 + 기본 모델 설정 확인.
 
 ## 🧭 유지보수 메모
 - Cline 로직은 건드리지 않고 `caret-src/**` 경로로 확장한다.

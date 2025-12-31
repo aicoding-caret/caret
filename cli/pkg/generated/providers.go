@@ -561,6 +561,16 @@ var rawModelDefinitions = `	{
 	      "supportsImages": true,
 	      "supportsPromptCache": true
 	    },
+	    "gemini/gemini-3-flash-preview": {
+	      "maxTokens": 65536,
+	      "contextWindow": 1048576,
+	      "inputPrice": 0,
+	      "outputPrice": 3,
+	      "cacheWritesPrice": 0,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": true,
+	      "supportsPromptCache": true
+	    },
 	    "gemini/gemini-2.5-pro": {
 	      "maxTokens": 65536,
 	      "contextWindow": 1048576,
@@ -947,6 +957,16 @@ var rawModelDefinitions = `	{
 	      "supportsImages": true,
 	      "supportsPromptCache": true
 	    },
+	    "gemini-3-flash-preview": {
+	      "maxTokens": 65536,
+	      "contextWindow": 1048576,
+	      "inputPrice": 0,
+	      "outputPrice": 3,
+	      "cacheWritesPrice": 0,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": true,
+	      "supportsPromptCache": true
+	    },
 	    "gemini-2.5-pro": {
 	      "maxTokens": 65536,
 	      "contextWindow": 1048576,
@@ -1140,6 +1160,15 @@ var rawModelDefinitions = `	{
 	      "supportsImages": true,
 	      "supportsPromptCache": true
 	    },
+	    "gpt-5.2": {
+	      "maxTokens": 8192,
+	      "contextWindow": 272000,
+	      "inputPrice": 1,
+	      "outputPrice": 14,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": true,
+	      "supportsPromptCache": true
+	    },
 	    "o4-mini": {
 	      "maxTokens": 100000,
 	      "contextWindow": 200000,
@@ -1231,6 +1260,33 @@ var rawModelDefinitions = `	{
 	    }
 	  },
 	  "xai": {
+	    "grok-4-1-fast-reasoning": {
+	      "contextWindow": 2000000,
+	      "inputPrice": 0,
+	      "outputPrice": 0,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": false,
+	      "supportsPromptCache": true,
+	      "description": "xAI's Grok 4.1 Reasoning Fast - multimodal model with 2M context."
+	    },
+	    "grok-4-1-fast-non-reasoning": {
+	      "contextWindow": 2000000,
+	      "inputPrice": 0,
+	      "outputPrice": 0,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": true,
+	      "supportsPromptCache": true,
+	      "description": "xAI's Grok 4.1 Non-Reasoning Fast - multimodal model with 2M context."
+	    },
+	    "grok-code-fast-1": {
+	      "contextWindow": 256000,
+	      "inputPrice": 0,
+	      "outputPrice": 1,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": false,
+	      "supportsPromptCache": true,
+	      "description": "xAI's Grok Coding model."
+	    },
 	    "grok-4-fast-reasoning": {
 	      "maxTokens": 30000,
 	      "contextWindow": 2000000,
