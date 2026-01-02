@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 
 import assert from "node:assert"
+import { getCurrentFeatureConfig } from "@caret/shared/FeatureConfig"
 import { getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
 import { DIFF_VIEW_URI_SCHEME } from "@hosts/vscode/VscodeDiffViewProvider"
 import * as vscode from "vscode"
@@ -94,6 +95,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(...testModeWatchers)
 
 	vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV && IS_DEV === "true")
+	// CARET MODIFICATION: Control account menu visibility via feature flag
+	vscode.commands.executeCommand("setContext", "caret.showAccountUI", getCurrentFeatureConfig().showAccountUI !== false)
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {

@@ -15,7 +15,8 @@ const McpServerIcon = ({ className, size }: { className?: string; size?: number 
 )
 
 export const Navbar = () => {
-	const { navigateToHistory, navigateToSettings, navigateToAccount, navigateToMcp, navigateToChat } = useExtensionState()
+	const { navigateToHistory, navigateToSettings, navigateToAccount, navigateToMcp, navigateToChat, featureConfig } =
+		useExtensionState()
 
 	const SETTINGS_TABS = useMemo(
 		() => [
@@ -70,21 +71,22 @@ export const Navbar = () => {
 			className="flex-none inline-flex justify-end bg-transparent gap-2 mb-1 z-10 border-none items-center mr-4!"
 			id="cline-navbar-container"
 			style={{ gap: "4px" }}>
-			{SETTINGS_TABS.map((tab) => (
-				<HeroTooltip content={tab.tooltip} key={`navbar-tooltip-${tab.id}`} placement="bottom">
-					<VSCodeButton
-						appearance="icon"
-						aria-label={tab.tooltip}
-						data-testid={`tab-${tab.id}`}
-						key={`navbar-button-${tab.id}`}
-						onClick={() => tab.navigate()}
-						style={{ padding: "0px", height: "20px" }}>
-						<div className="flex items-center gap-1 text-xs whitespace-nowrap min-w-0 w-full">
-							<tab.icon className="text-[var(--vscode-foreground)]" size={18} strokeWidth={1} />
-						</div>
-					</VSCodeButton>
-				</HeroTooltip>
-			))}
+			{SETTINGS_TABS.filter((tab) => featureConfig?.showAccountUI !== false || tab.id !== "account") // CARET MODIFICATION: Hide account tab when disabled
+				.map((tab) => (
+					<HeroTooltip content={tab.tooltip} key={`navbar-tooltip-${tab.id}`} placement="bottom">
+						<VSCodeButton
+							appearance="icon"
+							aria-label={tab.tooltip}
+							data-testid={`tab-${tab.id}`}
+							key={`navbar-button-${tab.id}`}
+							onClick={() => tab.navigate()}
+							style={{ padding: "0px", height: "20px" }}>
+							<div className="flex items-center gap-1 text-xs whitespace-nowrap min-w-0 w-full">
+								<tab.icon className="text-[var(--vscode-foreground)]" size={18} strokeWidth={1} />
+							</div>
+						</VSCodeButton>
+					</HeroTooltip>
+				))}
 		</nav>
 	)
 }

@@ -258,7 +258,7 @@
 				{
 					"command": "caretive.caret.accountButtonClicked",
 					"group": "navigation@5",
-					"when": "view == caret.SidebarProvider"
+					"when": "view == caret.SidebarProvider && caret.showAccountUI"
 				},
 				{
 					"command": "caretive.caret.settingsButtonClicked",

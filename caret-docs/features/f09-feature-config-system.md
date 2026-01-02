@@ -37,8 +37,13 @@ Caret의 **Feature Config System**은 다양한 배포 환경(일반 사용자�
 ### 3. Webview (UI Control)
 - **`webview-ui/src/context/ExtensionStateContext.tsx`**: `featureConfig` 상태 관리.
 - **`webview-ui/src/components/settings/sections/CaretGeneralSettingsSection.tsx`**: `showPersonaSettings` 플래그에 따른 UI 제어.
+- **`webview-ui/src/caret/components/CaretGeneralSettingsSection.tsx`**: `showModeSystemToggle` 플래그에 따른 UI 제어.
 - **`webview-ui/src/components/account/AccountWelcomeView.tsx`**: `enableCaretAccountFeatures` 플래그에 따른 UI 제어.
+- **`webview-ui/src/components/menu/Navbar.tsx`**: `showAccountUI` 플래그에 따른 UI 제어.
+- **`webview-ui/src/App.tsx`**: `showAccountUI` 플래그에 따른 AccountView 게이팅.
+- **`webview-ui/src/components/settings/providers/CaretProvider.tsx`**: `showAccountUI` 플래그에 따른 계정 버튼 제어.
 - **`webview-ui/src/components/settings/ApiOptions.tsx`**: `firstListingProvider`, `showOnlyDefaultProvider` 플래그 적용.
+- **`webview-ui/src/components/settings/sections/FeatureSettingsSection.tsx`**: `showDictationToggle` 플래그에 따른 음성 입력 UI 제어.
 
 ---
 
@@ -57,10 +62,13 @@ Caret의 **Feature Config System**은 다양한 배포 환경(일반 사용자�
 | **defaultPersonaEnabled** | true | 최초 설정 | `state-helpers.ts:631`<br>`ExtensionStateContext.tsx:277` |
 | **redirectAfterApiSetup** | "persona" | 런타임 동적 | `WelcomeView.tsx:64` |
 | **defaultModeSystem** | "caret" | **최초 설정 (globalState 우선)** | `StateManager.ts:105` ⚠️ 특수<br>Fallback: `state-helpers.ts:601,626,628`<br>`ExtensionStateContext.tsx:247`<br>`CaretSettings.ts:44` |
-| **firstListingProvider** | "litellm" | 런타임 동적 | `ApiOptions.tsx:202` |
-| **defaultProvider** | "litellm" | 최초 설정 | `StateManager.ts:94`, `state-helpers.ts:433`, `controller/index.ts:165,466` |
+| **firstListingProvider** | "caret" | 런타임 동적 | `ApiOptions.tsx:202` |
+| **defaultProvider** | "caret" | 최초 설정 | `StateManager.ts:94`, `state-helpers.ts:433`, `controller/index.ts:165,466` |
 | **showOnlyDefaultProvider** | false | 런타임 동적 | `ApiOptions.tsx:212` |
-| **showCostInformation** | false | 런타임 동적 | `ChatRow.tsx:942`, `TaskHeader.tsx:315` |
+| **showCostInformation** | true | 런타임 동적 | `ChatRow.tsx:942`, `TaskHeader.tsx:315` |
+| **showModeSystemToggle** | true | 런타임 동적 | `CaretGeneralSettingsSection.tsx:28` |
+| **showAccountUI** | true | 런타임 동적 | `App.tsx:82`<br>`Navbar.tsx:66`<br>`CaretProvider.tsx:25` |
+| **showDictationToggle** | true | 런타임 동적 | `FeatureSettingsSection.tsx:314` |
 
 ## 🏗️ **시스템 아키텍처**
 
@@ -70,6 +78,7 @@ Caret의 **Feature Config System**은 다양한 배포 환경(일반 사용자�
 백엔드에서 매번 feature-config.json을 읽어 프론트엔드로 전달. 설정 변경 시 즉시 반영.
 - `enableCaretAccountFeatures`, `showPersonaSettings`
 - `showOnlyDefaultProvider`, `showCostInformation`, `firstListingProvider`
+- `showModeSystemToggle`, `showAccountUI`, `showDictationToggle`
 
 **데이터 흐름**:
 ```
@@ -111,17 +120,20 @@ src/core/
 
 # 프론트엔드
 webview-ui/src/
-├── context/ExtensionStateContext.tsx  # featureConfig 상태 관리
+├── App.tsx                                  # showAccountUI
+├── context/ExtensionStateContext.tsx        # featureConfig 상태 관리
 └── components/
-    ├── account/AccountWelcomeView.tsx         # enableCaretAccountFeatures
+    ├── account/AccountWelcomeView.tsx       # enableCaretAccountFeatures
+    ├── menu/Navbar.tsx                      # showAccountUI
     ├── settings/
-    │   ├── ApiOptions.tsx                     # showOnlyDefaultProvider, firstListingProvider
+    │   ├── ApiOptions.tsx                   # showOnlyDefaultProvider, firstListingProvider
+    │   ├── providers/CaretProvider.tsx      # showAccountUI
     │   └── sections/
-    │       ├── FeatureSettingsSection.tsx     # enableDictationFeature
-    │       └── CaretGeneralSettingsSection.tsx # showPersonaSettings
+    │       ├── FeatureSettingsSection.tsx   # showDictationToggle
+    │       └── CaretGeneralSettingsSection.tsx # showPersonaSettings, showModeSystemToggle
     └── chat/
-        ├── ChatRow.tsx                        # showCostInformation
-        └── task-header/TaskHeader.tsx         # showCostInformation
+        ├── ChatRow.tsx                      # showCostInformation
+        └── task-header/TaskHeader.tsx       # showCostInformation
 ```
 
 ### **핵심 인터페이스**
@@ -145,6 +157,12 @@ export interface FeatureConfig {
     showOnlyDefaultProvider: boolean
     /** 비용 정보 표시 여부 */
     showCostInformation: boolean
+    /** 모드 시스템 토글 표시 여부 */
+    showModeSystemToggle: boolean
+    /** 계정 UI 표시 여부 */
+    showAccountUI: boolean
+    /** 음성 입력 토글 표시 여부 */
+    showDictationToggle: boolean
 }
 ```
 
@@ -158,10 +176,13 @@ const defaultFeatures: FeatureConfig = {
     defaultPersonaEnabled: true,
     redirectAfterApiSetup: "persona",
     defaultModeSystem: "caret",
-    firstListingProvider: "litellm",
-    defaultProvider: "litellm",
+    firstListingProvider: "caret",
+    defaultProvider: "caret",
     showOnlyDefaultProvider: false,
-    showCostInformation: false,
+    showCostInformation: true,
+    showModeSystemToggle: true,
+    showAccountUI: true,
+    showDictationToggle: true,
 }
 ```
 
@@ -177,7 +198,10 @@ const defaultFeatures: FeatureConfig = {
     "firstListingProvider": "litellm",
     "defaultProvider": "litellm",
     "showOnlyDefaultProvider": true,
-    "showCostInformation": false
+    "showCostInformation": false,
+    "showModeSystemToggle": false,
+    "showAccountUI": false,
+    "showDictationToggle": false
 }
 ```
 
@@ -185,7 +209,7 @@ const defaultFeatures: FeatureConfig = {
 
 ### **1. 기본 사용 (코드에서)**
 ```typescript
-import { getCurrentFeatureConfig } from '@shared/FeatureConfig'
+import { getCurrentFeatureConfig } from '@caret/shared/FeatureConfig'
 
 // 현재 기능 설정 가져오기
 const config = getCurrentFeatureConfig()
@@ -204,6 +228,7 @@ const defaultProvider = config.defaultProvider
 # 간소화 모드 활성화 (caret-src/shared/feature-config.json 수정)
 cat > caret-src/shared/feature-config.json << 'EOF'
 {
+    "enableCaretAccountFeatures": false,
     "showPersonaSettings": false,
     "defaultPersonaEnabled": false,
     "redirectAfterApiSetup": "home",
@@ -211,21 +236,28 @@ cat > caret-src/shared/feature-config.json << 'EOF'
     "firstListingProvider": "litellm",
     "defaultProvider": "litellm",
     "showOnlyDefaultProvider": true,
-    "showCostInformation": false
+    "showCostInformation": false,
+    "showModeSystemToggle": false,
+    "showAccountUI": false,
+    "showDictationToggle": false
 }
 EOF
 
 # 일반 모드로 복원 (기본값으로 되돌리기)
 cat > caret-src/shared/feature-config.json << 'EOF'
 {
+    "enableCaretAccountFeatures": true,
     "showPersonaSettings": true,
     "defaultPersonaEnabled": true,
     "redirectAfterApiSetup": "persona",
     "defaultModeSystem": "caret",
-    "firstListingProvider": "openrouter",
-    "defaultProvider": "openrouter",
+    "firstListingProvider": "caret",
+    "defaultProvider": "caret",
     "showOnlyDefaultProvider": false,
-    "showCostInformation": true
+    "showCostInformation": true,
+    "showModeSystemToggle": true,
+    "showAccountUI": true,
+    "showDictationToggle": true
 }
 EOF
 ```
@@ -278,18 +310,19 @@ export const AccountWelcomeView = () => {
 // FeatureSettingsSection.tsx
 const { featureConfig } = useExtensionState()
 
-<VSCodeCheckbox
-    checked={dictationSettings?.dictationEnabled}
-    disabled={!featureConfig?.enableDictationFeature}  // Feature flag로 비활성화
-    onChange={(e: any) => {
-        setDictationSettings((prev) => ({
-            ...prev,
-            dictationEnabled: e.target.checked,
-        }))
-    }}
->
-    {t('featureSettings.dictation.label', 'settings')}
-</VSCodeCheckbox>
+{featureConfig?.showDictationToggle !== false && (
+    <VSCodeCheckbox
+        checked={dictationSettings?.dictationEnabled}
+        onChange={(e: any) => {
+            setDictationSettings((prev) => ({
+                ...prev,
+                dictationEnabled: e.target.checked,
+            }))
+        }}
+    >
+        {t('featureSettings.dictation.label', 'settings')}
+    </VSCodeCheckbox>
+)}
 ```
 
 ### **3. API 프로바이더 목록 제어**
@@ -353,6 +386,8 @@ const config = getCurrentFeatureConfig()
         <PersonaSettings />
     </PersonaSection>
 )}
+
+{config.showModeSystemToggle !== false && <ModeSystemToggle />}
 ```
 
 ### **7. 비용 정보 표시 제어**
@@ -390,9 +425,12 @@ describe("FeatureConfig Integration Tests", () => {
         expect(config.showPersonaSettings).toBe(true)
         expect(config.defaultPersonaEnabled).toBe(true)
         expect(config.defaultModeSystem).toBe("caret")
-        expect(config.firstListingProvider).toBe("litellm")
-        expect(config.defaultProvider).toBe("litellm")
+        expect(config.firstListingProvider).toBe("caret")
+        expect(config.defaultProvider).toBe("caret")
         expect(config.showOnlyDefaultProvider).toBe(false)
+        expect(config.showModeSystemToggle).toBe(true)
+        expect(config.showAccountUI).toBe(true)
+        expect(config.showDictationToggle).toBe(true)
     })
 
     it("should hide account features when disabled in config", () => {
@@ -450,7 +488,10 @@ describe("FeatureConfig Integration Tests", () => {
     "firstListingProvider": "litellm",
     "defaultProvider": "litellm",
     "showOnlyDefaultProvider": true,
-    "showCostInformation": false
+    "showCostInformation": false,
+    "showModeSystemToggle": false,
+    "showAccountUI": false,
+    "showDictationToggle": false
 }
 EOF
    npm run compile
@@ -506,12 +547,14 @@ npm run package
 export interface FeatureConfig {
     // 계정 및 인증 관련
     enableCaretAccountFeatures: boolean
-    enableDictationFeature: boolean
+    showAccountUI: boolean
 
     // UI 표시 관련
     showPersonaSettings: boolean
     defaultPersonaEnabled: boolean
     showCostInformation: boolean
+    showModeSystemToggle: boolean
+    showDictationToggle: boolean
 
     // 프로바이더 설정
     firstListingProvider: string
@@ -673,15 +716,23 @@ Caret과 CodeCenter를 동일한 코드베이스로 관리하되 feature-config.
 - `defaultPersonaEnabled: false` - 페르소나 시스템 기본 비활성화
 - `showOnlyDefaultProvider: true` - LiteLLM만 표시
 - `showCostInformation: false` - 비용 정보 숨김
+- `showModeSystemToggle: false` - 모드 시스템 토글 숨김
+- `showAccountUI: false` - Account 탭/화면 숨김
+- `showDictationToggle: false` - 음성 입력 토글 숨김
 
 ---
 
-**문서 버전**: v3.3 (2025-10-31)
+**문서 버전**: v3.4 (2026-01-02)
 **담당**: Luke Yang + Claude Code
 **관련 이슈**:
 - [caret-b2b/worklog/20250929-issue1-litellm-default.md]
 - [caret-docs/work-logs/alpha/20251030-whitelabeling-correct-implementation.md]
 - [caret-docs/work-logs/alpha/20251031-feature-flag-implementation-verification.md]
+
+**v3.4 주요 변경사항** (2026-01-02):
+- **`showModeSystemToggle`, `showAccountUI`, `showDictationToggle` 플래그 추가**: 모드/계정/음성 입력 UI 노출 제어
+  - 수정 파일: FeatureConfig.ts, feature-config.json, App.tsx, Navbar.tsx, CaretProvider.tsx, FeatureSettingsSection.tsx, CaretGeneralSettingsSection.tsx
+  - VS Code 메뉴 컨텍스트 연동: `caret.showAccountUI` (package.json, extension.ts)
 
 **v3.3 주요 변경사항** (2025-10-31):
 - **`defaultPersonaEnabled` 플래그 추가**: 페르소나 시스템의 초기 활성화 상태 제어
@@ -713,7 +764,7 @@ Caret과 CodeCenter를 동일한 코드베이스로 관리하되 feature-config.
 - `defaultProvider`, `showCostInformation`, `showOnlyDefaultProvider` 버그 수정 반영
 
 **v2.0 주요 변경사항** (2025-10-30):
-- `enableCaretAccountFeatures`, `enableDictationFeature` 필드 추가
+- `enableCaretAccountFeatures` 필드 추가
 - `firstListingProvider`, `defaultProvider` 기본값 변경: openrouter → litellm
 - `showCostInformation` 기본값 변경: true → false
 - 브랜드 유틸리티 함수 추가: `getBrandRulesFileName()`, `getBrandMcpSettingsFileName()`

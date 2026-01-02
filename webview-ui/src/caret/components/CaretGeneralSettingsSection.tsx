@@ -29,9 +29,11 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 
 			<Section>
 				{/* CARET MODIFICATION: 전역 브랜드 모드 토글 - 최상단에 배치 */}
-				<div className="mb-6">
-					<ModeSystemToggle />
-				</div>
+				{featureConfig?.showModeSystemToggle !== false && (
+					<div className="mb-6">
+						<ModeSystemToggle />
+					</div>
+				)}
 
 				{/* CARET MODIFICATION: 통합 언어 설정 - LLM과 UI 언어 자동 동기화 */}
 				<div className="mb-6">
