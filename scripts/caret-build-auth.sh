@@ -27,8 +27,10 @@ npm run protos-go
 npm rebuild better-sqlite3
 # Build standalone JS bundle for local run
 npm run compile-standalone
-# CARET MODIFICATION: package-standalone를 포함해 dist-standalone/runtime 의존성 준비
 npm run postcompile-standalone
+# CARET MODIFICATION: ensure extension package.json exists for standalone core
+mkdir -p "${ROOT}/dist-standalone/extension"
+cp "${ROOT}/package.json" "${ROOT}/dist-standalone/extension/package.json"
 # CARET: ensure prompt sections are packaged for core startup
 mkdir -p "${ROOT}/dist-standalone/extension/caret-src/core/prompts/sections"
 cp -r "${ROOT}/caret-src/core/prompts/sections/." "${ROOT}/dist-standalone/extension/caret-src/core/prompts/sections/"

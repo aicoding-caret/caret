@@ -11,7 +11,7 @@ import { fileURLToPath } from "url"
 import { createServiceNameMap, parseProtoForServices } from "./proto-shared-utils.mjs"
 
 const require = createRequire(import.meta.url)
-const PROTOC = path.join(require.resolve("grpc-tools"), "../bin/protoc")
+const PROTOC = `"${process.env.PROTOC ?? path.join(require.resolve("grpc-tools"), "../bin/protoc")}"` // CARET MODIFICATION: quote protoc path for Windows parentheses + allow PROTOC override
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "..")
@@ -600,7 +600,7 @@ ${methods}
 }
 
 // Main execution block - run if this script is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === `file://${process.argv[1]}` || fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) { // CARET MODIFICATION: allow Windows argv path
 	async function main() {
 		try {
 			console.log(chalk.cyan("Starting Go protobuf code generation..."))

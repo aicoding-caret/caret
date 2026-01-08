@@ -28,6 +28,9 @@ bash scripts/build-cli.sh
 # CARET MODIFICATION: standalone 빌드 산출물(cline-core.js) 포함
 npm run compile-standalone
 npm run postcompile-standalone
+# CARET MODIFICATION: ensure extension package.json exists for standalone core
+mkdir -p "${ROOT}/dist-standalone/extension"
+cp "${ROOT}/package.json" "${ROOT}/dist-standalone/extension/package.json"
 export PATH="${ROOT}/dist-standalone/bin:$PATH"
 
 if [ "$#" -eq 0 ]; then
