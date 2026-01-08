@@ -7,7 +7,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, "..")
 
 const isWindows = process.platform === "win32"
-const script = isWindows ? "scripts/build-cli.ps1" : "scripts/build-cli.sh"
 
 try {
 	if (isWindows) {

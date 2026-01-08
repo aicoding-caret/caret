@@ -11,7 +11,17 @@ import { fileURLToPath } from "url"
 import { createServiceNameMap, parseProtoForServices } from "./proto-shared-utils.mjs"
 
 const require = createRequire(import.meta.url)
-const PROTOC = `"${process.env.PROTOC ?? path.join(require.resolve("grpc-tools"), "../bin/protoc")}"` // CARET MODIFICATION: quote protoc path for Windows parentheses + allow PROTOC override
+const DEFAULT_PROTOC = path.join(require.resolve("grpc-tools"), "../bin/protoc")
+const WINDOWS_PROTOC_CANDIDATES = [
+	path.resolve("tools/protoc-25.3/bin/protoc.exe"),
+	path.resolve("tools/protoc/bin/protoc.exe"),
+]
+const normalizeProtocPath = (value) => (value ? value.replace(/^"(.*)"$/, "$1") : value)
+const resolvedProtoc =
+	normalizeProtocPath(process.env.PROTOC) ??
+	(process.platform === "win32" ? WINDOWS_PROTOC_CANDIDATES.find((candidate) => existsSync(candidate)) : undefined) ??
+	DEFAULT_PROTOC
+const PROTOC = `"${resolvedProtoc}"` // CARET MODIFICATION: quote protoc path + allow PROTOC override
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const ROOT_DIR = path.resolve(SCRIPT_DIR, "..")
