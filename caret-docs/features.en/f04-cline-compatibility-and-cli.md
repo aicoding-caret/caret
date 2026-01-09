@@ -8,7 +8,7 @@
 
 ## 📋 Overview
 
-Caret remains compatible with core Cline behavior (Plan/Act, MCP, providers, etc.) while offering a **Dual Mode System**. Users can switch between `Cline Mode` (compatibility) and `Caret Mode` (extended features such as JSON prompts and dedicated authentication) through settings or UI toggles. CLI sessions default to **Cline prompt system** for compatibility (see `cli/pkg/cli/task/manager.go`).
+Caret remains compatible with core Cline behavior (Plan/Act, MCP, providers, etc.) while offering a **Dual Mode System**. Users can switch between `Cline Mode` (compatibility) and `Caret Mode` (extended features such as JSON prompts and dedicated authentication) through settings or UI toggles. CLI sessions default to **Cline prompt system** for compatibility (see `cli/pkg/cli/task/manager.go`). The CLI still uses Cline's **Plan/Act** modes, but Caret ships a **separate caret-branded CLI** (`caret`) for Caret mode; Cline mode continues to use `cline`. The Caret CLI also exposes **additional providers** compared to the Cline CLI.
 
 > Note: CLI-specific behavior is now tracked separately in **F12 - Caret CLI**.
 
@@ -22,6 +22,7 @@ Caret remains compatible with core Cline behavior (Plan/Act, MCP, providers, etc
 - Mode-aware CLI compatibility (CLI forces `"cline"` prompt system by default).
 - Subagent UI surfaced with i18n support.
 - Multi-domain auth separation (`caret.team` vs `cline.bot`).
+- Caret-branded CLI (`caret`) with Plan/Act parity and expanded provider list.
 
 ---
 
@@ -33,6 +34,7 @@ Caret remains compatible with core Cline behavior (Plan/Act, MCP, providers, etc
 | **System Prompt** | Prompt registry (`src/core/prompts/system-prompt/*`) | **Dynamic JSON Prompt System** (`caret-src/core/prompts/system`) via `CaretPromptWrapper` when `modeSystem === "caret"` |
 | **Auth/Domain** | Fixed `cline.bot` | **Multi-domain**: handles `caret.team` (Caret) and `cline.bot` (Cline) separately to avoid account conflicts |
 | **Subagents** | Experimental, UI hidden | **Full UI support**: settings toggles/output limit slider, i18n (en/ko/ja/zh) |
+| **CLI** | `cline` only | **`caret` CLI** for Caret mode, same Plan/Act flow, extra providers enabled |
 
 ---
 
@@ -48,6 +50,8 @@ Key files to verify during merges:
 - **`src/core/controller/state/checkCliInstallation.ts`**: branches to `isCaretCliInstalled()` vs `isClineCliInstalled()` based on mode.
 - **`src/core/controller/state/installClineCli.ts`**: runs `npm install -g @caretive/caret-cli` or `cline` depending on mode.
 - **`cli/pkg/cli/task/manager.go`**: CLI sets prompt system to `"cline"` on session start via `Caretsystem.SetPromptSystemMode` for compatibility.
+- **`cli/cmd/cline/main.go`**: CLI Plan/Act flags and brand-aware command name (`caret`/`cline`).
+- **`cli/pkg/common/branding.go`**: brand resolution (display name + command name) for Caret vs Cline CLI.
 
 ### 2. Webview (UI & Detection)
 - **`webview-ui/src/components/common/CliInstallBanner.tsx`**: shows Caret CLI or Cline CLI banner per mode.

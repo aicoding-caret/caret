@@ -3,7 +3,7 @@
 **Status**: ✅ Phase 2 | **Scope**: Backend (controller/gRPC), Webview (settings/UI) | **Priority**: 🔴 High
 
 ## 📋 Overview
-Automates AI provider setup: fetches model lists (LiteLLM, BizRouter), validates connectivity up front, and presents user-friendly dropdowns instead of manual model typing.
+Automates AI provider setup: fetches model lists (LiteLLM, BizRouter), validates connectivity up front, and presents user-friendly dropdowns instead of manual model typing. The Caret CLI consumes the same provider metadata via generated definitions, and the Caret-branded CLI enables an expanded provider list.
 
 ## 🆚 Improvements vs Cline
 | Area | Cline | Caret |
@@ -18,6 +18,7 @@ Automates AI provider setup: fetches model lists (LiteLLM, BizRouter), validates
 - **Webview**: `LiteLlmProvider.tsx`, `BizRouterProvider.tsx` with fetch buttons and dropdowns; `NaverCloudProvider.tsx` for API key + model picker.
 - **Tests**: `fetchLiteLlmModels.test.ts` (unit) and `.integration.test.ts` (env-based).
 - **i18n**: `providers.litellm.*` keys across en/ko/ja/zh in settings.json.
+- **CLI provider metadata**: `scripts/cli-providers.mjs` → `cli/pkg/generated/providers.go`, consumed by `cli/pkg/cli/auth/models_list_static.go` and `cli/pkg/cli/auth/models_caret.go`.
 
 ## 🎯 Current Capabilities
 | Provider | Auto models | Validation | Advanced setup | Status |
@@ -38,6 +39,7 @@ Provider labels/descriptions live under `providers.{id}.*` within `settings` nam
 - Unit: normalization, filtering, error handling.
 - Integration: live server hits (requires env vars) for health + models.
 - Manual: validate dropdown population, failure messages, and saved settings.
+- CLI: confirm provider list + static models align with `cli/pkg/generated/providers.go` after running `npm run cli-providers`.
 
 ## 🚀 UX Improvements
 - One-click discovery instead of manual model strings.

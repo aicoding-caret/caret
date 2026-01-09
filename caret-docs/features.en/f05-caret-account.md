@@ -18,6 +18,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - Optional @-mention image attachments (base64) for reference-driven image generation.
 - Reference images accept data URLs or workspace paths (resolved + optimized on the backend).
 - Shared image optimization (resize + webp) for uploads, mentions, and reference images.
+- Caret CLI (`caret`) uses the same Caret auth token flow with Plan/Act parity to the Cline CLI.
 
 ## 🆚 Improvements vs Cline
 | Area | Cline | Caret |
@@ -38,7 +39,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - **Mention image sending**: `proto/caret/system.proto` (Get/Set/Resolve + Optimize), handlers in `src/core/controller/persona/*`, webview toggle `webview-ui/src/caret/components/MentionImageSendToggle.tsx`, mention attach helper `webview-ui/src/caret/utils/mention-image.ts`.
 - **Provider config & models**: `src/shared/api.ts` (`ApiProvider` includes `caret`; static `caretModels`/`caretDefaultModelId`); CLI static definitions generated via `scripts/cli-providers.mjs` → `cli/pkg/generated/providers.go`.
 - **Webview**: Account entry branching in `webview-ui/src/components/account/AccountView.tsx`; Caret account UI in `webview-ui/src/caret/components/CaretAccountView.tsx`; auth state/context in `webview-ui/src/context/CaretAuthContext.tsx` and `ExtensionStateContext.tsx`; Settings provider UI in `webview-ui/src/components/settings/providers/CaretProvider.tsx` + `CaretModelPicker.tsx`; image helpers in `webview-ui/src/caret/utils/imageOptimization.ts` + `webview-ui/src/caret/shared/images/image-id.ts` (optimization delegates to backend gRPC).
-- **CLI**: `cli/pkg/cli/auth/auth_caret_provider.go` (login, default model set from static list; org selection currently unavailable) uses generated provider definitions.
+- **CLI**: `cli/pkg/cli/auth/auth_caret_provider.go` (login, default model set from static list; org selection currently unavailable) uses generated provider definitions; `cli/cmd/cline/main.go` keeps Plan/Act flags while branding the command as `caret`.
 
 ## 🎯 Goals
 - Keep Cline logic intact; branch to Caret account/provider at the entry points.
@@ -60,7 +61,7 @@ Caret account + provider stack that branches at the entry points while keeping C
 - **Reference image inputs**: `reference_images` supports data URLs or workspace paths. Paths are resolved, optimized (resize + webp), and filtered by size (2MB per image, 6MB total).
 - **Mention image inputs**: When enabled, @-mentioned image paths are resolved to data URLs and attached to the current message so the model can use them as references (order follows mention order; @a/@b map to attachment order). Optimization is delegated to backend gRPC.
 - **Optimization flow**: Webview calls `OptimizeImageDataUrls` (gRPC) for uploads/mentions; tool handler applies the same optimization for workspace path references.
-- **CLI parity**: `auth_caret_provider.go` uses static models from generated definitions, sets default model, and calls the same gRPC auth endpoints.
+- **CLI parity**: `auth_caret_provider.go` uses static models from generated definitions, sets default model, and calls the same gRPC auth endpoints; Caret CLI keeps Plan/Act behavior with a `caret`-branded command.
 
 ## 🌐 API Surface (caret.team)
 - Base URL: `CaretEnv.config().apiBaseUrl` (production `https://api.caret.team`).
