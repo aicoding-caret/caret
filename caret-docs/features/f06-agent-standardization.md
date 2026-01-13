@@ -1,6 +1,6 @@
 # F06 - 에이전트 표준화(AAIF SoT)
 
-**Status**: 🔄 진행중 (M02 컨텍스트 분리 개발) | **Scope**: Backend(인스트럭션/스토리지), Webview(설정), CLI | **Priority**: 🟡 Medium
+**Status**: ✅ v0.4.5 업데이트 (M02 컨텍스트 분리 완료) | **Scope**: Backend(인스트럭션/스토리지), Webview(설정), CLI | **Priority**: 🟡 Medium
 
 ## 📋 개요
 Caret은 AAIF 표준에 맞춰 규칙 로딩을 표준화하고 `.agents/context`를 단일 SoT로 고정합니다.
