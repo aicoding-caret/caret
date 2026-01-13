@@ -78,7 +78,7 @@
 - ✅ **Dual account system**: Full support for existing Cline accounts
 - ✅ **Input history**: Navigate past commands like a terminal
 - ✅ **Enhanced provider setup**: Auto-fetch models for LiteLLM / [BizRouter](https://bizrouter.ai/) with health checks
-- ✅ **251 unique AI models**: 20 providers including Claude Opus 4.5, GPT-5, Gemini 3
+- ✅ **263 unique AI models**: 20 providers including Claude Opus 4.5, GPT-5, Gemini 3
 
 ---
 
@@ -89,7 +89,7 @@
 3. **🧠 Smarter prompts** — optimized for cost and performance
 4. **🌍 Full localization** — UI, docs, and manuals in 4 languages
 5. **⌨️ Better UX** — input history and handy shortcuts (Esc, Ctrl+Shift+R)
-6. **🎯 Massive model support** — 251 models, 20 providers (Cline v3.38.2 compatible)
+6. **🎯 Massive model support** — 263 models, 20 providers (Cline v3.38.2 compatible)
 
 👉 **See all exclusive features**: [Feature index](caret-docs/features.en/index.md)
 

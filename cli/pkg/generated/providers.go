@@ -697,7 +697,7 @@ var rawModelDefinitions = `	{
 	      "outputPrice": 4,
 	      "cacheWritesPrice": 1,
 	      "cacheReadsPrice": 0,
-	      "supportsImages": false,
+	      "supportsImages": true,
 	      "supportsPromptCache": true
 	    },
 	    "claude-3-opus-20240229": {
@@ -1453,6 +1453,15 @@ var rawModelDefinitions = `	{
 	  },
 	  "cerebras": {
 	    "zai-glm-4.6": {
+	      "maxTokens": 128000,
+	      "contextWindow": 200000,
+	      "inputPrice": 0,
+	      "outputPrice": 2,
+	      "cacheReadsPrice": 0,
+	      "supportsImages": false,
+	      "supportsPromptCache": true
+	    },
+	    "zai-glm-4.7": {
 	      "maxTokens": 40000,
 	      "contextWindow": 128000,
 	      "inputPrice": 0,

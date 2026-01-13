@@ -322,7 +322,7 @@ export type CaretModelId = keyof typeof caretModels
 export interface CaretModelInfo extends ModelInfo {
 	temperature?: number
 }
-export const caretDefaultModelId: CaretModelId = "gemini/gemini-2.5-flash"
+export const caretDefaultModelId: CaretModelId = "gemini/gemini-3-flash-preview"
 export const caretModels = {
 	"gemini/gemini-3-pro-preview": {
 		maxTokens: 65536,

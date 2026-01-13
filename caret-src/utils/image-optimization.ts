@@ -1,4 +1,6 @@
 // CARET MODIFICATION: Backend image optimization shared across upload/mention/reference flows.
+import { Logger } from "@/services/logging/Logger"
+
 type SharpFactory = typeof import("sharp")
 
 let sharpPromise: Promise<SharpFactory | null> | null = null
@@ -38,10 +40,12 @@ const parseDataUrl = (value: string): { mimeType: string; base64: string } => {
 export const optimizeImageDataUrl = async (dataUrl: string): Promise<string> => {
 	const sharp = await loadSharp()
 	if (!sharp) {
+		Logger.warn("[ImageOptimization] Sharp library not available, skipping optimization")
 		return dataUrl
 	}
 	const { mimeType, base64 } = parseDataUrl(dataUrl)
 	if (!SUPPORTED_INPUT_MIME_TYPES.has(mimeType)) {
+		Logger.debug(`[ImageOptimization] Unsupported MIME type: ${mimeType}, skipping optimization`)
 		return dataUrl
 	}
 
@@ -64,6 +68,7 @@ export const optimizeImageDataUrl = async (dataUrl: string): Promise<string> => 
 	const shouldReencode = needsResize || mimeType !== OUTPUT_MIME_TYPE
 
 	if (!shouldReencode) {
+		Logger.debug(`[ImageOptimization] Already optimized: WebP format and ${metadata.width}x${metadata.height}px, skipping`)
 		return dataUrl
 	}
 
@@ -78,5 +83,13 @@ export const optimizeImageDataUrl = async (dataUrl: string): Promise<string> => 
 	}
 
 	const outputBuffer = await pipeline.webp({ quality: DEFAULT_IMAGE_QUALITY }).toBuffer()
+	const inputSize = Buffer.byteLength(dataUrl, "utf8")
+	const outputSize = Buffer.byteLength(`data:${OUTPUT_MIME_TYPE};base64,`, "utf8") + outputBuffer.length
+	const reduction = Math.round(((inputSize - outputSize) / inputSize) * 100)
+
+	Logger.info(
+		`[ImageOptimization] Optimized: ${metadata.width}x${metadata.height}px → ${targetWidth}x${targetHeight}px, ${inputSize} → ${outputSize} bytes (${reduction}% reduction)`,
+	)
+
 	return `data:${OUTPUT_MIME_TYPE};base64,${outputBuffer.toString("base64")}`
 }

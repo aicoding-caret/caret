@@ -1,0 +1,62 @@
+# Project Context
+
+<!-- This file is used to provide AI with project-specific context -->
+<!-- Write in English for token optimization -->
+
+## Project Name
+<!-- Fill in your project name -->
+e.g., My Application
+
+## Description
+<!-- Brief description of your project -->
+e.g., A web application for managing tasks and projects
+
+## Tech Stack
+<!-- List your technologies by category -->
+
+### Frontend
+- Framework: e.g., React, Vue, Svelte
+- Language: e.g., TypeScript, JavaScript
+- Styling: e.g., Tailwind CSS, CSS Modules
+- State Management: e.g., Redux, Zustand, Context API
+
+### Backend
+- Language: e.g., Node.js, Python, Go, Rust
+- Framework: e.g., Express, FastAPI, Gin, Actix-web
+- API: e.g., REST, GraphQL, gRPC
+- Database: e.g., PostgreSQL, MongoDB, Redis
+
+### Other Tools
+- Testing: e.g., Jest, Mocha, Vitest
+- Build Tools: e.g., Webpack, Vite, esbuild
+- CI/CD: e.g., GitHub Actions, GitLab CI, Jenkins
+- Deployment: e.g., Docker, Kubernetes, Vercel
+
+## Development Goals
+<!-- List your development goals and priorities -->
+
+- [ ] Goal 1
+- [ ] Goal 2
+- [ ] Goal 3
+
+## Key Features
+<!-- Describe the main features of your project -->
+
+1. Feature 1
+2. Feature 2
+3. Feature 3
+
+## Coding Standards
+<!-- Your coding conventions and best practices -->
+
+- Code style: e.g., Prettier, ESLint configuration
+- Naming conventions: e.g., camelCase for variables, PascalCase for classes
+- Git workflow: e.g., Git Flow, Trunk-Based Development
+- Testing requirements: e.g., TDD, 80% coverage minimum
+
+## Architecture Notes
+<!-- Any architectural decisions or patterns -->
+
+- Pattern: e.g., MVC, Microservices, Clean Architecture
+- State management: e.g., Server state vs Client state
+- API design: e.g., RESTful, GraphQL schema design

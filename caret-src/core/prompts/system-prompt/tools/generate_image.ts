@@ -1,8 +1,9 @@
 // CARET MODIFICATION: Add generate_image tool specification for image generation.
-import { ModelFamily } from "@/shared/prompts"
-import { ClineDefaultTool } from "@/shared/tools"
+
 import type { ClineToolSpec } from "@core/prompts/system-prompt/spec"
 import { TASK_PROGRESS_PARAMETER } from "@core/prompts/system-prompt/types"
+import { ModelFamily } from "@/shared/prompts"
+import { ClineDefaultTool } from "@/shared/tools"
 
 const id = ClineDefaultTool.GENERATE_IMAGE
 
@@ -11,7 +12,7 @@ const GENERIC: ClineToolSpec = {
 	id,
 	name: "generate_image",
 	description:
-		"Generate a single image from a text prompt. The image will be shown in the UI as a single card. Do not request or include raw image data in your own response.",
+		"Generate a single image from a text prompt. Output: WebP (max 1024px, Q86). Images >7500px rejected. UI shows card. No raw data needed.",
 	parameters: [
 		{
 			name: "prompt",
@@ -51,7 +52,7 @@ const NATIVE_GPT_5: ClineToolSpec = {
 	variant: ModelFamily.NATIVE_GPT_5,
 	id,
 	name: "generate_image",
-	description: "Generate a single image from a text prompt. The image will be shown in the UI.",
+	description: "Generate a single image. WebP (max 1024px). No raw data.",
 	parameters: [
 		{
 			name: "prompt",

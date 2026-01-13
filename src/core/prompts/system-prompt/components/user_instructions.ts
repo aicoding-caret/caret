@@ -1,7 +1,8 @@
+import { ContextSeparator } from "@core/context/context-separator"
+import { getAgentsStandardStatus } from "@core/context/instructions/user-instructions/agents-init"
 import { SystemPromptSection } from "../templates/placeholders"
 import { TemplateEngine } from "../templates/TemplateEngine"
 import type { PromptVariant, SystemPromptContext } from "../types"
-import { getAgentsStandardStatus } from "@core/context/instructions/user-instructions/agents-init"
 
 const USER_CUSTOM_INSTRUCTIONS_TEMPLATE_TEXT = `USER'S CUSTOM INSTRUCTIONS
 
@@ -19,8 +20,17 @@ export async function getUserInstructions(variant: PromptVariant, context: Syste
 		context.preferredLanguageInstructions,
 	)
 
+	// CARET MODIFICATION: M02 - Add separated user context from .agents/context-for-user/
+	const userContext = await ContextSeparator.loadUserContext(context.cwd || process.cwd())
+
 	const agentsInitNotice = await buildAgentsInitNotice(context)
-	const combinedInstructions = [customInstructions, agentsInitNotice].filter(Boolean).join("\n\n")
+
+	let combinedInstructions = [customInstructions, agentsInitNotice].filter(Boolean).join("\n\n")
+
+	// Add user context section if exists
+	if (userContext) {
+		combinedInstructions += `\n\n# User Context (from .agents/context-for-user/)\n\n${userContext}`
+	}
 
 	if (!combinedInstructions) {
 		return undefined

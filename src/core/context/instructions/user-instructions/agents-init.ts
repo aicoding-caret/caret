@@ -1,3 +1,4 @@
+import { ContextSeparator } from "@core/context/context-separator"
 import { GlobalFileNames } from "@core/storage/disk"
 import { fileExistsAtPath, isDirectory } from "@utils/fs"
 import fs from "fs/promises"
@@ -56,11 +57,7 @@ export async function getAgentsStandardStatus(cwd: string): Promise<AgentsStanda
 	}
 }
 
-async function copyTemplateDirectory(
-	sourceDir: string,
-	destDir: string,
-	result: AgentsInitResult,
-): Promise<void> {
+async function copyTemplateDirectory(sourceDir: string, destDir: string, result: AgentsInitResult): Promise<void> {
 	const entries = await fs.readdir(sourceDir, { withFileTypes: true })
 
 	for (const entry of entries) {
@@ -106,6 +103,10 @@ export async function initializeAgentsContext(cwd: string): Promise<AgentsInitRe
 	}
 
 	try {
+		// CARET MODIFICATION: context-for-user 디렉토리 생성 (M02)
+		await ContextSeparator.createUserContextDirectory(cwd)
+
+		// 기존 템플릿 복사
 		await copyTemplateDirectory(templateRoot, cwd, result)
 	} catch (error) {
 		result.error = `Failed to scaffold agents context: ${error instanceof Error ? error.message : String(error)}`
@@ -118,10 +119,7 @@ export async function initializeAgentsContext(cwd: string): Promise<AgentsInitRe
 	return result
 }
 
-export async function getAgentsInitWorkflowInstructions(
-	cwd: string,
-	templateRoot?: string,
-): Promise<string | undefined> {
+export async function getAgentsInitWorkflowInstructions(cwd: string, templateRoot?: string): Promise<string | undefined> {
 	const workspacePath = path.join(cwd, AGENTS_INIT_WORKFLOW_RELATIVE_PATH)
 	if (await fileExistsAtPath(workspacePath)) {
 		return (await fs.readFile(workspacePath, "utf8")).trim()

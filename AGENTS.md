@@ -28,3 +28,8 @@
 # MCP
 - MCP 설정은 프로젝트의 표준 설정(브랜드 유틸/설정 파일)을 따릅니다.
 - 토큰/비밀정보는 로그/문서에 남기지 않습니다.
+
+# Model List Documentation
+- **자동 업데이트**: `npm run models:generate` 실행 → `caret-docs/development/support-model-list.md`, `caret-docs/development/support-model-list.en.mdx` 자동 생성
+- **스크립트**: `caret-scripts/build/generate-support-model-list.js`
+- **프로바이더 수 확인**: 스크립트 실행 시 콘솔에 표시됨
