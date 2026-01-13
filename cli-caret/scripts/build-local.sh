@@ -57,6 +57,8 @@ if command -v npm >/dev/null 2>&1 && [[ ! -d "${CORE_DIST}/node_modules/better-s
 fi
 mkdir -p "${PKG_DIR}/dist-standalone"
 rsync -a --delete "${CORE_DIST}/" "${PKG_DIR}/dist-standalone/"
+# CARET MODIFICATION: avoid nested .npmignore stripping packaged ripgrep binaries
+rm -f "${PKG_DIR}/dist-standalone/.npmignore"
 # also place top-level copy for core lookup fallback
 cp "${CORE_DIST}/cline-core.js" "${PKG_DIR}/cline-core.js"
 # CARET MODIFICATION: bundle extension directory expected by core

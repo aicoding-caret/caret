@@ -3,9 +3,17 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 PKG_DIR="${ROOT_DIR}/cli-caret"
+ENV_FILE="${ROOT_DIR}/.env"
+
+if [[ -z "${CARET_NPM_TOKEN:-}" && -f "${ENV_FILE}" ]]; then
+  set -a
+  # shellcheck disable=SC1090
+  source "${ENV_FILE}"
+  set +a
+fi
 
 if [[ -z "${CARET_NPM_TOKEN:-}" ]]; then
-  echo "[caret-cli] CARET_NPM_TOKEN not set. Set it (e.g., in .env) before publishing." >&2
+  echo "[caret-cli] CARET_NPM_TOKEN not set. Add it to .env or export it before publishing." >&2
   exit 1
 fi
 

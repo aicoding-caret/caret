@@ -70,7 +70,7 @@ func BrandAppURL() string {
 	case "cline":
 		return "https://app.cline.bot"
 	default:
-		return "https://app.caret.team"
+		return "https://caret.team"
 	}
 }
 

@@ -34,6 +34,8 @@ export class CaretJsonAdapter implements IPromptSystem {
 
 		// CARET MODIFICATION: F12 - Check if Claude Code provider is active for Task tool injection
 		const isClaudeCodeProvider = context.providerInfo?.providerId === API_PROVIDERS.CLAUDE_CODE
+		// CARET MODIFICATION: Gate Task tool by subagent availability (disabled in Caret mode v0.4.4)
+		const isSubagentsEnabledAndCliInstalled = !!context.isSubagentsEnabledAndCliInstalled
 		Logger.debug(
 			`[CaretJsonAdapter] 🔍 Provider detection: providerId="${context.providerInfo?.providerId}", isClaudeCodeProvider=${isClaudeCodeProvider}, API_PROVIDERS.CLAUDE_CODE="${API_PROVIDERS.CLAUDE_CODE}"`,
 		)
@@ -48,7 +50,7 @@ export class CaretJsonAdapter implements IPromptSystem {
 			"CARET_CAPABILITIES",
 			"CARET_USER_INSTRUCTIONS",
 			// CARET_TOOL_SYSTEM removed - replaced with Cline original tool system (inserted after CARET_USER_INSTRUCTIONS)
-			isClaudeCodeProvider ? "CLAUDE_CODE_TASK_TOOL" : null, // CARET MODIFICATION: F12 - Claude Code Task tool for subagent support
+			isClaudeCodeProvider && isSubagentsEnabledAndCliInstalled ? "CLAUDE_CODE_TASK_TOOL" : null, // CARET MODIFICATION: F12 - Claude Code Task tool for subagent support
 			"CARET_FILE_EDITING",
 			"CARET_BEHAVIOR_RULES",
 			"CARET_TASK_OBJECTIVE",

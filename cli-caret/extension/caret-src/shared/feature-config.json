@@ -7,5 +7,8 @@
 	"firstListingProvider": "caret", 
 	"defaultProvider": "caret",
 	"showOnlyDefaultProvider": false,
-	"showCostInformation": true
+	"showCostInformation": true,
+	"showModeSystemToggle": true,
+	"showAccountUI": true,
+	"showDictationToggle": true
 }

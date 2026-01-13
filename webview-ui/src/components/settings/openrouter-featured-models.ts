@@ -20,6 +20,11 @@ export const openRouterFeaturedModels: OpenRouterFeaturedModel[] = [
 		label: t("providers.openrouter.modelPicker.featuredModelLabelNew", "settings"),
 	},
 	{
+		id: "kwaipilot/kat-coder-pro:free",
+		description: t("providers.openrouter.modelPicker.featuredModelDescriptionKatcoder", "settings"),
+		label: t("providers.openrouter.modelPicker.featuredModelLabelFree", "settings"),
+	},
+	{
 		id: "x-ai/grok-code-fast-1",
 		description: t("providers.openrouter.modelPicker.featuredModelDescriptionFree", "settings"),
 		label: t("providers.openrouter.modelPicker.featuredModelLabelFree", "settings"),

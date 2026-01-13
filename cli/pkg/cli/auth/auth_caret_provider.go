@@ -194,6 +194,6 @@ func configureDefaultCaretModel(ctx context.Context) error {
 // HandleSelectCaretOrganization is disabled because Caret org RPCs are commented out in proto (upstream state).
 func HandleSelectCaretOrganization(ctx context.Context) error {
 	fmt.Println("Caret organization selection is currently unavailable in this build.")
-	fmt.Println("Visit https://app.caret.team/dashboard to manage organizations.")
+	fmt.Println("Visit https://caret.team/usage to manage organizations.")
 	return HandleAuthMenuNoArgs(ctx)
 }

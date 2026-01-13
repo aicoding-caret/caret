@@ -529,6 +529,8 @@ func startClineCore(corePort, hostPort int) (*exec.Cmd, error) {
 	nodePathParts := []string{
 		path.Join(finalInstallDir, "node_modules"),
 		path.Join(finalInstallDir, "fake_node_modules"),
+		// CARET MODIFICATION: allow package-root dependencies when cline-core lives under dist-standalone
+		path.Join(installDir, "node_modules"),
 		path.Join(installDir, "dist-standalone", "node_modules"),
 		path.Join(installDir, "dist-standalone", "fake_node_modules"),
 		// CARET MODIFICATION: use packaged binary-specific node_modules (map amd64->x64)
@@ -583,11 +585,14 @@ func pathList(paths []string) string {
 	return result[:len(result)-1]
 }
 
-// CARET MODIFICATION: map GOOS/GOARCH to binaries folder name (amd64 -> x64)
+// CARET MODIFICATION: map GOOS/GOARCH to binaries folder name (amd64 -> x64, windows -> win)
 func mapBinaryPlatform() string {
 	arch := runtime.GOARCH
 	if arch == "amd64" {
 		arch = "x64"
+	}
+	if runtime.GOOS == "windows" {
+		return "win-" + arch
 	}
 	return runtime.GOOS + "-" + arch
 }

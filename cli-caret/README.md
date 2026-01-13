@@ -20,13 +20,12 @@ caret task new \"hello\"
 
 ## 주의
 - 빌드는 상위 `cli/`의 Go 소스를 사용합니다. 먼저 `node scripts/build-go-proto.mjs`로 `src/generated/grpc-go`가 생성되어 있어야 합니다.
-- npm 글로벌 설치 시 토큰이 필요하지 않습니다. 퍼블리시가 필요한 경우 `.env`의 `CARET_NPM_TOKEN`을 export 해야 합니다. (쉘 스크립트는 `.env`를 자동으로 읽지 않습니다.)
+- npm 글로벌 설치 시 토큰이 필요하지 않습니다. 퍼블리시는 `.env`의 `CARET_NPM_TOKEN`을 사용하며, `publish-caret-cli.sh`가 자동으로 로드합니다.
 
 ## npm 퍼블리시 (CLI 배포)
 
 ```bash
 # 프로젝트 루트에서 실행
-set -a; source .env; set +a  # CARET_NPM_TOKEN 로드
 npm run compile-standalone-npm
 bash cli-caret/scripts/publish-caret-cli.sh
 ```

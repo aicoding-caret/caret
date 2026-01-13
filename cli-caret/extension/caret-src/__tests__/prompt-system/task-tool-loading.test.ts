@@ -32,6 +32,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: API_PROVIDERS.CLAUDE_CODE,
 					model: mockModel,
@@ -62,6 +63,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: "anthropic",
 					model: mockModel,
@@ -83,6 +85,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: undefined,
 			}
 
@@ -107,6 +110,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: API_PROVIDERS.CLAUDE_CODE,
 					model: mockModel,
@@ -140,6 +144,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: API_PROVIDERS.CLAUDE_CODE,
 					model: mockModel,
@@ -179,6 +184,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.CHATBOT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: API_PROVIDERS.CLAUDE_CODE,
 					model: mockModel,
@@ -205,6 +211,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: API_PROVIDERS.CLAUDE_CODE,
 					model: mockModel,
@@ -216,6 +223,29 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 
 			// Assert
 			expect(prompt).toContain("## task")
+		})
+
+		it("should NOT include Task tool when subagents are disabled", async () => {
+			const mockModel: ApiHandlerModel = {
+				id: "claude-sonnet-4-20250514",
+				info: { maxTokens: 200000, contextWindow: 200000, supportsPromptCache: true },
+			}
+
+			const context: CaretSystemPromptContext = {
+				cwd: "/test",
+				mode: CARET_MODES.AGENT,
+				modeSystem: "caret",
+				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: false,
+				providerInfo: {
+					providerId: API_PROVIDERS.CLAUDE_CODE,
+					model: mockModel,
+				},
+			}
+
+			const prompt = await adapter.getPrompt(context)
+
+			expect(prompt).not.toContain("## task")
 		})
 	})
 
@@ -232,6 +262,7 @@ describe("CaretJsonAdapter - Claude Code Task Tool Loading", () => {
 				mode: CARET_MODES.AGENT,
 				modeSystem: "caret",
 				ide: "vscode",
+				isSubagentsEnabledAndCliInstalled: true,
 				providerInfo: {
 					providerId: API_PROVIDERS.CLAUDE_CODE,
 					model: mockModel,

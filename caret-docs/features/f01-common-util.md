@@ -45,7 +45,7 @@ Caret-main에서 검증된 유용한 빌드 스크립트들을 이식하여 개�
 export const CARET_URLS = {
 	CARET_SERVICE: "https://caret.team",
 	CARET_GITHUB: "https://github.com/aicoding-caret/caret",
-	CARET_APP_CREDITS: "https://app.caret.team/credits",
+	CARET_APP_CREDITS: "https://caret.team/billing",
 	// ...
 } as const
 

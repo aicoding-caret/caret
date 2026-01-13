@@ -587,6 +587,7 @@
 				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionGemini3FlashPreview": "速度と価格効率のための Gemini 3 Flash Preview モデル",
+				"featuredModelDescriptionKatcoder": "KwaiKATのKAT-Coderシリーズで最も高度なエージェントコーディングモデル",
 				"featuredModelDescriptionNew": "Claude Opus 4.5: Opus 4.1の1/3のコストでSOTAのコーディング性能",
 				"featuredModelLabelNew": "New",
 				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",

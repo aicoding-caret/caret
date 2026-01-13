@@ -45,7 +45,7 @@ Ported, battle-tested scripts from caret-main to speed up development.
 export const CARET_URLS = {
 	CARET_SERVICE: "https://caret.team",
 	CARET_GITHUB: "https://github.com/aicoding-caret/caret",
-	CARET_APP_CREDITS: "https://app.caret.team/credits",
+	CARET_APP_CREDITS: "https://caret.team/billing",
 	// ...
 } as const
 

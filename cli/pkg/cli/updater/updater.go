@@ -376,7 +376,11 @@ func showFailureMessage(channel string) {
 
 func getCacheFilePath() string {
 	// CARET MODIFICATION: use brand config directory
-	configDir := filepath.Join(os.Getenv("HOME"), common.ConfigDirName, "data")
+	homeDir, _ := os.UserHomeDir()
+	if homeDir == "" {
+		homeDir = os.Getenv("HOME")
+	}
+	configDir := filepath.Join(homeDir, common.ConfigDirName, "data")
 	return filepath.Join(configDir, "cli-update-cache")
 }
 

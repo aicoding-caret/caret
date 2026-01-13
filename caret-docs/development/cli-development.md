@@ -95,7 +95,7 @@ Caret CLI는 `cli-caret/` 패키지로 npm에 배포합니다. 실제 Go 소스�
 
 #### 사전 조건
 - `dist-standalone/cline-core.js`가 존재해야 합니다. (권장: `npm run compile-standalone-npm`)
-- `.env`에 `CARET_NPM_TOKEN`이 있어야 하며, 스크립트 실행 전에 **export** 되어 있어야 합니다. (`.env`는 자동 로드되지 않습니다.)
+ - `.env`에 `CARET_NPM_TOKEN`이 있어야 하며, `publish-caret-cli.sh`가 `.env`를 자동 로드합니다. (이미 export 되어 있으면 그 값을 사용)
 - 배포 전 **버전 동기화**가 필요합니다.
   - `cli/package.json` → CLI 바이너리에 주입되는 버전
   - `cli-caret/package.json` → npm 패키지 버전
@@ -108,7 +108,6 @@ Caret CLI는 `cli-caret/` 패키지로 npm에 배포합니다. 실제 Go 소스�
 # cli-caret/package.json
 
 ## 2) standalone 번들 생성 (npm 배포용)
-set -a; source .env; set +a
 npm run compile-standalone-npm
 bash cli-caret/scripts/publish-caret-cli.sh
 ```

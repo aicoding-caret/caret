@@ -48,7 +48,11 @@ func NewLockManager(clineDir string) (*LockManager, error) {
 
 	// CARET MODIFICATION: fallback to legacy .cline registry if .caret registry is missing
 	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
-		legacyDir := filepath.Join(os.Getenv("HOME"), ".cline")
+		homeDir, _ := os.UserHomeDir()
+		if homeDir == "" {
+			homeDir = os.Getenv("HOME")
+		}
+		legacyDir := filepath.Join(homeDir, ".cline")
 		legacyDB := filepath.Join(legacyDir, common.SETTINGS_SUBFOLDER, "locks.db")
 		if _, legacyErr := os.Stat(legacyDB); legacyErr == nil {
 			dbPath = legacyDB
