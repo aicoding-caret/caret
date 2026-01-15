@@ -890,6 +890,23 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				Logger.warn(`[GenerateImage] Stream error occurred but image saved successfully: ${streamError}`)
 			}
 
+			// CARET MODIFICATION: If stream completed but no image was saved, that's an error
+			if (!savedImagePath) {
+				const noImageError = "Image generation completed but no image was received from the server."
+				Logger.error(`[GenerateImage] ${noImageError}`)
+				await config.callbacks.say(
+					"tool",
+					buildMessage({
+						status: "error",
+						errorMessage: noImageError,
+					}),
+					undefined,
+					undefined,
+					false,
+				)
+				return formatResponse.toolError(noImageError)
+			}
+
 			await config.callbacks.say(
 				"tool",
 				buildMessage({
