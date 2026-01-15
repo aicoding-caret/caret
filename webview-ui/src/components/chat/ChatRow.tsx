@@ -467,13 +467,19 @@ export const ChatRowContent = memo(
 						return
 					}
 
-						const extensions = ["png", "jpg", "jpeg", "webp", "gif", "avif", "svg"]
-						for (const extension of extensions) {
-							const candidate = `${getBrandGeneratedAssetsDirName()}/${imageRequestId}.${extension}`
-							if (await tryRead(candidate)) {
-								setResolvedImageRelativePath(candidate)
-								return
-							}
+					// CARET MODIFICATION: Only try extension-guessing when image generation is complete
+					// to avoid race condition where webview tries to load before file is saved
+					if (imageStatus !== "completed") {
+						return
+					}
+
+					const extensions = ["png", "jpg", "jpeg", "webp", "gif", "avif", "svg"]
+					for (const extension of extensions) {
+						const candidate = `${getBrandGeneratedAssetsDirName()}/${imageRequestId}.${extension}`
+						if (await tryRead(candidate)) {
+							setResolvedImageRelativePath(candidate)
+							return
+						}
 						if (cancelled) {
 							return
 						}
