@@ -33,6 +33,8 @@ Use this tool when you need to understand, describe, or extract information from
 Bad: "What's in this image?"
 Good: "Check if this Magician tarot card contains: infinity symbol above head, wand, cup, sword, pentacle on the altar table, white robe, red cloak, and garden flowers."
 
+**Using with generate_image:** When generate_image returns "Image file: .agents/generated-assets/img_xxx.png", use that exact path for the image parameter. Do NOT use shell commands to find the file.
+
 The analysis is performed by Caret's vision AI (Gemini 2.5 Flash). Requires Caret account login.`,
 	parameters: [
 		{

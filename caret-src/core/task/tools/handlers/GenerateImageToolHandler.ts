@@ -669,11 +669,23 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				stream: true,
 			}
 
-			const response = await fetch(url, {
-				method: "POST",
-				headers,
-				body: JSON.stringify(body),
-			})
+			Logger.debug(`[GenerateImage] Calling API: ${url}`)
+			const IMAGE_GENERATION_TIMEOUT_MS = 120000 // 2 minutes
+			const controller = new AbortController()
+			const timeoutId = setTimeout(() => controller.abort(), IMAGE_GENERATION_TIMEOUT_MS)
+
+			let response: Response
+			try {
+				response = await fetch(url, {
+					method: "POST",
+					headers,
+					body: JSON.stringify(body),
+					signal: controller.signal,
+				})
+			} finally {
+				clearTimeout(timeoutId)
+			}
+			Logger.debug(`[GenerateImage] API response: status=${response.status}`)
 
 			if (!response.ok) {
 				const errorText = await response.text()
@@ -908,6 +920,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			return formatResponse.toolResult(summaryParts.join("\n"))
 		} catch (error) {
 			const message = (error as Error).message || "Image generation failed."
+			Logger.error(`[GenerateImage] Failed: ${message}`, error as Error)
 			await config.callbacks.say(
 				"tool",
 				JSON.stringify({
