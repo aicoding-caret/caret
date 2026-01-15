@@ -30,6 +30,8 @@ import { BrowserToolHandler } from "./tools/handlers/BrowserToolHandler"
 import { CondenseHandler } from "./tools/handlers/CondenseHandler"
 import { ExecuteCommandToolHandler } from "./tools/handlers/ExecuteCommandToolHandler"
 import { GenerateImageToolHandler } from "@caret/core/task/tools/handlers/GenerateImageToolHandler"
+import { AnalyzeImageToolHandler } from "@caret/core/task/tools/handlers/AnalyzeImageToolHandler"
+import { ReadDocumentToolHandler } from "@caret/core/task/tools/handlers/ReadDocumentToolHandler"
 import { ListCodeDefinitionNamesToolHandler } from "./tools/handlers/ListCodeDefinitionNamesToolHandler"
 import { ListFilesToolHandler } from "./tools/handlers/ListFilesToolHandler"
 import { LoadMcpDocumentationHandler } from "./tools/handlers/LoadMcpDocumentationHandler"
@@ -219,6 +221,8 @@ export class ToolExecutor {
 		this.coordinator.register(new SearchFilesToolHandler(validator))
 		this.coordinator.register(new ExecuteCommandToolHandler(validator))
 		this.coordinator.register(new GenerateImageToolHandler())
+		this.coordinator.register(new AnalyzeImageToolHandler(validator))
+		this.coordinator.register(new ReadDocumentToolHandler()) // CARET MODIFICATION: Document reading
 		this.coordinator.register(new UseMcpToolHandler())
 		this.coordinator.register(new AccessMcpResourceHandler())
 		this.coordinator.register(new LoadMcpDocumentationHandler())

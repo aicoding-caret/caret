@@ -51,6 +51,14 @@ Caret은 Cline을 기반으로 한 자율 AI 코딩 어시스턴트로, 다음�
 - **[F12: AI-개발자 지식 동기화 시스템](./f12-ai-developer-knowledge-parity.md)**
   AI와 개발자 간의 1:1 지식 동기화를 통해 진정한 AI 파트너십을 구현하는 핵심 시스템
 
+### 도구 및 기능 확장 (Tools & Extensions)
+
+- **[F13: 이미지 생성 도구](./f13-image-tool.md)**
+  이미지 생성, 저장, 히스토리 표시 기능
+
+- **[F15: 문서 읽기 도구](./f15-document-read-tool.md)**
+  LLM이 PDF, DOCX, HWPX, PPTX 등 문서를 경로만으로 직접 읽기 (Caret 전용)
+
 ---
 
 ## 기능 맵
@@ -69,11 +77,14 @@ Caret 기능
 ├── AI 시스템 (F07-F08)
 │   ├── 프롬프트 시스템
 │   └── 페르소나 시스템
-└── 설정/통합 (F09-F12)
-    ├── Feature Config
-    ├── Provider Setup
-    ├── 입력 히스토리
-    └── 지식 동기화 시스템
+├── 설정/통합 (F09-F12)
+│   ├── Feature Config
+│   ├── Provider Setup
+│   ├── 입력 히스토리
+│   └── 지식 동기화 시스템
+└── 도구 확장 (F13-F15)
+    ├── 이미지 생성 도구
+    └── 문서 읽기 도구 (PDF, HWPX, PPTX)
 ```
 
 ## 개발 가이드

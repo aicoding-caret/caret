@@ -8,6 +8,8 @@ export * from "./execute_command"
 export * from "./focus_chain"
 // CARET MODIFICATION: re-export caret image tool spec from caret-src
 export * from "@caret/core/prompts/system-prompt/tools/generate_image"
+// CARET MODIFICATION: re-export caret document tool spec from caret-src
+export * from "@caret/core/prompts/system-prompt/tools/read_document"
 export * from "./init"
 export * from "./list_code_definition_names"
 export * from "./list_files"

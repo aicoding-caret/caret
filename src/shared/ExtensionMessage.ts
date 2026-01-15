@@ -223,6 +223,8 @@ export interface ClineSayTool {
 		| "searchFiles"
 		| "webFetch"
 		| "generateImage"
+		| "analyzeImage" // CARET MODIFICATION: for analyze_image tool
+		| "readDocument" // CARET MODIFICATION: for read_document tool
 		| "summarizeTask"
 		| "fileDeleted"
 	path?: string

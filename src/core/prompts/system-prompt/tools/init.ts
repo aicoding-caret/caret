@@ -10,6 +10,10 @@ import { execute_command_variants } from "./execute_command"
 import { focus_chain_variants } from "./focus_chain"
 // CARET MODIFICATION: load caret image tool variants from caret-src
 import { generate_image_variants } from "@caret/core/prompts/system-prompt/tools/generate_image"
+// CARET MODIFICATION: load analyze_image tool variants for models that don't support images
+import { analyze_image_variants } from "@caret/core/prompts/system-prompt/tools/analyze_image"
+// CARET MODIFICATION: load read_document tool variants for document reading
+import { read_document_variants } from "@caret/core/prompts/system-prompt/tools/read_document"
 import { list_code_definition_names_variants } from "./list_code_definition_names"
 import { list_files_variants } from "./list_files"
 import { load_mcp_documentation_variants } from "./load_mcp_documentation"
@@ -38,6 +42,8 @@ export function registerClineToolSets(): void {
 		...execute_command_variants,
 		...focus_chain_variants,
 		...generate_image_variants,
+		...analyze_image_variants,
+		...read_document_variants,
 		...list_code_definition_names_variants,
 		...list_files_variants,
 		...load_mcp_documentation_variants,
