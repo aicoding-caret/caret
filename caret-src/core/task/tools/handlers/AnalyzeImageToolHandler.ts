@@ -16,6 +16,7 @@ import { ToolUse } from "@core/assistant-message"
 import { formatResponse } from "@core/prompts/responses"
 import { getReadablePath, isLocatedInPath } from "@utils/path"
 import { ToolResultUtils } from "@core/task/tools/utils/ToolResultUtils"
+import { optimizeImageDataUrl } from "@caret/utils/image-optimization"
 import type { ToolResponse } from "@core/task"
 import type { IFullyManagedTool } from "@core/task/tools/ToolExecutorCoordinator"
 import type { ToolValidator } from "@core/task/tools/ToolValidator"
@@ -272,6 +273,16 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 				imageDataUrl = await loadImageAsDataUrl(absoluteImagePath)
 			} else {
 				throw new Error("Image path could not be resolved")
+			}
+
+			// Optimize image to reduce size (max 1024px, WebP format)
+			// This prevents 413 Request Entity Too Large errors
+			Logger.debug(`[AnalyzeImage] Optimizing image before sending to API...`)
+			try {
+				imageDataUrl = await optimizeImageDataUrl(imageDataUrl)
+			} catch (optimizeError) {
+				Logger.warn(`[AnalyzeImage] Image optimization failed, using original: ${optimizeError}`)
+				// Continue with original image if optimization fails
 			}
 
 			Logger.debug(`[AnalyzeImage] Image loaded, sending to Caret API (chat/completions)`)
