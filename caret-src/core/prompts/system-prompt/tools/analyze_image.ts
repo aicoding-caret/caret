@@ -20,6 +20,18 @@ Use this tool when you need to understand, describe, or extract information from
 - Code review: Analyze screenshots of code, identify issues or patterns
 - Design comparison: Compare UI implementations with design mockups
 - Error analysis: Interpret error dialogs, stack traces, or debug output shown in images
+- Verifying generated images: Check if generate_image output contains expected elements
+
+**CRITICAL USAGE GUIDELINES:**
+1. NEVER claim to have analyzed an image without actually calling this tool
+2. Be SPECIFIC in your question - include exact details of what you're looking for
+3. If verifying objects in an image, LIST each expected object explicitly in the question
+4. Analysis results may not be 100% accurate - treat them as guidance, not absolute truth
+5. If results seem incomplete, you can call the tool again with a more specific question
+
+**Example for verifying tarot card objects:**
+Bad: "What's in this image?"
+Good: "Check if this Magician tarot card contains: infinity symbol above head, wand, cup, sword, pentacle on the altar table, white robe, red cloak, and garden flowers."
 
 The analysis is performed by Caret's vision AI (Gemini 2.5 Flash). Requires Caret account login.`,
 	parameters: [
@@ -34,8 +46,8 @@ The analysis is performed by Caret's vision AI (Gemini 2.5 Flash). Requires Care
 			name: "question",
 			required: true,
 			instruction:
-				"Your question or request about the image. Be specific about what you want to know. For UI issues, ask about specific elements. For text extraction, specify if formatting should be preserved.",
-			usage: "What text is shown in this error dialog? Is there a stack trace?",
+				"Your specific question about the image. Be DETAILED - include exact elements, objects, or text you want to verify. Vague questions lead to vague answers. For verification tasks, explicitly list what should be present.",
+			usage: "Check if this UI contains: login button in top-right, email input field, password field with show/hide toggle, and 'Forgot password?' link below.",
 		},
 	],
 }
@@ -44,8 +56,9 @@ const NATIVE_GPT_5: ClineToolSpec = {
 	variant: ModelFamily.NATIVE_GPT_5,
 	id,
 	name: "analyze_image",
-	description:
-		"Analyze an image using vision AI. Use for UI analysis, text extraction from screenshots, code review, design comparison, and error interpretation.",
+	description: `Analyze an image using vision AI. Use for UI analysis, text extraction, code review, design comparison, error interpretation, and verifying generated images.
+
+**IMPORTANT:** Be SPECIFIC in your question - list exact elements to verify. Results may not be 100% accurate. NEVER claim analysis results without calling this tool.`,
 	parameters: [
 		{
 			name: "image",
@@ -55,7 +68,8 @@ const NATIVE_GPT_5: ClineToolSpec = {
 		{
 			name: "question",
 			required: true,
-			instruction: "Your question about the image. Be specific.",
+			instruction:
+				"Your SPECIFIC question. For verification, explicitly list expected elements (e.g., 'Check if image contains: X, Y, Z').",
 		},
 	],
 }
