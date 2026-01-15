@@ -91,6 +91,12 @@ export class AutoApprove {
 				return autoApprovalSettings.actions.useMcp
 			case ClineDefaultTool.GENERATE_IMAGE:
 				return autoApprovalSettings.actions.generateImages ?? false
+			// CARET MODIFICATION: analyze_image reads files, so use analyzeImages + readFilesExternally
+			case ClineDefaultTool.ANALYZE_IMAGE:
+				return [
+					autoApprovalSettings.actions.analyzeImages ?? true,
+					autoApprovalSettings.actions.readFilesExternally ?? false,
+				]
 		}
 		return false
 	}

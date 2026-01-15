@@ -365,8 +365,13 @@
 		},
 		"generateImages": {
 			"label": "生成图像",
-			"shortName": "图像",
+			"shortName": "生成",
 			"description": "允许 Caret 使用图像生成工具生成图像。"
+		},
+		"analyzeImages": {
+			"label": "分析图像",
+			"shortName": "分析",
+			"description": "允许 Caret 使用图像分析工具分析图像（适用于不直接支持图像的模型）。"
 		},
 		"useMcp": {
 			"label": "使用 MCP 服务器",

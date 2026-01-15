@@ -66,6 +66,7 @@ export class CaretPromptWrapper {
 				mode: caretModeConstant,
 				auto_todo: true, // Enable auto-todo for Caret
 				task_progress: undefined, // Can be extended later
+				toolSettings: context.toolSettings, // CARET MODIFICATION: Pass tool settings for image tools
 			}
 
 			Logger.debug(

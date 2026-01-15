@@ -311,8 +311,13 @@
 		},
 		"generateImages": {
 			"label": "画像生成",
-			"shortName": "画像",
+			"shortName": "生成",
 			"description": "Caretが画像生成ツールで画像を生成できるようにします。"
+		},
+		"analyzeImages": {
+			"label": "画像分析",
+			"shortName": "分析",
+			"description": "Caretが画像分析ツールで画像を分析できるようにします（画像を直接サポートしないモデル用）。"
 		},
 		"useMcp": {
 			"label": "MCPサーバーを使用する",

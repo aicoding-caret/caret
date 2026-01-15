@@ -279,6 +279,30 @@ export class CaretJsonAdapter implements IPromptSystem {
 			// CARET MODIFICATION: Enhanced tool filtering with detailed logging
 			// Remove plan_mode_respond from all Caret modes (it's Cline-specific for PLAN MODE)
 			const excludedTools = ["plan_mode_respond"]
+
+			// CARET MODIFICATION: Filter image tools based on toolSettings from AutoApprovalSettings
+			const toolSettings = context.toolSettings
+
+			// Filter generate_image based on settings (default: true)
+			if (toolSettings?.generateImages === false) {
+				excludedTools.push("generate_image")
+				Logger.debug(`[CaretJsonAdapter] generate_image tool disabled by settings`)
+			}
+
+			// Filter analyze_image based on settings (default: true) AND model capability
+			// - Exclude if user disabled via settings
+			// - Also exclude if model supports images natively (no need for the tool)
+			const modelSupportsImages = context.providerInfo?.model?.info?.supportsImages ?? false
+			if (toolSettings?.analyzeImages === false) {
+				excludedTools.push("analyze_image")
+				Logger.debug(`[CaretJsonAdapter] analyze_image tool disabled by settings`)
+			} else if (modelSupportsImages) {
+				excludedTools.push("analyze_image")
+				Logger.debug(`[CaretJsonAdapter] Model supports images natively, excluding analyze_image tool`)
+			} else {
+				Logger.debug(`[CaretJsonAdapter] analyze_image tool enabled (model doesn't support images natively)`)
+			}
+
 			let filteredTools = toolPrompts.filter(
 				(toolPrompt: string) => !excludedTools.some((excluded) => toolPrompt.includes(`## ${excluded}`)),
 			)

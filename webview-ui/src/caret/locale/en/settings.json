@@ -339,7 +339,12 @@
 		"generateImages": {
 			"label": "Generate images",
 			"shortName": "Images",
-			"description": "Allows Caret to generate images using the image tool."
+			"description": "Allows Caret to generate images using the image generation tool."
+		},
+		"analyzeImages": {
+			"label": "Analyze images",
+			"shortName": "Analyze",
+			"description": "Allows Caret to analyze images using the image analysis tool (for models that don't support images natively)."
 		},
 		"useMcp": {
 			"label": "Use MCP server",

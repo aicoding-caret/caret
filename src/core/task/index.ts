@@ -2503,11 +2503,19 @@ export class Task {
 			isSubagentsEnabledAndCliInstalled = subagentsEnabled && cliInstalled
 		}
 
+		// CARET MODIFICATION: Get tool settings from autoApprovalSettings
+		const autoApprovalSettings = this.stateManager.getGlobalSettingsKey("autoApprovalSettings")
+		const toolSettings = {
+			generateImages: autoApprovalSettings?.actions?.generateImages ?? true,
+			analyzeImages: autoApprovalSettings?.actions?.analyzeImages ?? true,
+		}
+
 		const promptContext: SystemPromptContext = {
 			cwd: this.cwd,
 			ide,
 			providerInfo,
 			modeSystem,
+			toolSettings, // CARET MODIFICATION: Pass tool settings for image tools
 			supportsBrowserUse,
 			mcpHub: this.mcpHub,
 			focusChainSettings: this.stateManager.getGlobalSettingsKey("focusChainSettings"),

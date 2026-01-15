@@ -90,12 +90,22 @@ export interface VersionMetadata {
 /**
  * Enhanced system prompt context with better typing
  */
+/**
+ * CARET MODIFICATION: Tool enablement settings for image tools
+ */
+export interface ToolSettings {
+	generateImages?: boolean // Enable image generation tool
+	analyzeImages?: boolean // Enable image analysis tool (for models that don't support images)
+}
+
 export interface SystemPromptContext {
 	readonly providerInfo: ApiProviderInfo
 	readonly cwd?: string
 	readonly ide: string
 	// CARET MODIFICATION: caret/cline mode system for prompt selection
 	readonly modeSystem?: "caret" | "cline"
+	// CARET MODIFICATION: Tool enablement settings for image tools
+	readonly toolSettings?: ToolSettings
 	readonly supportsBrowserUse?: boolean
 	readonly mcpHub?: McpHub
 	readonly focusChainSettings?: FocusChainSettings

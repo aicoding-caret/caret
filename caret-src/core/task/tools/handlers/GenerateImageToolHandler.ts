@@ -641,7 +641,15 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			const authToken = await CaretAuthService.getInstance().getAuthToken()
 			if (!authToken) {
-				throw new Error(`${getCurrentBrandDisplayName()} account authentication required to generate images.`)
+				const brandName = getCurrentBrandDisplayName()
+				const loginMessage = `${brandName} account login required to generate images.
+
+**To use this feature:**
+1. Log in via the ${brandName} sidebar
+
+**To disable this tool:**
+- Go to Settings > Auto-approve > "Generate images" toggle`
+				throw new Error(loginMessage)
 			}
 
 			const url = new URL("/v1/generate/image", CaretEnv.config().apiBaseUrl).toString()
@@ -847,7 +855,9 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				}
 			}
 
-			if (streamError) {
+			// CARET MODIFICATION: If image was saved successfully, treat as success even if there was a stream error
+			// This handles cases where server sends both error event and image data
+			if (streamError && !savedImagePath) {
 				await config.callbacks.say(
 					"tool",
 					buildMessage({
@@ -861,6 +871,11 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					false,
 				)
 				return formatResponse.toolError(streamError)
+			}
+
+			// Log warning if there was an error but image was saved successfully
+			if (streamError && savedImagePath) {
+				Logger.warn(`[GenerateImage] Stream error occurred but image saved successfully: ${streamError}`)
 			}
 
 			await config.callbacks.say(

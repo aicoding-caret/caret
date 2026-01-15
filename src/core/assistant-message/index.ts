@@ -48,6 +48,7 @@ export const toolParamNames = [
 	"image_size",
 	"reference_images",
 	"stream",
+	"image", // CARET MODIFICATION: for analyze_image tool
 ] as const
 
 export type ToolParamName = (typeof toolParamNames)[number]

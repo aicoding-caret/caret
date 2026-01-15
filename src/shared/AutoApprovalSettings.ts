@@ -21,6 +21,7 @@ export interface AutoApprovalSettings {
 		useBrowser: boolean // Use browser
 		useMcp: boolean // Use MCP servers
 		generateImages?: boolean // Generate images
+		analyzeImages?: boolean // Analyze images (for models that don't support images)
 	}
 	// Global settings
 	enableNotifications: boolean // Show notifications for approval and task completion
@@ -40,7 +41,8 @@ export const DEFAULT_AUTO_APPROVAL_SETTINGS: AutoApprovalSettings = {
 		executeAllCommands: false,
 		useBrowser: false,
 		useMcp: true,
-		generateImages: false,
+		generateImages: true, // Default enabled
+		analyzeImages: true, // Default enabled for models that don't support images
 	},
 	enableNotifications: false,
 }

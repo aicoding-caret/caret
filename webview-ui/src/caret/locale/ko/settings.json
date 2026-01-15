@@ -346,8 +346,13 @@
 		},
 		"generateImages": {
 			"label": "이미지 생성",
-			"shortName": "이미지",
+			"shortName": "생성",
 			"description": "Caret이 이미지 생성 도구를 사용해 이미지를 생성하도록 허용합니다."
+		},
+		"analyzeImages": {
+			"label": "이미지 분석",
+			"shortName": "분석",
+			"description": "Caret이 이미지 분석 도구를 사용해 이미지를 분석하도록 허용합니다 (이미지를 직접 지원하지 않는 모델용)."
 		},
 		"useMcp": {
 			"label": "MCP 서버 사용",

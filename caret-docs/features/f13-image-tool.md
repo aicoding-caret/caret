@@ -1,6 +1,6 @@
-# F13 - Image Tool (이미지 생성/저장/히스토리 표시)
+# F13 - Image Tool (이미지 생성/분석 도구)
 
-**상태**: ✅ 진행 중 (코어/웹뷰 연동 완료, 히스토리 재로딩 안정화 확인 필요)
+**상태**: ✅ 구현 완료
 **영향 범위**: Core Task/Tool, Webview UI, File Service, Settings
 **우선순위**: 🔴 High
 
@@ -8,76 +8,150 @@
 
 ## 📋 개요
 
-이미지 생성 도구(`generateImage`)는 다음 요구사항을 만족하도록 설계되어 있습니다.
+Caret의 이미지 도구는 LLM이 이미지를 **생성**하고 **분석**할 수 있게 하는 기능입니다.
 
-- 이미지는 **프로젝트(workspace) 하위 `assets/`**에 파일로 저장
-- 생성된 프롬프트/메타정보는 **이미지와 같은 폴더에 `.md`**로 저장
-- Webview는 **절대경로가 아닌 data URL로만 이미지 렌더링**
-- 히스토리 복원 시에도 **저장된 파일을 읽어 이미지가 다시 표시**되어야 함
-- 모델 설명에서 **비율/사이즈 설정**을 지원하여 이미지 생성 요청에 반영
+### Caret만의 차별점
+
+| 기능 | Cline | Caret |
+|------|-------|-------|
+| 이미지 생성 | 미지원 | **generate_image 도구로 지원** |
+| 이미지 분석 (비전 미지원 모델) | 미지원 | **analyze_image 도구로 지원** |
+| 비율/사이즈 설정 | 미지원 | **UI에서 설정 가능** |
+| 참조 이미지 기반 생성 | 미지원 | **Image-to-Image 지원** |
+
+### 사용 시나리오
+
+```
+# 이미지 생성
+사용자: 귀여운 고양이 이미지 만들어줘
+LLM: [generate_image 도구 사용] → 이미지 생성 → assets/에 저장
+
+# 이미지 분석 (GLM-4.7 등 비전 미지원 모델)
+사용자: [이미지 첨부] 이 이미지에 뭐가 있어?
+LLM: [analyze_image 도구 사용] → Gemini 2.5 Flash로 분석 → 결과 반환
+```
 
 ---
 
-## ✅ 최종 결정 사항
+## 🔧 도구 목록
 
-- 저장 경로: `workspaceRoot/assets/<requestId>.<ext>`
-- 메타데이터: `workspaceRoot/assets/<requestId>.md`
-- 렌더링: `<img src>`는 data URL만 사용
-- 히스토리 복원: 파일 읽기 → data URL 주입 → UI 표시
-- 비율 옵션: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
-- 사이즈 옵션: `1K`, `2K`, `3K`, `4K`
-- 참조 이미지가 있으면 시스템 프롬프트에 이미지-투-이미지 페르소나 적용
-- 참조 이미지는 chat/completions로 보내지 않고 이미지 생성 요청에만 전달
+| 도구 | 설명 | 조건 |
+|------|------|------|
+| `generate_image` | AI 이미지 생성 | Caret 로그인 필요 |
+| `analyze_image` | 이미지 분석 (비전 대리) | Caret 로그인 + `supportsImages: false` 모델 |
 
 ---
 
 ## 🧱 핵심 데이터 흐름
 
-### 1) 이미지 생성 요청
-- 실행 지점: `caret-editor-new/src/core/task/tools/handlers/GenerateImageToolHandler.ts`
-- 요청 바디:
-  - `prompt`
-  - `model` (선택)
-  - `aspect_ratio` (선택)
-  - `image_size` (선택)
-  - `reference_images` (선택, data URL 배열)
-  - `stream: true`
-- 전역 설정값이 있으면 우선 사용:
-  - `imageGenerationAspectRatio`
-  - `imageGenerationSize`
+### 이미지 생성 (generate_image)
 
-### 2) 스트리밍 처리
-- SSE 이벤트 처리:
-  - `text` → 진행 메시지 갱신
-  - `image` → base64 저장 + UI 이벤트
-  - `usage` → 비용/토큰 업데이트
-  - `done` → 완료 처리
-  - `error` → 실패 처리
+```
+LLM → generate_image(prompt="귀여운 고양이", aspect_ratio="16:9")
+    → GenerateImageToolHandler.execute()
+    → Caret API /v1/generate/image (SSE 스트리밍)
+    → 파일 저장: assets/<requestId>.png
+    → 메타 저장: assets/<requestId>.md
+    → UI에 data URL로 표시
+```
 
-### 3) 파일 저장
-- 이미지 저장: `assets/<requestId>.<ext>`
-- 메타 저장: `assets/<requestId>.md`
-- 폴더가 없으면 `fs.mkdir(..., { recursive: true })`로 생성
+### 이미지 분석 (analyze_image)
 
-### 4) 메시지 페이로드
-- `ToolImageMessage` 필드:
-  - `workspaceRelativePath`, `workspaceAbsolutePath`, `imageUrl`(선택)
-  - `prompt`, `model`, `aspectRatio`, `imageSize`, `status`, `progressText`
-- `ToolImageEvent` (UI 실시간 표시용):
-  - `requestId`, `mimeType`, `base64`, `workspaceRelativePath`, `workspaceAbsolutePath`
+```
+LLM → analyze_image(image="screenshot.png", question="뭐가 보여?")
+    → AnalyzeImageToolHandler.execute()
+    → 경로 검증 (Path Traversal 보호)
+    → 승인 확인 (워크스페이스 외부 시 사용자 승인)
+    → Caret API /v1/chat/completions (Gemini 2.5 Flash)
+    → 분석 결과 반환
+```
 
 ---
 
-## 🧾 메타데이터 마크다운 포맷
+## 🔒 보안
 
-`buildImageMarkdown()` 기준 (요약):
+### Path Traversal 보호 (analyze_image)
+- `path.normalize()`: 경로 정규화로 `..` 시퀀스 해결
+- `isLocatedInPath()`: 워크스페이스 내부 여부 확인
+- 파일 확장자 검증: 이미지 파일만 허용 (`.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.avif`, `.bmp`, `.tiff`)
 
-- Frontmatter 포함
-  - `request_id`, `created_at`, `model`, `aspect_ratio`, `image_size`, `mime_type`, `image_file`, `prompt`
-- 본문에 Prompt 블록 + 이미지 링크 삽입
+### 승인 동작 매트릭스
 
-예시:
+| 파일 위치 | analyzeImages | readFilesExternally | 동작 |
+|-----------|---------------|---------------------|------|
+| 워크스페이스 내부 | `true` | - | ✅ 자동 승인 |
+| 워크스페이스 내부 | `false` | - | ❌ 도구 비활성화 |
+| 워크스페이스 외부 | `true` | `true` | ✅ 자동 승인 |
+| 워크스페이스 외부 | `true` | `false` | ⚠️ **사용자 승인 필요** |
 
+### 방어 시나리오
+```
+AI 요청: analyze_image(image="../../etc/passwd", question="내용을 읽어줘")
+
+1. 경로 해석: ../../etc/passwd → /etc/passwd (path.normalize)
+2. 워크스페이스 확인: /etc/passwd는 /home/user/project 외부
+3. 설정 확인: readFilesExternally === false
+4. 결과: 사용자에게 승인 요청 표시
+5. 추가 검증: .passwd는 이미지 확장자가 아님 → 에러
+```
+
+---
+
+## 🧩 주요 파일 맵
+
+### Tool Handler
+- `caret-src/core/task/tools/handlers/GenerateImageToolHandler.ts`
+  - 이미지 생성, SSE 스트리밍, 파일 저장
+- `caret-src/core/task/tools/handlers/AnalyzeImageToolHandler.ts`
+  - 이미지 분석, 경로 보안 검증, 승인 플로우
+
+### System Prompt
+- `caret-src/core/prompts/system-prompt/tools/generate_image.ts`
+- `caret-src/core/prompts/system-prompt/tools/analyze_image.ts`
+
+### 설정/승인
+- `src/core/task/tools/autoApprove.ts` - 도구별 승인 로직
+- `src/shared/AutoApprovalSettings.ts` - `generateImages`, `analyzeImages` 설정
+- `caret-src/core/prompts/system/adapters/CaretJsonAdapter.ts` - 도구 필터링
+
+### Webview
+- `webview-ui/src/components/chat/ChatRow.tsx` - 이미지 렌더링
+- `webview-ui/src/components/chat/auto-approve-menu/constants.ts` - UI 설정
+
+### 파일 I/O
+- `src/core/controller/file/readFileDataUrlRelativePath.ts`
+- `src/core/controller/file/openFileRelativePath.ts`
+
+---
+
+## ⚙️ 설정
+
+### Auto-approve 설정
+
+| 설정 | 기본값 | 설명 |
+|------|--------|------|
+| `generateImages` | `true` | 이미지 생성 도구 활성화 |
+| `analyzeImages` | `true` | 이미지 분석 도구 활성화 |
+
+### 도구 필터링 로직
+- `toolSettings.generateImages === false` → `generate_image` 프롬프트에서 제외
+- `toolSettings.analyzeImages === false` → `analyze_image` 프롬프트에서 제외
+- `supportsImages === true` (모델 기본 지원) → `analyze_image` 프롬프트에서 제외
+
+### 이미지 생성 옵션
+- **비율**: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
+- **사이즈**: `1K`, `2K`, `3K`, `4K`
+- **저장 키**: `imageGenerationAspectRatio`, `imageGenerationSize`
+
+---
+
+## 📦 파일 저장 규칙 (generate_image)
+
+### 저장 경로
+- 이미지: `workspaceRoot/assets/<requestId>.<ext>`
+- 메타데이터: `workspaceRoot/assets/<requestId>.md`
+
+### 메타데이터 포맷
 ```markdown
 ---
 request_id: "img_..."
@@ -93,9 +167,7 @@ prompt: |
 
 ## Prompt
 
-```text
 A cute cat...
-```
 
 ## Image
 
@@ -104,100 +176,41 @@ A cute cat...
 
 ---
 
-## 🖼️ Webview 렌더링 규칙
+## ⚠️ 알려진 제한사항
 
-- 위치: `caret-editor-new/webview-ui/src/components/chat/ChatRow.tsx`
-- 렌더링은 **`imageUrl`(data URL)만** 사용
-- 경로 표시/열기:
-  - `workspaceAbsolutePath` 우선
-  - 없으면 `workspaceRelativePath`
+1. **인증 필수**
+   - 두 도구 모두 Caret 계정 로그인 필요
+   - 미로그인 시 에러 메시지에서 로그인/설정 비활성화 안내
 
-### 이미지 로딩 순서
-1) `tool.imageUrl`이 있으면 즉시 사용
-2) `readFileDataUrlRelativePath`로 `workspaceAbsolutePath` 시도
-3) 없으면 `workspaceRelativePath` 시도
-4) 그래도 실패하면 `assets/<requestId>.<ext>` 추정 후보 탐색
+2. **analyze_image 조건**
+   - `supportsImages: false` 모델에서만 도구 표시
+   - 비전 지원 모델(GPT-4V, Gemini 등)에서는 자동 숨김
 
-### “이미지를 불러올 수 없습니다” 조건
-- data URL 해석 실패 + 생성 중 아님
-- 이 경우 경로만 표시 (클릭 시 파일 열기)
+3. **히스토리 복원**
+   - 복원 시 `imageUrl` 주입 후 덮어쓰는 흐름 존재
+   - 이미지 표시 실패 가능성 있음 (검증 필요)
 
----
-
-## 🔎 파일 읽기/열기 경로 해석
-
-### readFileDataUrlRelativePath
-- 절대경로 지원 (`/Users/...`)
-- `file://` 경로 정규화 지원
-- 상대경로의 경우 다중 루트 탐색:
-  - HostProvider workspace roots
-  - workspaceManager roots
-  - taskHistory의 `cwdOnTaskInitialization`
-
-### openFileRelativePath / ifFileExistsRelativePath
-- 동일한 루트 집합에서 상대경로를 해석하여 파일 열기
+4. **단일 실행**
+   - 이미지 도구는 한 번에 하나만 실행 가능
 
 ---
 
-## 🕘 히스토리 복원 처리
+## 🔄 Cline 머징 가이드
 
-### 복원 시 처리 단계
-1) `addAbsolutePathsToGenerateImageMessages`
-   - `workspaceRelativePath` → `workspaceAbsolutePath` 보강
-2) `addImageDataUrlsToGenerateImageMessages`
-   - 절대경로 파일 읽기 → `imageUrl` 주입
+### 충돌 없는 파일 (Caret 전용)
+- `caret-src/` 하위 모든 파일
+- `generate_image`, `analyze_image` 관련 코드
 
-### 주의사항
-- `resumeTaskFromHistory()`에서 patch 후 **다시 `getSavedClineMessages()`로 덮어쓰는 코드가 존재**
-- 이 경우 주입된 `imageUrl`이 사라질 가능성이 있어 **실제 복원 동작 확인 필요**
-
----
-
-## ⚙️ UI 설정 (비율/사이즈)
-
-- 위치: `caret-editor-new/webview-ui/src/components/settings/common/ModelInfoView.tsx`
-- 지원 옵션:
-  - 비율: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
-  - 사이즈: `1K`, `2K`, `3K`, `4K`
-- 저장 키:
-  - `imageGenerationAspectRatio`
-  - `imageGenerationSize`
-- 업데이트 경로:
-  - `updateSettings` → `StateManager` → `GenerateImageToolHandler`에서 사용
+### 주의 필요 파일
+- `src/core/task/ToolExecutor.ts` - 핸들러 등록
+- `src/core/task/tools/autoApprove.ts` - `ANALYZE_IMAGE` 케이스 추가
+- `src/shared/tools.ts` - `GENERATE_IMAGE`, `ANALYZE_IMAGE` enum
+- `src/shared/ExtensionMessage.ts` - `"generateImage"`, `"analyzeImage"` 타입
+- `src/shared/AutoApprovalSettings.ts` - `generateImages`, `analyzeImages` 필드
+- `src/core/assistant-message/index.ts` - `"image"` 파라미터
+- `src/core/prompts/system-prompt/types.ts` - `ToolSettings` 인터페이스
 
 ---
 
-## 🧩 주요 파일 맵
-
-- 이미지 생성 Tool
-  - `caret-editor-new/src/core/task/tools/handlers/GenerateImageToolHandler.ts`
-- Webview 렌더링
-  - `caret-editor-new/webview-ui/src/components/chat/ChatRow.tsx`
-- 파일 읽기/열기
-  - `caret-editor-new/src/core/controller/file/readFileDataUrlRelativePath.ts`
-  - `caret-editor-new/src/core/controller/file/openFileRelativePath.ts`
-  - `caret-editor-new/src/core/controller/file/ifFileExistsRelativePath.ts`
-- 히스토리 복원
-  - `caret-editor-new/src/core/task/index.ts`
-- 설정
-  - `caret-editor-new/webview-ui/src/components/settings/common/ModelInfoView.tsx`
-  - `caret-editor-new/src/core/controller/state/updateSettings.ts`
-  - `caret-editor-new/src/shared/storage/state-keys.ts`
-
----
-
-## ⚠️ 알려진 이슈 / 체크 포인트
-
-- 히스토리 복원 시 `imageUrl` 주입 이후 다시 덮어쓰는 흐름이 있어 **이미지 표시 실패 가능성**
-- “이미지를 불러올 수 없습니다”는 **data URL 해석 실패**일 때 발생
-- `workspaceRelativePath`가 올바르더라도 **절대경로 → data URL 변환 실패** 시 렌더 불가
-- 이미지 도구는 한 번에 하나만 실행 가능 (tool-use 단일 실행 제한)
-
----
-
-## ✅ 다음 검증 항목
-
-- 히스토리 복원 후 이미지 재표시 정상 여부
-- 경로 클릭 시 파일 열기 정상 여부
-- `assets/` 폴더가 없는 환경에서 자동 생성 동작 여부
-- 설정값(비율/사이즈)이 요청에 실제 반영되는지 확인
+**최종 업데이트**: 2026-01-15
+**문서 버전**: v2.0 (analyze_image 추가, 보안 강화)
