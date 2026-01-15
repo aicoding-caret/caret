@@ -418,6 +418,16 @@ export const caretModels = {
 			outputPrice: 3.5,
 		},
 	},
+	// CARET MODIFICATION: GLM-4.7 with thinking mode support
+	"zai/glm-4.7": {
+		maxTokens: 128_000,
+		contextWindow: 200_000,
+		supportsImages: false,
+		supportsPromptCache: true,
+		inputPrice: 0.6,
+		outputPrice: 2.2,
+		description: "GLM-4.7 with thinking mode and natural conversation support",
+	},
 } as const satisfies Record<string, ModelInfo>
 export const caretDefaultModelInfo = caretModels[caretDefaultModelId]
 

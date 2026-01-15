@@ -85,6 +85,8 @@ import { ulid } from "ulid"
 // CARET MODIFICATION: use caret image registry/scope from caret-src
 import { ImageRegistry } from "@caret/core/task/images/ImageRegistry"
 import { ImageScopeManager } from "@caret/core/task/images/ImageScopeManager"
+// CARET MODIFICATION: import finish-reason handler for GLM4.7 loop fix
+import { shouldEndLoopByFinishReason } from "@caret/core/api/transform/finish-reason"
 import * as vscode from "vscode"
 import { ToolUseHandler } from "@/core/api/transform/tool-use-handler"
 import type { SystemPromptContext } from "@/core/prompts/system-prompt"
@@ -3354,6 +3356,11 @@ export class Task {
 							this.presentAssistantMessage()
 							break
 						}
+						// CARET MODIFICATION: Handle finish_reason for GLM4.7 loop termination fix
+						case "finish": {
+							this.taskState.finishReason = chunk.reason
+							break
+						}
 					}
 
 					if (this.taskState.abort) {
@@ -3599,6 +3606,57 @@ export class Task {
 				// if the model did not tool use, then we need to tell it to either use a tool or attempt_completion
 				const didToolUse = this.taskState.assistantMessageContent.some((block) => block.type === "tool_use")
 
+				// CARET MODIFICATION: Check finish_reason BEFORE sending noToolsUsed message
+				// This prevents auto-continuation when model naturally ends without tool use
+				// Instead of ending the loop, we show the followup input to allow natural conversation
+				const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem") || CaretGlobalManager.currentMode
+				if (modeSystem === "caret" && !didToolUse) {
+					Logger.debug(
+						`[GLM4.7-DEBUG] Early finish check: finishReason=${this.taskState.finishReason}, didToolUse=${didToolUse}`,
+					)
+					if (shouldEndLoopByFinishReason(this.taskState.finishReason, didToolUse, this.taskState.consecutiveMistakeCount)) {
+						Logger.debug("[GLM4.7-DEBUG] Natural conversation end detected, showing followup input")
+						this.taskState.finishReason = undefined
+
+						// CARET MODIFICATION: Show followup input for natural conversation continuation
+						// This matches how Gemini handles conversations with the prompt exception
+						const { text: userResponse, images, files } = await this.ask(
+							"followup",
+							JSON.stringify({ question: "", options: [] }),
+							false,
+						)
+
+						// If user provided a response, continue the conversation
+						if (userResponse || images?.length || files?.length) {
+							Logger.debug("[GLM4.7-DEBUG] User continued conversation, processing response")
+							await this.say("user_feedback", userResponse ?? "", images, files)
+
+							// Add user response to conversation and continue
+							const userContent: ClineContent[] = []
+							if (userResponse) {
+								userContent.push({ type: "text", text: userResponse })
+							}
+							if (images?.length) {
+								userContent.push(...formatResponse.imageBlocks(images))
+							}
+							if (files?.length) {
+								const fileContentString = await processFilesIntoText(files)
+								if (fileContentString) {
+									userContent.push({ type: "text", text: fileContentString })
+								}
+							}
+
+							// Continue the conversation loop
+							const recDidEndLoop = await this.recursivelyMakeClineRequests(userContent)
+							didEndLoop = recDidEndLoop
+						} else {
+							// User didn't provide input, end the conversation gracefully
+							Logger.debug("[GLM4.7-DEBUG] User ended conversation")
+							return true
+						}
+					}
+				}
+
 				if (!didToolUse) {
 					// normal request where tool use is required
 					this.taskState.userMessageContent.push({
@@ -3723,6 +3781,26 @@ export class Task {
 				// Returns early to avoid retry since user dismissed
 				return true
 			}
+
+			// CARET MODIFICATION: Check finish_reason for GLM4.7 loop termination fix
+			// Only apply in Caret mode to avoid affecting Cline compatibility
+			const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem") || CaretGlobalManager.currentMode
+			if (modeSystem === "caret") {
+				const didToolUse = this.taskState.assistantMessageContent.some((block) => block.type === "tool_use")
+				const toolTypes = this.taskState.assistantMessageContent
+					.filter((block) => block.type === "tool_use")
+					.map((block: any) => block.name || "unknown")
+				// CARET DEBUG: Log finish_reason check
+				Logger.debug(
+					`[GLM4.7-DEBUG] finish_reason check: finishReason=${this.taskState.finishReason}, didToolUse=${didToolUse}, tools=[${toolTypes.join(",")}], consecutiveMistakeCount=${this.taskState.consecutiveMistakeCount}`,
+				)
+				if (shouldEndLoopByFinishReason(this.taskState.finishReason, didToolUse, this.taskState.consecutiveMistakeCount)) {
+					Logger.debug("[GLM4.7-DEBUG] Loop ending by finish_reason")
+					return true
+				}
+			}
+			// Reset finishReason for next iteration
+			this.taskState.finishReason = undefined
 
 			return didEndLoop // will always be false for now
 		} catch (_error) {

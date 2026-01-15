@@ -78,4 +78,7 @@ export class TaskState {
 
 	// Image scope management
 	imageScope?: ImageScopeResult
+
+	// CARET MODIFICATION: Store finish_reason for GLM4.7 loop termination fix
+	finishReason?: string
 }

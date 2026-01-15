@@ -146,6 +146,15 @@ export class OpenAiHandler implements ApiHandler {
 					cacheWriteTokens: chunk.usage.prompt_cache_miss_tokens || 0,
 				}
 			}
+
+			// CARET MODIFICATION: Yield finish_reason for GLM4.7 loop termination fix
+			const finishReason = chunk.choices[0]?.finish_reason
+			if (finishReason) {
+				yield {
+					type: "finish",
+					reason: finishReason,
+				}
+			}
 		}
 	}
 

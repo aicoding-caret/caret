@@ -35,6 +35,21 @@ export class ZAiHandler implements ApiHandler {
 		return this.options.zaiApiLine === "china"
 	}
 
+	// CARET MODIFICATION: Support coding endpoint for GLM Coding Plan
+	private useCodingApi(): boolean {
+		return this.options.zaiApiLine === "coding"
+	}
+
+	private getBaseUrl(): string {
+		if (this.useChinaApi()) {
+			return "https://open.bigmodel.cn/api/paas/v4"
+		}
+		if (this.useCodingApi()) {
+			return "https://api.z.ai/api/coding/paas/v4"
+		}
+		return "https://api.z.ai/api/paas/v4"
+	}
+
 	private ensureClient(): OpenAI {
 		if (!this.client) {
 			if (!this.options.zaiApiKey) {
@@ -42,7 +57,7 @@ export class ZAiHandler implements ApiHandler {
 			}
 			try {
 				this.client = new OpenAI({
-					baseURL: this.useChinaApi() ? "https://open.bigmodel.cn/api/paas/v4" : "https://api.z.ai/api/paas/v4",
+					baseURL: this.getBaseUrl(),
 					apiKey: this.options.zaiApiKey,
 					defaultHeaders: {
 						"HTTP-Referer": "https://cline.bot",
@@ -83,19 +98,33 @@ export class ZAiHandler implements ApiHandler {
 			{ role: "system", content: systemPrompt },
 			...convertToOpenAiMessages(messages),
 		]
-		const stream = await client.chat.completions.create({
+		// CARET MODIFICATION: Enable thinking mode for GLM-4.7/4.5 models
+		const supportsThinking = model.id.startsWith("glm-4.7") || model.id.startsWith("glm-4.5")
+		const thinkingParam = supportsThinking ? { thinking: { type: "enabled" } } : {}
+
+		const stream: any = await client.chat.completions.create({
 			model: model.id,
 			max_completion_tokens: model.info.maxTokens,
 			messages: openAiMessages,
 			stream: true,
 			stream_options: { include_usage: true },
+			...thinkingParam,
 			...getOpenAIToolParams(tools),
-		})
+		} as any)
 
 		const toolCallProcessor = new ToolCallProcessor()
 
 		for await (const chunk of stream) {
 			const delta = chunk.choices[0]?.delta
+
+			// CARET MODIFICATION: Handle reasoning_content for GLM-4.7 thinking mode
+			if (delta && "reasoning_content" in delta && delta.reasoning_content) {
+				yield {
+					type: "reasoning",
+					reasoning: (delta.reasoning_content as string) || "",
+				}
+			}
+
 			if (delta?.content) {
 				yield {
 					type: "text",
@@ -114,6 +143,16 @@ export class ZAiHandler implements ApiHandler {
 					outputTokens: chunk.usage.completion_tokens || 0,
 					cacheReadTokens: chunk.usage.prompt_tokens_details?.cached_tokens || 0,
 					cacheWriteTokens: 0,
+				}
+			}
+
+			// CARET MODIFICATION: Yield finish_reason for GLM4.7 loop termination fix
+			const finishReason = chunk.choices[0]?.finish_reason
+			if (finishReason) {
+				console.log(`[ZAI-DEBUG] finish_reason: ${finishReason}`)
+				yield {
+					type: "finish",
+					reason: finishReason,
 				}
 			}
 		}

@@ -130,7 +130,8 @@
 			"!**/cline-latest",
 			"!**/cline-latest",
 			"!**/work-logs",
-			"!**/work-logs"
+			"!**/work-logs",
+			"!**/caretive-docs"
 		]
 	},
 	"plugins": [

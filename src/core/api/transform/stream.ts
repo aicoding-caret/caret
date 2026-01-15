@@ -1,5 +1,11 @@
 export type ApiStream = AsyncGenerator<ApiStreamChunk> & { id?: string }
-export type ApiStreamChunk = ApiStreamTextChunk | ApiStreamThinkingChunk | ApiStreamUsageChunk | ApiStreamToolCallsChunk
+// CARET MODIFICATION: Add ApiStreamFinishChunk for GLM4.7 loop fix
+export type ApiStreamChunk =
+	| ApiStreamTextChunk
+	| ApiStreamThinkingChunk
+	| ApiStreamUsageChunk
+	| ApiStreamToolCallsChunk
+	| ApiStreamFinishChunk
 
 export interface ApiStreamTextChunk {
 	type: "text"
@@ -95,4 +101,16 @@ export interface ApiStreamThinkingChunk {
 	 * The response ID associated with this chunk
 	 */
 	id?: string
+}
+
+// CARET MODIFICATION: Finish chunk for GLM4.7 loop termination fix
+export interface ApiStreamFinishChunk {
+	type: "finish"
+	/**
+	 * The reason the model stopped generating
+	 * - "end_turn" or "stop": Natural completion
+	 * - "tool_use" or "tool_calls": Needs tool execution
+	 * - "max_tokens" or "length": Token limit reached
+	 */
+	reason: string
 }

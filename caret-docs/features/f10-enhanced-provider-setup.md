@@ -54,6 +54,7 @@ LiteLLM, BizRouter 등의 모델 목록을 자동으로 페칭하고, 연결 상
 |---|---|---|---|---|
 | **LiteLLM** | ✅ | ✅ | ✅ Health 기반 | 완료 |
 | **BizRouter** | ✅ | ✅ | ❌ 단순화 | 완료 |
+| **ZAI (GLM-4.7)** | ✅ | ✅ | ✅ Thinking + Coding | 완료 |
 
 ## 🏗️ **시스템 아키텍처**
 
@@ -352,6 +353,122 @@ export async function fetchBizRouterModels(
 | **필터링** | Healthy AND Available 교집합 | API key 기반 단순 필터 |
 | **복잡도** | 높음 (모델명 정규화 필요) | 낮음 (단순 ID 추출) |
 | **사용 사례** | Self-hosted LiteLLM 서버 | BizRouter 클라우드 서비스 |
+
+### **3. ZAI 프로바이더 (GLM-4.7 Thinking Mode + Coding Plan)**
+
+ZAI는 중국 Zhipu AI의 GLM 모델을 제공하는 프로바이더입니다. GLM-4.7은 reasoning (thinking) 모드와 Coding Plan을 지원합니다.
+
+#### **백엔드 구현**
+```typescript
+// src/core/api/providers/zai.ts
+export class ZAiHandler implements ApiHandler {
+    // CARET MODIFICATION: Support coding endpoint for GLM Coding Plan
+    private useCodingApi(): boolean {
+        return this.options.zaiApiLine === "coding"
+    }
+
+    private getBaseUrl(): string {
+        if (this.useChinaApi()) {
+            return "https://open.bigmodel.cn/api/paas/v4"
+        }
+        if (this.useCodingApi()) {
+            return "https://api.z.ai/api/coding/paas/v4"  // Coding Plan 엔드포인트
+        }
+        return "https://api.z.ai/api/paas/v4"
+    }
+
+    async *createMessage(...): ApiStream {
+        // CARET MODIFICATION: Enable thinking mode for GLM-4.7/4.5 models
+        const supportsThinking = model.id.startsWith("glm-4.7") || model.id.startsWith("glm-4.5")
+        const thinkingParam = supportsThinking ? { thinking: { type: "enabled" } } : {}
+
+        const stream = await client.chat.completions.create({
+            model: model.id,
+            ...thinkingParam,  // Thinking mode 파라미터
+            ...
+        })
+
+        for await (const chunk of stream) {
+            // CARET MODIFICATION: Handle reasoning_content for GLM-4.7 thinking mode
+            if (delta && "reasoning_content" in delta && delta.reasoning_content) {
+                yield { type: "reasoning", reasoning: delta.reasoning_content }
+            }
+
+            // CARET MODIFICATION: Yield finish_reason for loop termination
+            if (finishReason) {
+                yield { type: "finish", reason: finishReason }
+            }
+        }
+    }
+}
+```
+
+#### **프론트엔드 구현 (UI 옵션)**
+```typescript
+// webview-ui/src/components/settings/providers/ZAiProvider.tsx
+<VSCodeDropdown
+    id="zai-entrypoint"
+    onChange={(e) => handleFieldChange("zaiApiLine", e.target.value)}
+    value={apiConfiguration?.zaiApiLine || "international"}>
+    <VSCodeOption value="international">api.z.ai</VSCodeOption>
+    <VSCodeOption value="coding">api.z.ai (Coding Plan)</VSCodeOption>
+    <VSCodeOption value="china">open.bigmodel.cn</VSCodeOption>
+</VSCodeDropdown>
+```
+
+#### **API 엔드포인트**
+| 옵션 | 엔드포인트 | 용도 |
+|------|-----------|------|
+| `international` | `https://api.z.ai/api/paas/v4` | 일반 API |
+| `coding` | `https://api.z.ai/api/coding/paas/v4` | **GLM Coding Plan** |
+| `china` | `https://open.bigmodel.cn/api/paas/v4` | 중국 API |
+
+#### **Thinking Mode 지원**
+GLM-4.7은 Claude의 thinking처럼 추론 과정을 보여주는 모드를 지원합니다:
+
+```json
+// 요청
+{
+    "model": "glm-4.7",
+    "thinking": { "type": "enabled" },
+    "stream": true
+}
+
+// 응답 (스트리밍)
+{
+    "choices": [{
+        "delta": {
+            "reasoning_content": "사용자가 파일을 읽어달라고 했으니...",
+            "content": "네, 파일을 읽어드리겠습니다."
+        },
+        "finish_reason": "stop"
+    }]
+}
+```
+
+#### **자연스러운 대화 지원**
+GLM-4.7은 `finish_reason: "stop"`과 도구 미사용을 감지하여 자연스러운 대화를 지원합니다:
+
+```typescript
+// caret-src/core/api/transform/finish-reason.ts
+export function shouldEndLoopByFinishReason(
+    finishReason: string | undefined | null,
+    didToolUse: boolean,
+    _consecutiveMistakeCount: number,
+): boolean {
+    // CARET MODIFICATION: If natural end (stop) and no tool use, end immediately
+    if (isNaturalEndReason(finishReason) && !didToolUse) {
+        return true
+    }
+    return false
+}
+```
+
+#### **특징**
+- **Thinking Mode**: `reasoning_content`로 추론 과정 표시
+- **Coding Plan**: 코딩 특화 엔드포인트 지원
+- **자연스러운 대화**: `finish_reason` 기반 대화 종료 지원
+- **Native Tool Calls**: OpenAI 호환 도구 호출 지원
 
 ## 🌐 **다국어 지원**
 
@@ -727,7 +844,7 @@ webview-ui/src/caret/locale/*/
 
 ---
 
-**문서 버전**: v1.1 (2025-11-05)
+**문서 버전**: v1.2 (2026-01-15)
 **담당**: Luke Yang + Claude Code
-**최신 변경**: LiteLLM Health 기반 필터링 + 모델명 정규화
-**관련 문서**: f08-feature-config-system.md
+**최신 변경**: ZAI/GLM-4.7 Thinking Mode + Coding Plan + 자연 대화 지원
+**관련 문서**: f08-feature-config-system.md, f07-caret-prompt-system.md

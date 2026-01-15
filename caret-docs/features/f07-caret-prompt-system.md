@@ -358,6 +358,75 @@ Settings → Caret Mode → Chatbot/Agent 선택
 
 ---
 
-**작성일**: 2025-10-10
-**Phase**: Phase 4 Backend 완료
+## 🗣️ 자연스러운 대화 지원 (Conversation Mode)
+
+### 개요
+Caret의 Agent 모드는 작업 수행뿐만 아니라 **자연스러운 대화**도 지원합니다.
+사용자가 "대화하자"와 같은 요청을 하면, AI는 도구를 사용하지 않고 대화로 응답할 수 있습니다.
+
+### 프롬프트 예외 규칙
+```
+**AGENT MODE - 대화 예외 규칙**:
+마스터가 대화를 요청하거나, AGENT가 대화로 판단할 경우,
+AGENT는 도구를 사용하지 않고 대화로 응답할 수 있습니다.
+```
+
+### 기술 구현 (Caret 모드 전용)
+
+**위치**: `src/core/task/index.ts`
+
+```typescript
+// CARET MODIFICATION: Natural conversation support
+// When model responds with text only (no tools) and finish_reason: "stop"
+if (shouldEndLoopByFinishReason(finishReason, didToolUse, consecutiveMistakeCount)) {
+    // Show followup input for natural conversation continuation
+    const { text: userResponse, images, files } = await this.ask(
+        "followup",
+        JSON.stringify({ question: "", options: [] }),
+        false,
+    )
+
+    // If user provided a response, continue the conversation
+    if (userResponse || images?.length || files?.length) {
+        await this.say("user_feedback", userResponse ?? "", images, files)
+        const recDidEndLoop = await this.recursivelyMakeClineRequests(userContent)
+        didEndLoop = recDidEndLoop
+    } else {
+        return true // End conversation gracefully
+    }
+}
+```
+
+### 동작 방식
+
+1. **finish_reason 감지**: API 응답에서 `finish_reason: "stop"` + 도구 미사용 감지
+2. **UI 전환**: `ask("followup", ...)` 호출로 버튼 없이 입력창만 표시
+3. **대화 계속**: 사용자가 응답하면 대화 루프 계속
+4. **대화 종료**: 사용자가 응답 안하면 자연스럽게 종료
+
+### Cline 독립성 보장
+
+이 기능은 **Caret 모드에서만** 활성화됩니다:
+```typescript
+const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem") || CaretGlobalManager.currentMode
+if (modeSystem === "caret" && !didToolUse) {
+    // Caret-only conversation support
+}
+```
+
+Cline 모드에서는 기존 `noToolsUsed` 메시지가 전송되어 도구 사용을 강제합니다.
+
+### 지원 모델
+
+| 모델 | 대화 지원 방식 |
+|------|---------------|
+| **Gemini** | 프롬프트 예외 규칙 + `ask_followup_question` 도구 |
+| **GLM-4.7** | `finish_reason: "stop"` 감지 + followup UI |
+| **Claude** | 프롬프트 예외 규칙 |
+| **기타** | 프롬프트 예외 규칙 (기본) |
+
+---
+
+**작성일**: 2025-10-10 (최종 업데이트: 2026-01-15)
+**Phase**: Phase 4 Backend 완료 + 대화 모드 지원
 **통합 이유**: F06(기술)과 F07(UX)은 단일 시스템의 양면

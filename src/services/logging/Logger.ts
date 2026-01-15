@@ -33,7 +33,9 @@ export class Logger {
 		if (error?.message) {
 			fullMessage += ` ${error.message}`
 		}
-		HostProvider.get().logToChannel(`${level} ${fullMessage}`)
+		// CARET MODIFICATION: Add timestamp for debugging timing issues
+		const timestamp = new Date().toISOString()
+		HostProvider.get().logToChannel(`[${timestamp}] ${level} ${fullMessage}`)
 		if (error?.stack) {
 			console.log(`Stack trace:\n${error.stack}`)
 		}

@@ -30,6 +30,7 @@ export const ZAiProvider = ({ showModelOptions, isPopup, currentMode }: ZAiProvi
 	const { selectedModelId, selectedModelInfo } = normalizeApiConfiguration(apiConfiguration, currentMode)
 
 	// Determine which models to use based on API line selection
+	// CARET MODIFICATION: coding endpoint uses international models
 	const zaiModels = useMemo(
 		() => (apiConfiguration?.zaiApiLine === "china" ? mainlandZAiModels : internationalZAiModels),
 		[apiConfiguration?.zaiApiLine],
@@ -51,6 +52,7 @@ export const ZAiProvider = ({ showModelOptions, isPopup, currentMode }: ZAiProvi
 					}}
 					value={apiConfiguration?.zaiApiLine || "international"}>
 					<VSCodeOption value="international">api.z.ai</VSCodeOption>
+					<VSCodeOption value="coding">api.z.ai (Coding Plan)</VSCodeOption>
 					<VSCodeOption value="china">open.bigmodel.cn</VSCodeOption>
 				</VSCodeDropdown>
 			</DropdownContainer>
