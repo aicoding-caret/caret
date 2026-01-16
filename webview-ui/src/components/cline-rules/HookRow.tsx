@@ -2,9 +2,7 @@
 // Ported from cline-latest with Caret path standards (.agents/hooks)
 import { StringRequest } from "@shared/proto/cline/common"
 import { DeleteHookRequest, HooksToggles } from "@shared/proto/cline/file"
-import { PenIcon, Trash2Icon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
+import { VSCodeButton, VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { FileServiceClient } from "@/services/grpc-client"
 
 interface HookRowProps {
@@ -52,39 +50,36 @@ const HookRow: React.FC<HookRowProps> = ({
 
 	return (
 		<div className="mb-2.5">
-			<div className="flex items-center px-2 py-4 rounded bg-text-block-background max-h-4">
+			<div className="flex items-center px-2 py-1 rounded" style={{ background: "var(--vscode-textBlockQuote-background)" }}>
 				<span className="flex-1 overflow-hidden break-all whitespace-normal flex items-center mr-1">
-					<span className="ph-no-capture">{hookName}</span>
+					<span className="ph-no-capture text-sm">{hookName}</span>
 				</span>
 
-				{/* Toggle Switch */}
-				<div className="flex items-center space-x-2 gap-2">
+				{/* Toggle and Actions */}
+				<div className="flex items-center gap-2">
 					<div
 						title={
 							isWindows
 								? "Hook toggling not supported on Windows. Hooks can be edited and deleted, but won't execute."
 								: undefined
 						}>
-						<Switch
+						<VSCodeCheckbox
 							checked={enabled}
-							className="mx-1"
 							disabled={isWindows}
-							key={hookName}
-							onClick={() => onToggle(hookName, !enabled)}
+							onChange={() => onToggle(hookName, !enabled)}
 							style={isWindows ? { opacity: 0.5, cursor: "not-allowed" } : undefined}
 						/>
 					</div>
-					<Button aria-label="Edit hook file" onClick={handleEditClick} size="xs" title="Edit hook file" variant="icon">
-						<PenIcon />
-					</Button>
-					<Button
+					<VSCodeButton appearance="icon" aria-label="Edit hook file" onClick={handleEditClick} title="Edit hook file">
+						<span className="codicon codicon-edit" />
+					</VSCodeButton>
+					<VSCodeButton
+						appearance="icon"
 						aria-label="Delete hook file"
 						onClick={handleDeleteClick}
-						size="xs"
-						title="Delete hook file"
-						variant="icon">
-						<Trash2Icon />
-					</Button>
+						title="Delete hook file">
+						<span className="codicon codicon-trash" />
+					</VSCodeButton>
 				</div>
 			</div>
 		</div>

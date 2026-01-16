@@ -392,11 +392,11 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 					{/* CARET MODIFICATION: Hooks setting */}
 					<div style={{ marginTop: 10 }}>
 						<VSCodeCheckbox
-							checked={hooksEnabled}
+							checked={hooksEnabled?.user ?? false}
 							disabled={!isMacOSOrLinux()}
 							onChange={(e: any) => {
 								const checked = e.target.checked === true
-								updateSetting("hooksEnabled", checked)
+								updateSetting("hooksEnabled", { user: checked, featureFlag: hooksEnabled?.featureFlag ?? true })
 							}}>
 							Enable Hooks
 						</VSCodeCheckbox>
