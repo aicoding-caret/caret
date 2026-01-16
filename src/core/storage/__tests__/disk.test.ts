@@ -5,7 +5,14 @@ import fs from "fs/promises"
 import os from "os"
 import path from "path"
 import sinon from "sinon"
-import { getWorkspaceHooksDirs } from "../disk"
+import {
+	getWorkspaceHooksDirs,
+	ensureRulesDirectoryExists,
+	ensureWorkflowsDirectoryExists,
+	ensureHooksDirectoryExists,
+	ensureSkillsDirectoryExists,
+	ensureMcpServersDirectoryExists,
+} from "../disk"
 import { StateManager } from "../StateManager"
 
 describe("disk - hooks functionality", () => {
@@ -195,6 +202,96 @@ describe("disk - hooks functionality", () => {
 			result.should.be.an.Array()
 			result.length.should.equal(1)
 			result[0].should.equal(hooksDir)
+		})
+	})
+})
+
+// CARET MODIFICATION: Tests for global directory paths (~/Documents/.agents/ structure)
+describe("disk - global directory paths", () => {
+	let sandbox: sinon.SinonSandbox
+	let tempDir: string
+
+	beforeEach(async () => {
+		sandbox = sinon.createSandbox()
+		tempDir = path.join(os.tmpdir(), `disk-global-test-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+		await fs.mkdir(tempDir, { recursive: true })
+	})
+
+	afterEach(async () => {
+		sandbox.restore()
+		try {
+			await fs.rm(tempDir, { recursive: true, force: true })
+		} catch (error) {
+			// Ignore cleanup errors
+		}
+	})
+
+	describe("global path structure consistency", () => {
+		it("ensureRulesDirectoryExists should create .agents/context path", async () => {
+			// Stub getDocumentsPath to return our temp directory
+			const disk = await import("../disk")
+			sandbox.stub(disk, "getDocumentsPath").resolves(tempDir)
+
+			const result = await ensureRulesDirectoryExists()
+			// Should end with .agents/context
+			result.should.match(/\.agents[\\/]context$/)
+		})
+
+		it("ensureWorkflowsDirectoryExists should create .agents/workflows path", async () => {
+			const disk = await import("../disk")
+			sandbox.stub(disk, "getDocumentsPath").resolves(tempDir)
+
+			const result = await ensureWorkflowsDirectoryExists()
+			result.should.match(/\.agents[\\/]workflows$/)
+		})
+
+		it("ensureHooksDirectoryExists should create .agents/hooks path", async () => {
+			const disk = await import("../disk")
+			sandbox.stub(disk, "getDocumentsPath").resolves(tempDir)
+
+			const result = await ensureHooksDirectoryExists()
+			result.should.match(/\.agents[\\/]hooks$/)
+		})
+
+		it("ensureSkillsDirectoryExists should create .agents/skills path", async () => {
+			const disk = await import("../disk")
+			sandbox.stub(disk, "getDocumentsPath").resolves(tempDir)
+
+			const result = await ensureSkillsDirectoryExists()
+			result.should.match(/\.agents[\\/]skills$/)
+		})
+
+		it("ensureMcpServersDirectoryExists should create .agents/mcp path", async () => {
+			const disk = await import("../disk")
+			sandbox.stub(disk, "getDocumentsPath").resolves(tempDir)
+
+			const result = await ensureMcpServersDirectoryExists()
+			result.should.match(/\.agents[\\/]mcp$/)
+		})
+
+		it("all global directories should be under .agents folder", async () => {
+			const disk = await import("../disk")
+			sandbox.stub(disk, "getDocumentsPath").resolves(tempDir)
+
+			const rulesDir = await ensureRulesDirectoryExists()
+			const workflowsDir = await ensureWorkflowsDirectoryExists()
+			const hooksDir = await ensureHooksDirectoryExists()
+			const skillsDir = await ensureSkillsDirectoryExists()
+			const mcpDir = await ensureMcpServersDirectoryExists()
+
+			// All should contain .agents in path
+			rulesDir.should.containEql(".agents")
+			workflowsDir.should.containEql(".agents")
+			hooksDir.should.containEql(".agents")
+			skillsDir.should.containEql(".agents")
+			mcpDir.should.containEql(".agents")
+
+			// Verify lowercase subdirectory names (consistent with project structure)
+			rulesDir.should.match(/context$/)
+			workflowsDir.should.match(/workflows$/)
+			hooksDir.should.match(/hooks$/)
+			skillsDir.should.match(/skills$/)
+			mcpDir.should.match(/mcp$/)
 		})
 	})
 })

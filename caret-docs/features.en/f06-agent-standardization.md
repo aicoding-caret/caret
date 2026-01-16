@@ -100,11 +100,34 @@ project/
 
 ## 📍 Path Mapping
 
+### Project-level Paths
 | Category | New Path | Legacy Path (Fallback) |
 | --- | --- | --- |
 | User context | `.users/context/` | `.agents/context-for-user/` |
 | Workflows | `.agents/workflows/` | `.agents/context/workflows/` |
 | Atoms | `.agents/workflows/atoms/` | (new) |
+
+### Global Paths (User Home)
+Global agent configuration is stored in `~/Documents/.agents/` for consistency with project-level structure.
+
+```
+~/Documents/.agents/
+├── context/           # Global rules (*.md files)
+├── workflows/         # Global workflows
+├── skills/            # Global skills
+├── hooks/             # Global hooks
+└── mcp/               # MCP server configs
+```
+
+| Category | New Path | Legacy Path (Migration) |
+| --- | --- | --- |
+| Global rules | `~/Documents/.agents/context/` | `~/Documents/Caret/Rules/` |
+| Global workflows | `~/Documents/.agents/workflows/` | `~/Documents/Caret/Workflows/` |
+| Global skills | `~/Documents/.agents/skills/` | `~/Documents/Caret/Skills/` |
+| Global hooks | `~/Documents/.agents/hooks/` | `~/Documents/Caret/Hooks/` |
+| Global MCP | `~/Documents/.agents/mcp/` | `~/Documents/Caret/MCP/` |
+
+**Note**: Hidden folder (`.agents`) keeps Documents folder clean while maintaining consistency with project structure.
 
 ## 🧪 Testing Checklist
 1) Remove `.agents/context` and `AGENTS.md`, then verify system prompt shows init notice.

@@ -100,11 +100,34 @@ project/
 
 ## 📍 경로 매핑
 
+### 프로젝트 레벨 경로
 | 구분 | 새 경로 | 레거시 경로 (폴백) |
 | --- | --- | --- |
 | 사용자 컨텍스트 | `.users/context/` | `.agents/context-for-user/` |
 | 워크플로우 | `.agents/workflows/` | `.agents/context/workflows/` |
 | Atoms | `.agents/workflows/atoms/` | (신규) |
+
+### 글로벌 경로 (사용자 홈)
+글로벌 에이전트 설정은 프로젝트 구조와 일관성을 유지하기 위해 `~/Documents/.agents/`에 저장됩니다.
+
+```
+~/Documents/.agents/
+├── context/           # 글로벌 규칙 (*.md 파일)
+├── workflows/         # 글로벌 워크플로우
+├── skills/            # 글로벌 스킬
+├── hooks/             # 글로벌 훅
+└── mcp/               # MCP 서버 설정
+```
+
+| 구분 | 새 경로 | 레거시 경로 (마이그레이션) |
+| --- | --- | --- |
+| 글로벌 규칙 | `~/Documents/.agents/context/` | `~/Documents/Caret/Rules/` |
+| 글로벌 워크플로우 | `~/Documents/.agents/workflows/` | `~/Documents/Caret/Workflows/` |
+| 글로벌 스킬 | `~/Documents/.agents/skills/` | `~/Documents/Caret/Skills/` |
+| 글로벌 훅 | `~/Documents/.agents/hooks/` | `~/Documents/Caret/Hooks/` |
+| 글로벌 MCP | `~/Documents/.agents/mcp/` | `~/Documents/Caret/MCP/` |
+
+**참고**: 숨김 폴더(`.agents`)를 사용하여 Documents 폴더를 깔끔하게 유지하면서 프로젝트 구조와 일관성을 유지합니다.
 
 ## 🧪 테스트 체크리스트
 1) `.agents/context`와 `AGENTS.md` 제거 후, 시스템 프롬프트에 init 안내가 노출되는지 확인.

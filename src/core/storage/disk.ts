@@ -45,7 +45,9 @@ const BRAND_USERS_DIR = getBrandUsersDirName()
 const BRAND_USERS_CONTEXT_DIR = getBrandUsersContextDirName()
 const BRAND_USERS_CONTEXT_LEGACY_DIR = getBrandUsersContextLegacyDirName()
 const BRAND_MCP_SETTINGS_FILE = `${BRAND_SLUG}_mcp_settings.json`
-const BRAND_DOCS_FOLDER = BRAND_SLUG === "cline" ? "Cline" : "Caret"
+// CARET MODIFICATION: Use .agents folder for global agent configuration
+// This provides consistency with project-level .agents/ directory structure
+const BRAND_DOCS_FOLDER = ".agents"
 
 export const GlobalFileNames = {
 	apiConversationHistory: "api_conversation_history.json",
@@ -117,60 +119,64 @@ export async function ensureTaskDirectoryExists(taskId: string): Promise<string>
 	return getGlobalStorageDir("tasks", taskId)
 }
 
+// CARET MODIFICATION: Global rules in ~/Documents/.agents/context/ (consistent with project .agents/context/)
 export async function ensureRulesDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const clineRulesDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "Rules")
+	const globalContextDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "context")
 	try {
-		await fs.mkdir(clineRulesDir, { recursive: true })
+		await fs.mkdir(globalContextDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "Rules") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "context")
 	}
-	return clineRulesDir
+	return globalContextDir
 }
 
+// CARET MODIFICATION: Global workflows in ~/Documents/.agents/workflows/
 export async function ensureWorkflowsDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const clineWorkflowsDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "Workflows")
+	const globalWorkflowsDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "workflows")
 	try {
-		await fs.mkdir(clineWorkflowsDir, { recursive: true })
+		await fs.mkdir(globalWorkflowsDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "Workflows") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "workflows")
 	}
-	return clineWorkflowsDir
+	return globalWorkflowsDir
 }
 
+// CARET MODIFICATION: Global MCP servers in ~/Documents/.agents/mcp/
 export async function ensureMcpServersDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const mcpServersDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "MCP")
+	const globalMcpDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "mcp")
 	try {
-		await fs.mkdir(mcpServersDir, { recursive: true })
+		await fs.mkdir(globalMcpDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "MCP") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine since this path is only ever used in the system prompt
+		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "mcp")
 	}
-	return mcpServersDir
+	return globalMcpDir
 }
 
+// CARET MODIFICATION: Global hooks in ~/Documents/.agents/hooks/
 export async function ensureHooksDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const clineHooksDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "Hooks")
+	const globalHooksDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "hooks")
 	try {
-		await fs.mkdir(clineHooksDir, { recursive: true })
+		await fs.mkdir(globalHooksDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "Hooks") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "hooks")
 	}
-	return clineHooksDir
+	return globalHooksDir
 }
 
-// CARET MODIFICATION: Skills directory support for on-demand agent instructions
+// CARET MODIFICATION: Global skills in ~/Documents/.agents/skills/
 export async function ensureSkillsDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const skillsDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "Skills")
+	const globalSkillsDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "skills")
 	try {
-		await fs.mkdir(skillsDir, { recursive: true })
+		await fs.mkdir(globalSkillsDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "Skills") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "skills")
 	}
-	return skillsDir
+	return globalSkillsDir
 }
 
 export async function ensureSettingsDirectoryExists(): Promise<string> {

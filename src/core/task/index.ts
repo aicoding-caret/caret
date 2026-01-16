@@ -1157,6 +1157,11 @@ export class Task {
 			return
 		}
 
+		// CARET MODIFICATION: 폴더가 열리지 않았으면 init 프롬프트 건너뛰기
+		if (!this.cwd || this.cwd.trim() === "") {
+			return
+		}
+
 		const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem") || CaretGlobalManager.currentMode
 		if (modeSystem !== "caret") {
 			return
