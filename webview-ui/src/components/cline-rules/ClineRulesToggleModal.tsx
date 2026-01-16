@@ -1,3 +1,5 @@
+// CARET MODIFICATION: Rules, Workflows, and Hooks toggle modal
+// Updated to include hooks tab from cline-latest with Caret path standards
 import { EmptyRequest } from "@shared/proto/cline/common"
 import {
 	ClineRulesToggles,
@@ -20,6 +22,9 @@ import { CODE_BLOCK_BG_COLOR } from "@/components/common/CodeBlock"
 import Tooltip from "@/components/common/Tooltip"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { FileServiceClient } from "@/services/grpc-client"
+import { isMacOSOrLinux } from "@/utils/platformUtils"
+import HookRow from "./HookRow"
+import NewRuleRow from "./NewRuleRow"
 import RulesToggleList from "./RulesToggleList"
 
 const ClineRulesToggleModal: React.FC = () => {
@@ -43,14 +48,30 @@ const ClineRulesToggleModal: React.FC = () => {
 		modeSystem,
 		enablePersonaSystem,
 		featureConfig,
+		hooksEnabled,
 	} = useExtensionState()
+
+	// CARET MODIFICATION: Hooks state management
+	const [globalHooks, setGlobalHooks] = useState<Array<{ name: string; enabled: boolean; absolutePath: string }>>([])
+	const [workspaceHooks, setWorkspaceHooks] = useState<
+		Array<{ workspaceName: string; hooks: Array<{ name: string; enabled: boolean; absolutePath: string }> }>
+	>([])
+
+	const isWindows = !isMacOSOrLinux()
 	const [isVisible, setIsVisible] = useState(false)
 	const buttonRef = useRef<HTMLDivElement>(null)
 	const modalRef = useRef<HTMLDivElement>(null)
 	const { width: viewportWidth, height: viewportHeight } = useWindowSize()
 	const [arrowPosition, setArrowPosition] = useState(0)
 	const [menuPosition, setMenuPosition] = useState(0)
-	const [currentView, setCurrentView] = useState<"rules" | "workflows">("rules")
+	const [currentView, setCurrentView] = useState<"rules" | "workflows" | "hooks">("rules")
+
+	// CARET MODIFICATION: Auto-switch to rules tab if hooks become disabled while viewing hooks tab
+	useEffect(() => {
+		if (currentView === "hooks" && !hooksEnabled) {
+			setCurrentView("rules")
+		}
+	}, [currentView, hooksEnabled])
 
 	useEffect(() => {
 		if (isVisible) {
@@ -85,6 +106,44 @@ const ClineRulesToggleModal: React.FC = () => {
 				})
 		}
 	}, [isVisible])
+
+	// CARET MODIFICATION: Refresh hooks when hooks tab becomes visible
+	useEffect(() => {
+		if (!isVisible || currentView !== "hooks") {
+			return
+		}
+
+		const abortController = new AbortController()
+
+		// Initial refresh when tab opens
+		const refreshHooks = () => {
+			if (abortController.signal.aborted) return
+
+			FileServiceClient.refreshHooks({} as EmptyRequest)
+				.then((response) => {
+					if (!abortController.signal.aborted) {
+						setGlobalHooks(response.globalHooks || [])
+						setWorkspaceHooks(response.workspaceHooks || [])
+					}
+				})
+				.catch((error) => {
+					if (!abortController.signal.aborted) {
+						console.error("Failed to refresh hooks:", error)
+					}
+				})
+		}
+
+		// Refresh immediately
+		refreshHooks()
+
+		// Poll every 1 second to detect filesystem changes
+		const pollInterval = setInterval(refreshHooks, 1000)
+
+		return () => {
+			abortController.abort()
+			clearInterval(pollInterval)
+		}
+	}, [isVisible, currentView])
 
 	// Format global rules for display with proper typing
 	const globalRules = Object.entries(globalClineRulesToggles || {})
@@ -194,6 +253,24 @@ const ClineRulesToggleModal: React.FC = () => {
 			})
 	}
 
+	// CARET MODIFICATION: Toggle hook handler
+	const toggleHook = (isGlobal: boolean, hookName: string, enabled: boolean, workspaceName?: string) => {
+		FileServiceClient.toggleHook({
+			metadata: {} as any,
+			hookName,
+			isGlobal,
+			enabled,
+			workspaceName,
+		})
+			.then((response) => {
+				setGlobalHooks(response.hooksToggles?.globalHooks || [])
+				setWorkspaceHooks(response.hooksToggles?.workspaceHooks || [])
+			})
+			.catch((error) => {
+				console.error("Error toggling hook:", error)
+			})
+	}
+
 	const toggleWorkflow = (isGlobal: boolean, workflowPath: string, enabled: boolean) => {
 		FileServiceClient.toggleWorkflow(
 			ToggleWorkflowRequest.create({
@@ -291,6 +368,12 @@ const ClineRulesToggleModal: React.FC = () => {
 							<TabButton isActive={currentView === "workflows"} onClick={() => setCurrentView("workflows")}>
 								{t("clineRulesToggleModal.workflowsTab", "chat")}
 							</TabButton>
+							{/* CARET MODIFICATION: Hooks tab - only show when hooks feature is enabled */}
+							{hooksEnabled && (
+								<TabButton isActive={currentView === "hooks"} onClick={() => setCurrentView("hooks")}>
+									Hooks
+								</TabButton>
+							)}
 						</div>
 					</div>
 
@@ -306,7 +389,7 @@ const ClineRulesToggleModal: React.FC = () => {
 									{t("clineRulesToggleModal.docs", "chat")}
 								</VSCodeLink>
 							</p>
-						) : (
+						) : currentView === "workflows" ? (
 							<p>
 								{t("clineRulesToggleModal.workflowsDescription", "chat")}{" "}
 								<span className="text-[var(--vscode-foreground)] font-bold">
@@ -319,6 +402,11 @@ const ClineRulesToggleModal: React.FC = () => {
 									style={{ display: "inline" }}>
 									{t("clineRulesToggleModal.docs", "chat")}
 								</VSCodeLink>
+							</p>
+						) : (
+							<p>
+								Hooks allow you to execute custom scripts at specific points in Caret's execution lifecycle,
+								enabling automation and integration with external tools.
 							</p>
 						)}
 					</div>
@@ -359,7 +447,7 @@ const ClineRulesToggleModal: React.FC = () => {
 								/>
 							</div>
 						</>
-					) : (
+					) : currentView === "workflows" ? (
 						<>
 							{/* Global Workflows Section */}
 							<div className="mb-3">
@@ -392,6 +480,105 @@ const ClineRulesToggleModal: React.FC = () => {
 									toggleRule={(rulePath, enabled) => toggleWorkflow(false, rulePath, enabled)}
 								/>
 							</div>
+						</>
+					) : (
+						<>
+							{/* CARET MODIFICATION: Hooks Tab Content */}
+							<div className="text-xs text-[var(--vscode-descriptionForeground)] mb-4">
+								<p>
+									Toggle to enable/disable (chmod +x/-x).{" "}
+									<VSCodeLink
+										className="text-xs"
+										href={`https://docs.caret.team/${language}/features/hooks`}
+										style={{ display: "inline" }}>
+										{t("clineRulesToggleModal.docs", "chat")}
+									</VSCodeLink>
+								</p>
+							</div>
+
+							{/* Windows warning banner */}
+							{isWindows && (
+								<div className="flex items-center gap-2 px-5 py-3 mb-4 bg-[var(--vscode-inputValidation-warningBackground)] border-l-[3px] border-[var(--vscode-inputValidation-warningBorder)]">
+									<i className="codicon codicon-warning text-sm" />
+									<span className="text-base">
+										Hook toggling is not supported on Windows. Hooks can be created, edited, and deleted,
+										but cannot be enabled/disabled and will not execute.
+									</span>
+								</div>
+							)}
+
+							{/* Global Hooks */}
+							<div className="mb-3">
+								<div className="text-sm font-normal mb-2">Global Hooks</div>
+								<div className="flex flex-col gap-0">
+									{globalHooks
+										.sort((a, b) => a.name.localeCompare(b.name))
+										.map((hook) => (
+											<HookRow
+												absolutePath={hook.absolutePath}
+												enabled={hook.enabled}
+												hookName={hook.name}
+												isGlobal={true}
+												isWindows={isWindows}
+												key={hook.name}
+												onDelete={(hooksToggles) => {
+													// Use response data directly, no need to refresh
+													setGlobalHooks(hooksToggles.globalHooks || [])
+													setWorkspaceHooks(hooksToggles.workspaceHooks || [])
+												}}
+												onToggle={(name: string, newEnabled: boolean) =>
+													toggleHook(true, name, newEnabled)
+												}
+											/>
+										))}
+									<NewRuleRow
+										existingHooks={globalHooks.map((h) => h.name)}
+										isGlobal={true}
+										ruleType="hook"
+									/>
+								</div>
+							</div>
+
+							{/* Workspace Hooks - one section per workspace */}
+							{/* CARET MODIFICATION: Use .agents/hooks path instead of .clinerules/hooks */}
+							{workspaceHooks.map((workspace, index) => (
+								<div
+									key={workspace.workspaceName}
+									style={{ marginBottom: index === workspaceHooks.length - 1 ? -10 : 12 }}>
+									<div className="text-sm font-normal mb-2">
+										{workspace.workspaceName}/.agents/hooks/
+									</div>
+									<div className="flex flex-col gap-0">
+										{workspace.hooks
+											.sort((a, b) => a.name.localeCompare(b.name))
+											.map((hook) => (
+												<HookRow
+													absolutePath={hook.absolutePath}
+													enabled={hook.enabled}
+													hookName={hook.name}
+													isGlobal={false}
+													isWindows={isWindows}
+													key={hook.absolutePath}
+													onDelete={(hooksToggles) => {
+														// Use response data directly, no need to refresh
+														setGlobalHooks(hooksToggles.globalHooks || [])
+														setWorkspaceHooks(hooksToggles.workspaceHooks || [])
+													}}
+													onToggle={(name: string, newEnabled: boolean) =>
+														toggleHook(false, name, newEnabled, workspace.workspaceName)
+													}
+													workspaceName={workspace.workspaceName}
+												/>
+											))}
+										<NewRuleRow
+											existingHooks={workspace.hooks.map((h) => h.name)}
+											isGlobal={false}
+											ruleType="hook"
+											workspaceName={workspace.workspaceName}
+										/>
+									</div>
+								</div>
+							))}
 						</>
 					)}
 				</div>

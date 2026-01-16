@@ -1,6 +1,8 @@
-import { RuleFileRequest } from "@shared/proto/index.cline"
+// CARET MODIFICATION: New rule/hook creation row component
+// Updated to support hooks from cline-latest with Caret standards
+import { CreateHookRequest, RuleFileRequest } from "@shared/proto/index.cline"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useClickAway } from "react-use"
 import { t } from "@/caret/utils/i18n"
 import { FileServiceClient } from "@/services/grpc-client"
@@ -8,15 +10,32 @@ import { FileServiceClient } from "@/services/grpc-client"
 interface NewRuleRowProps {
 	isGlobal: boolean
 	ruleType?: string
+	existingHooks?: string[]
+	workspaceName?: string
 }
 
-const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
+// CARET MODIFICATION: Hook types for hooks tab
+const HOOK_TYPES = [
+	{ name: "TaskStart", description: "Executes when a new task begins" },
+	{ name: "TaskResume", description: "Executes when a task is resumed" },
+	{ name: "TaskCancel", description: "Executes when a task is cancelled" },
+	{ name: "TaskComplete", description: "Executes when a task completes" },
+	{ name: "PreToolUse", description: "Executes before any tool is used" },
+	{ name: "PostToolUse", description: "Executes after any tool is used" },
+	{ name: "UserPromptSubmit", description: "Executes when user submits a prompt" },
+	{ name: "PreCompact", description: "Executes before conversation compaction" },
+]
+
+const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType, existingHooks = [], workspaceName }) => {
 	const [isExpanded, setIsExpanded] = useState(false)
 	const [filename, setFilename] = useState("")
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [error, setError] = useState<string | null>(null)
 
 	const componentRef = useRef<HTMLDivElement>(null)
+
+	// Calculate available hook types by filtering out existing hooks
+	const availableHookTypes = useMemo(() => HOOK_TYPES.filter((type) => !existingHooks.includes(type.name)), [existingHooks])
 
 	// Focus the input when expanded
 	useEffect(() => {
@@ -43,6 +62,23 @@ const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
 
 	const isValidExtension = (ext: string): boolean => {
 		return ext === "" || ext === ".md" || ext === ".txt"
+	}
+
+	// CARET MODIFICATION: Handler for creating hooks
+	const handleCreateHook = async (hookName: string) => {
+		if (!hookName) return
+
+		try {
+			await FileServiceClient.createHook(
+				CreateHookRequest.create({
+					hookName,
+					isGlobal,
+					workspaceName,
+				}),
+			)
+		} catch (err) {
+			console.error("Error creating hook:", err)
+		}
 	}
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,13 +126,55 @@ const NewRuleRow: React.FC<NewRuleRowProps> = ({ isGlobal, ruleType }) => {
 	return (
 		<div
 			className={`mb-2.5 transition-all duration-300 ease-in-out ${isExpanded ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
-			onClick={() => !isExpanded && setIsExpanded(true)}
+			onClick={() => !isExpanded && ruleType !== "hook" && setIsExpanded(true)}
 			ref={componentRef}>
 			<div
 				className={`flex items-center p-2 rounded bg-[var(--vscode-input-background)] transition-all duration-300 ease-in-out h-[18px] ${
 					isExpanded ? "shadow-sm" : ""
 				}`}>
-				{isExpanded ? (
+				{/* CARET MODIFICATION: Hook type dropdown for hooks tab */}
+				{ruleType === "hook" ? (
+					<>
+						<label className="sr-only" htmlFor="hook-type-select">
+							Select hook type to create
+						</label>
+						<span className="sr-only" id="hook-select-description">
+							Choose a hook type to create. Hooks execute at specific points in Caret's lifecycle. Available:{" "}
+							{availableHookTypes.map((h) => h.name).join(", ")}
+						</span>
+						<select
+							aria-describedby="hook-select-description"
+							aria-label="Select hook type to create"
+							className="flex-1 bg-[var(--vscode-input-background)] text-[var(--vscode-input-foreground)] border-0 outline-0 rounded focus:outline-none focus:ring-0 focus:border-transparent px-2 cursor-pointer"
+							disabled={availableHookTypes.length === 0}
+							id="hook-type-select"
+							onChange={(e) => {
+								if (e.target.value) {
+									handleCreateHook(e.target.value)
+									// Reset selection after creating
+									e.target.value = ""
+								}
+							}}
+							style={{
+								fontStyle: "italic",
+								appearance: "none",
+								backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cccccc' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
+								backgroundRepeat: "no-repeat",
+								backgroundPosition: "right 8px center",
+								paddingRight: "24px",
+							}}
+							value="">
+							<option disabled value="">
+								{availableHookTypes.length === 0 ? "All hooks created" : "New hook..."}
+							</option>
+							{availableHookTypes.map((hook) => (
+								<option key={hook.name} title={hook.description} value={hook.name}>
+									{hook.name}
+								</option>
+							))}
+						</select>
+					</>
+				) : isExpanded ? (
 					<form className="flex flex-1 items-center" onSubmit={handleSubmit}>
 						<input
 							className="flex-1 bg-[var(--vscode-input-background)] text-[var(--vscode-input-foreground)] border-0 outline-0 rounded focus:outline-none focus:ring-0 focus:border-transparent"

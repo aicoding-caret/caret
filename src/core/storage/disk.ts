@@ -1,5 +1,13 @@
 import { Anthropic } from "@anthropic-ai/sdk"
-import { detectCurrentBrandName, getBrandRulesFileName, getBrandWorkflowsDirName } from "@caret/utils/brand-utils"
+import {
+	detectCurrentBrandName,
+	getBrandRulesFileName,
+	getBrandWorkflowsDirName,
+	getBrandWorkflowsLegacyDirName,
+	getBrandUsersDirName,
+	getBrandUsersContextDirName,
+	getBrandUsersContextLegacyDirName,
+} from "@caret/utils/brand-utils"
 import { TaskMetadata } from "@core/context/context-tracking/ContextTrackerTypes"
 import { execa } from "@packages/execa"
 import { ClineMessage } from "@shared/ExtensionMessage"
@@ -32,6 +40,10 @@ const BRAND_SLUG = resolveBrandSlug()
 // CARET MODIFICATION: Standard agents context paths for rules/workflows.
 const BRAND_RULES_DIR = getBrandRulesFileName()
 const BRAND_WORKFLOWS_DIR = getBrandWorkflowsDirName()
+const BRAND_WORKFLOWS_LEGACY_DIR = getBrandWorkflowsLegacyDirName()
+const BRAND_USERS_DIR = getBrandUsersDirName()
+const BRAND_USERS_CONTEXT_DIR = getBrandUsersContextDirName()
+const BRAND_USERS_CONTEXT_LEGACY_DIR = getBrandUsersContextLegacyDirName()
 const BRAND_MCP_SETTINGS_FILE = `${BRAND_SLUG}_mcp_settings.json`
 const BRAND_DOCS_FOLDER = BRAND_SLUG === "cline" ? "Cline" : "Caret"
 
@@ -47,9 +59,14 @@ export const GlobalFileNames = {
 	mcpSettings: BRAND_MCP_SETTINGS_FILE, // CARET MODIFICATION: brand-aware MCP settings file
 	caretRules: BRAND_RULES_DIR, // CARET MODIFICATION: Caret rule directory support
 	clineRules: BRAND_RULES_DIR, // CARET MODIFICATION: legacy alias -> standard agents context
-	workflows: BRAND_WORKFLOWS_DIR, // CARET MODIFICATION: brand-aware workflows path
+	workflows: BRAND_WORKFLOWS_DIR, // CARET MODIFICATION: brand-aware workflows path (.agents/workflows)
+	workflowsLegacy: BRAND_WORKFLOWS_LEGACY_DIR, // CARET MODIFICATION: legacy workflows path (.agents/context/workflows)
+	usersDir: BRAND_USERS_DIR, // CARET MODIFICATION: users documentation directory (.users)
+	usersContextDir: BRAND_USERS_CONTEXT_DIR, // CARET MODIFICATION: users context directory (.users/context)
+	usersContextLegacyDir: BRAND_USERS_CONTEXT_LEGACY_DIR, // CARET MODIFICATION: legacy user context (.agents/context-for-user)
 	persona: "persona.md",
 	hooksDir: ".agents/hooks",
+	skillsDir: ".agents/skills", // CARET MODIFICATION: skills directory
 	cursorRulesDir: BRAND_RULES_DIR, // CARET MODIFICATION: legacy alias -> standard agents context
 	cursorRulesFile: BRAND_RULES_DIR, // CARET MODIFICATION: legacy alias -> standard agents context
 	windsurfRules: BRAND_RULES_DIR, // CARET MODIFICATION: legacy alias -> standard agents context
@@ -142,6 +159,18 @@ export async function ensureHooksDirectoryExists(): Promise<string> {
 		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "Hooks") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
 	}
 	return clineHooksDir
+}
+
+// CARET MODIFICATION: Skills directory support for on-demand agent instructions
+export async function ensureSkillsDirectoryExists(): Promise<string> {
+	const userDocumentsPath = await getDocumentsPath()
+	const skillsDir = path.join(userDocumentsPath, BRAND_DOCS_FOLDER, "Skills")
+	try {
+		await fs.mkdir(skillsDir, { recursive: true })
+	} catch (_error) {
+		return path.join(os.homedir(), "Documents", BRAND_DOCS_FOLDER, "Skills") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+	}
+	return skillsDir
 }
 
 export async function ensureSettingsDirectoryExists(): Promise<string> {
@@ -418,4 +447,148 @@ export async function getWorkspaceHooksDirs(): Promise<string[]> {
 			}),
 		)
 	).filter((path): path is string => Boolean(path))
+}
+
+// CARET MODIFICATION: Hook-related helper functions from cline-latest
+
+/**
+ * Atomically write data to a file using temp file + rename pattern.
+ * This prevents readers from seeing partial/incomplete data by writing to a temporary
+ * file first, then renaming it to the target location. The rename operation is atomic
+ * in most cases on modern systems, though behavior may vary across platforms and filesystems.
+ *
+ * @param filePath - The target file path
+ * @param data - The data to write
+ */
+async function atomicWriteFile(filePath: string, data: string): Promise<void> {
+	const tmpPath = `${filePath}.tmp.${Date.now()}.${Math.random().toString(36).substring(7)}.json`
+	try {
+		// Write to temporary file first
+		await fs.writeFile(tmpPath, data, "utf8")
+		// Rename temp file to target (atomic in most cases)
+		await fs.rename(tmpPath, filePath)
+	} catch (error) {
+		// Clean up temp file if it exists
+		fs.unlink(tmpPath).catch(() => {})
+		throw error
+	}
+}
+
+/**
+ * Writes the conversation history to a temporary JSON file for hook consumption.
+ * This is used by the PreCompact hook to allow hooks to analyze/modify the conversation.
+ *
+ * @param taskId The task ID
+ * @param apiConversationHistory The conversation history to write
+ * @param timestamp Optional timestamp to use for the filename (defaults to Date.now())
+ * @returns The absolute path to the temporary file
+ */
+export async function writeConversationHistoryJson(
+	taskId: string,
+	apiConversationHistory: Anthropic.MessageParam[],
+	timestamp?: number,
+): Promise<string> {
+	const taskDir = await ensureTaskDirectoryExists(taskId)
+	const fileTimestamp = timestamp ?? Date.now()
+	const tempFileName = `conversation_history_${fileTimestamp}.json`
+	const tempFilePath = path.join(taskDir, tempFileName)
+
+	try {
+		await atomicWriteFile(tempFilePath, JSON.stringify(apiConversationHistory, null, 2))
+		return tempFilePath
+	} catch (error) {
+		console.error("Failed to write conversation history JSON for hook:", error)
+		throw error
+	}
+}
+
+/**
+ * Cleans up a temporary conversation history file created for hook execution.
+ * Silently handles errors (file already deleted, permissions, etc.)
+ *
+ * @param filePath The path to the temporary file to delete
+ */
+export async function cleanupConversationHistoryFile(filePath: string): Promise<void> {
+	try {
+		if (await fileExistsAtPath(filePath)) {
+			await fs.unlink(filePath)
+		}
+	} catch (error) {
+		// Silently handle errors - this is cleanup, not critical
+		console.debug("Failed to cleanup conversation history file:", filePath, error)
+	}
+}
+
+/**
+ * Writes the conversation history in human-readable text format to a temporary file for PreCompact hook consumption.
+ * This formats the conversation history (user and assistant messages) in a readable text format,
+ * making it easy to analyze the conversation flow without parsing JSON.
+ *
+ * @param taskId The task ID
+ * @param conversationHistory The conversation history messages
+ * @param timestamp Optional timestamp to use for the filename (defaults to Date.now())
+ * @returns The absolute path to the temporary file
+ */
+export async function writeConversationHistoryText(
+	taskId: string,
+	conversationHistory: Anthropic.MessageParam[],
+	timestamp?: number,
+): Promise<string> {
+	const taskDir = await ensureTaskDirectoryExists(taskId)
+	const fileTimestamp = timestamp ?? Date.now()
+	const tempFileName = `conversation_history_${fileTimestamp}.txt`
+	const tempFilePath = path.join(taskDir, tempFileName)
+
+	try {
+		// Build the formatted conversation history (excluding system prompt)
+		let fullContext = "=== CONVERSATION HISTORY ===\n\n"
+
+		// Format each message in the conversation
+		for (let i = 0; i < conversationHistory.length; i++) {
+			const message = conversationHistory[i]
+			fullContext += `--- Message ${i + 1} (${message.role.toUpperCase()}) ---\n`
+
+			// Handle content which can be a string or array
+			if (typeof message.content === "string") {
+				fullContext += message.content
+			} else if (Array.isArray(message.content)) {
+				for (const block of message.content) {
+					if (block.type === "text") {
+						fullContext += block.text
+					} else if (block.type === "image") {
+						fullContext += `[IMAGE: ${(block as Anthropic.ImageBlockParam).source?.type || "unknown"}]`
+					} else if (block.type === "tool_use") {
+						const toolBlock = block as Anthropic.ToolUseBlockParam
+						fullContext += `[TOOL USE: ${toolBlock.name}]\n`
+						fullContext += `Input: ${JSON.stringify(toolBlock.input, null, 2)}`
+					} else if (block.type === "tool_result") {
+						const resultBlock = block as Anthropic.ToolResultBlockParam
+						fullContext += `[TOOL RESULT: ${resultBlock.tool_use_id}]\n`
+						if (typeof resultBlock.content === "string") {
+							fullContext += resultBlock.content
+						} else if (Array.isArray(resultBlock.content)) {
+							for (const contentBlock of resultBlock.content) {
+								if (contentBlock.type === "text") {
+									fullContext += contentBlock.text
+								} else if (contentBlock.type === "image") {
+									fullContext += `[IMAGE]`
+								}
+							}
+						}
+					}
+					fullContext += "\n\n"
+				}
+			}
+
+			fullContext += "\n"
+		}
+
+		fullContext += "=== END OF CONTEXT ===\n"
+
+		await atomicWriteFile(tempFilePath, fullContext)
+		return tempFilePath
+	} catch (error) {
+		console.error("Failed to write conversation history text for hook:", error)
+		throw error
+	}
 }
