@@ -50,6 +50,8 @@ export interface GlobalState {
 	primaryRootIndex: number
 	multiRootEnabled: boolean
 	hooksEnabled: boolean
+	// CARET MODIFICATION: Skills system
+	skillsEnabled: boolean
 	lastDismissedInfoBannerVersion: number
 	lastDismissedModelBannerVersion: number
 	lastDismissedCliBannerVersion: number
@@ -134,6 +136,8 @@ export interface Settings {
 	aihubmixBaseUrl: string | undefined
 	aihubmixAppCode: string | undefined
 	hooksEnabled: boolean
+	// CARET MODIFICATION: Skills system
+	skillsEnabled: boolean
 	subagentsEnabled: boolean
 	hicapModelId: string | undefined
 

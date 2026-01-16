@@ -132,6 +132,10 @@ export interface ExtensionState {
 	remoteConfigSettings?: Partial<RemoteConfigFields>
 	subagentsEnabled?: boolean
 	hooksEnabled?: ClineFeatureSetting
+	// CARET MODIFICATION: Skills system
+	skillsEnabled?: boolean
+	globalSkillsToggles?: Record<string, boolean>
+	localSkillsToggles?: Record<string, boolean>
 	nativeToolCallSetting?: ClineFeatureSetting
 	// CARET MODIFICATION: CLI Subagent Mode
 	isCliSubagent: boolean

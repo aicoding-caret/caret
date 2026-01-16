@@ -325,6 +325,10 @@ export const ExtensionStateContextProvider: React.FC<{
 			featureFlag: false,
 		},
 		hooksEnabled: { user: false, featureFlag: false } as ClineFeatureSetting,
+		// CARET MODIFICATION: Skills system
+		skillsEnabled: false,
+		globalSkillsToggles: {} as Record<string, boolean>,
+		localSkillsToggles: {} as Record<string, boolean>,
 		nativeToolCallSetting: { user: false, featureFlag: false } as ClineFeatureSetting,
 		remoteConfigSettings: {},
 		subagentsEnabled: false,
