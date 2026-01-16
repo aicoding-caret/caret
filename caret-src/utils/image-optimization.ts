@@ -1,5 +1,28 @@
-// CARET MODIFICATION: Backend image optimization shared across upload/mention/reference flows.
-import { Logger } from "@/services/logging/Logger"
+// CARET MODIFICATION: Backend image validation - 7500px pixel limit only (matches cline-latest behavior).
+// No resize or format conversion - just validate dimensions.
+// Large file handling is server's responsibility (nginx client_max_body_size).
+
+// Safe logging that doesn't require HostProvider (for test environments)
+const safeLog = {
+	warn: (msg: string) => {
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
+			const { Logger } = require("@/services/logging/Logger")
+			Logger.warn(msg)
+		} catch {
+			console.warn(msg)
+		}
+	},
+	debug: (msg: string) => {
+		try {
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
+			const { Logger } = require("@/services/logging/Logger")
+			Logger.debug(msg)
+		} catch {
+			// Silent in test environments
+		}
+	},
+}
 
 type SharpFactory = typeof import("sharp")
 
@@ -23,11 +46,7 @@ const loadSharp = async (): Promise<SharpFactory | null> => {
 	return sharpPromise
 }
 
-const MAX_IMAGE_DIMENSION = 1024
 const MAX_INPUT_DIMENSION = 7500
-const DEFAULT_IMAGE_QUALITY = 86
-const OUTPUT_MIME_TYPE = "image/webp"
-const SUPPORTED_INPUT_MIME_TYPES = new Set(["image/png", "image/jpeg", "image/webp"])
 
 const parseDataUrl = (value: string): { mimeType: string; base64: string } => {
 	const match = value.match(/^data:([^;]+);base64,(.+)$/i)
@@ -37,18 +56,18 @@ const parseDataUrl = (value: string): { mimeType: string; base64: string } => {
 	return { mimeType: match[1].toLowerCase(), base64: match[2] }
 }
 
+/**
+ * Validate image dimensions (7500px max, same as cline-latest).
+ * No optimization/resize - returns original if valid.
+ */
 export const optimizeImageDataUrl = async (dataUrl: string): Promise<string> => {
 	const sharp = await loadSharp()
 	if (!sharp) {
-		Logger.warn("[ImageOptimization] Sharp library not available, skipping optimization")
-		return dataUrl
-	}
-	const { mimeType, base64 } = parseDataUrl(dataUrl)
-	if (!SUPPORTED_INPUT_MIME_TYPES.has(mimeType)) {
-		Logger.debug(`[ImageOptimization] Unsupported MIME type: ${mimeType}, skipping optimization`)
+		safeLog.warn("[ImageOptimization] Sharp library not available, skipping validation")
 		return dataUrl
 	}
 
+	const { base64 } = parseDataUrl(dataUrl)
 	const inputBuffer = Buffer.from(base64, "base64")
 	const metadata = await sharp(inputBuffer, { failOnError: false }).metadata()
 
@@ -57,39 +76,9 @@ export const optimizeImageDataUrl = async (dataUrl: string): Promise<string> => 
 	}
 
 	if (metadata.width > MAX_INPUT_DIMENSION || metadata.height > MAX_INPUT_DIMENSION) {
-		throw new Error("Image dimensions exceed maximum allowed size of 7500px.")
+		throw new Error(`Image dimensions exceed maximum allowed size of ${MAX_INPUT_DIMENSION}px.`)
 	}
 
-	const longestSide = Math.max(metadata.width, metadata.height)
-	const scale = longestSide > MAX_IMAGE_DIMENSION ? MAX_IMAGE_DIMENSION / longestSide : 1
-	const targetWidth = Math.max(1, Math.round(metadata.width * scale))
-	const targetHeight = Math.max(1, Math.round(metadata.height * scale))
-	const needsResize = scale < 1
-	const shouldReencode = needsResize || mimeType !== OUTPUT_MIME_TYPE
-
-	if (!shouldReencode) {
-		Logger.debug(`[ImageOptimization] Already optimized: WebP format and ${metadata.width}x${metadata.height}px, skipping`)
-		return dataUrl
-	}
-
-	let pipeline = sharp(inputBuffer, { failOnError: false })
-	if (needsResize) {
-		pipeline = pipeline.resize({
-			width: targetWidth,
-			height: targetHeight,
-			fit: "inside",
-			withoutEnlargement: true,
-		})
-	}
-
-	const outputBuffer = await pipeline.webp({ quality: DEFAULT_IMAGE_QUALITY }).toBuffer()
-	const inputSize = Buffer.byteLength(dataUrl, "utf8")
-	const outputSize = Buffer.byteLength(`data:${OUTPUT_MIME_TYPE};base64,`, "utf8") + outputBuffer.length
-	const reduction = Math.round(((inputSize - outputSize) / inputSize) * 100)
-
-	Logger.info(
-		`[ImageOptimization] Optimized: ${metadata.width}x${metadata.height}px → ${targetWidth}x${targetHeight}px, ${inputSize} → ${outputSize} bytes (${reduction}% reduction)`,
-	)
-
-	return `data:${OUTPUT_MIME_TYPE};base64,${outputBuffer.toString("base64")}`
+	safeLog.debug(`[ImageOptimization] Image validated: ${metadata.width}x${metadata.height}px`)
+	return dataUrl
 }

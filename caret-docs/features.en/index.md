@@ -48,8 +48,16 @@ Caret builds on Cline while adding the following enhancements.
 - **[F11: Input History & Shortcuts](./f11-input-history-and-shortcuts.md)**  
   Terminal-style history navigation and productivity shortcuts.
 
-- **[F12: AI-Developer Knowledge Parity](./f12-ai-developer-knowledge-parity.md)**  
+- **[F12: AI-Developer Knowledge Parity](./f12-ai-developer-knowledge-parity.md)**
   1:1 AI ↔ developer knowledge synchronization.
+
+### Tools & Extensions
+
+- **[F13: Image Tool](./f13-image-tool.md)**
+  Image generation, analysis, and history display features.
+
+- **[F15: Document Read Tool](./f15-document-read-tool.md)**
+  LLM reads PDF, DOCX, HWPX, HWP, PPTX documents directly by path (Caret-only).
 
 ---
 
@@ -69,11 +77,14 @@ Caret Features
 ├── AI Systems (F07–F08)
 │   ├── Prompt System
 │   └── Persona System
-└── Config & Integration (F09–F12)
-    ├── Feature Config
-    ├── Provider Setup
-    ├── Input History
-    └── Knowledge Parity
+├── Config & Integration (F09–F12)
+│   ├── Feature Config
+│   ├── Provider Setup
+│   ├── Input History
+│   └── Knowledge Parity
+└── Tools & Extensions (F13–F15)
+    ├── Image Tool
+    └── Document Read Tool (PDF, HWPX, HWP, PPTX)
 ```
 
 ## How to Use These Docs
@@ -93,5 +104,5 @@ Each feature document provides:
 
 ---
 
-**Last Updated**: 2025-11-24  
-**Document Version**: v2.2 (added Cline compatibility/CLI item; renumbering prep)
+**Last Updated**: 2026-01-16
+**Document Version**: v2.3 (added Tools & Extensions section: F13 Image Tool, F15 Document Read Tool)

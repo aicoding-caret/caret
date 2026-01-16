@@ -1,5 +1,5 @@
 // CARET MODIFICATION: Unified document extractor for read_document tool
-// Supports: PDF, DOCX, XLSX, PPTX, HWPX, IPYNB
+// Supports: PDF, DOCX, XLSX, PPTX, HWPX, HWP, IPYNB
 
 import * as fs from "fs/promises"
 import * as path from "path"
@@ -14,6 +14,7 @@ import { Logger } from "@/services/logging/Logger"
 
 // Import Caret-specific parsers
 import { parseHwpx } from "./hwpx-parser"
+import { parseHwp } from "./hwp-parser"
 import { parsePptx } from "./pptx-parser"
 
 import type { DocumentFormat, ExtractOptions, ExtractResult } from "./types"
@@ -22,7 +23,7 @@ import type { DocumentFormat, ExtractOptions, ExtractResult } from "./types"
 const DEFAULT_MAX_FILE_SIZE = 50 * 1024 * 1024
 
 /** Supported document formats */
-const SUPPORTED_FORMATS: DocumentFormat[] = ["pdf", "docx", "xlsx", "pptx", "hwpx", "ipynb"]
+const SUPPORTED_FORMATS: DocumentFormat[] = ["pdf", "docx", "xlsx", "pptx", "hwpx", "hwp", "ipynb"]
 
 /** Extension to format mapping */
 const EXTENSION_MAP: Record<string, DocumentFormat> = {
@@ -31,7 +32,21 @@ const EXTENSION_MAP: Record<string, DocumentFormat> = {
 	".xlsx": "xlsx",
 	".pptx": "pptx",
 	".hwpx": "hwpx",
+	".hwp": "hwp",
 	".ipynb": "ipynb",
+}
+
+/** Legacy formats that are detected but not supported (with user-friendly messages) */
+const LEGACY_UNSUPPORTED_FORMATS: Record<string, string> = {
+	".ppt":
+		"Legacy PowerPoint (.ppt) format is not supported. No pure JavaScript parser exists for this binary format. " +
+		"Please convert to .pptx using: LibreOffice, Google Slides, or Microsoft PowerPoint.",
+	".doc":
+		"Legacy Word (.doc) format is not supported. No pure JavaScript parser exists for this binary format. " +
+		"Please convert to .docx using: LibreOffice, Google Docs, or Microsoft Word.",
+	".xls":
+		"Legacy Excel (.xls) format is not supported. No pure JavaScript parser exists for this binary format. " +
+		"Please convert to .xlsx using: LibreOffice, Google Sheets, or Microsoft Excel.",
 }
 
 /**
@@ -69,6 +84,14 @@ export class DocumentExtractor {
 
 		// Detect format from extension
 		const ext = path.extname(absolutePath).toLowerCase()
+
+		// Check for legacy unsupported formats first (provide helpful message)
+		if (ext in LEGACY_UNSUPPORTED_FORMATS) {
+			const message = LEGACY_UNSUPPORTED_FORMATS[ext]
+			Logger.warn(`[DocumentExtractor] Legacy format detected: ${ext}`)
+			throw new Error(message)
+		}
+
 		const format = EXTENSION_MAP[ext]
 
 		if (!format) {
@@ -103,6 +126,8 @@ export class DocumentExtractor {
 				return this.extractPptx(filePath)
 			case "hwpx":
 				return this.extractHwpx(filePath)
+			case "hwp":
+				return this.extractHwp(filePath)
 			case "ipynb":
 				return this.extractIpynb(filePath)
 			default:
@@ -229,6 +254,14 @@ export class DocumentExtractor {
 	private async extractHwpx(filePath: string): Promise<string> {
 		const buffer = await fs.readFile(filePath)
 		return parseHwpx(buffer)
+	}
+
+	/**
+	 * Extract text from HWP 5.0 file (Caret-specific, uses @ohah/hwpjs)
+	 */
+	private async extractHwp(filePath: string): Promise<string> {
+		const buffer = await fs.readFile(filePath)
+		return parseHwp(buffer)
 	}
 
 	/**

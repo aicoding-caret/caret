@@ -157,7 +157,7 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 
 ---
 
-## 🚀 Caret’s 12 Core Features
+## 🚀 Caret's 15 Core Features
 
 <div align="center">
 
@@ -176,6 +176,8 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 | **F10** | Enhanced provider setup | [Details](caret-docs/features.en/f10-enhanced-provider-setup.md) |
 | **F11** | Input history & shortcuts | [Details](caret-docs/features.en/f11-input-history-and-shortcuts.md) |
 | **F12** | AI-developer knowledge parity | [Details](caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
+| **F13** | Image generation & analysis tool | [Details](caret-docs/features.en/f13-image-tool.md) |
+| **F15** | Document read tool (PDF, DOCX, HWPX, HWP, PPTX) | [Details](caret-docs/features.en/f15-document-read-tool.md) |
 
 </div>
 
@@ -186,7 +188,7 @@ Go beyond text chat. The **Persona System** lets you work with visually engaging
 ## 🛠 For Developers (KO-first)
 
 - 개발 문서 대시보드: `caret-docs/development/index.md` (환경/빌드/워크플로우/아키텍처 정리)
-- AI 규칙 ↔ 개발 문서 매핑: `.agents/context/caret-rules.json` + `.agents/context/workflows/*`는 대응되는 개발 가이드와 함께 유지됩니다. (F12 AI-Developer Knowledge Parity)
+- AI 규칙 ↔ 개발 문서 매핑: `.agents/context/agents-rules.json` + `.agents/workflows/*`는 대응되는 개발 가이드와 함께 유지됩니다. (F12 AI-Developer Knowledge Parity)
 
 ---
 

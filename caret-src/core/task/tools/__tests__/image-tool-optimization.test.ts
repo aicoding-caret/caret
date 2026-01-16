@@ -1,14 +1,14 @@
-// CARET MODIFICATION: Image tool optimization integration tests
+// CARET MODIFICATION: Image validation tests - 7500px pixel limit only (matches cline-latest)
 
 import { optimizeImageDataUrl } from "@caret/utils/image-optimization"
 import { expect } from "chai"
-import * as fsSync from "fs"
 import * as fs from "fs/promises"
 import { after, afterEach, before, beforeEach, describe, it } from "mocha"
 import { tmpdir } from "os"
 import * as path from "path"
+import * as sharp from "sharp"
 
-describe("Image Tool Optimization Integration", () => {
+describe("Image Validation (7500px limit)", () => {
 	const testImagesDir = path.join(tmpdir(), "caret-image-tests")
 	let testImagePaths: string[] = []
 
@@ -45,79 +45,99 @@ describe("Image Tool Optimization Integration", () => {
 		}
 	})
 
-	describe("WebP Auto Conversion", () => {
-		it("should auto-convert large images to WebP", async () => {
-			const largePng = createMockImageDataUrl("png", 2048, 2048, 1024 * 1024)
-			const optimized = await optimizeImageDataUrl(largePng)
+	describe("Pixel Dimension Validation", () => {
+		it("should return original image when under 7500px", async () => {
+			// Create a real 100x100 PNG image
+			const imageBuffer = await sharp.default({
+				create: { width: 100, height: 100, channels: 3, background: { r: 255, g: 0, b: 0 } },
+			})
+				.png()
+				.toBuffer()
+			const dataUrl = `data:image/png;base64,${imageBuffer.toString("base64")}`
 
-			expect(optimized).to.include("image/webp")
-			expect(optimized).to.not.include("image/png")
-			expect(optimized.length).to.be.lessThan(largePng.length)
+			const result = await optimizeImageDataUrl(dataUrl)
+			expect(result).to.equal(dataUrl) // No modification
 		})
 
-		it("should not convert already WebP 1024px image", async () => {
-			const smallWebP = createMockImageDataUrl("webp", 800, 800)
-			const optimized = await optimizeImageDataUrl(smallWebP)
+		it("should return original image for 1024px (no longer resizes)", async () => {
+			// Create a real 1024x1024 image
+			const imageBuffer = await sharp.default({
+				create: { width: 1024, height: 1024, channels: 3, background: { r: 0, g: 255, b: 0 } },
+			})
+				.png()
+				.toBuffer()
+			const dataUrl = `data:image/png;base64,${imageBuffer.toString("base64")}`
 
-			expect(optimized).to.equal(smallWebP)
+			const result = await optimizeImageDataUrl(dataUrl)
+			expect(result).to.equal(dataUrl) // No modification, original returned
 		})
 
-		it("should throw clear error for >7500px image", async () => {
-			const hugeImage = createMockImageDataUrl("png", 8000, 6000)
+		it("should return original image for 2000px (no longer resizes)", async () => {
+			// Create a real 2000x2000 image
+			const imageBuffer = await sharp.default({
+				create: { width: 2000, height: 2000, channels: 3, background: { r: 0, g: 0, b: 255 } },
+			})
+				.png()
+				.toBuffer()
+			const dataUrl = `data:image/png;base64,${imageBuffer.toString("base64")}`
+
+			const result = await optimizeImageDataUrl(dataUrl)
+			expect(result).to.equal(dataUrl) // No modification, original returned
+		})
+
+		it("should throw error for >7500px image", async () => {
+			// Create a real 8000x100 image (exceeds 7500px on one dimension)
+			const imageBuffer = await sharp.default({
+				create: { width: 8000, height: 100, channels: 3, background: { r: 128, g: 128, b: 128 } },
+			})
+				.png()
+				.toBuffer()
+			const dataUrl = `data:image/png;base64,${imageBuffer.toString("base64")}`
 
 			try {
-				await optimizeImageDataUrl(hugeImage)
+				await optimizeImageDataUrl(dataUrl)
 				expect.fail("Should have thrown an error")
 			} catch (error) {
-				expect((error as Error).message).to.include("exceed maximum allowed size")
+				expect((error as Error).message).to.include("7500px")
 			}
-		})
-
-		it("should resize images larger than 1024px", async () => {
-			const largeImage = createMockImageDataUrl("png", 2000, 2000)
-			const optimized = await optimizeImageDataUrl(largeImage)
-
-			expect(optimized).to.include("image/webp")
-		})
-
-		it("should handle unsupported MIME types gracefully", async () => {
-			const unsupportedImage = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-			const result = await optimizeImageDataUrl(unsupportedImage)
-
-			expect(result).to.equal(unsupportedImage)
 		})
 	})
 
-	describe("Image File Direct Read", () => {
-		it("should read image file from path", async () => {
-			const testImage = createTestImageFile(testImagesDir, "test-png.png", "png", 100, 100)
-			testImagePaths.push(testImage)
+	describe("Format Handling", () => {
+		it("should accept PNG format", async () => {
+			const imageBuffer = await sharp.default({
+				create: { width: 50, height: 50, channels: 3, background: { r: 255, g: 255, b: 255 } },
+			})
+				.png()
+				.toBuffer()
+			const dataUrl = `data:image/png;base64,${imageBuffer.toString("base64")}`
 
-			const buffer = await fs.readFile(testImage)
-			expect(buffer.length).to.be.greaterThan(0)
+			const result = await optimizeImageDataUrl(dataUrl)
+			expect(result).to.equal(dataUrl)
 		})
 
-		it("should handle non-existent file gracefully", async () => {
-			const nonExistentPath = path.join(testImagesDir, "non-existent.png")
+		it("should accept JPEG format", async () => {
+			const imageBuffer = await sharp.default({
+				create: { width: 50, height: 50, channels: 3, background: { r: 255, g: 255, b: 255 } },
+			})
+				.jpeg()
+				.toBuffer()
+			const dataUrl = `data:image/jpeg;base64,${imageBuffer.toString("base64")}`
 
-			try {
-				await fs.readFile(nonExistentPath)
-				expect.fail("Should have thrown an error")
-			} catch (error) {
-				const nodeError = error as NodeJS.ErrnoException
-				expect(nodeError.code).to.equal("ENOENT")
-			}
+			const result = await optimizeImageDataUrl(dataUrl)
+			expect(result).to.equal(dataUrl)
 		})
 
-		it("should optimize image after file read", async () => {
-			const testImage = createTestImageFile(testImagesDir, "test-jpg.jpg", "jpeg", 1500, 1500)
-			testImagePaths.push(testImage)
+		it("should accept WebP format", async () => {
+			const imageBuffer = await sharp.default({
+				create: { width: 50, height: 50, channels: 3, background: { r: 255, g: 255, b: 255 } },
+			})
+				.webp()
+				.toBuffer()
+			const dataUrl = `data:image/webp;base64,${imageBuffer.toString("base64")}`
 
-			const buffer = await fs.readFile(testImage)
-			const dataUrl = `data:image/jpeg;base64,${buffer.toString("base64")}`
-			const optimized = await optimizeImageDataUrl(dataUrl)
-
-			expect(optimized).to.include("image/webp")
+			const result = await optimizeImageDataUrl(dataUrl)
+			expect(result).to.equal(dataUrl)
 		})
 	})
 
@@ -138,28 +158,66 @@ describe("Image Tool Optimization Integration", () => {
 
 			try {
 				await optimizeImageDataUrl(corruptedDataUrl)
-				// Sharp may handle this gracefully, so we check the result
-				expect(true).to.be.true
+				expect.fail("Should have thrown an error")
 			} catch (error) {
-				// Or it may throw
-				expect(error).to.be.an("error")
+				// Sharp throws error for corrupted data
+				expect(error).to.be.instanceOf(Error)
 			}
+		})
+	})
+
+	describe("File Read Integration", () => {
+		it("should read image file from path", async () => {
+			const testImage = await createRealTestImageFile(testImagesDir, "test-png.png", 100, 100)
+			testImagePaths.push(testImage)
+
+			const buffer = await fs.readFile(testImage)
+			expect(buffer.length).to.be.greaterThan(0)
+		})
+
+		it("should handle non-existent file gracefully", async () => {
+			const nonExistentPath = path.join(testImagesDir, "non-existent.png")
+
+			try {
+				await fs.readFile(nonExistentPath)
+				expect.fail("Should have thrown an error")
+			} catch (error) {
+				const nodeError = error as NodeJS.ErrnoException
+				expect(nodeError.code).to.equal("ENOENT")
+			}
+		})
+
+		it("should validate image after file read (returns original)", async () => {
+			const testImage = await createRealTestImageFile(testImagesDir, "test-large.jpg", 1500, 1500)
+			testImagePaths.push(testImage)
+
+			const buffer = await fs.readFile(testImage)
+			const dataUrl = `data:image/jpeg;base64,${buffer.toString("base64")}`
+			const result = await optimizeImageDataUrl(dataUrl)
+
+			// Should return original (no optimization)
+			expect(result).to.equal(dataUrl)
 		})
 	})
 })
 
-function createMockImageDataUrl(mimeType: string, width: number, height: number, sizeBytes: number = 1024): string {
-	const base64Data = Buffer.alloc(sizeBytes).fill("A").toString("base64")
-	return `data:image/${mimeType};base64,${base64Data}`
-}
-
-function createTestImageFile(dir: string, filename: string, mimeType: string, width: number, height: number): string {
+async function createRealTestImageFile(dir: string, filename: string, width: number, height: number): Promise<string> {
 	const filePath = path.join(dir, filename)
+	const ext = path.extname(filename).toLowerCase()
 
-	const header = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
-	const pngData = Buffer.concat([header, Buffer.from("test-image-data")])
+	let imageBuffer: Buffer
+	const sharpInstance = sharp.default({
+		create: { width, height, channels: 3, background: { r: 100, g: 150, b: 200 } },
+	})
 
-	fsSync.writeFileSync(filePath, pngData)
+	if (ext === ".jpg" || ext === ".jpeg") {
+		imageBuffer = await sharpInstance.jpeg().toBuffer()
+	} else if (ext === ".webp") {
+		imageBuffer = await sharpInstance.webp().toBuffer()
+	} else {
+		imageBuffer = await sharpInstance.png().toBuffer()
+	}
 
+	await fs.writeFile(filePath, imageBuffer)
 	return filePath
 }

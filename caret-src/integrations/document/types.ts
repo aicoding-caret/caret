@@ -3,7 +3,7 @@
 /**
  * Supported document formats for extraction
  */
-export type DocumentFormat = "pdf" | "docx" | "xlsx" | "pptx" | "hwpx" | "ipynb"
+export type DocumentFormat = "pdf" | "docx" | "xlsx" | "pptx" | "hwpx" | "hwp" | "ipynb"
 
 /**
  * Options for document extraction
