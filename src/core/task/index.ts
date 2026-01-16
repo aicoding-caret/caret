@@ -24,6 +24,8 @@ import {
 	getLocalCaretRules,
 	refreshExternalRulesToggles,
 } from "@core/context/instructions/user-instructions/external-rules"
+// CARET MODIFICATION: Skills system - on-demand agent instructions
+import { discoverSkills, getAvailableSkills } from "@core/context/instructions/user-instructions/skills"
 import { sendPartialMessageEvent } from "@core/controller/ui/subscribeToPartialMessage"
 import { ClineIgnoreController } from "@core/ignore/ClineIgnoreController"
 import { parseMentions } from "@core/mentions"
@@ -1195,12 +1197,19 @@ export class Task {
 		}
 
 		const initInstructions = await getAgentsInitWorkflowInstructions(this.cwd, initResult.templatePath)
+		Logger.debug(`[AgentsInit] Workflow instructions loaded: ${initInstructions ? "yes" : "no"}`)
 		const formatted = formatAgentsInitInstructions(initInstructions)
 		if (formatted) {
-			userContent.unshift({
+			// CARET MODIFICATION: Replace original task with init workflow to ensure AI executes it
+			// Clear existing userContent and set workflow as the sole task
+			Logger.debug(`[AgentsInit] Replacing original task with init workflow`)
+			userContent.length = 0
+			userContent.push({
 				type: "text",
-				text: formatted,
+				text: `<task>Execute AGENTS initialization workflow</task>\n\n${formatted}`,
 			})
+		} else {
+			Logger.warn(`[AgentsInit] No workflow instructions found, templates were copied but workflow not set`)
 		}
 	}
 
@@ -2510,8 +2519,25 @@ export class Task {
 			analyzeImages: autoApprovalSettings?.actions?.analyzeImages ?? true,
 		}
 
+		// CARET MODIFICATION: Skills system - discover and filter available skills
+		const allSkills = await discoverSkills(this.cwd)
+		const resolvedSkills = getAvailableSkills(allSkills)
+		// Filter by toggle state
+		const globalSkillsToggles =
+			(this.stateManager.getGlobalSettingsKey("globalSkillsToggles") as Record<string, boolean>) ?? {}
+		const localSkillsToggles =
+			(this.stateManager.getWorkspaceStateKey("localSkillsToggles") as Record<string, boolean>) ?? {}
+		const availableSkills = resolvedSkills.filter((skill) => {
+			const toggles = skill.source === "global" ? globalSkillsToggles : localSkillsToggles
+			return toggles[skill.path] !== false
+		})
+
+		// CARET MODIFICATION: Check if workspace folder is actually open
+		const hasOpenWorkspace = (this.workspaceManager?.getRoots()?.length ?? 0) > 0
+
 		const promptContext: SystemPromptContext = {
 			cwd: this.cwd,
+			hasOpenWorkspace, // CARET MODIFICATION: Pass workspace open state
 			ide,
 			providerInfo,
 			modeSystem,
@@ -2536,6 +2562,7 @@ export class Task {
 			isCliSubagent,
 			enableNativeToolCalls:
 				featureFlagsService.getNativeToolCallEnabled() && this.stateManager.getGlobalStateKey("nativeToolCallEnabled"),
+			skills: availableSkills, // CARET MODIFICATION: Skills system
 		}
 
 		const { systemPrompt, tools } = await getSystemPrompt(promptContext)

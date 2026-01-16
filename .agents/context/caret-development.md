@@ -71,7 +71,7 @@ t('settings.providers.openrouter.name')
 ---
 
 **📖 For detailed workflow with verification steps:**
-See `.agents/context/workflows/caret-development.md`
+See `.agents/workflows/caret-development.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/caret-development.md` (if exists)

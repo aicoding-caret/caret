@@ -42,6 +42,7 @@ import { ReportBugHandler } from "./tools/handlers/ReportBugHandler"
 import { SearchFilesToolHandler } from "./tools/handlers/SearchFilesToolHandler"
 import { SummarizeTaskHandler } from "./tools/handlers/SummarizeTaskHandler"
 import { UseMcpToolHandler } from "./tools/handlers/UseMcpToolHandler"
+import { UseSkillToolHandler } from "./tools/handlers/UseSkillToolHandler" // CARET MODIFICATION: Skills system
 import { WebFetchToolHandler } from "./tools/handlers/WebFetchToolHandler"
 import { WriteToFileToolHandler } from "./tools/handlers/WriteToFileToolHandler"
 import { IPartialBlockHandler, SharedToolHandler, ToolExecutorCoordinator } from "./tools/ToolExecutorCoordinator"
@@ -234,6 +235,7 @@ export class ToolExecutor {
 		this.coordinator.register(new SummarizeTaskHandler(validator))
 		this.coordinator.register(new ReportBugHandler())
 		this.coordinator.register(new ApplyPatchHandler(validator))
+		this.coordinator.register(new UseSkillToolHandler()) // CARET MODIFICATION: Skills system
 	}
 
 	/**

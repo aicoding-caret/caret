@@ -1,5 +1,6 @@
 // CARET MODIFICATION: Add analyze_image tool specification for image analysis.
-// This tool is only available for models that don't support images (supportsImages: false).
+// This tool is available for ALL models to analyze file-based images.
+// Even vision models need this because generated images are saved to disk, not in conversation.
 // It uses Caret API (Gemini 2.5 Flash) to analyze images.
 
 import type { ClineToolSpec } from "@core/prompts/system-prompt/spec"
@@ -12,9 +13,9 @@ const GENERIC: ClineToolSpec = {
 	variant: ModelFamily.GENERIC,
 	id,
 	name: "analyze_image",
-	description: `Analyze an image using vision AI. **IMPORTANT: Only use this tool if your model does NOT support images directly (supportsImages: false).** If your model supports images (like Claude, GPT-4V), you can see images directly without this tool.
+	description: `Analyze an image file using vision AI. Use this tool to examine images saved on disk, including images created by generate_image.
 
-Use this tool when you need to understand, describe, or extract information from images. This tool is especially useful for:
+**When to use this tool:**
 - UI/UX analysis: Check for misalignment, layout issues, visual bugs, responsive design problems
 - Text extraction: Extract text from screenshots, dialogs, error messages, logs that cannot be copy-pasted
 - Code review: Analyze screenshots of code, identify issues or patterns

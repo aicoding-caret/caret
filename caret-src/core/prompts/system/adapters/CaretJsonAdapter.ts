@@ -289,18 +289,16 @@ export class CaretJsonAdapter implements IPromptSystem {
 				Logger.debug(`[CaretJsonAdapter] generate_image tool disabled by settings`)
 			}
 
-			// Filter analyze_image based on settings (default: true) AND model capability
-			// - Exclude if user disabled via settings
-			// - Also exclude if model supports images natively (no need for the tool)
-			const modelSupportsImages = context.providerInfo?.model?.info?.supportsImages ?? false
+			// Filter analyze_image based on settings only (default: true)
+			// NOTE: Even vision models need this tool because:
+			// - Vision models can only see images IN the conversation context
+			// - Generated images are saved to DISK, not in conversation
+			// - So analyze_image is needed to read file-based images
 			if (toolSettings?.analyzeImages === false) {
 				excludedTools.push("analyze_image")
 				Logger.debug(`[CaretJsonAdapter] analyze_image tool disabled by settings`)
-			} else if (modelSupportsImages) {
-				excludedTools.push("analyze_image")
-				Logger.debug(`[CaretJsonAdapter] Model supports images natively, excluding analyze_image tool`)
 			} else {
-				Logger.debug(`[CaretJsonAdapter] analyze_image tool enabled (model doesn't support images natively)`)
+				Logger.debug(`[CaretJsonAdapter] analyze_image tool enabled`)
 			}
 
 			let filteredTools = toolPrompts.filter(
@@ -309,9 +307,16 @@ export class CaretJsonAdapter implements IPromptSystem {
 
 			// CARET MODIFICATION: Replace PLAN/ACT terminology with CHATBOT/AGENT in tool descriptions
 			// This ensures users only see Caret terminology (CHATBOT/AGENT) and never Cline terminology (PLAN/ACT)
+			// NOTE: Order matters! Handle specific phrases (toggle to, switch to) BEFORE general replacements
 			filteredTools = filteredTools.map((toolPrompt: string) => {
 				return (
 					toolPrompt
+						// Handle specific phrases FIRST (before general "Act mode" replacement)
+						.replace(/toggle to (Act|ACT) mode/gi, "toggle to AGENT mode")
+						.replace(/switch to (Act|ACT) mode/gi, "switch to AGENT mode")
+						.replace(/toggle to (Plan|PLAN) mode/gi, "toggle to CHATBOT mode")
+						.replace(/switch to (Plan|PLAN) mode/gi, "switch to CHATBOT mode")
+						// Then handle general replacements
 						.replace(/\bPLAN MODE\b/g, "CHATBOT MODE")
 						.replace(/\bACT MODE\b/g, "AGENT MODE")
 						.replace(/\bPlan MODE\b/g, "Chatbot MODE")
@@ -320,13 +325,25 @@ export class CaretJsonAdapter implements IPromptSystem {
 						.replace(/\bact mode\b/g, "agent mode")
 						.replace(/\bPlan mode\b/g, "Chatbot mode")
 						.replace(/\bAct mode\b/g, "Agent mode")
-						// Handle phrases like "toggle to Act mode", "switch to PLAN MODE"
-						.replace(/toggle to (Act|ACT) mode/gi, "toggle to AGENT mode")
-						.replace(/switch to (Act|ACT) mode/gi, "switch to AGENT mode")
-						.replace(/toggle to (Plan|PLAN) mode/gi, "toggle to CHATBOT mode")
-						.replace(/switch to (Plan|PLAN) mode/gi, "switch to CHATBOT mode")
 				)
 			})
+
+			// CARET MODIFICATION: Add image reading capability note to read_file for vision models
+			// Vision models can read image files via read_file tool, but this isn't in Cline's original description
+			const modelSupportsImages = context.providerInfo?.model?.info?.supportsImages === true
+			if (modelSupportsImages) {
+				filteredTools = filteredTools.map((toolPrompt: string) => {
+					if (toolPrompt.includes("## read_file")) {
+						// Insert image capability note after "Automatically extracts raw text from PDF and DOCX files."
+						return toolPrompt.replace(
+							"Automatically extracts raw text from PDF and DOCX files.",
+							"Automatically extracts raw text from PDF and DOCX files. **You can also read image files (PNG, JPG, GIF, WebP) and view their contents directly** - use this to examine screenshots, UI mockups, generated images, or any visual content saved to disk.",
+						)
+					}
+					return toolPrompt
+				})
+				Logger.debug(`[CaretJsonAdapter] Added image reading capability to read_file for vision model`)
+			}
 
 			if (isChatbotMode) {
 				// In CHATBOT mode, restrict to read-only and research tools

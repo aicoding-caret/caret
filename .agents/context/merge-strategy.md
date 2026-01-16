@@ -8,7 +8,7 @@
 
 **Reference**:
 - **Full Protocol**: `caret-docs/merging/merge-standard-guide.md` (Authoritative Source)
-- **Workflow**: `.agents/context/workflows/merge-strategy.md` (AI Execution Steps)
+- **Workflow**: `.agents/workflows/merge-strategy.md` (AI Execution Steps)
 
 **Modification Levels**:
 - **L1**: Independent (`caret-src/`)

@@ -114,7 +114,7 @@ node caret-scripts/utils/semantic-equivalence-checker.js <markdown-file> <json-f
 
 Example:
 ```bash
-node caret-scripts/utils/semantic-equivalence-checker.js .agents/context/workflows/backup-protocol.md caret-docs/experiments/backup-protocol-json.json
+node caret-scripts/utils/semantic-equivalence-checker.js .agents/workflows/backup-protocol.md caret-docs/experiments/backup-protocol-json.json
 ```
 
 For advanced analysis, use the universal analyzer:

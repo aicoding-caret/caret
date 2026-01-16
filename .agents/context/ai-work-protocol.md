@@ -62,7 +62,7 @@ Never skip Phase 0 - prevents architectural mistakes and ensures proper approach
 ---
 
 **📖 For detailed phase-based workflow:**
-See `.agents/context/workflows/ai-work-protocol.md`
+See `.agents/workflows/ai-work-protocol.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/ai-work-protocol.md`

@@ -48,7 +48,7 @@ Use 3-stage systematic approach for constructive verification.
 ---
 
 **📖 For detailed workflow with examples:**
-See `.agents/context/workflows/critical-verification.md`
+See `.agents/workflows/critical-verification.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/critical-verification.md` (if exists)

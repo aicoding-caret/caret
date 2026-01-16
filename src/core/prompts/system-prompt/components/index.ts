@@ -8,6 +8,7 @@ import { getFeedbackSection } from "./feedback"
 import { getMcp } from "./mcp"
 import { getObjectiveSection } from "./objective"
 import { getRulesSection } from "./rules"
+import { getSkillsSection } from "./skills" // CARET MODIFICATION: Skills system
 import { getSystemInfo } from "./system_info"
 import { getUpdatingTaskProgress } from "./task_progress"
 import { getToolUseSection } from "./tool_use"
@@ -37,6 +38,7 @@ export function getSystemPromptComponents() {
 			fn: getCapabilitiesSection,
 		},
 		{ id: SystemPromptSection.RULES, fn: getRulesSection },
+		{ id: SystemPromptSection.SKILLS, fn: getSkillsSection }, // CARET MODIFICATION: Skills system
 		{ id: SystemPromptSection.OBJECTIVE, fn: getObjectiveSection },
 		{
 			id: SystemPromptSection.ACT_VS_PLAN,

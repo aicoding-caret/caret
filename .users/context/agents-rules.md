@@ -3,8 +3,8 @@
 ## Rule Management System
 
 ### Document Access Pattern
-- **AI reads**: `.agents/context/caret-rules.json` (English JSON, core principles only)
-- **AI workflows**: `.agents/context/workflows/*.md` (English MD, detailed procedures when needed)
+- **AI reads**: `.agents/context/agents-rules.json` (English JSON, core principles only)
+- **AI workflows**: `.agents/workflows/*.md` (English MD, detailed procedures when needed)
 - **Human reads (Korean)**: `caret-docs/development/caret-rules.ko.md` (Korean MD, developer reference)
 - **Human reads (Features EN)**: `caret-docs/features.en/index.md` (feature specs, English)
 - **Sync method**: Keep `.agents/context` as the Single Source of Truth; update `caret-docs/development/` as the KO-first developer counterpart
@@ -16,11 +16,11 @@
 
 ### File Mapping
 ```
-.agents/context/caret-rules.json              ↔ caret-docs/development/caret-rules.ko.md (KO counterpart)
-.agents/context/workflows/*.md                ↔ caret-docs/development/index.md (KO dashboard links out to matching guides)
-.agents/context/workflows/atoms/*.md|*.yaml    ↔ caret-docs/development/* (referenced where needed)
-.agents/context/workflows/ai-work-protocol.md ↔ caret-docs/development/ai-work-protocol.md
-.agents/context/workflows/ai-work-index*      ↔ caret-docs/development/ai-work-index.md
+.agents/context/agents-rules.json              ↔ caret-docs/development/caret-rules.ko.md (KO counterpart)
+.agents/workflows/*.md                ↔ caret-docs/development/index.md (KO dashboard links out to matching guides)
+.agents/workflows/atoms/*.md|*.yaml    ↔ caret-docs/development/* (referenced where needed)
+.agents/workflows/ai-work-protocol.md ↔ caret-docs/development/ai-work-protocol.md
+.agents/workflows/ai-work-index*      ↔ caret-docs/development/ai-work-index.md
 ```
 
 ## Core Principles
@@ -114,7 +114,7 @@
 - AI must access same information developers have via workflows
 
 ### Available Workflows
-See `.agents/context/workflows/` for detailed procedures:
+See `.agents/workflows/` for detailed procedures:
 
 - **Main Workflows**: `ai-work-index.md`, `ai-work-protocol.md`, `caret-development.md`
 - **Critical Verification**: `critical-verification.md`
@@ -173,10 +173,10 @@ When a task requires workflows, select them on demand using the work index:
 
 This document is part of Caret's knowledge parity system:
 
-- **Rules/Workflows (SoT)**: `.agents/context/caret-rules.json`, `.agents/context/workflows/*`
+- **Rules/Workflows (SoT)**: `.agents/context/agents-rules.json`, `.agents/workflows/*`
 - **Developer docs (KO-first)**: `caret-docs/development/index.md`
 - **Feature specs (EN)**: `caret-docs/features.en/index.md`
 
 **Cross-references**:
 - KO counterpart: `caret-docs/development/caret-rules.ko.md`
-- SoT index: `.agents/context/caret-rules.json`
+- SoT index: `.agents/context/agents-rules.json`

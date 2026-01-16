@@ -32,6 +32,7 @@ export enum ClineDefaultTool {
 	REPORT_BUG = "report_bug",
 	NEW_RULE = "new_rule",
 	APPLY_PATCH = "apply_patch",
+	USE_SKILL = "use_skill", // CARET MODIFICATION: Skills system - on-demand agent instructions
 }
 
 // Array of all tool names for compatibility

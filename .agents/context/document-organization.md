@@ -52,7 +52,7 @@
 ---
 
 **📖 For detailed atomic workflow strategy and examples:**
-See `.agents/context/workflows/document-organization.md`
+See `.agents/workflows/document-organization.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/documentation-guide.md`

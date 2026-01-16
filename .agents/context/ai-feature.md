@@ -55,7 +55,7 @@
 ---
 
 **📖 For detailed step-by-step workflow with code examples:**
-See `.agents/context/workflows/ai-feature.md`
+See `.agents/workflows/ai-feature.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/ai-feature.md`

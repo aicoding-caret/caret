@@ -7,6 +7,7 @@ import type { McpHub } from "@/services/mcp/McpHub"
 import type { BrowserSettings } from "@/shared/BrowserSettings"
 import type { FocusChainSettings } from "@/shared/FocusChainSettings"
 import { ModelFamily } from "@/shared/prompts"
+import type { SkillMetadata } from "@/shared/skills" // CARET MODIFICATION: Skills system
 import { ClineDefaultTool } from "@/shared/tools"
 import type { ClineToolSpec } from "./spec"
 import { SystemPromptSection } from "./templates/placeholders"
@@ -101,6 +102,7 @@ export interface ToolSettings {
 export interface SystemPromptContext {
 	readonly providerInfo: ApiProviderInfo
 	readonly cwd?: string
+	readonly hasOpenWorkspace?: boolean // CARET MODIFICATION: Whether workspace folder is open
 	readonly ide: string
 	// CARET MODIFICATION: caret/cline mode system for prompt selection
 	readonly modeSystem?: "caret" | "cline"
@@ -127,6 +129,7 @@ export interface SystemPromptContext {
 	readonly isSubagentsEnabledAndCliInstalled?: boolean
 	readonly isCliSubagent?: boolean
 	readonly enableNativeToolCalls?: boolean
+	readonly skills?: readonly SkillMetadata[] // CARET MODIFICATION: Skills system
 }
 
 /**

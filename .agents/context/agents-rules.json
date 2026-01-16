@@ -81,17 +81,21 @@
 			]
 		},
 		"index": {
-			"ai_feature": ".agents/context/workflows/ai-feature.md (New AI features)",
-			"ai_work_protocol": ".agents/context/workflows/ai-work-protocol.md (General AI protocol)",
-			"caret_development": ".agents/context/workflows/caret-development.md (Caret core dev)",
-			"cline_modification": ".agents/context/workflows/cline-modification.md (Modifying Cline files)",
-			"critical_verification": ".agents/context/workflows/critical-verification.md (Pre-merge checks)",
-			"document_organization": ".agents/context/workflows/document-organization.md (Doc structure)",
-			"merge_strategy": ".agents/context/workflows/merge-strategy.md (Merge protocol)",
-			"new_component": ".agents/context/workflows/new-component.md (Creating components)",
-			"testing_work": ".agents/context/workflows/testing-work.md (Testing guide)",
-			"branding_logging": ".agents/context/workflows/branding-and-logging.md",
-			"i18n_fix": ".agents/context/workflows/i18n-static-translation-fix.md"
+			"ai_feature": ".agents/workflows/ai-feature.md (New AI features)",
+			"ai_work_protocol": ".agents/workflows/ai-work-protocol.md (General AI protocol)",
+			"caret_development": ".agents/workflows/caret-development.md (Caret core dev)",
+			"cline_modification": ".agents/workflows/cline-modification.md (Modifying Cline files)",
+			"critical_verification": ".agents/workflows/critical-verification.md (Pre-merge checks)",
+			"document_organization": ".agents/workflows/document-organization.md (Doc structure)",
+			"merge_strategy": ".agents/workflows/merge-strategy.md (Merge protocol)",
+			"new_component": ".agents/workflows/new-component.md (Creating components)",
+			"testing_work": ".agents/workflows/testing-work.md (Testing guide)",
+			"branding_logging": ".agents/workflows/branding-and-logging.md",
+			"i18n_fix": ".agents/workflows/i18n-static-translation-fix.md"
+		},
+		"atoms": {
+			"path": ".agents/workflows/atoms/",
+			"description": "Reusable small protocols (building blocks)"
 		}
 	}
 }

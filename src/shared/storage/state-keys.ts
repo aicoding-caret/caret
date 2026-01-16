@@ -88,6 +88,7 @@ export interface Settings {
 	autoApprovalSettings: AutoApprovalSettings
 	globalClineRulesToggles: ClineRulesToggles
 	globalWorkflowToggles: ClineRulesToggles
+	globalSkillsToggles: Record<string, boolean> // CARET MODIFICATION: Skills system toggles
 	browserSettings: BrowserSettings
 	liteLlmBaseUrl: string | undefined
 	liteLlmUsePromptCache: boolean | undefined
@@ -301,4 +302,5 @@ export interface LocalState {
 	localAgentsRulesToggles: ClineRulesToggles
 	workflowToggles: ClineRulesToggles
 	localCaretRulesToggles: ClineRulesToggles
+	localSkillsToggles: Record<string, boolean> // CARET MODIFICATION: Skills system toggles
 }

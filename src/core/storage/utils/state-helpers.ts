@@ -166,6 +166,8 @@ export async function readWorkspaceStateFromDisk(context: ExtensionContext): Pro
 	const localAgentsRulesToggles = context.workspaceState.get("localAgentsRulesToggles") as ClineRulesToggles | undefined
 	const localCaretRulesToggles = context.workspaceState.get("localCaretRulesToggles") as ClineRulesToggles | undefined
 	const localWorkflowToggles = context.workspaceState.get("workflowToggles") as ClineRulesToggles | undefined
+	// CARET MODIFICATION: Skills system toggles
+	const localSkillsToggles = context.workspaceState.get("localSkillsToggles") as Record<string, boolean> | undefined
 
 	return {
 		localClineRulesToggles: localClineRulesToggles || {},
@@ -174,6 +176,7 @@ export async function readWorkspaceStateFromDisk(context: ExtensionContext): Pro
 		localAgentsRulesToggles: localAgentsRulesToggles || {},
 		localCaretRulesToggles: localCaretRulesToggles || {},
 		workflowToggles: localWorkflowToggles || {},
+		localSkillsToggles: localSkillsToggles || {}, // CARET MODIFICATION: Skills system toggles
 	}
 }
 
@@ -255,6 +258,9 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			context.globalState.get<GlobalStateAndSettings["mcpResponsesCollapsed"]>("mcpResponsesCollapsed")
 		const globalWorkflowToggles =
 			context.globalState.get<GlobalStateAndSettings["globalWorkflowToggles"]>("globalWorkflowToggles")
+		// CARET MODIFICATION: Skills system toggles
+		const globalSkillsToggles =
+			context.globalState.get<GlobalStateAndSettings["globalSkillsToggles"]>("globalSkillsToggles")
 		const terminalReuseEnabled =
 			context.globalState.get<GlobalStateAndSettings["terminalReuseEnabled"]>("terminalReuseEnabled")
 		const vscodeTerminalExecutionMode =
@@ -733,6 +739,7 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			subagentTerminalOutputLineLimit: subagentTerminalOutputLineLimit ?? 2000,
 			defaultTerminalProfile: defaultTerminalProfile ?? "default",
 			globalWorkflowToggles: globalWorkflowToggles || {},
+			globalSkillsToggles: globalSkillsToggles || {}, // CARET MODIFICATION: Skills system toggles
 			qwenCodeOauthPath,
 			customPrompt,
 			autoCondenseThreshold: autoCondenseThreshold || 0.75, // default to 0.75 if not set

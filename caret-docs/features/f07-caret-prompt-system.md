@@ -176,13 +176,20 @@ return this.filterToolsByMode(toolPrompts, isChatbotMode)
 
 ### 구현 방법: 시스템 프롬프트 레벨 교체
 
-**위치**: `CaretJsonAdapter.ts:207-224`
+**위치**: `CaretJsonAdapter.ts:308-329`
 
 ```typescript
 // CARET MODIFICATION: Replace PLAN/ACT terminology with CHATBOT/AGENT in tool descriptions
 // This ensures users only see Caret terminology (CHATBOT/AGENT) and never Cline terminology (PLAN/ACT)
+// NOTE: Order matters! Handle specific phrases (toggle to, switch to) BEFORE general replacements
 filteredTools = filteredTools.map((toolPrompt: string) => {
     return toolPrompt
+        // Handle specific phrases FIRST (before general "Act mode" replacement)
+        .replace(/toggle to (Act|ACT) mode/gi, "toggle to AGENT mode")
+        .replace(/switch to (Act|ACT) mode/gi, "switch to AGENT mode")
+        .replace(/toggle to (Plan|PLAN) mode/gi, "toggle to CHATBOT mode")
+        .replace(/switch to (Plan|PLAN) mode/gi, "switch to CHATBOT mode")
+        // Then handle general replacements
         .replace(/\bPLAN MODE\b/g, "CHATBOT MODE")
         .replace(/\bACT MODE\b/g, "AGENT MODE")
         .replace(/\bPlan MODE\b/g, "Chatbot MODE")
@@ -191,13 +198,10 @@ filteredTools = filteredTools.map((toolPrompt: string) => {
         .replace(/\bact mode\b/g, "agent mode")
         .replace(/\bPlan mode\b/g, "Chatbot mode")
         .replace(/\bAct mode\b/g, "Agent mode")
-        // Handle phrases like "toggle to Act mode", "switch to PLAN MODE"
-        .replace(/toggle to (Act|ACT) mode/gi, "toggle to AGENT mode")
-        .replace(/switch to (Act|ACT) mode/gi, "switch to AGENT mode")
-        .replace(/toggle to (Plan|PLAN) mode/gi, "toggle to CHATBOT mode")
-        .replace(/switch to (Plan|PLAN) mode/gi, "switch to CHATBOT mode")
 })
 ```
+
+**⚠️ 순서가 중요합니다**: 특정 구문(toggle to, switch to)을 먼저 처리해야 합니다. "toggle to Act mode"가 일반적인 "Act mode" → "Agent mode" 교체보다 먼저 실행되지 않으면, "toggle to Agent mode"가 아닌 "toggle to Agent mode"(소문자)로 변환될 수 있습니다.
 
 ### 교체 대상
 
@@ -255,6 +259,74 @@ Parameters:
 ```
 
 **주목**: 마지막 문장이 원래 "toggle to Act mode"에서 "toggle to AGENT mode"로 자동 교체되었습니다!
+
+---
+
+## 🖼️ 비전 모델 도구 설명 확장 (Vision Model Tool Enhancement)
+
+### 핵심 원칙
+
+**Cline 원본 파일 무수정 + 런타임 확장**:
+- Cline의 `read_file` 도구 설명은 이미지 읽기를 언급하지 않음
+- 하지만 비전 모델은 실제로 `read_file`로 이미지를 볼 수 있음
+- `CaretJsonAdapter`에서 런타임에 설명을 확장하여 AI에게 알려줌
+
+### 구현 방법: 런타임 도구 설명 확장
+
+**위치**: `CaretJsonAdapter.ts`
+
+```typescript
+// CARET MODIFICATION: Add image reading capability note to read_file for vision models
+const modelSupportsImages = context.providerInfo?.model?.info?.supportsImages === true
+if (modelSupportsImages) {
+    filteredTools = filteredTools.map((toolPrompt: string) => {
+        if (toolPrompt.includes("## read_file")) {
+            return toolPrompt.replace(
+                "Automatically extracts raw text from PDF and DOCX files.",
+                "Automatically extracts raw text from PDF and DOCX files. **You can also read image files (PNG, JPG, GIF, WebP) and view their contents directly** - use this to examine screenshots, UI mockups, generated images, or any visual content saved to disk.",
+            )
+        }
+        return toolPrompt
+    })
+}
+```
+
+### 확장 전후 비교
+
+**Before (Cline 원본)**:
+```
+Automatically extracts raw text from PDF and DOCX files. May not be suitable for other types of binary files...
+```
+
+**After (비전 모델용 Caret)**:
+```
+Automatically extracts raw text from PDF and DOCX files. **You can also read image files (PNG, JPG, GIF, WebP) and view their contents directly** - use this to examine screenshots, UI mockups, generated images, or any visual content saved to disk. May not be suitable for other types of binary files...
+```
+
+### 왜 이 방식인가?
+
+1. **Cline 원본 보존**: `src/core/prompts/system-prompt/tools/read_file.ts` 무수정
+2. **기능은 이미 구현됨**: `ReadFileToolHandler`가 비전 모델용 이미지 처리 지원
+3. **AI 인지 필요**: 도구 설명이 없으면 AI가 기능을 모름
+4. **런타임 확장**: 모델 capability에 따라 동적으로 적용
+
+### 테스트 커버리지
+
+**단위 테스트** (`caret-src/core/prompts/__tests__/vision-tool-unit.test.ts`):
+- `read_file` 이미지 캐패빌리티 주입 로직
+- `analyze_image` 도구 필터링 로직
+- 용어 교체 순서 검증
+
+**통합 테스트** (`caret-src/core/prompts/__tests__/vision-tool-integration.test.ts`):
+- 비전 모델(Gemini)에서 이미지 읽기 캐패빌리티 포함 확인
+- 비-비전 모델(GLM-4.7)에서 이미지 읽기 캐패빌리티 미포함 확인
+- `analyze_image` 도구 설정에 따른 포함/제외 확인
+- PLAN/ACT → CHATBOT/AGENT 용어 교체 검증
+
+**테스트 실행**:
+```bash
+npm run test:unit -- --grep "Vision Model Tool"
+```
 
 ---
 
@@ -427,6 +499,6 @@ Cline 모드에서는 기존 `noToolsUsed` 메시지가 전송되어 도구 사�
 
 ---
 
-**작성일**: 2025-10-10 (최종 업데이트: 2026-01-15)
-**Phase**: Phase 4 Backend 완료 + 대화 모드 지원
+**작성일**: 2025-10-10 (최종 업데이트: 2026-01-16)
+**Phase**: Phase 4 Backend 완료 + 대화 모드 지원 + TDD 테스트 완료
 **통합 이유**: F06(기술)과 F07(UX)은 단일 시스템의 양면

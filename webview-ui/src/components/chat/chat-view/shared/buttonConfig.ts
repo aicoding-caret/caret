@@ -305,7 +305,10 @@ export function getButtonConfig(message: ClineMessage | undefined, _mode: Mode =
 		if (message.say === "completion_result") {
 			return BUTTON_CONFIGS.completion_result
 		}
+		// CARET MODIFICATION: Other say messages (text, reasoning, etc.) should allow input
+		return BUTTON_CONFIGS.default
 	}
 
-	return BUTTON_CONFIGS.partial
+	// Fallback for unrecognized message types - allow input
+	return BUTTON_CONFIGS.default
 }

@@ -3,6 +3,7 @@
 
 import * as fs from "fs/promises"
 import { afterEach, beforeEach, describe, it } from "mocha"
+import { expect } from "chai"
 import "should"
 import * as path from "path"
 import { ContextSeparator } from "../core/context/context-separator"
@@ -30,7 +31,7 @@ describe("/init Context Separation", () => {
 
 	describe("시스템 컨텍스트 로드", () => {
 		it("should load system context from .agents/context/", async () => {
-			const rulesPath = path.join(contextDir, "caret-rules.json")
+			const rulesPath = path.join(contextDir, "agents-rules.json")
 			const rules = {
 				project_identity: {
 					name: "Caret",
@@ -58,9 +59,9 @@ describe("/init Context Separation", () => {
 			const workflowPath = path.join(workflowsDir, "test-workflow.md")
 			await fs.writeFile(workflowPath, "# Test Workflow")
 
-			// caret-rules.json이 없으므로 null 반환 예상
+			// agents-rules.json이 없으므로 null 반환 예상
 			const systemContext = await ContextSeparator.loadSystemContext(testDir)
-			;(systemContext as any).should.be.null()
+			expect(systemContext).to.be.null
 
 			const exists = await fileExistsAtPath(workflowPath)
 			exists.should.be.true()
@@ -117,7 +118,7 @@ Test Description
 				architecture_rules: { modification_levels: {} },
 			}
 
-			const rulesPath = path.join(contextDir, "caret-rules.json")
+			const rulesPath = path.join(contextDir, "agents-rules.json")
 			await fs.writeFile(rulesPath, JSON.stringify(systemRules, null, 2))
 
 			const userContextPath = path.join(contextForUserDir, "project-context.md")
@@ -218,7 +219,7 @@ Test Description
 				},
 			}
 
-			await fs.writeFile(path.join(contextDir, "caret-rules.json"), JSON.stringify(systemRules, null, 2))
+			await fs.writeFile(path.join(contextDir, "agents-rules.json"), JSON.stringify(systemRules, null, 2))
 			await fs.writeFile(path.join(contextForUserDir, "project-context.json"), JSON.stringify(userContext, null, 2))
 
 			// TODO: ContextSeparator.buildAIPromptWithSeparatedContexts() 구현 후 활성화
@@ -230,7 +231,7 @@ Test Description
 			// prompt.should.containEql("My Project")
 
 			// 시스템 컨텍스트 확인
-			const systemContent = await fs.readFile(path.join(contextDir, "caret-rules.json"), "utf-8")
+			const systemContent = await fs.readFile(path.join(contextDir, "agents-rules.json"), "utf-8")
 			systemContent.should.containEql("project_identity")
 
 			// 사용자 컨텍스트 확인
@@ -248,7 +249,7 @@ Test Description
 				},
 			}
 
-			await fs.writeFile(path.join(contextDir, "caret-rules.json"), JSON.stringify(systemRules, null, 2))
+			await fs.writeFile(path.join(contextDir, "agents-rules.json"), JSON.stringify(systemRules, null, 2))
 
 			const userContext = {
 				project_name: "Test",

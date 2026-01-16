@@ -20,7 +20,7 @@
 	"ai_workflow": {
 		"knowledge_principle": "AI knowledge = Developer knowledge (1:1 parity)",
 		"mandatory_pre_checks": [
-			"Read caret-rules.json first",
+			"Read agents-rules.json first",
 			"Identify work nature",
 			"Apply minimal-change principles"
 		]

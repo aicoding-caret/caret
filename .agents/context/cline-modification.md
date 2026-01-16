@@ -72,7 +72,7 @@ optional string next_field = 1073;
 ---
 
 **📖 For detailed workflow with backup, proto field numbering, and examples:**
-See `.agents/context/workflows/cline-modification.md` (comment-only + git 복구)
+See `.agents/workflows/cline-modification.md` (comment-only + git 복구)
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/cline-modification.md` (if exists)

@@ -147,10 +147,42 @@ export function getBrandRulesFileName(): string {
 
 /**
  * Get standard agents workflows directory name.
- * @returns Workflows directory name (".agents/context/workflows")
+ * @returns Workflows directory name (".agents/workflows")
  */
 export function getBrandWorkflowsDirName(): string {
+	return ".agents/workflows"
+}
+
+/**
+ * Get legacy workflows directory name (for backward compatibility).
+ * @returns Legacy workflows directory name (".agents/context/workflows")
+ */
+export function getBrandWorkflowsLegacyDirName(): string {
 	return ".agents/context/workflows"
+}
+
+/**
+ * Get standard users documentation directory name.
+ * @returns Users directory name (".users")
+ */
+export function getBrandUsersDirName(): string {
+	return ".users"
+}
+
+/**
+ * Get standard users context directory name.
+ * @returns Users context directory name (".users/context")
+ */
+export function getBrandUsersContextDirName(): string {
+	return ".users/context"
+}
+
+/**
+ * Get legacy user context directory name (for backward compatibility).
+ * @returns Legacy user context directory name (".agents/context-for-user")
+ */
+export function getBrandUsersContextLegacyDirName(): string {
+	return ".agents/context-for-user"
 }
 
 /**

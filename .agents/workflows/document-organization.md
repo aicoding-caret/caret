@@ -12,9 +12,9 @@ You are organizing documentation to keep AI rules and developer docs aligned (AI
 - Avoid knowledge silos and avoid duplicating the same content in multiple places.
 
 ## Source Of Truth (SoT)
-- Entry point / index: `.agents/context/caret-rules.json`
-- Detailed procedures: `.agents/context/workflows/*.md`
-- Reusable atoms: `.agents/context/workflows/atoms/*`
+- Entry point / index: `.agents/context/agents-rules.json`
+- Detailed procedures: `.agents/workflows/*.md`
+- Reusable atoms: `.agents/workflows/atoms/*`
 
 ## Developer Docs (Human-Facing)
 - Primary entry: `caret-docs/development/index.md` (KO-first dashboard)

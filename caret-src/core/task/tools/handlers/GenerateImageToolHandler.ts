@@ -598,7 +598,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					`${brandName} wants to generate an image`,
 					config.autoApprovalSettings.enableNotifications,
 				)
-				await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")
+				// CARET MODIFICATION: Fix - partial message is "ask" type, not "say"
+				await config.callbacks.removeLastPartialMessageIfExistsWithType("ask", "tool")
 
 				const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config)
 				if (!didApprove) {
@@ -707,6 +708,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			let savedImagePath: string | undefined
 			let savedMarkdownPath: string | undefined
 			let savedImageRelativePath: string | undefined
+			let savedImageDataUrl: string | undefined
 			const workspaceRoot = config.workspaceManager?.getPrimaryRoot()?.path ?? config.cwd
 			// CARET MODIFICATION: Save generated assets under standard .agents/generated-assets
 			const assetsDir = path.join(workspaceRoot, getBrandGeneratedAssetsDirName())
@@ -797,6 +799,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 										if (!generatedImageId) {
 											const dataUrl = `data:${finalMimeType};base64,${base64}`
+											savedImageDataUrl = dataUrl
 											generatedImageId = config.services.imageRegistry.registerGeneratedImage({
 												dataUrl,
 												filePath: imagePath,
@@ -934,7 +937,9 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				textOutputs.length ? `Text output: ${textOutputs.join(" ")}` : undefined,
 			].filter(Boolean)
 
-			return formatResponse.toolResult(summaryParts.join("\n"))
+			// CARET MODIFICATION: Include image in tool result for vision models to see directly
+			const images = savedImageDataUrl ? [savedImageDataUrl] : undefined
+			return formatResponse.toolResult(summaryParts.join("\n"), images)
 		} catch (error) {
 			const message = (error as Error).message || "Image generation failed."
 			Logger.error(`[GenerateImage] Failed: ${message}`, error as Error)

@@ -1,11 +1,15 @@
 workflow: ai-work-index
-description: Three-level documentation structure for efficient AI task execution
+description: Dual-directory documentation structure for efficient AI task execution
 
 context: |
-  You are working with Caret's three-level documentation structure:
-  - ROOT (.agents/context/*.md): Quick references (50-80 lines, token-optimized)
-  - WORKFLOWS (.agents/context/workflows/*.md): Detailed procedures (100-250 lines)
-  - KOREAN DOCS (caret-docs/development/*.md): Developer guides (Korean)
+  You are working with Caret's dual-directory architecture:
+  - .agents/ (AI용): Token-optimized, English
+    - context/*.md,*.json,*.yaml: Quick references (50-80 lines)
+    - workflows/*.md: Detailed procedures (100-250 lines)
+    - workflows/atoms/*.md: Reusable building blocks
+  - .users/ (사람용): Detailed explanations in Korean
+    - context/*.md: Human-readable guides (mirrors .agents/context/)
+  - caret-docs/development/*.md: Developer guides in Korean
 
 steps:
   - step: 1
@@ -17,13 +21,13 @@ steps:
       - name: AI Feature Development
         keywords: [AI, feature, integration, system prompt, chatbot, agent, conversation]
         root: .agents/context/ai-feature.md              # Quick reference (60 lines)
-        workflow: .agents/context/workflows/ai-feature.md # Detailed procedure (245 lines)
+        workflow: .agents/workflows/ai-feature.md # Detailed procedure (245 lines)
         korean: caret-docs/development/ai-feature.md  # Korean guide
 
       - name: AI Work Protocol
         keywords: [work protocol, phase, TDD, verification, documentation review]
         root: .agents/context/ai-work-protocol.md        # Quick reference (64 lines)
-        workflow: .agents/context/workflows/ai-work-protocol.md # Detailed (104 lines)
+        workflow: .agents/workflows/ai-work-protocol.md # Detailed (104 lines)
 
       - name: Architecture & Design
         keywords: [architecture, design, structure, system, scaling, fork, Cline modification]
@@ -35,51 +39,51 @@ steps:
       - name: Caret Development Workflow
         keywords: [caret development, development workflow, TDD, document-driven]
         root: .agents/context/caret-development.md       # Quick reference (68 lines)
-        workflow: .agents/context/workflows/caret-development.md # Detailed (129 lines)
+        workflow: .agents/workflows/caret-development.md # Detailed (129 lines)
 
       - name: Cline Original Modification
         keywords: [Cline modification, source change, src/ directory, L1 L2 L3, proto]
         root: .agents/context/cline-modification.md      # Quick reference (78 lines)
-        workflow: .agents/context/workflows/cline-modification.md # Detailed (146 lines)
+        workflow: .agents/workflows/cline-modification.md # Detailed (146 lines)
         note: Always follow backup + `// CARET MODIFICATION:` comment requirements
 
       - name: Critical Verification
         keywords: [verification, critical analysis, 3-stage, balanced review]
         root: .agents/context/critical-verification.md   # Quick reference (53 lines)
-        workflow: .agents/context/workflows/critical-verification.md # Detailed (93 lines)
+        workflow: .agents/workflows/critical-verification.md # Detailed (93 lines)
 
       - name: Document Organization
         keywords: [documentation, knowledge sync, atomization, F11, 1:1 parity]
         root: .agents/context/document-organization.md   # Quick reference (47 lines)
-        workflow: .agents/context/workflows/document-organization.md # Detailed (100 lines)
+        workflow: .agents/workflows/document-organization.md # Detailed (100 lines)
         korean: caret-docs/development/documentation-guide.md
 
       - name: Merge Strategy
         keywords: [merge, fork, L1 L2 L3, Cline integration, upstream]
         root: .agents/context/merge-strategy.md          # Quick reference (51 lines)
-        workflow: .agents/context/workflows/merge-strategy.md # Detailed (87 lines)
+        workflow: .agents/workflows/merge-strategy.md # Detailed (87 lines)
 
       - name: New Component Creation
         keywords: [component, React, new feature, UI, service, TDD]
         root: .agents/context/new-component.md           # Quick reference (80 lines)
-        workflow: .agents/context/workflows/new-component.md # Detailed (180 lines)
+        workflow: .agents/workflows/new-component.md # Detailed (180 lines)
         korean: caret-docs/development/component-architecture-principles.md
 
       - name: Testing & Quality
         keywords: [test, TDD, quality, coverage, verification, bug, integration test]
         root: .agents/context/testing-work.md            # Quick reference (82 lines)
-        workflow: .agents/context/workflows/testing-work.md # Detailed (253 lines)
+        workflow: .agents/workflows/testing-work.md # Detailed (253 lines)
         korean: caret-docs/development/testing-guide.md
 
       - name: B2B Branding & Conversion
         keywords: [b2b, brand, codecenter, conversion, slexn]
         root: .agents/context/b2b-branding-workflow.md
-        workflow: .agents/context/workflows/branding-and-logging.md # Branding implementation (157 lines)
+        workflow: .agents/workflows/branding-and-logging.md # Branding implementation (157 lines)
         korean: caret-docs/development/b2b-branding-workflow.md
 
       - name: i18n Static Translation Fix
         keywords: [i18n, translation, static, dynamic, language switching]
-        workflow: .agents/context/workflows/i18n-static-translation-fix.md # i18n bug fix (130 lines)
+        workflow: .agents/workflows/i18n-static-translation-fix.md # i18n bug fix (130 lines)
 
       - name: Frontend-Backend Communication
         keywords: [webview, communication, state management, message passing, UI integration, gRPC]

@@ -51,11 +51,13 @@ describe("parseSlashCommands", () => {
 
 			const requiredPaths = [
 				"AGENTS.md",
-				path.join(".agents", "context", "caret-rules.json"),
-				path.join(".agents", "context", "caret-rules.md"),
+				"CLAUDE.md",
+				path.join(".agents", "context", "agents-rules.json"),
 				path.join(".agents", "context", "ai-work-index.yaml"),
-				path.join(".agents", "context", "workflows", "agents-init.md"),
-				path.join(".agents", "context", "workflows", "README.md"),
+				path.join(".agents", "workflows", "agents-init.md"),
+				path.join(".agents", "workflows", "README.md"),
+				path.join(".users", "context", "agents-rules.md"),
+				path.join(".users", "context", "README.md"),
 			]
 
 			for (const relPath of requiredPaths) {

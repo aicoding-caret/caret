@@ -1,3 +1,6 @@
+// CARET MODIFICATION: 이중 디렉토리 아키텍처 (Dual-directory Architecture) 지원
+// .agents/ - AI용 (시스템 컨텍스트, 영어, 토큰 최적화)
+// .users/ - 사람용 (사용자 컨텍스트, 네이티브 언어, 상세 설명)
 import { ContextSeparator } from "@core/context/context-separator"
 import { getAgentsStandardStatus } from "@core/context/instructions/user-instructions/agents-init"
 import { SystemPromptSection } from "../templates/placeholders"
@@ -10,6 +13,34 @@ The following additional instructions are provided by the user, and should be fo
 
 {{CUSTOM_INSTRUCTIONS}}`
 
+// CARET MODIFICATION: 이중 디렉토리 아키텍처 사상 (Dual-directory Architecture Philosophy)
+const CONTEXT_STRUCTURE_PHILOSOPHY = `# Context Structure Philosophy (Dual-directory Architecture)
+
+This project uses a dual-directory architecture for context management:
+
+## Directory Structure
+- \`.agents/\` - AI-optimized context (system rules, English, token-efficient)
+  - \`context/\` - System rules in JSON/YAML format
+  - \`workflows/\` - Task workflows and protocols
+    - \`atoms/\` - Reusable small protocols (building blocks)
+  - \`skills/\` - AI skills and capabilities
+  - \`hooks/\` - Event hooks and triggers
+- \`.users/\` - Human-readable context (native language, detailed explanations)
+  - \`context/\` - Project context in Markdown format
+  - \`workflows/\` - Human-readable workflow guides
+    - \`atoms/\` - Human-readable atom descriptions
+  - \`skills/\` - Human-readable skill guides
+  - \`hooks/\` - Human-readable hook documentation
+- \`AGENTS.md\` - Entry point for AI, contains project overview
+
+## Key Principles
+1. **1:1 Mirroring**: .users/ structure mirrors .agents/ exactly
+2. **Language Optimization**: .agents/ uses English for token efficiency, .users/ uses team's native language
+3. **Workflows vs Atoms**: Workflows are complete task flows, atoms are reusable building blocks
+4. **AI reads .agents/, humans read .users/**: Clear separation of concerns
+
+When creating or modifying context files, follow this architecture.`
+
 export async function getUserInstructions(variant: PromptVariant, context: SystemPromptContext): Promise<string | undefined> {
 	// CARET MODIFICATION: Only include .agents/context + AGENTS.md instructions.
 	const customInstructions = buildUserInstructions(
@@ -20,16 +51,17 @@ export async function getUserInstructions(variant: PromptVariant, context: Syste
 		context.preferredLanguageInstructions,
 	)
 
-	// CARET MODIFICATION: M02 - Add separated user context from .agents/context-for-user/
+	// CARET MODIFICATION: M02 - Add separated user context from .users/context/ (or legacy .agents/context-for-user/)
 	const userContext = await ContextSeparator.loadUserContext(context.cwd || process.cwd())
 
 	const agentsInitNotice = await buildAgentsInitNotice(context)
 
-	let combinedInstructions = [customInstructions, agentsInitNotice].filter(Boolean).join("\n\n")
+	// CARET MODIFICATION: Add context structure philosophy for AI understanding
+	let combinedInstructions = [CONTEXT_STRUCTURE_PHILOSOPHY, customInstructions, agentsInitNotice].filter(Boolean).join("\n\n")
 
 	// Add user context section if exists
 	if (userContext) {
-		combinedInstructions += `\n\n# User Context (from .agents/context-for-user/)\n\n${userContext}`
+		combinedInstructions += `\n\n# User Context (from .users/context/)\n\n${userContext}`
 	}
 
 	if (!combinedInstructions) {
@@ -74,7 +106,8 @@ function buildUserInstructions(
 }
 
 async function buildAgentsInitNotice(context: SystemPromptContext): Promise<string | undefined> {
-	if (context.modeSystem !== "caret" || !context.cwd) {
+	// CARET MODIFICATION: Only show init notice when workspace folder is actually open
+	if (context.modeSystem !== "caret" || !context.cwd || !context.hasOpenWorkspace) {
 		return undefined
 	}
 

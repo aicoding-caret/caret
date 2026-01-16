@@ -77,7 +77,7 @@ Helper functions, utilities (created during refactor, not starting points)
 ---
 
 **📖 For detailed testing workflow with code examples:**
-See `.agents/context/workflows/testing-work.md`
+See `.agents/workflows/testing-work.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/testing-guide.md`

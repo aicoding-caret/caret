@@ -75,7 +75,7 @@ caret-src/services/
 ---
 
 **📖 For detailed workflow with code examples:**
-See `.agents/context/workflows/new-component.md`
+See `.agents/workflows/new-component.md`
 
 **📖 For Korean developer documentation:**
 See `caret-docs/development/component-architecture-principles.md`

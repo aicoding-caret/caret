@@ -17,11 +17,11 @@ You are working with Caret's dual documentation system designed for AI-developer
 **Goal**: Minimize token usage (API cost reduction) and eliminate knowledge duplication by breaking documents into reusable atomic units.
 
 **Structure**:
-- **Atoms** (`.agents/context/workflows/atoms/`): Minimal reusable rules
+- **Atoms** (`.agents/workflows/atoms/`): Minimal reusable rules
   - Examples: `tdd-cycle.yaml`, `backup-protocol.yaml`, `verification-steps.md`
   - Single responsibility: Each atom covers one specific concept
 
-- **Composite Workflows** (`.agents/context/workflows/`): Task-specific procedures combining multiple atoms
+- **Composite Workflows** (`.agents/workflows/`): Task-specific procedures combining multiple atoms
   - Examples: `new-component.md`, `cline-modification.md`
   - References atoms instead of duplicating content
 
@@ -39,7 +39,7 @@ You are working with Caret's dual documentation system designed for AI-developer
 
 ## Workflow vs Skill (Different Systems)
 
-- **Workflows**: Project rules/procedures stored in `.agents/context/workflows/**`. Loaded on-demand based on task context.
+- **Workflows**: Project rules/procedures stored in `.agents/workflows/**`. Loaded on-demand based on task context.
 - **Skills**: Codex capability modules stored in `.agents/skills/**`. Loaded only when a skill is named or its description matches the task.
 - Do not duplicate workflows as skills unless the task is deterministic and script-backed.
 
@@ -115,7 +115,7 @@ caret-docs/
 
 - If the workspace is missing the standard structure, ask the user for consent.
 - On approval, scaffold from `assets/agents_template` and then populate `.agents/context` with real project context.
-- Use `.agents/context/workflows/agents-init.md` as the authoritative fill-in workflow.
+- Use `.agents/workflows/agents-init.md` as the authoritative fill-in workflow.
 - Do not invent details; fill only from confirmed project docs (AGENTS.md, README, architecture guides).
 
 ## Caret CLI npm Publish (Knowledge Sync)

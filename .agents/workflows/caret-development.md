@@ -148,5 +148,5 @@ t('common.button.save')
 **Dynamic Pattern** (for language switching):
 - Convert static constants to dynamic functions
 - Use `useMemo(() => getFunction(), [language])` in components
-- Reference: `.agents/context/workflows/atoms/i18n-dynamic-pattern.md`
+- Reference: `.agents/workflows/atoms/i18n-dynamic-pattern.md`
 </general_guidelines>

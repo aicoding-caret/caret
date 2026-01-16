@@ -7,6 +7,7 @@
 		"caret-src/core/task/tools/__tests__/*.ts",
 		"caret-src/core/api/**/__tests__/*.ts",
 		"caret-src/core/api/providers/__tests__/*.ts",
+		"caret-src/core/prompts/__tests__/*.ts",
 		"caret-src/integrations/document/__tests__/*.ts"
 	],
 	"require": [
