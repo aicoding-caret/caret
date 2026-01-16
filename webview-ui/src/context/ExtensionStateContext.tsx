@@ -145,6 +145,9 @@ export interface ExtensionStateContextType extends ExtensionState {
 	setLocalAgentsRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWorkflowToggles: (toggles: Record<string, boolean>) => void
 	setGlobalWorkflowToggles: (toggles: Record<string, boolean>) => void
+	// CARET MODIFICATION: Skills toggles setters
+	setGlobalSkillsToggles: (toggles: Record<string, boolean>) => void
+	setLocalSkillsToggles: (toggles: Record<string, boolean>) => void
 	setRemoteRulesToggles: (toggles: Record<string, boolean>) => void
 	setRemoteWorkflowToggles: (toggles: Record<string, boolean>) => void
 	setMcpMarketplaceCatalog: (value: McpMarketplaceCatalog) => void
@@ -1126,6 +1129,17 @@ export const ExtensionStateContextProvider: React.FC<{
 			setState((prevState) => ({
 				...prevState,
 				globalWorkflowToggles: toggles,
+			})),
+		// CARET MODIFICATION: Skills toggles setters
+		setGlobalSkillsToggles: (toggles) =>
+			setState((prevState) => ({
+				...prevState,
+				globalSkillsToggles: toggles,
+			})),
+		setLocalSkillsToggles: (toggles) =>
+			setState((prevState) => ({
+				...prevState,
+				localSkillsToggles: toggles,
 			})),
 		setRemoteRulesToggles: (toggles) =>
 			setState((prevState) => ({

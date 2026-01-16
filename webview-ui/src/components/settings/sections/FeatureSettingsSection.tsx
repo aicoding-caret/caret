@@ -37,6 +37,9 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 		modeSystem,
 		subagentsEnabled,
 		featureConfig,
+		// CARET MODIFICATION: Hooks and Skills settings
+		hooksEnabled,
+		skillsEnabled,
 	} = useExtensionState()
 	const dictation = dictationSettings ?? DEFAULT_DICTATION_SETTINGS
 	const { language } = useCaretI18nContext()
@@ -384,6 +387,48 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								target="_blank">
 								{t("features.learnMore", "settings")}
 							</a>
+						</p>
+					</div>
+					{/* CARET MODIFICATION: Hooks setting */}
+					<div style={{ marginTop: 10 }}>
+						<VSCodeCheckbox
+							checked={hooksEnabled}
+							disabled={!isMacOSOrLinux()}
+							onChange={(e: any) => {
+								const checked = e.target.checked === true
+								updateSetting("hooksEnabled", checked)
+							}}>
+							Enable Hooks
+						</VSCodeCheckbox>
+						{!isMacOSOrLinux() ? (
+							<p className="text-xs mt-1" style={{ color: "var(--vscode-inputValidation-warningForeground)" }}>
+								Hooks are not yet supported on Windows. This feature is currently available on macOS and Linux
+								only.
+							</p>
+						) : (
+							<p className="text-xs">
+								<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
+								<span className="text-[var(--vscode-descriptionForeground)]">
+									Allows execution of hooks from .agents/hooks/ directory.
+								</span>
+							</p>
+						)}
+					</div>
+					{/* CARET MODIFICATION: Skills setting */}
+					<div style={{ marginTop: 10 }}>
+						<VSCodeCheckbox
+							checked={skillsEnabled}
+							onChange={(e: any) => {
+								const checked = e.target.checked === true
+								updateSetting("skillsEnabled", checked)
+							}}>
+							Enable Skills
+						</VSCodeCheckbox>
+						<p className="text-xs">
+							<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
+							<span className="text-[var(--vscode-descriptionForeground)]">
+								Enables Skills for reusable, on-demand agent instructions from .agents/skills/ directories.
+							</span>
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>
