@@ -391,14 +391,22 @@
 		"manageRulesWorkflows": "{{brandName}}ルールとワークフローを管理",
 		"rulesTab": "ルール",
 		"workflowsTab": "ワークフロー",
+		"hooksTab": "Hooks",
+		"skillsTab": "Skills",
 		"rulesDescription": "ルールを使用すると、Clineにシステムレベルのガイダンスを提供できます。プロジェクトまたはすべての会話に対して、コンテキストと設定を永続的に含める方法と考えてください。",
 		"docs": "ドキュメント",
 		"workflowsDescription": "ワークフローを使用すると、サービスのデプロイやPRの提出など、繰り返しのタスクセットをClineがガイドするための一連のステップを定義できます。ワークフローを呼び出すには、チャットに",
 		"workflowName": "/ワークフロー名",
+		"hooksDescription": "Hooksを使用すると、AIアクションの前後にシェルコマンドを実行できます。コードレビュー、リンティング、テストなどのタスクに使用してください。",
+		"skillsDescription": "Skillsは、オンデマンドで呼び出せる再利用可能な指示セットです。特定のタスクに対する専門的なガイダンスを{{brandName}}に提供するために使用してください。",
 		"globalRules": "グローバルルール",
 		"workspaceRules": "ワークスペースルール",
 		"globalWorkflows": "グローバルワークフロー",
-		"workspaceWorkflows": "ワークスペースワークフロー"
+		"workspaceWorkflows": "ワークスペースワークフロー",
+		"globalHooks": "グローバルHooks",
+		"workspaceHooks": "ワークスペースHooks",
+		"globalSkills": "グローバルSkills",
+		"workspaceSkills": "ワークスペースSkills"
 	},
 	"newRuleRow": {
 		"invalidExtensionError": "'.md'、'.txt'、またはファイル拡張子なしのみが許可されます",

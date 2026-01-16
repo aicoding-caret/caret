@@ -287,7 +287,11 @@
 		"autoCompactDescription": "차세대 모델을 위해 LLM 기반 압축을 사용하는 고급 컨텍스트 관리 시스템을 활성화합니다.",
 		"enableYoloMode": "YOLO 모드 활성화",
 		"enableYoloModeDescription": "실험적이고 위험함: 이 모드는 안전 검사 및 사용자 확인을 비활성화합니다. Caret이 묻지 않고 모든 작업을 자동으로 승인합니다. 극도로 주의하여 사용하세요.",
-		"learnMore": "더 알아보기"
+		"learnMore": "더 알아보기",
+		"enableHooks": "Hooks 활성화",
+		"enableHooksDescription": "AI 작업 전후에 셸 명령을 실행할 수 있습니다 (예: 편집 전 코드 리뷰).",
+		"enableSkills": "Skills 활성화",
+		"enableSkillsDescription": "필요 시 호출할 수 있는 재사용 가능한 지시 세트를 정의할 수 있습니다."
 	},
 	"autoApprove": {
 		"title": "자동 승인 설정",

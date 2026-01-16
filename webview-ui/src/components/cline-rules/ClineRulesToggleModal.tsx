@@ -455,13 +455,13 @@ const ClineRulesToggleModal: React.FC = () => {
 							{/* CARET MODIFICATION: Hooks tab - only show when hooks feature is enabled */}
 							{hooksEnabled && (
 								<TabButton isActive={currentView === "hooks"} onClick={() => setCurrentView("hooks")}>
-									Hooks
+									{t("clineRulesToggleModal.hooksTab", "chat")}
 								</TabButton>
 							)}
 							{/* CARET MODIFICATION: Skills tab - only show when skills feature is enabled */}
 							{skillsEnabled && (
 								<TabButton isActive={currentView === "skills"} onClick={() => setCurrentView("skills")}>
-									Skills
+									{t("clineRulesToggleModal.skillsTab", "chat")}
 								</TabButton>
 							)}
 						</div>
@@ -494,16 +494,9 @@ const ClineRulesToggleModal: React.FC = () => {
 								</VSCodeLink>
 							</p>
 						) : currentView === "skills" ? (
-							<p>
-								Skills are reusable instruction sets that Caret can activate on-demand. When a task matches a
-								skill's description, Caret uses the <span className="font-bold">use_skill</span> tool to load
-								the full instructions.
-							</p>
+							<p>{t("clineRulesToggleModal.skillsDescription", "chat")}</p>
 						) : (
-							<p>
-								Hooks allow you to execute custom scripts at specific points in Caret's execution lifecycle,
-								enabling automation and integration with external tools.
-							</p>
+							<p>{t("clineRulesToggleModal.hooksDescription", "chat")}</p>
 						)}
 					</div>
 
@@ -582,7 +575,9 @@ const ClineRulesToggleModal: React.FC = () => {
 							{/* CARET MODIFICATION: Skills Tab Content */}
 							{/* Global Skills Section */}
 							<div className="mb-3">
-								<div className="text-sm font-normal mb-2">Global Skills</div>
+								<div className="text-sm font-normal mb-2">
+									{t("clineRulesToggleModal.globalSkills", "chat")}
+								</div>
 								<div className="flex flex-col gap-0">
 									{globalSkills
 										.sort((a, b) => a.name.localeCompare(b.name))
@@ -602,7 +597,9 @@ const ClineRulesToggleModal: React.FC = () => {
 
 							{/* Workspace Skills Section */}
 							<div style={{ marginBottom: -10 }}>
-								<div className="text-sm font-normal mb-2">Workspace Skills</div>
+								<div className="text-sm font-normal mb-2">
+									{t("clineRulesToggleModal.workspaceSkills", "chat")}
+								</div>
 								<div className="flex flex-col gap-0">
 									{localSkills
 										.sort((a, b) => a.name.localeCompare(b.name))
@@ -648,7 +645,9 @@ const ClineRulesToggleModal: React.FC = () => {
 
 							{/* Global Hooks */}
 							<div className="mb-3">
-								<div className="text-sm font-normal mb-2">Global Hooks</div>
+								<div className="text-sm font-normal mb-2">
+									{t("clineRulesToggleModal.globalHooks", "chat")}
+								</div>
 								<div className="flex flex-col gap-0">
 									{globalHooks
 										.sort((a, b) => a.name.localeCompare(b.name))

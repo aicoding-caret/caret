@@ -279,7 +279,11 @@
 		"autoCompactDescription": "Enables advanced context management system which uses LLM based condensing for next-gen models.",
 		"enableYoloMode": "Enable YOLO Mode",
 		"enableYoloModeDescription": "EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. Caret will automatically approve all actions without asking. Use with extreme caution.",
-		"learnMore": "Learn more"
+		"learnMore": "Learn more",
+		"enableHooks": "Enable Hooks",
+		"enableHooksDescription": "Allows you to run shell commands before and after AI actions (e.g., code review before edits).",
+		"enableSkills": "Enable Skills",
+		"enableSkillsDescription": "Allows you to define reusable instruction sets that can be invoked on demand."
 	},
 	"autoApprove": {
 		"title": "Auto-approve Settings",

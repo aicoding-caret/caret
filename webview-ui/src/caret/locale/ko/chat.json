@@ -392,14 +392,22 @@
 		"manageRulesWorkflows": "Caret 규칙 및 워크플로우 관리",
 		"rulesTab": "규칙",
 		"workflowsTab": "워크플로우",
+		"hooksTab": "Hooks",
+		"skillsTab": "Skills",
 		"rulesDescription": "규칙을 통해 Caret에 시스템 수준 지침을 제공할 수 있습니다. 프로젝트 또는 모든 대화에 전역적으로 컨텍스트 및 기본 설정을 포함하는 영구적인 방법이라고 생각하세요.",
 		"docs": "문서",
 		"workflowsDescription": "워크플로우를 통해 캐럿이 서비스 배포 또는 PR 제출과 같은 반복적인 작업 세트를 안내하는 일련의 단계를 정의할 수 있습니다. 워크플로우를 호출하려면 채팅에",
 		"workflowName": "/워크플로우-이름",
+		"hooksDescription": "Hooks를 사용하면 AI 작업 전후에 셸 명령을 실행할 수 있습니다. 코드 리뷰, 린팅, 테스트 등의 작업에 사용하세요.",
+		"skillsDescription": "Skills는 필요 시 호출할 수 있는 재사용 가능한 지시 세트입니다. 특정 작업에 대한 전문적인 안내를 {{brandName}}에 제공하는 데 사용하세요.",
 		"globalRules": "전역 규칙",
 		"workspaceRules": "작업 공간 규칙",
 		"globalWorkflows": "전역 워크플로우",
-		"workspaceWorkflows": "작업 공간 워크플로우"
+		"workspaceWorkflows": "작업 공간 워크플로우",
+		"globalHooks": "전역 Hooks",
+		"workspaceHooks": "작업 공간 Hooks",
+		"globalSkills": "전역 Skills",
+		"workspaceSkills": "작업 공간 Skills"
 	},
 	"newRuleRow": {
 		"invalidExtensionError": "'.md', '.txt' 또는 파일 확장자 없음만 허용됩니다",

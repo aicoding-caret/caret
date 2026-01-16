@@ -398,7 +398,7 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								const checked = e.target.checked === true
 								updateSetting("hooksEnabled", { user: checked, featureFlag: hooksEnabled?.featureFlag ?? true })
 							}}>
-							Enable Hooks
+							{t("features.enableHooks", "settings")}
 						</VSCodeCheckbox>
 						{!isMacOSOrLinux() ? (
 							<p className="text-xs mt-1" style={{ color: "var(--vscode-inputValidation-warningForeground)" }}>
@@ -406,11 +406,8 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								only.
 							</p>
 						) : (
-							<p className="text-xs">
-								<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
-								<span className="text-[var(--vscode-descriptionForeground)]">
-									Allows execution of hooks from .agents/hooks/ directory.
-								</span>
+							<p className="text-xs text-[var(--vscode-descriptionForeground)]">
+								{t("features.enableHooksDescription", "settings")}
 							</p>
 						)}
 					</div>
@@ -422,13 +419,10 @@ const FeatureSettingsSection = ({ renderSectionHeader }: FeatureSettingsSectionP
 								const checked = e.target.checked === true
 								updateSetting("skillsEnabled", checked)
 							}}>
-							Enable Skills
+							{t("features.enableSkills", "settings")}
 						</VSCodeCheckbox>
-						<p className="text-xs">
-							<span className="text-[var(--vscode-errorForeground)]">Experimental: </span>{" "}
-							<span className="text-[var(--vscode-descriptionForeground)]">
-								Enables Skills for reusable, on-demand agent instructions from .agents/skills/ directories.
-							</span>
+						<p className="text-xs text-[var(--vscode-descriptionForeground)]">
+							{t("features.enableSkillsDescription", "settings")}
 						</p>
 					</div>
 					<div style={{ marginTop: 10 }}>

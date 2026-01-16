@@ -391,14 +391,22 @@
 		"manageRulesWorkflows": "管理Cline规则和工作流",
 		"rulesTab": "规则",
 		"workflowsTab": "工作流",
+		"hooksTab": "Hooks",
+		"skillsTab": "Skills",
 		"rulesDescription": "规则允许您为Cline提供系统级指导。可以将它们视为一种持久的方式，用于为您的项目或所有对话全局包含上下文和偏好。",
 		"docs": "文档",
 		"workflowsDescription": "工作流允许您定义一系列步骤，以指导Cline完成重复的任务集，例如部署服务或提交PR。要调用工作流，请在聊天中键入",
 		"workflowName": "/工作流名称",
+		"hooksDescription": "Hooks 允许您在 AI 操作前后运行 shell 命令。用于代码审查、代码检查、测试等任务。",
+		"skillsDescription": "Skills 是可按需调用的可重用指令集。用于为 {{brandName}} 提供特定任务的专业指导。",
 		"globalRules": "全局规则",
 		"workspaceRules": "工作区规则",
 		"globalWorkflows": "全局工作流",
-		"workspaceWorkflows": "工作区工作流"
+		"workspaceWorkflows": "工作区工作流",
+		"globalHooks": "全局 Hooks",
+		"workspaceHooks": "工作区 Hooks",
+		"globalSkills": "全局 Skills",
+		"workspaceSkills": "工作区 Skills"
 	},
 	"newRuleRow": {
 		"invalidExtensionError": "只允许使用“.md”、“.txt”或无文件扩展名",
