@@ -59,10 +59,26 @@ node_modules/**
 !node_modules/@vscode/codicons/dist/codicon.ttf
 
 # ✅ HWP parser native modules (external in esbuild, must be included in VSIX)
-!node_modules/@ohah/
-!node_modules/@ohah/**
+# Only whitelist necessary files - exclude iOS/Android React Native binaries (125MB)
 !node_modules/@napi-rs/wasm-runtime/
 !node_modules/@napi-rs/wasm-runtime/**
+
+# Platform-specific native binaries (~1MB each)
+!node_modules/@ohah/hwpjs-darwin-arm64/
+!node_modules/@ohah/hwpjs-darwin-arm64/**
+!node_modules/@ohah/hwpjs-darwin-x64/
+!node_modules/@ohah/hwpjs-darwin-x64/**
+!node_modules/@ohah/hwpjs-linux-x64-gnu/
+!node_modules/@ohah/hwpjs-linux-x64-gnu/**
+!node_modules/@ohah/hwpjs-win32-x64-msvc/
+!node_modules/@ohah/hwpjs-win32-x64-msvc/**
+!node_modules/@ohah/hwpjs-wasm32-wasi/
+!node_modules/@ohah/hwpjs-wasm32-wasi/**
+
+# Main hwpjs package - only dist/index.js and package.json
+!node_modules/@ohah/hwpjs/package.json
+!node_modules/@ohah/hwpjs/dist/index.js
+!node_modules/@ohah/hwpjs/dist/index.d.ts
 !standalone/
 !standalone/runtime-files/
 !standalone/runtime-files/vscode/
