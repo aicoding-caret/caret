@@ -94,6 +94,7 @@ export interface ExtensionState {
 	autoCondenseThreshold?: number
 	imageGenerationAspectRatio?: string
 	imageGenerationSize?: string
+	imageAnalysisModel?: string // CARET MODIFICATION: Image analysis model selection
 	favoritedModelIds: string[]
 	// NEW: Add workspace information
 	workspaceRoots: WorkspaceRoot[]
@@ -255,6 +256,13 @@ export interface ClineSayTool {
 		totalCost?: number
 	}
 	errorMessage?: string
+	// CARET MODIFICATION: for read_document tool
+	documentPath?: string
+	format?: string
+	fileSize?: string
+	// CARET MODIFICATION: for analyze_image tool
+	imagePath?: string
+	question?: string
 }
 
 // cline 3.38.1 hook message payload

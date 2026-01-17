@@ -385,6 +385,8 @@ message UpdateSettingsRequest {
   optional string current_persona = 1004;
   optional string image_generation_aspect_ratio = 1005;
   optional string image_generation_size = 1006;
+  // CARET MODIFICATION: F13 - Image Analysis Model Selection
+  optional string image_analysis_model = 1007;
 }
 
 message UpdateTerminalConnectionTimeoutRequest {
