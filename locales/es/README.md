@@ -11,7 +11,7 @@
 <a href="https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev" target="_blank"><strong>Descargar en VS Marketplace</strong></a>
 </td>
 <td align="center">
-<a href="https://discord.gg/cline" target="_blank"><strong>Discord</strong></a>
+<a href="https://https://discord.gg/WB6yaR89YN" target="_blank"><strong>Discord</strong></a>
 </td>
 <td align="center">
 <a href="https://www.reddit.com/r/cline/" target="_blank"><strong>r/cline</strong></a>
@@ -135,7 +135,7 @@ Por ejemplo, si está trabajando con un servidor web local, puede usar 'Restaura
 
 ## Contribuir
 
-Para contribuir al proyecto, comience con nuestra [guía de contribución](CONTRIBUTING.md) para aprender los conceptos básicos. También puede unirse a nuestro [Discord](https://discord.gg/cline) para chatear con otros colaboradores en el canal `#contributors`. Si está buscando un trabajo a tiempo completo, consulte nuestras vacantes en nuestra [página de carreras](https://cline.bot/join-us).
+Para contribuir al proyecto, comience con nuestra [guía de contribución](CONTRIBUTING.md) para aprender los conceptos básicos. También puede unirse a nuestro [Discord](https://https://discord.gg/WB6yaR89YN) para chatear con otros colaboradores en el canal `#contributors`. Si está buscando un trabajo a tiempo completo, consulte nuestras vacantes en nuestra [página de carreras](https://cline.bot/join-us).
 
 <details>
 <summary>Instrucciones de desarrollo local</summary>

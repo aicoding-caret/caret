@@ -38,6 +38,17 @@
 		"generateImageImageUnavailable": "이미지를 불러올 수 없습니다",
 		"generateImageAlt": "생성된 이미지",
 		"generateImageSavedPath": "저장된 경로: {{path}}",
+		"readDocument": "캐럿이 문서를 읽으려고 합니다",
+		"readDocumentPath": "경로",
+		"readDocumentFormat": "형식",
+		"readDocumentCompleted": "문서 읽기 완료",
+		"readDocumentReading": "문서 읽는 중...",
+		"readDocumentSize": "크기",
+		"analyzeImage": "캐럿이 이미지를 분석하려고 합니다",
+		"analyzeImagePath": "경로",
+		"analyzeImageQuestion": "질문",
+		"analyzeImageCompleted": "이미지 분석 완료",
+		"analyzeImageAnalyzing": "이미지 분석 중...",
 		"commandOutput": "명령어 출력",
 		"commandApprovalRequired": "모델이 이 명령에 명시적인 승인이 필요하다고 판단했습니다.",
 		"mcpNotification": "MCP 알림",
@@ -459,6 +470,15 @@
 	"copyButton": {
 		"copied": "복사됨",
 		"copy": "복사"
+	},
+	"imageTools": {
+		"loginRequired": {
+			"title": "{{action}} 기능을 사용하려면 {{brandName}} 계정 로그인이 필요합니다.",
+			"toUseFeature": "**이 기능을 사용하려면:**",
+			"loginStep": "1. {{brandName}} 사이드바에서 로그인하세요",
+			"toDisableTool": "**이 도구를 비활성화하려면:**",
+			"disableStep": "- 설정 > 자동 승인 > \"{{toolName}}\" 토글"
+		}
 	},
 	"demo": {
 		"helloWorld": "안녕하세요!",

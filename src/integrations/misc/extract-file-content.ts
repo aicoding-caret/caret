@@ -37,7 +37,12 @@ export async function extractFileContent(absolutePath: string, modelSupportsImag
 			throw new Error(imageResult.error)
 		}
 	} else if (isImage && !modelSupportsImages) {
-		throw new Error(`Current model does not support image input`)
+		// CARET MODIFICATION: Text-only models can't view images, return path info instead
+		// Model can use analyze_image tool if it needs to examine the image content
+		const fileName = path.basename(absolutePath)
+		return {
+			text: `[Image file: ${fileName}]\nPath: ${absolutePath}\nNote: Current model cannot view images directly. Use the analyze_image tool to examine this image.`,
+		}
 	} else {
 		// Handle text files using existing extraction functions
 		try {

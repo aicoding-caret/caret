@@ -25,7 +25,9 @@ Automates AI provider setup: fetches model lists (LiteLLM, BizRouter), validates
 | --- | --- | --- | --- | --- |
 | LiteLLM | ✅ | ✅ | ✅ Health-based | Done |
 | BizRouter | ✅ | ✅ | ❌ Simplified | Done |
-| [Naver Cloud](https://clova.ai/) | ✅ (built-in list) | ✅ (API key required) | ❌ | Done |
+| ZAI (GLM-4.7) | ✅ | ✅ | ✅ Thinking + Coding | Done |
+| Upstage (Solar) | ❌ Static list | ✅ | ❌ Simplified | Done |
+| NAVER CLOUD (HyperCLOVA X) | ❌ Static list | ✅ | ✅ Thinking (HCX-007) | Done |
 
 ## 🔧 Architecture & Flow
 - gRPC services exposed via `CaretSystemService` (`FetchLiteLlmModels`, `FetchBizRouterModels`).

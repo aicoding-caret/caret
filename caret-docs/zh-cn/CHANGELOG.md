@@ -25,6 +25,36 @@
   </table>
 </div>
 
+## [0.4.5] 2026-01-18
+
+> **注意**: Caret v0.4.5从Cline v3.49.0+中Cherry-pick了Skills系统、Hooks i18n等功能。
+
+### ✨ 新功能
+- **Z.AI GLM-4.7 完整支持**: 支持Thinking Mode和自然对话风格。
+- **[Upstage](https://upstage.ai/) 提供商**: 新增支持Upstage Solar模型的提供商。
+- **文本模型图像工具**: 纯文本模型也可以使用Caret账号工具进行图像生成和分析。
+- **Skills系统** (Cline v3.49.0+ Cherry-pick): 添加了可定义项目级技能供AI使用的Skills系统。可在`.agents/skills/`或`.users/skills/`目录中管理技能。
+- **双目录架构**: 可分离管理AI用(`.agents/`)上下文和人类用(`.users/`)文档。AI优先参考经过令牌优化的`.agents/`上下文。
+- **HWP文档支持**: 支持跨平台HWP解析。Windows、macOS、Linux均可读取韩文(.hwp)文档。
+- **read_document工具**: 新增可读取HWP、PDF、DOCX、PPTX等多种文档格式的统一文档读取工具。同时支持PPT旧版格式检测。
+- **analyze_image工具**: 新增与Caret账号Gemini连接的图像分析工具。应用最大7500px限制，包含分析结果报告指南。
+- **generate_image工具改进**: 支持XML `<image>`标签解析，明确文件路径（相对/绝对）支持，添加aspect_ratio/image_size省略指南。
+- **图像发送开关**: 添加了可通过@提及设置是否发送图像文件的切换功能。
+
+### ✨ 改进
+- **全局上下文路径变更**: 全局代理设置路径更改为`~/Documents/.agents/`。
+- **多语言支持**: 为Hooks和Skills功能添加了韩语、日语、中文翻译。
+- **YAML frontmatter解析**: 添加了Skills/Hooks共享的YAML解析工具。
+- **默认提供商**: 新用户的默认提供商设置为Caret。
+- **Feature Config UI门控**: 可通过feature config控制账号/模式/听写UI。
+- **VSIX大小优化**: 通过排除iOS/Android二进制文件减小扩展大小。
+- **图像设置UI**: 所有提供商均显示图像比例/分辨率设置UI。
+
+### 修复
+- **sharp激活失败**: 修复了图像处理库激活失败的问题。
+- **图像引用处理**: 修复了图像引用处理和优化相关问题。
+- **重复消息显示**: 修复了"请求Caret图像生成"消息显示两次的问题。
+
 ## [0.4.4] 2025-12-30
 
 ### ✨ 改进

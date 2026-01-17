@@ -16,6 +16,10 @@ export const CARET_URLS = {
 	BIZROUTER_DOCS: "https://bizrouter.ai/docs",
 	BIZROUTER_MODELS: "https://bizrouter.ai/docs/models",
 
+	// Upstage
+	UPSTAGE_CORP: "https://www.upstage.ai/",
+	UPSTAGE_API_DOCS: "https://console.upstage.ai/api/chat",
+
 	// Naver Cloud
 	NAVER_CLOUD_CORP: "https://www.navercloudcorp.com/",
 	CLOVA_AI: "https://clova.ai/",

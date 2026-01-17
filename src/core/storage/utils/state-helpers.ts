@@ -45,6 +45,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		sapAiCoreClientId,
 		sapAiCoreClientSecret,
 		huaweiCloudMaasApiKey,
+		upstageApiKey,
 		naverCloudApiKey,
 		basetenApiKey,
 		zaiApiKey,
@@ -92,6 +93,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("sapAiCoreClientId") as Promise<Secrets["sapAiCoreClientId"]>,
 		context.secrets.get("sapAiCoreClientSecret") as Promise<Secrets["sapAiCoreClientSecret"]>,
 		context.secrets.get("huaweiCloudMaasApiKey") as Promise<Secrets["huaweiCloudMaasApiKey"]>,
+		context.secrets.get("upstageApiKey") as Promise<Secrets["upstageApiKey"]>,
 		context.secrets.get("naverCloudApiKey") as Promise<Secrets["naverCloudApiKey"]>,
 		context.secrets.get("basetenApiKey") as Promise<Secrets["basetenApiKey"]>,
 		context.secrets.get("zaiApiKey") as Promise<Secrets["zaiApiKey"]>,
@@ -118,6 +120,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		"caret:caretAccountId": caretAccountId,
 		huggingFaceApiKey,
 		huaweiCloudMaasApiKey,
+		upstageApiKey,
 		naverCloudApiKey,
 		basetenApiKey,
 		zaiApiKey,
@@ -526,8 +529,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		if (planModeApiProvider) {
 			apiProvider = planModeApiProvider
 		} else {
-			// New users should default to openrouter, since they've opted to use an API key instead of signing in
-			apiProvider = "openrouter"
+			// CARET MODIFICATION: New users should default to caret provider
+			apiProvider = "caret"
 		}
 
 		const mcpResponsesCollapsed = mcpResponsesCollapsedRaw ?? false
@@ -567,6 +570,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const imageGenerationAspectRatio =
 			context.globalState.get<GlobalStateAndSettings["imageGenerationAspectRatio"]>("imageGenerationAspectRatio")
 		const imageGenerationSize = context.globalState.get<GlobalStateAndSettings["imageGenerationSize"]>("imageGenerationSize")
+		// CARET MODIFICATION: Image analysis model selection
+		const imageAnalysisModel = context.globalState.get<GlobalStateAndSettings["imageAnalysisModel"]>("imageAnalysisModel")
 
 		return {
 			// api configuration fields
@@ -761,6 +766,7 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			currentPersona: currentPersona ?? undefined,
 			imageGenerationAspectRatio,
 			imageGenerationSize,
+			imageAnalysisModel,
 			// Multi-root workspace support
 			workspaceRoots,
 			primaryRootIndex: primaryRootIndex ?? 0,
@@ -835,6 +841,7 @@ export async function resetGlobalState(controller: Controller) {
 		"nebiusApiKey",
 		"huggingFaceApiKey",
 		"huaweiCloudMaasApiKey",
+		"upstageApiKey",
 		"naverCloudApiKey",
 		"vercelAiGatewayApiKey",
 		"zaiApiKey",

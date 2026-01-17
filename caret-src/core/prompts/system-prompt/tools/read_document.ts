@@ -13,12 +13,12 @@ const GENERIC: ClineToolSpec = {
 	id,
 	name: "read_document",
 	description:
-		"Read and extract text content from document files (PDF, DOCX, XLSX, PPTX, HWPX, IPYNB). Use this tool when you need to read the contents of a document file that the user references by path. This tool extracts text from binary document formats. For plain text files, use read_file instead.",
+		"Read and extract text content from document files (PDF, DOCX, XLSX, PPTX, HWP, HWPX, IPYNB). Use this tool when you need to read the contents of a document file that the user references by path. This tool extracts text from binary document formats. For plain text files, use read_file instead.",
 	parameters: [
 		{
 			name: "path",
 			required: true,
-			instruction: `The path to the document file to read (relative to the current working directory {{CWD}} or absolute path). Supported formats: PDF, DOCX, XLSX, PPTX, HWPX (한글), IPYNB.{{MULTI_ROOT_HINT}}`,
+			instruction: `The path to the document file to read (relative to the current working directory {{CWD}} or absolute path). Supported formats: PDF, DOCX, XLSX, PPTX, HWP (한글 5.0), HWPX (한글 OOXML), IPYNB.{{MULTI_ROOT_HINT}}`,
 			usage: "docs/specification.pdf",
 		},
 		TASK_PROGRESS_PARAMETER,
@@ -30,12 +30,12 @@ const NATIVE_GPT_5: ClineToolSpec = {
 	id,
 	name: "read_document",
 	description:
-		"Read document files (PDF, DOCX, XLSX, PPTX, HWPX, IPYNB). Extracts text from binary documents. Use read_file for plain text.",
+		"Read document files (PDF, DOCX, XLSX, PPTX, HWP, HWPX, IPYNB). Extracts text from binary documents. Use read_file for plain text.",
 	parameters: [
 		{
 			name: "path",
 			required: true,
-			instruction: `Document path. Supported: PDF, DOCX, XLSX, PPTX, HWPX, IPYNB.`,
+			instruction: `Document path. Supported: PDF, DOCX, XLSX, PPTX, HWP, HWPX, IPYNB.`,
 			usage: "docs/spec.pdf",
 		},
 		TASK_PROGRESS_PARAMETER,

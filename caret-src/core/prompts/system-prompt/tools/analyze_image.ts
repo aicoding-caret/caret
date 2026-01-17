@@ -36,6 +36,8 @@ Good: "Check if this Magician tarot card contains: infinity symbol above head, w
 
 **Using with generate_image:** When generate_image returns "Image file: .agents/generated-assets/img_xxx.png", use that exact path for the image parameter. Do NOT use shell commands to find the file.
 
+**Reporting results to user:** After analysis, ALWAYS clearly show the user: (1) The exact question you asked, (2) The analysis response received. This transparency helps users verify the analysis was performed correctly and understand what was checked.
+
 The analysis is performed by Caret's vision AI (Gemini 2.5 Flash). Requires Caret account login.`,
 	parameters: [
 		{

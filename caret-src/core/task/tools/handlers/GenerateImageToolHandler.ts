@@ -207,6 +207,18 @@ const parseReferenceImagesParam = (value?: string): ReferenceImageParseResult | 
 		return { dataUrls: [trimmed], filePaths: [] }
 	}
 
+	// Handle XML <image>...</image> format that some models (e.g., Gemini) use
+	const xmlImagePattern = /<image>\s*(.*?)\s*<\/image>/gi
+	const xmlMatches = [...trimmed.matchAll(xmlImagePattern)]
+	if (xmlMatches.length > 0) {
+		for (const match of xmlMatches) {
+			pushValue(match[1])
+		}
+		if (result.dataUrls.length > 0 || result.filePaths.length > 0) {
+			return result
+		}
+	}
+
 	const lines = trimmed.split(/\r?\n/).map((line) => line.trim()).filter(Boolean)
 	if (lines.length > 1) {
 		for (const line of lines) {
@@ -529,7 +541,8 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 		const partialMessage = JSON.stringify(sharedMessageProps)
 
-		await uiHelpers.removeLastPartialMessageIfExistsWithType("say", "tool")
+		// CARET MODIFICATION: Fix duplicate message - remove "ask" type, not "say" type
+		await uiHelpers.removeLastPartialMessageIfExistsWithType("ask", "tool")
 		await uiHelpers.ask("tool" as ClineAsk, partialMessage, block.partial).catch(() => {})
 	}
 
@@ -643,14 +656,16 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 			const authToken = await CaretAuthService.getInstance().getAuthToken()
 			if (!authToken) {
 				const brandName = getCurrentBrandDisplayName()
-				const loginMessage = `${brandName} account login required to generate images.
-
-**To use this feature:**
-1. Log in via the ${brandName} sidebar
-
-**To disable this tool:**
-- Go to Settings > Auto-approve > "Generate images" toggle`
-				throw new Error(loginMessage)
+				// CARET MODIFICATION: Use JSON structure for i18n support in ErrorRow
+				const authErrorData = {
+					type: "auth_required",
+					action: "generate images",
+					toolName: "Generate images",
+					brandName: brandName,
+				}
+				const authError = new Error(JSON.stringify(authErrorData)) as Error & { status: number }
+				authError.status = 401
+				throw authError
 			}
 
 			const url = new URL("/v1/generate/image", CaretEnv.config().apiBaseUrl).toString()

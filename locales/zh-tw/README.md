@@ -15,7 +15,7 @@
 <a href="https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev" target="_blank"><strong>從 VS Marketplace 下載</strong></a>
 </td>
 <td align="center">
-<a href="https://discord.gg/cline" target="_blank"><strong>Discord</strong></a>
+<a href="https://https://discord.gg/WB6yaR89YN" target="_blank"><strong>Discord</strong></a>
 </td>
 <td align="center">
 <a href="https://www.reddit.com/r/cline/" target="_blank"><strong>r/cline</strong></a>
@@ -132,7 +132,7 @@ Cline 可以直接在您的編輯器中建立和編輯檔案，並顯示變更�
 
 ## 貢獻
 
-要為專案貢獻，請先閱讀我們的[貢獻指南](CONTRIBUTING.md)來了解基礎知識。您也可以加入我們的 [Discord](https://discord.gg/cline)，在 `#contributors` 頻道與其他貢獻者交流。如果您在尋找全職工作，請檢視我們[職涯頁面](https://cline.bot/join-us)上的職缺！
+要為專案貢獻，請先閱讀我們的[貢獻指南](CONTRIBUTING.md)來了解基礎知識。您也可以加入我們的 [Discord](https://https://discord.gg/WB6yaR89YN)，在 `#contributors` 頻道與其他貢獻者交流。如果您在尋找全職工作，請檢視我們[職涯頁面](https://cline.bot/join-us)上的職缺！
 
 <details>
 <summary>本機開發說明</summary>

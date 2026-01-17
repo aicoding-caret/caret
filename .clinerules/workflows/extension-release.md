@@ -202,7 +202,7 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 				<VSCodeLink style={linkStyle} href="https://x.com/cline">
 					X,
 				</VSCodeLink>{" "}
-				<VSCodeLink style={linkStyle} href="https://discord.gg/cline">
+				<VSCodeLink style={linkStyle} href="https://https://discord.gg/WB6yaR89YN">
 					discord,
 				</VSCodeLink>{" "}
 				or{" "}
@@ -345,7 +345,7 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 				<VSCodeLink style={linkStyle} href="https://x.com/cline">
 					X,
 				</VSCodeLink>{" "}
-				<VSCodeLink style={linkStyle} href="https://discord.gg/cline">
+				<VSCodeLink style={linkStyle} href="https://https://discord.gg/WB6yaR89YN">
 					discord,
 				</VSCodeLink>{" "}
 				or{" "}

@@ -1,4 +1,4 @@
-// CARET MODIFICATION: Analyze images via Caret API (Gemini 2.5 Flash) for models that don't support images.
+// CARET MODIFICATION: Analyze images via Caret API (Gemini 2.5 Flash or 3.0 Flash) for models that don't support images.
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 import { getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
@@ -28,6 +28,7 @@ type ToolAnalyzeImageMessage = ClineSayTool & {
 	imagePath?: string
 	question?: string
 	status?: "pending" | "analyzing" | "completed" | "error"
+	progressText?: string // CARET MODIFICATION: Progress text for UI display
 	result?: string
 	errorMessage?: string
 	operationIsLocatedInWorkspace?: boolean // Security: track if file is within workspace
@@ -238,28 +239,26 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 			const authToken = await CaretAuthService.getInstance().getAuthToken()
 			if (!authToken) {
 				const brandName = getCurrentBrandDisplayName()
-				const loginMessage = `${brandName} account login required to analyze images.
-
-**To use this feature:**
-1. Log in via the ${brandName} sidebar
-
-**To disable this tool:**
-- Go to Settings > Auto-approve > "Analyze images" toggle`
-				await config.callbacks.say(
-					"tool",
-					buildMessage({
-						status: "error",
-						errorMessage: loginMessage,
-					}),
-					undefined,
-					undefined,
-					false,
-				)
-				return formatResponse.toolError(loginMessage)
+				// CARET MODIFICATION: Use JSON structure for i18n support in ErrorRow
+				const authErrorData = {
+					type: "auth_required",
+					action: "analyze images",
+					toolName: "Analyze images",
+					brandName: brandName,
+				}
+				const authError = new Error(JSON.stringify(authErrorData)) as Error & { status: number }
+				authError.status = 401
+				throw authError
 			}
 
-			// Update status to analyzing
-			await config.callbacks.say("tool", buildMessage({ status: "analyzing" }), undefined, undefined, true)
+			// Update status to analyzing (progressText will be translated in frontend)
+			await config.callbacks.say(
+				"tool",
+				buildMessage({ status: "analyzing" }),
+				undefined,
+				undefined,
+				true,
+			)
 
 			// Load image as data URL
 			Logger.debug(`[AnalyzeImage] Loading image: ${cleanImagePath}`)
@@ -287,7 +286,12 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 
 			Logger.debug(`[AnalyzeImage] Image loaded, sending to Caret API (chat/completions)`)
 
-			// Use existing /v1/chat/completions endpoint with Gemini 2.5 Flash
+			// Get image analysis model from settings (default: gemini-3.0-flash-preview)
+			const imageAnalysisModel = config.services.stateManager.getGlobalSettingsKey("imageAnalysisModel") || "gemini-3.0-flash-preview"
+			const modelId = `gemini/${imageAnalysisModel}`
+			Logger.debug(`[AnalyzeImage] Using model: ${modelId}`)
+
+			// Use existing /v1/chat/completions endpoint
 			const url = new URL("/v1/chat/completions", CaretEnv.config().apiBaseUrl).toString()
 			const headers: Record<string, string> = {
 				"Content-Type": "application/json",
@@ -310,7 +314,7 @@ Provide clear, structured analysis relevant to the user's question. If analyzing
 
 			// OpenAI-compatible message format with image
 			const body = {
-				model: "gemini/gemini-2.5-flash",
+				model: modelId,
 				messages: [
 					{
 						role: "system",
@@ -335,11 +339,22 @@ Provide clear, structured analysis relevant to the user's question. If analyzing
 				max_tokens: 4096,
 			}
 
-			const response = await fetch(url, {
-				method: "POST",
-				headers,
-				body: JSON.stringify(body),
-			})
+			// CARET MODIFICATION: Add timeout to prevent infinite waiting
+			const API_TIMEOUT_MS = 60000 // 60 seconds
+			const controller = new AbortController()
+			const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS)
+
+			let response: Response
+			try {
+				response = await fetch(url, {
+					method: "POST",
+					headers,
+					body: JSON.stringify(body),
+					signal: controller.signal,
+				})
+			} finally {
+				clearTimeout(timeoutId)
+			}
 
 			if (!response.ok) {
 				const errorText = await response.text()
@@ -367,8 +382,15 @@ Provide clear, structured analysis relevant to the user's question. If analyzing
 
 			return formatResponse.toolResult(analysisResult)
 		} catch (error) {
-			const message = (error as Error).message || "Image analysis failed."
-			Logger.error("[AnalyzeImage] Error:", error as Error)
+			// CARET MODIFICATION: Handle timeout error specifically
+			let message: string
+			if (error instanceof Error && error.name === "AbortError") {
+				message = "Image analysis timed out after 60 seconds. The server may be overloaded. Please try again."
+				Logger.warn("[AnalyzeImage] Request timed out")
+			} else {
+				message = (error as Error).message || "Image analysis failed."
+				Logger.error("[AnalyzeImage] Error:", error as Error)
+			}
 
 			await config.callbacks.say(
 				"tool",

@@ -37,8 +37,17 @@ LLM: [analyze_image 도구 사용] → Gemini 2.5 Flash로 분석 → 결과 반
 
 | 도구 | 설명 | 조건 |
 |------|------|------|
-| `generate_image` | AI 이미지 생성 | Caret 로그인 필요 |
-| `analyze_image` | 이미지 분석 (비전 대리) | Caret 로그인 + `supportsImages: false` 모델 |
+| `generate_image` | AI 이미지 생성 | Caret 로그인 필요 (모든 모델) |
+| `analyze_image` | 이미지 분석 (비전 대리) | Caret 로그인 + `supportsImages: false` 모델만 |
+
+### 모델별 이미지 처리 방식
+
+| 기능 | 비전 모델 (GPT-4o, Claude 3.5 등) | 텍스트 모델 (o1, GLM-4 등) |
+|------|----------------------------------|---------------------------|
+| `generate_image` | ✅ 사용 가능 | ✅ 사용 가능 |
+| `analyze_image` | ❌ 비활성화 (`read_file` 사용) | ✅ 사용 가능 |
+| `read_file` (이미지) | ✅ 직접 분석 (imageBlock) | 📄 경로 정보만 반환 |
+| 대화 첨부 이미지 | ✅ 직접 분석 | 📄 경로만 인식 |
 
 ---
 
@@ -55,15 +64,36 @@ LLM → generate_image(prompt="귀여운 고양이", aspect_ratio="16:9")
     → UI에 data URL로 표시
 ```
 
-### 이미지 분석 (analyze_image)
+### 이미지 분석 (analyze_image) - 텍스트 모델 전용
 
 ```
 LLM → analyze_image(image="screenshot.png", question="뭐가 보여?")
     → AnalyzeImageToolHandler.execute()
     → 경로 검증 (Path Traversal 보호)
     → 승인 확인 (워크스페이스 외부 시 사용자 승인)
-    → Caret API /v1/chat/completions (Gemini 2.5 Flash)
+    → Caret API /v1/chat/completions (설정된 분석 모델 사용)
     → 분석 결과 반환
+```
+
+### 이미지 읽기 (read_file) - 비전 모델
+
+```
+LLM → read_file(path="screenshot.png")
+    → ReadFileToolHandler.execute()
+    → extractFileContent(path, modelSupportsImages=true)
+    → extractImageContent() → imageBlock 생성
+    → userMessageContent에 imageBlock 추가
+    → LLM이 이미지 직접 분석
+```
+
+### 이미지 읽기 (read_file) - 텍스트 모델
+
+```
+LLM → read_file(path="screenshot.png")
+    → ReadFileToolHandler.execute()
+    → extractFileContent(path, modelSupportsImages=false)
+    → 경로 정보만 반환: "[Image file: screenshot.png]\nPath: /full/path\nNote: Use analyze_image tool"
+    → LLM이 필요 시 analyze_image 호출
 ```
 
 ---
@@ -133,15 +163,32 @@ AI 요청: analyze_image(image="../../etc/passwd", question="내용을 읽어줘
 | `generateImages` | `true` | 이미지 생성 도구 활성화 |
 | `analyzeImages` | `true` | 이미지 분석 도구 활성화 |
 
-### 도구 필터링 로직
-- `toolSettings.generateImages === false` → `generate_image` 프롬프트에서 제외
-- `toolSettings.analyzeImages === false` → `analyze_image` 프롬프트에서 제외
-- `supportsImages === true` (모델 기본 지원) → `analyze_image` 프롬프트에서 제외
+### 도구 필터링 로직 (CaretJsonAdapter.ts)
+
+```typescript
+// 1. 설정으로 비활성화
+if (toolSettings?.generateImages === false) {
+    excludedTools.push("generate_image")
+}
+
+// 2. 비전 모델이면 analyze_image 비활성화 (read_file 사용)
+if (toolSettings?.analyzeImages === false) {
+    excludedTools.push("analyze_image")
+} else if (modelSupportsImages) {
+    excludedTools.push("analyze_image")  // 비전 모델은 read_file로 직접 분석
+}
+```
 
 ### 이미지 생성 옵션
-- **비율**: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
+- **비율**: `16:9`, `9:16`, `4:3`, `3:4`, `1:1`
 - **사이즈**: `1K`, `2K`, `3K`, `4K`
 - **저장 키**: `imageGenerationAspectRatio`, `imageGenerationSize`
+
+### 이미지 분석 모델 선택
+- **옵션**: `gemini-2.5-flash`, `gemini-3.0-flash-preview`
+- **기본값**: `gemini-3.0-flash-preview`
+- **저장 키**: `imageAnalysisModel`
+- **UI 위치**: Settings > Model Info > Image Analysis Model
 
 ---
 
@@ -179,21 +226,26 @@ A cute cat...
 ## ⚠️ 알려진 제한사항
 
 1. **인증 필수**
-   - 두 도구 모두 Caret 계정 로그인 필요
-   - 미로그인 시 에러 메시지에서 로그인/설정 비활성화 안내
+   - `generate_image`: 모든 모델에서 Caret 로그인 필요
+   - `analyze_image`: 텍스트 모델에서 Caret 로그인 필요
+   - 미로그인 시 i18n 지원 에러 메시지 표시 (로그인 버튼 포함)
 
 2. **analyze_image 조건**
-   - `supportsImages: false` 모델에서만 도구 표시
-   - 비전 지원 모델(GPT-4V, Gemini 등)에서는 자동 숨김
+   - `supportsImages: false` 모델에서만 도구 활성화
+   - 비전 모델(GPT-4o, Claude 3.5 등)에서는 자동 비활성화 → `read_file` 사용
 
-3. **히스토리 복원**
+3. **read_file 이미지 처리**
+   - 비전 모델: 이미지를 imageBlock으로 대화에 추가 → 직접 분석
+   - 텍스트 모델: 경로 정보만 반환 → `analyze_image` 사용 유도
+
+4. **히스토리 복원**
    - 복원 시 `imageUrl` 주입 후 덮어쓰는 흐름 존재
    - 이미지 표시 실패 가능성 있음 (검증 필요)
 
-4. **단일 실행**
+5. **단일 실행**
    - 이미지 도구는 한 번에 하나만 실행 가능
 
-5. **이미지 크기 제한**
+6. **이미지 크기 제한**
    - 픽셀 제한: 7500px (cline-latest와 동일)
    - 파일 크기: 서버 nginx `client_max_body_size` 설정에 따름
    - 클라이언트에서 리사이즈/압축 없음 (원본 전송)
@@ -217,5 +269,5 @@ A cute cat...
 
 ---
 
-**최종 업데이트**: 2026-01-16
-**문서 버전**: v2.1 (이미지 최적화 제거 - 7500px 제한만 적용)
+**최종 업데이트**: 2026-01-18
+**문서 버전**: v2.2 (비전/텍스트 모델별 이미지 처리 분리, imageAnalysisModel 설정 추가)

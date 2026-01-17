@@ -15,7 +15,7 @@
 <a href="https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev" target="_blank"><strong>تنزيل من متجر VS</strong></a>
 </td>
 <td align="center">
-<a href="https://discord.gg/cline" target="_blank"><strong>Discord</strong></a>
+<a href="https://https://discord.gg/WB6yaR89YN" target="_blank"><strong>Discord</strong></a>
 </td>
 <td align="center">
 <a href="https://www.reddit.com/r/cline/" target="_blank"><strong>r/cline</strong></a>
@@ -139,7 +139,7 @@
 
 ## المساهمة
 
-للمساهمة في المشروع، ابدأ بـ [دليل المساهمة](CONTRIBUTING.md) لتعلم الأساسيات. يمكنك أيضًا الانضمام إلى [خادم Discord](https://discord.gg/cline) للدردشة مع المساهمين الآخرين في قناة `#contributors`. إذا كنت تبحث عن عمل بدوام كامل، تحقق من الوظائف المتاحة على [صفحة التوظيف](https://cline.bot/join-us)!  
+للمساهمة في المشروع، ابدأ بـ [دليل المساهمة](CONTRIBUTING.md) لتعلم الأساسيات. يمكنك أيضًا الانضمام إلى [خادم Discord](https://https://discord.gg/WB6yaR89YN) للدردشة مع المساهمين الآخرين في قناة `#contributors`. إذا كنت تبحث عن عمل بدوام كامل، تحقق من الوظائف المتاحة على [صفحة التوظيف](https://cline.bot/join-us)!  
 
 <details>
 <summary>تعليمات التطوير المحلي</summary>

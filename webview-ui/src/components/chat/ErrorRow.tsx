@@ -1,7 +1,7 @@
 import { ClineMessage } from "@shared/ExtensionMessage"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { memo } from "react"
-import { getBrandIgnoreFileName } from "@/caret/utils/brand-utils"
+import { getBrandIgnoreFileName, getBrandInfo } from "@/caret/utils/brand-utils"
 import { t } from "@/caret/utils/i18n"
 import CreditLimitError from "@/components/chat/CreditLimitError"
 import { handleSignIn, useClineAuth } from "@/context/ClineAuthContext"
@@ -9,6 +9,30 @@ import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ClineError, ClineErrorType } from "../../../../src/services/error/ClineError"
 import { handleLogin as handleCaretLogin } from "../settings/CaretAuthHandler"
 import { normalizeApiConfiguration } from "../settings/utils/providerUtils"
+
+// CARET MODIFICATION: Type for auth_required error from image tools
+interface AuthRequiredError {
+	type: "auth_required"
+	action: string
+	toolName: string
+	brandName: string
+}
+
+// Helper to build i18n auth required message
+const buildAuthRequiredMessage = (authError: AuthRequiredError): string => {
+	const brandInfo = getBrandInfo()
+	const brandName = brandInfo.displayName
+	const lines = [
+		t("imageTools.loginRequired.title", "chat", { action: authError.action, brandName }),
+		"",
+		t("imageTools.loginRequired.toUseFeature", "chat"),
+		t("imageTools.loginRequired.loginStep", "chat", { brandName }),
+		"",
+		t("imageTools.loginRequired.toDisableTool", "chat"),
+		t("imageTools.loginRequired.disableStep", "chat", { toolName: authError.toolName }),
+	]
+	return lines.join("\n")
+}
 
 const _errorColor = "var(--vscode-errorForeground)"
 
@@ -60,13 +84,29 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 					// FIXME: ClineError parsing should not be applied to non-Cline providers, but it seems we're using clineErrorMessage below in the default error display
 					const clineError = ClineError.parse(apiRequestFailedMessage || apiReqStreamingFailedMessage)
 					// CARET MODIFICATION: Safely parse JSON error message, handle non-JSON strings gracefully
-					let caretError: { type?: string } | null = null
+					let caretError: { type?: string; action?: string; toolName?: string; brandName?: string } | null = null
 					try {
 						caretError = JSON.parse(apiRequestFailedMessage || apiReqStreamingFailedMessage || "{}") // caret specific error
 					} catch {
 						// Not a JSON string, ignore parsing error
 						caretError = null
 					}
+
+					// CARET MODIFICATION: Handle auth_required type with i18n
+					if (caretError?.type === "auth_required") {
+						const authError = caretError as AuthRequiredError
+						const translatedMessage = buildAuthRequiredMessage(authError)
+						return (
+							<>
+								<p className="m-0 whitespace-pre-wrap text-[var(--vscode-errorForeground)] wrap-anywhere">
+									{translatedMessage}
+								</p>
+								<br />
+								{renderProviderLoginCTA()}
+							</>
+						)
+					}
+
 					const clineErrorMessage =
 						caretError?.type === "budget_exceeded" ? t("errorRow.budgetExceeded", "chat") : clineError?.message // caret language error message
 					const requestId = clineError?._error?.request_id

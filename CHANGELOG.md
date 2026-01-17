@@ -25,6 +25,36 @@
   </table>
 </div>
 
+## [0.4.5] 2026-01-18
+
+> **Note**: Caret v0.4.5 cherry-picks Skills system, Hooks i18n and other features from Cline v3.49.0+.
+
+### ✨ New Features
+- **Z.AI GLM-4.7 full support**: Supports Thinking Mode and natural conversation style.
+- **[Upstage](https://upstage.ai/) provider**: Added new provider supporting Upstage Solar models.
+- **Text model image tools**: Text-only models can now use Caret account tools for image generation and analysis.
+- **Skills system** (Cline v3.49.0+ cherry-pick): Define project-specific skills that AI can utilize. Manage skills in `.agents/skills/` or `.users/skills/` directories.
+- **Dual directory architecture**: Separate AI-optimized (`.agents/`) context from human-readable (`.users/`) documentation. AI prioritizes token-optimized `.agents/` context.
+- **HWP document support**: Cross-platform HWP parsing support for Windows, macOS, and Linux.
+- **read_document tool**: Unified document reading tool supporting HWP, PDF, DOCX, PPTX and more. Includes legacy PPT format detection.
+- **analyze_image tool**: New image analysis tool integrated with Caret account's Gemini. 7500px max pixel limit, includes analysis result reporting guidelines.
+- **generate_image tool improvements**: XML `<image>` tag parsing support, file path (relative/absolute) support, aspect_ratio/image_size omission guidelines.
+- **Image send toggle**: Toggle feature for @mention image file sending.
+
+### ✨ Improved
+- **Global context path change**: Global agent settings path changed to `~/Documents/.agents/`.
+- **i18n support**: Added Korean, Japanese, and Chinese translations for Hooks and Skills features.
+- **YAML frontmatter parsing**: Added shared YAML parsing utility for Skills/Hooks.
+- **Default provider**: New users now default to Caret provider.
+- **Feature Config UI gating**: Control account/mode/dictation UI via feature config.
+- **VSIX size optimization**: Reduced extension size by excluding iOS/Android binaries.
+- **Image settings UI**: Image ratio/resolution settings UI now visible for all providers.
+
+### Fixed
+- **sharp activation failure**: Fixed image processing library activation failure.
+- **Image reference handling**: Fixed image reference handling and optimization issues.
+- **Duplicate message display**: Fixed "Requesting Caret image generation" message appearing twice.
+
 ## [0.4.4] 2025-12-30
 
 ### ✨ Improved

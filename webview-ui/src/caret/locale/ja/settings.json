@@ -410,7 +410,8 @@
 			"title": "画像生成のデフォルト",
 			"aspectRatio": "アスペクト比",
 			"size": "サイズ",
-			"auto": "自動（モデルのデフォルト）"
+			"auto": "自動（モデルのデフォルト）",
+			"analysisModel": "分析モデル"
 		}
 	},
 	"modelSelector": {
@@ -995,6 +996,16 @@
 			"name": "Huawei Cloud MaaS",
 			"description": "Huawei Cloud MaaS (Model-as-a-Service) は、様々なAIモデルを提供します。",
 			"providerName": "Huawei Cloud MaaS"
+		},
+		"upstage": {
+			"name": "Upstage",
+			"description": "Upstageは、様々なAIタスクに最適化されたSolar LLMモデルを提供します。",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"upstageLinkText": "Upstage",
+			"descriptionPart2": "は、様々なAIタスクに最適化された",
+			"solarLinkText": "Solar LLM",
+			"descriptionPart3": "モデルを提供します。"
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",

@@ -7,6 +7,9 @@ import {
 	migrateWelcomeViewCompleted,
 	migrateWorkspaceToGlobalStorage,
 } from "./core/storage/state-migrations"
+// CARET MODIFICATION: Global path migration from ~/Documents/Caret/ to ~/Documents/.agents/
+import { migrateGlobalPaths } from "./core/storage/global-migration"
+import { getDocumentsPath } from "./core/storage/disk"
 import { WebviewProvider } from "./core/webview"
 import { Logger } from "./services/logging/Logger"
 import "./utils/path" // necessary to have access to String.prototype.toPosix
@@ -77,6 +80,19 @@ export async function initialize(context: vscode.ExtensionContext): Promise<Webv
 
 	// Clean up MCP marketplace catalog from global state (moved to disk cache)
 	await cleanupMcpMarketplaceCatalogFromGlobalState(context)
+
+	// CARET MODIFICATION: Migrate global paths from ~/Documents/Caret/ to ~/Documents/.agents/
+	try {
+		const documentsPath = await getDocumentsPath()
+		const migrationResult = await migrateGlobalPaths(documentsPath)
+		if (migrationResult.migrated) {
+			Logger.log(`[Extension] Global paths migrated: ${migrationResult.migratedPaths?.join(", ")}`)
+		} else if (migrationResult.skipped && migrationResult.reason === "already_migrated") {
+			Logger.debug("[Extension] Global path migration already completed")
+		}
+	} catch (error) {
+		Logger.warn(`[Extension] Global path migration skipped due to error: ${error}`)
+	}
 
 	// Clean up orphaned file context warnings (startup cleanup)
 	await FileContextTracker.cleanupOrphanedWarnings(context)

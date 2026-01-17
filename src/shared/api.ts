@@ -34,6 +34,7 @@ export type ApiProvider =
 	| "groq"
 	| "huggingface"
 	| "huawei-cloud-maas"
+	| "upstage" // CARET MODIFICATION: Upstage Solar provider
 	| "naver-cloud" // CARET MODIFICATION: Naver Cloud provider
 	| "dify"
 	| "baseten"
@@ -84,6 +85,7 @@ export interface ApiHandlerSecrets {
 	sapAiCoreClientSecret?: string
 	groqApiKey?: string
 	huaweiCloudMaasApiKey?: string
+	upstageApiKey?: string // CARET MODIFICATION: Upstage API key
 	naverCloudApiKey?: string // CARET MODIFICATION: Naver Cloud API key
 	basetenApiKey?: string
 	vercelAiGatewayApiKey?: string
@@ -183,6 +185,8 @@ export interface ApiHandlerOptions {
 	planModeHuggingFaceModelInfo?: ModelInfo
 	planModeHuaweiCloudMaasModelId?: string
 	planModeHuaweiCloudMaasModelInfo?: ModelInfo
+	planModeUpstageModelId?: string // CARET MODIFICATION: Upstage
+	planModeUpstageModelInfo?: ModelInfo // CARET MODIFICATION: Upstage
 	planModeNaverCloudModelId?: string // CARET MODIFICATION: Naver Cloud
 	planModeNaverCloudModelInfo?: ModelInfo // CARET MODIFICATION: Naver Cloud
 	planModeOcaModelId?: string
@@ -231,6 +235,8 @@ export interface ApiHandlerOptions {
 	actModeHuggingFaceModelInfo?: ModelInfo
 	actModeHuaweiCloudMaasModelId?: string
 	actModeHuaweiCloudMaasModelInfo?: ModelInfo
+	actModeUpstageModelId?: string // CARET MODIFICATION: Upstage
+	actModeUpstageModelInfo?: ModelInfo // CARET MODIFICATION: Upstage
 	actModeNaverCloudModelId?: string // CARET MODIFICATION: Naver Cloud
 	actModeNaverCloudModelInfo?: ModelInfo // CARET MODIFICATION: Naver Cloud
 	actModeOcaModelId?: string
@@ -3877,6 +3883,27 @@ export const huaweiCloudMaasModels = {
 			maxBudget: 4096,
 			outputPrice: 1.1,
 		},
+	},
+} as const satisfies Record<string, ModelInfo>
+
+// CARET MODIFICATION: Upstage Solar
+export type UpstageModelId = keyof typeof upstageModels
+export interface UpstageModelInfo extends ModelInfo {}
+export const upstageDefaultModelId: UpstageModelId = "solar-pro2"
+export const upstageModels = {
+	"solar-pro2": {
+		maxTokens: 4_096,
+		contextWindow: 32_768,
+		supportsImages: false,
+		supportsPromptCache: false,
+		description: "Upstage Solar Pro 2 - Advanced language model for complex tasks.",
+	},
+	"solar-mini": {
+		maxTokens: 4_096,
+		contextWindow: 32_768,
+		supportsImages: false,
+		supportsPromptCache: false,
+		description: "Upstage Solar Mini - Lightweight and fast model.",
 	},
 } as const satisfies Record<string, ModelInfo>
 

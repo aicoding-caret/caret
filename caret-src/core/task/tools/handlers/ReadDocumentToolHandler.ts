@@ -3,6 +3,7 @@
 
 import { ClineSayTool } from "@shared/ExtensionMessage"
 import { ClineDefaultTool } from "@shared/tools"
+import * as fs from "fs/promises"
 import * as path from "path"
 import { fileURLToPath } from "url"
 
@@ -23,6 +24,8 @@ type ToolReadDocumentMessage = ClineSayTool & {
 	tool: "readDocument"
 	documentPath?: string
 	status?: "pending" | "reading" | "completed" | "error"
+	progressText?: string // CARET MODIFICATION: Progress text for UI display
+	fileSize?: string // CARET MODIFICATION: Human-readable file size
 	result?: string
 	format?: string
 	errorMessage?: string
@@ -33,6 +36,15 @@ const stripQuotes = (value: string): string => {
 	const trimmed = value.trim()
 	const match = trimmed.match(/^"(.*)"$/)
 	return match ? match[1] : trimmed
+}
+
+/**
+ * Format file size to human-readable string
+ */
+function formatFileSize(bytes: number): string {
+	if (bytes < 1024) return `${bytes} B`
+	if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+	return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
 /**
@@ -145,6 +157,15 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 		const isInWorkspace = isLocatedInPath(absolutePath, workspaceRoot)
 		const readablePath = getReadablePath(workspaceRoot, absolutePath)
 
+		// Get file size for display
+		let fileSizeStr: string | undefined
+		try {
+			const stats = await fs.stat(absolutePath)
+			fileSizeStr = formatFileSize(stats.size)
+		} catch {
+			// File doesn't exist or can't be accessed - will be caught later
+		}
+
 		// Check if format is supported
 		if (!this.extractor.isSupported(absolutePath)) {
 			const ext = path.extname(absolutePath).toLowerCase()
@@ -171,6 +192,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 		// Show tool message (auto-approve since read-only)
 		const completeMessage = buildMessage({
 			status: "pending",
+			fileSize: fileSizeStr,
 			operationIsLocatedInWorkspace: isInWorkspace,
 		})
 		await config.callbacks.say("tool", completeMessage, undefined, undefined, false)
@@ -199,11 +221,15 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 			throw error
 		}
 
-		// Update status to reading
+		// Get file extension for progress message
+		const ext = path.extname(absolutePath).toLowerCase().slice(1).toUpperCase() || "document"
+
+		// Update status to reading (progressText will be translated in frontend)
 		await config.callbacks.say(
 			"tool",
 			buildMessage({
 				status: "reading",
+				fileSize: fileSizeStr,
 				operationIsLocatedInWorkspace: isInWorkspace,
 			}),
 			undefined,
@@ -214,9 +240,20 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 		try {
 			Logger.debug(`[ReadDocument] Reading document: ${absolutePath}`)
 
-			const result = await this.extractor.extract(absolutePath, {
+			// CARET MODIFICATION: Add timeout to prevent infinite waiting on large documents
+			const DOCUMENT_TIMEOUT_MS = 120000 // 2 minutes
+
+			const extractPromise = this.extractor.extract(absolutePath, {
 				cwd: workspaceRoot,
 			})
+
+			const timeoutPromise = new Promise<never>((_, reject) => {
+				setTimeout(() => {
+					reject(new Error(`Document extraction timed out after ${DOCUMENT_TIMEOUT_MS / 1000} seconds`))
+				}, DOCUMENT_TIMEOUT_MS)
+			})
+
+			const result = await Promise.race([extractPromise, timeoutPromise])
 
 			Logger.info(`[ReadDocument] Successfully extracted ${result.content.length} chars from ${result.format}`)
 
@@ -226,6 +263,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 				buildMessage({
 					status: "completed",
 					format: result.format,
+					fileSize: fileSizeStr,
 					operationIsLocatedInWorkspace: isInWorkspace,
 				}),
 				undefined,
@@ -251,6 +289,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 				buildMessage({
 					status: "error",
 					errorMessage: message,
+					fileSize: fileSizeStr,
 					operationIsLocatedInWorkspace: isInWorkspace,
 				}),
 				undefined,

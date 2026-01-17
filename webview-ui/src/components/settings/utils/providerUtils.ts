@@ -47,6 +47,8 @@ import {
 	naverCloudDefaultModelId,
 	naverCloudModels,
 	nebiusDefaultModelId,
+	upstageDefaultModelId,
+	upstageModels,
 	nebiusModels,
 	openAiModelInfoSaneDefaults,
 	openAiNativeDefaultModelId,
@@ -330,6 +332,19 @@ export function normalizeApiConfiguration(
 				selectedModelId: huaweiCloudMaasModelId || huaweiCloudMaasDefaultModelId,
 				selectedModelInfo: huaweiCloudMaasModelInfo || huaweiCloudMaasModels[huaweiCloudMaasDefaultModelId],
 			}
+		// CARET MODIFICATION: Add Upstage model selection
+		case "upstage":
+			const upstageModelId =
+				currentMode === "plan" ? apiConfiguration?.planModeUpstageModelId : apiConfiguration?.actModeUpstageModelId
+			const upstageModelInfo =
+				currentMode === "plan"
+					? apiConfiguration?.planModeUpstageModelInfo
+					: apiConfiguration?.actModeUpstageModelInfo
+			return {
+				selectedProvider: provider,
+				selectedModelId: upstageModelId || upstageDefaultModelId,
+				selectedModelInfo: upstageModelInfo || upstageModels[upstageDefaultModelId],
+			}
 		// CARET MODIFICATION: Add Naver Cloud model selection
 		case "naver-cloud":
 			const naverCloudModelId =
@@ -420,6 +435,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			basetenModelId: undefined,
 			huggingFaceModelId: undefined,
 			huaweiCloudMaasModelId: undefined,
+			upstageModelId: undefined,
 			naverCloudModelId: undefined,
 			vercelAiGatewayModelId: undefined,
 
@@ -433,6 +449,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			groqModelInfo: undefined,
 			basetenModelInfo: undefined,
 			huggingFaceModelInfo: undefined,
+			upstageModelInfo: undefined,
 			naverCloudModelInfo: undefined,
 			vercelAiGatewayModelInfo: undefined,
 			vsCodeLmModelSelector: undefined,
@@ -473,6 +490,8 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			mode === "plan" ? apiConfiguration.planModeHuggingFaceModelId : apiConfiguration.actModeHuggingFaceModelId,
 		huaweiCloudMaasModelId:
 			mode === "plan" ? apiConfiguration.planModeHuaweiCloudMaasModelId : apiConfiguration.actModeHuaweiCloudMaasModelId,
+		upstageModelId:
+			mode === "plan" ? apiConfiguration.planModeUpstageModelId : apiConfiguration.actModeUpstageModelId,
 		naverCloudModelId:
 			mode === "plan" ? apiConfiguration.planModeNaverCloudModelId : apiConfiguration.actModeNaverCloudModelId,
 		vercelAiGatewayModelId:
@@ -492,6 +511,8 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 		basetenModelInfo: mode === "plan" ? apiConfiguration.planModeBasetenModelInfo : apiConfiguration.actModeBasetenModelInfo,
 		huggingFaceModelInfo:
 			mode === "plan" ? apiConfiguration.planModeHuggingFaceModelInfo : apiConfiguration.actModeHuggingFaceModelInfo,
+		upstageModelInfo:
+			mode === "plan" ? apiConfiguration.planModeUpstageModelInfo : apiConfiguration.actModeUpstageModelInfo,
 		naverCloudModelInfo:
 			mode === "plan" ? apiConfiguration.planModeNaverCloudModelInfo : apiConfiguration.actModeNaverCloudModelInfo,
 		vercelAiGatewayModelInfo:
@@ -659,6 +680,13 @@ export async function syncModeConfigurations(
 			updates.actModeHuaweiCloudMaasModelId = sourceFields.huaweiCloudMaasModelId
 			updates.planModeHuaweiCloudMaasModelInfo = sourceFields.huaweiCloudMaasModelInfo
 			updates.actModeHuaweiCloudMaasModelInfo = sourceFields.huaweiCloudMaasModelInfo
+			break
+		// CARET MODIFICATION: Sync Upstage model settings
+		case "upstage":
+			updates.planModeUpstageModelId = sourceFields.upstageModelId
+			updates.actModeUpstageModelId = sourceFields.upstageModelId
+			updates.planModeUpstageModelInfo = sourceFields.upstageModelInfo
+			updates.actModeUpstageModelInfo = sourceFields.upstageModelInfo
 			break
 		// CARET MODIFICATION: Sync Naver Cloud model settings
 		case "naver-cloud":

@@ -5,7 +5,6 @@ import { t } from "@/caret/utils/i18n"
 import { updateSetting } from "@/components/settings/utils/settingsHandlers"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ModelDescriptionMarkdown } from "../OpenRouterModelPicker"
-import { normalizeApiConfiguration } from "../utils/providerUtils" // CARET MODIFICATION: Gate image settings by provider
 import {
 	formatPrice,
 	formatTokenLimit,
@@ -91,6 +90,11 @@ const ModelInfoSupportsItem = ({ isSupported, supportsLabel, doesNotSupportLabel
 
 const ASPECT_RATIO_OPTIONS = ["16:9", "9:16", "4:3", "3:4", "1:1"] as const
 const IMAGE_SIZE_OPTIONS = ["1K", "2K", "3K", "4K"] as const
+// CARET MODIFICATION: Image analysis model options
+const IMAGE_ANALYSIS_MODEL_OPTIONS = [
+	{ value: "gemini-3.0-flash-preview", label: "Gemini 3.0 Flash" },
+	{ value: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
+] as const
 
 const InfoParagraph = styled.p`
 	font-size: 12px;
@@ -164,9 +168,21 @@ export const ModelInfoView = ({ selectedModelId, modelInfo, isPopup }: ModelInfo
 	const isGemini = Object.keys(geminiModels).includes(selectedModelId)
 	const hasThinkingConfig = hasThinkingBudget(modelInfo)
 	const hasTiers = !!modelInfo.tiers && modelInfo.tiers.length > 0
-	const { imageGenerationAspectRatio, imageGenerationSize, apiConfiguration, mode } = useExtensionState() // CARET MODIFICATION: Use provider context
-	const shouldShowImageSettings =
-		supportsImages(modelInfo) && normalizeApiConfiguration(apiConfiguration, mode).selectedProvider === "caret" // CARET MODIFICATION: Caret-only image settings
+	const { imageGenerationAspectRatio, imageGenerationSize, imageAnalysisModel, apiConfiguration, mode } = useExtensionState() // CARET MODIFICATION: Use provider context
+	// CARET MODIFICATION: Show image settings for all providers since generate_image tool always uses Caret API
+	const shouldShowImageSettings = supportsImages(modelInfo)
+
+	// CARET MODIFICATION: Image analysis model change handler
+	const handleImageAnalysisModelChange = useCallback(
+		(event: ChangeEvent<HTMLSelectElement>) => {
+			const nextValue = event.target.value
+			if (nextValue === (imageAnalysisModel ?? "")) {
+				return
+			}
+			updateSetting("imageAnalysisModel", nextValue)
+		},
+		[imageAnalysisModel],
+	)
 
 	const handleAspectRatioChange = useCallback(
 		(event: ChangeEvent<HTMLSelectElement>) => {
@@ -322,6 +338,17 @@ export const ModelInfoView = ({ selectedModelId, modelInfo, isPopup }: ModelInfo
 								{IMAGE_SIZE_OPTIONS.map((size) => (
 									<option key={size} value={size}>
 										{size}
+									</option>
+								))}
+							</SettingSelect>
+						</ImageSettingColumn>
+						{/* CARET MODIFICATION: Image analysis model selection */}
+						<ImageSettingColumn>
+							<SettingLabel>{t("modelInfoView.imageGeneration.analysisModel", "settings")}</SettingLabel>
+							<SettingSelect onChange={handleImageAnalysisModelChange} value={imageAnalysisModel ?? "gemini-3.0-flash-preview"}>
+								{IMAGE_ANALYSIS_MODEL_OPTIONS.map((option) => (
+									<option key={option.value} value={option.value}>
+										{option.label}
 									</option>
 								))}
 							</SettingSelect>

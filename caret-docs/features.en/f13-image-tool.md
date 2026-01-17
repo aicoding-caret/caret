@@ -37,8 +37,17 @@ LLM: [uses analyze_image tool] → Analyzes via Gemini 2.5 Flash → Returns res
 
 | Tool | Description | Conditions |
 |------|-------------|------------|
-| `generate_image` | AI image generation | Caret login required |
-| `analyze_image` | Image analysis (vision proxy) | Caret login + `supportsImages: false` model |
+| `generate_image` | AI image generation | Caret login required (all models) |
+| `analyze_image` | Image analysis (vision proxy) | Caret login + `supportsImages: false` models only |
+
+### Image Processing by Model Type
+
+| Feature | Vision Models (GPT-4o, Claude 3.5, etc.) | Text Models (o1, GLM-4, etc.) |
+|---------|------------------------------------------|-------------------------------|
+| `generate_image` | ✅ Available | ✅ Available |
+| `analyze_image` | ❌ Disabled (use `read_file`) | ✅ Available |
+| `read_file` (images) | ✅ Direct analysis (imageBlock) | 📄 Returns path info only |
+| Chat-attached images | ✅ Direct analysis | 📄 Path recognition only |
 
 ---
 
@@ -55,15 +64,36 @@ LLM → generate_image(prompt="cute cat", aspect_ratio="16:9")
     → Display as data URL in UI
 ```
 
-### Image Analysis (analyze_image)
+### Image Analysis (analyze_image) - Text Models Only
 
 ```
 LLM → analyze_image(image="screenshot.png", question="What do you see?")
     → AnalyzeImageToolHandler.execute()
     → Path validation (Path Traversal protection)
     → Approval check (user approval for files outside workspace)
-    → Caret API /v1/chat/completions (Gemini 2.5 Flash)
+    → Caret API /v1/chat/completions (configured analysis model)
     → Return analysis result
+```
+
+### Image Reading (read_file) - Vision Models
+
+```
+LLM → read_file(path="screenshot.png")
+    → ReadFileToolHandler.execute()
+    → extractFileContent(path, modelSupportsImages=true)
+    → extractImageContent() → Creates imageBlock
+    → Adds imageBlock to userMessageContent
+    → LLM directly analyzes image
+```
+
+### Image Reading (read_file) - Text Models
+
+```
+LLM → read_file(path="screenshot.png")
+    → ReadFileToolHandler.execute()
+    → extractFileContent(path, modelSupportsImages=false)
+    → Returns path info only: "[Image file: screenshot.png]\nPath: /full/path\nNote: Use analyze_image tool"
+    → LLM calls analyze_image if needed
 ```
 
 ---
@@ -133,15 +163,32 @@ AI request: analyze_image(image="../../etc/passwd", question="Read the contents"
 | `generateImages` | `true` | Enable image generation tool |
 | `analyzeImages` | `true` | Enable image analysis tool |
 
-### Tool Filtering Logic
-- `toolSettings.generateImages === false` → `generate_image` excluded from prompt
-- `toolSettings.analyzeImages === false` → `analyze_image` excluded from prompt
-- `supportsImages === true` (native model support) → `analyze_image` excluded from prompt
+### Tool Filtering Logic (CaretJsonAdapter.ts)
+
+```typescript
+// 1. Disable via settings
+if (toolSettings?.generateImages === false) {
+    excludedTools.push("generate_image")
+}
+
+// 2. Vision models: disable analyze_image (use read_file instead)
+if (toolSettings?.analyzeImages === false) {
+    excludedTools.push("analyze_image")
+} else if (modelSupportsImages) {
+    excludedTools.push("analyze_image")  // Vision models use read_file directly
+}
+```
 
 ### Image Generation Options
-- **Aspect Ratio**: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
+- **Aspect Ratio**: `16:9`, `9:16`, `4:3`, `3:4`, `1:1`
 - **Size**: `1K`, `2K`, `3K`, `4K`
 - **Storage Keys**: `imageGenerationAspectRatio`, `imageGenerationSize`
+
+### Image Analysis Model Selection
+- **Options**: `gemini-2.5-flash`, `gemini-3.0-flash-preview`
+- **Default**: `gemini-3.0-flash-preview`
+- **Storage Key**: `imageAnalysisModel`
+- **UI Location**: Settings > Model Info > Image Analysis Model
 
 ---
 
@@ -179,21 +226,26 @@ A cute cat...
 ## Known Limitations
 
 1. **Authentication Required**
-   - Both tools require Caret account login
-   - Error messages include login/disable guidance when not logged in
+   - `generate_image`: Caret login required for all models
+   - `analyze_image`: Caret login required for text models
+   - i18n-supported error messages displayed when not logged in (with login button)
 
 2. **analyze_image Conditions**
-   - Tool only shown for `supportsImages: false` models
-   - Auto-hidden for vision models (GPT-4V, Gemini, etc.)
+   - Tool only enabled for `supportsImages: false` models
+   - Auto-disabled for vision models (GPT-4o, Claude 3.5, etc.) → use `read_file`
 
-3. **History Restoration**
+3. **read_file Image Processing**
+   - Vision models: Image added as imageBlock to conversation → direct analysis
+   - Text models: Returns path info only → guides to use `analyze_image`
+
+4. **History Restoration**
    - `imageUrl` injection flow during restoration may exist
    - Image display failure possible (verification needed)
 
-4. **Single Execution**
+5. **Single Execution**
    - Image tools can only run one at a time
 
-5. **Image Size Limits**
+6. **Image Size Limits**
    - Pixel limit: 7500px (same as cline-latest)
    - File size: Depends on server nginx `client_max_body_size` setting
    - No client-side resize/compression (original sent)
@@ -217,5 +269,5 @@ A cute cat...
 
 ---
 
-**Last Updated**: 2026-01-16
-**Document Version**: v2.1 (removed image optimization - 7500px limit only)
+**Last Updated**: 2026-01-18
+**Document Version**: v2.2 (vision/text model image handling separation, imageAnalysisModel setting added)

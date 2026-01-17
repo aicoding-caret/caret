@@ -37,6 +37,17 @@
 		"generateImageImageUnavailable": "无法显示图片",
 		"generateImageAlt": "生成的图片",
 		"generateImageSavedPath": "已保存到 {{path}}",
+		"readDocument": "{{brandName}}想要读取文档",
+		"readDocumentPath": "路径",
+		"readDocumentFormat": "格式",
+		"readDocumentCompleted": "文档读取完成",
+		"readDocumentReading": "正在读取文档...",
+		"readDocumentSize": "大小",
+		"analyzeImage": "{{brandName}}想要分析图片",
+		"analyzeImagePath": "路径",
+		"analyzeImageQuestion": "问题",
+		"analyzeImageCompleted": "图片分析完成",
+		"analyzeImageAnalyzing": "正在分析图片...",
 		"commandOutput": "命令输出",
 		"commandApprovalRequired": "模型已确定此命令需要明确批准。",
 		"mcpNotification": "MCP通知",
@@ -458,6 +469,15 @@
 	"copyButton": {
 		"copied": "已复制",
 		"copy": "复制"
+	},
+	"imageTools": {
+		"loginRequired": {
+			"title": "{{action}}需要登录{{brandName}}账户。",
+			"toUseFeature": "**使用此功能：**",
+			"loginStep": "1. 通过{{brandName}}侧边栏登录",
+			"toDisableTool": "**禁用此工具：**",
+			"disableStep": "- 转到设置 > 自动批准 > \"{{toolName}}\" 开关"
+		}
 	},
 	"demo": {
 		"helloWorld": "你好世界！",

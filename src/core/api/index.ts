@@ -20,6 +20,7 @@ import { GeminiHandler } from "./providers/gemini"
 import { GroqHandler } from "./providers/groq"
 import { HicapHandler } from "./providers/hicap"
 import { HuaweiCloudMaaSHandler } from "./providers/huawei-cloud-maas"
+import { UpstageHandler } from "./providers/upstage"
 import { NaverCloudHandler } from "./providers/naver-cloud"
 import { HuggingFaceHandler } from "./providers/huggingface"
 import { LiteLlmHandler } from "./providers/litellm"
@@ -385,6 +386,13 @@ function createHandlerForProvider(
 					mode === "plan" ? options.planModeHuaweiCloudMaasModelId : options.actModeHuaweiCloudMaasModelId,
 				huaweiCloudMaasModelInfo:
 					mode === "plan" ? options.planModeHuaweiCloudMaasModelInfo : options.actModeHuaweiCloudMaasModelInfo,
+			})
+		case "upstage":
+			return new UpstageHandler({
+				onRetryAttempt: options.onRetryAttempt,
+				upstageApiKey: options.upstageApiKey,
+				upstageModelId: mode === "plan" ? options.planModeUpstageModelId : options.actModeUpstageModelId,
+				upstageModelInfo: mode === "plan" ? options.planModeUpstageModelInfo : options.actModeUpstageModelInfo,
 			})
 		case "naver-cloud":
 			return new NaverCloudHandler({

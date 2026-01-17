@@ -289,16 +289,18 @@ export class CaretJsonAdapter implements IPromptSystem {
 				Logger.debug(`[CaretJsonAdapter] generate_image tool disabled by settings`)
 			}
 
-			// Filter analyze_image based on settings only (default: true)
-			// NOTE: Even vision models need this tool because:
-			// - Vision models can only see images IN the conversation context
-			// - Generated images are saved to DISK, not in conversation
-			// - So analyze_image is needed to read file-based images
+			// CARET MODIFICATION: Filter analyze_image based on model capability and settings
+			// - Vision models can use read_file to directly view images → analyze_image unnecessary
+			// - Text-only models need analyze_image (uses Caret API with Gemini 2.5 Flash)
+			const modelSupportsImages = context.providerInfo?.model?.info?.supportsImages === true
 			if (toolSettings?.analyzeImages === false) {
 				excludedTools.push("analyze_image")
 				Logger.debug(`[CaretJsonAdapter] analyze_image tool disabled by settings`)
+			} else if (modelSupportsImages) {
+				excludedTools.push("analyze_image")
+				Logger.debug(`[CaretJsonAdapter] analyze_image tool disabled for vision model (use read_file instead)`)
 			} else {
-				Logger.debug(`[CaretJsonAdapter] analyze_image tool enabled`)
+				Logger.debug(`[CaretJsonAdapter] analyze_image tool enabled for text-only model`)
 			}
 
 			let filteredTools = toolPrompts.filter(
@@ -330,7 +332,6 @@ export class CaretJsonAdapter implements IPromptSystem {
 
 			// CARET MODIFICATION: Add image reading capability note to read_file for vision models
 			// Vision models can read image files via read_file tool, but this isn't in Cline's original description
-			const modelSupportsImages = context.providerInfo?.model?.info?.supportsImages === true
 			if (modelSupportsImages) {
 				filteredTools = filteredTools.map((toolPrompt: string) => {
 					if (toolPrompt.includes("## read_file")) {

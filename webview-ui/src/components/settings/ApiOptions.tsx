@@ -32,6 +32,8 @@ import { HuaweiCloudMaasProvider } from "./providers/HuaweiCloudMaasProvider"
 import { HuggingFaceProvider } from "./providers/HuggingFaceProvider"
 import { LiteLlmProvider } from "./providers/LiteLlmProvider"
 import { BizRouterProvider } from "./providers/BizRouterProvider"
+// CARET MODIFICATION: Add Upstage provider
+import { UpstageProvider } from "./providers/UpstageProvider"
 // CARET MODIFICATION: Add Naver Cloud provider
 import { NaverCloudProvider } from "./providers/NaverCloudProvider"
 import { LMStudioProvider } from "./providers/LMStudioProvider"
@@ -548,6 +550,10 @@ const ApiOptions = ({
 
 				{apiConfiguration && selectedProvider === "huawei-cloud-maas" && (
 					<HuaweiCloudMaasProvider currentMode={currentMode} isPopup={isPopup} showModelOptions={showModelOptions} />
+				)}
+
+				{apiConfiguration && selectedProvider === "upstage" && (
+					<UpstageProvider currentMode={currentMode} isPopup={isPopup} showModelOptions={showModelOptions} />
 				)}
 
 				{apiConfiguration && selectedProvider === "naver-cloud" && (

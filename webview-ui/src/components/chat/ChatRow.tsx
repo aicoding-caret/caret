@@ -999,6 +999,156 @@ export const ChatRowContent = memo(
 						</>
 					)
 				}
+				// CARET MODIFICATION: Add readDocument case for document reading progress UI
+				case "readDocument": {
+					const status = tool.status || (message.partial ? "reading" : "completed")
+					const isReading = status === "pending" || status === "reading" || message.partial
+					const documentPath = tool.documentPath
+
+					return (
+						<>
+							<div style={headerStyle}>
+								{toolIcon("file")}
+								{tool.operationIsLocatedInWorkspace === false &&
+									toolIcon("sign-out", "yellow", -90, t("tool.outsideWorkspace", "chat"))}
+								<span style={{ fontWeight: "bold" }}>{t("tool.readDocument", "chat")}:</span>
+								{isReading && <ProgressIndicator />}
+							</div>
+							<div
+								style={{
+									borderRadius: 3,
+									backgroundColor: CODE_BLOCK_BG_COLOR,
+									overflow: "hidden",
+									border: "1px solid var(--vscode-editorGroup-border)",
+								}}>
+								<div style={{ padding: "9px 10px", display: "flex", flexDirection: "column", gap: "6px" }}>
+									{documentPath && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.readDocumentPath", "chat")}:
+											</span>
+											<span
+												style={{
+													color: "var(--vscode-foreground)",
+													wordBreak: "break-all",
+												}}>
+												{documentPath}
+											</span>
+										</div>
+									)}
+									{tool.format && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.readDocumentFormat", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>
+												{tool.format.toUpperCase()}
+											</span>
+										</div>
+									)}
+									{tool.fileSize && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.readDocumentSize", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>
+												{tool.fileSize}
+											</span>
+										</div>
+									)}
+									{isReading && (
+										<div
+											className="ph-no-capture"
+											style={{ color: "var(--vscode-descriptionForeground)" }}>
+											{t("tool.readDocumentReading", "chat")}
+										</div>
+									)}
+									{status === "error" && tool.errorMessage && (
+										<div className="ph-no-capture" style={{ color: errorColor }}>
+											{tool.errorMessage}
+										</div>
+									)}
+									{status === "completed" && !tool.errorMessage && (
+										<div
+											className="ph-no-capture"
+											style={{ color: "var(--vscode-descriptionForeground)" }}>
+											{t("tool.readDocumentCompleted", "chat")}
+										</div>
+									)}
+								</div>
+							</div>
+						</>
+					)
+				}
+				// CARET MODIFICATION: Add analyzeImage case for image analysis progress UI
+				case "analyzeImage": {
+					const status = tool.status || (message.partial ? "analyzing" : "completed")
+					const isAnalyzing = status === "pending" || status === "analyzing" || message.partial
+					const imagePath = tool.imagePath
+
+					return (
+						<>
+							<div style={headerStyle}>
+								{toolIcon("eye")}
+								{tool.operationIsLocatedInWorkspace === false &&
+									toolIcon("sign-out", "yellow", -90, t("tool.outsideWorkspace", "chat"))}
+								<span style={{ fontWeight: "bold" }}>{t("tool.analyzeImage", "chat")}:</span>
+								{isAnalyzing && <ProgressIndicator />}
+							</div>
+							<div
+								style={{
+									borderRadius: 3,
+									backgroundColor: CODE_BLOCK_BG_COLOR,
+									overflow: "hidden",
+									border: "1px solid var(--vscode-editorGroup-border)",
+								}}>
+								<div style={{ padding: "9px 10px", display: "flex", flexDirection: "column", gap: "6px" }}>
+									{imagePath && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.analyzeImagePath", "chat")}:
+											</span>
+											<span
+												style={{
+													color: "var(--vscode-foreground)",
+													wordBreak: "break-all",
+												}}>
+												{imagePath}
+											</span>
+										</div>
+									)}
+									{tool.question && (
+										<div className="ph-no-capture">
+											<span style={{ fontWeight: "bold", marginRight: 6 }}>
+												{t("tool.analyzeImageQuestion", "chat")}:
+											</span>
+											<span style={{ color: "var(--vscode-foreground)" }}>{tool.question}</span>
+										</div>
+									)}
+									{isAnalyzing && (
+										<div
+											className="ph-no-capture"
+											style={{ color: "var(--vscode-descriptionForeground)" }}>
+											{t("tool.analyzeImageAnalyzing", "chat")}
+										</div>
+									)}
+									{status === "error" && tool.errorMessage && (
+										<div className="ph-no-capture" style={{ color: errorColor }}>
+											{tool.errorMessage}
+										</div>
+									)}
+									{status === "completed" && !tool.errorMessage && (
+										<div
+											className="ph-no-capture"
+											style={{ color: "var(--vscode-descriptionForeground)" }}>
+											{t("tool.analyzeImageCompleted", "chat")}
+										</div>
+									)}
+								</div>
+							</div>
+						</>
+					)
+				}
 				default:
 					return null
 			}

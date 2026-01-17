@@ -55,6 +55,8 @@ LiteLLM, BizRouter 등의 모델 목록을 자동으로 페칭하고, 연결 상
 | **LiteLLM** | ✅ | ✅ | ✅ Health 기반 | 완료 |
 | **BizRouter** | ✅ | ✅ | ❌ 단순화 | 완료 |
 | **ZAI (GLM-4.7)** | ✅ | ✅ | ✅ Thinking + Coding | 완료 |
+| **Upstage (Solar)** | ❌ 정적 목록 | ✅ | ❌ 단순화 | 완료 |
+| **NAVER CLOUD (HyperCLOVA X)** | ❌ 정적 목록 | ✅ | ✅ Thinking (HCX-007) | 완료 |
 
 ## 🏗️ **시스템 아키텍처**
 

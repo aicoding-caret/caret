@@ -11,7 +11,7 @@
 <a href="https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev" target="_blank"><strong>VS Marketplace에서 다운로드</strong></a>
 </td>
 <td align="center">
-<a href="https://discord.gg/cline" target="_blank"><strong>Discord</strong></a>
+<a href="https://https://discord.gg/WB6yaR89YN" target="_blank"><strong>Discord</strong></a>
 </td>
 <td align="center">
 <a href="https://www.reddit.com/r/cline/" target="_blank"><strong>r/cline</strong></a>
@@ -122,7 +122,7 @@ Cline이 작업을 진행하는 동안 확장 프로그램은 각 단계에서 �
 
 ## 기여
 
-프로젝트에 기여하려면, [기여 가이드](CONTRIBUTING.md)에서 기본 사항을 익히세요. 또한, [Discord](https://discord.gg/cline)에 참여하여 `#contributors` 채널에서 다른 기여자들과 이야기할 수 있습니다. 풀타임 직업을 찾고 있다면, [채용 페이지](https://cline.bot/join-us)에서 열려있는 포지션을 확인하세요.
+프로젝트에 기여하려면, [기여 가이드](CONTRIBUTING.md)에서 기본 사항을 익히세요. 또한, [Discord](https://https://discord.gg/WB6yaR89YN)에 참여하여 `#contributors` 채널에서 다른 기여자들과 이야기할 수 있습니다. 풀타임 직업을 찾고 있다면, [채용 페이지](https://cline.bot/join-us)에서 열려있는 포지션을 확인하세요.
 
 <details>
 <summary>로컬 개발 방법</summary>

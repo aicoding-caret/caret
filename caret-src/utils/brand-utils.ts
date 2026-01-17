@@ -230,3 +230,81 @@ export function getLegacyClineIgnoreFileName(): string {
 export function clearCache(): void {
 	_cachedBrandName = null
 }
+
+// ============================================================================
+// Global Directory Paths (~/Documents/.agents/)
+// ============================================================================
+
+/**
+ * Get global agents directory name.
+ * Consistent with project-level .agents/ structure.
+ * @returns Global agents directory name (".agents")
+ */
+export function getGlobalAgentsDirName(): string {
+	return ".agents"
+}
+
+/**
+ * Get legacy global directory name based on brand.
+ * Used for migration from old paths.
+ * @returns Legacy global directory name (e.g., "Caret", "Cline")
+ */
+export function getLegacyGlobalDirName(): string {
+	const brandName = detectCurrentBrandName()
+	// Cline uses "Cline", Caret uses "Caret"
+	return brandName === "Cline" ? "Cline" : "Caret"
+}
+
+/**
+ * Get global context subdirectory name.
+ * @returns "context"
+ */
+export function getGlobalContextSubdir(): string {
+	return "context"
+}
+
+/**
+ * Get global workflows subdirectory name.
+ * @returns "workflows"
+ */
+export function getGlobalWorkflowsSubdir(): string {
+	return "workflows"
+}
+
+/**
+ * Get global skills subdirectory name.
+ * @returns "skills"
+ */
+export function getGlobalSkillsSubdir(): string {
+	return "skills"
+}
+
+/**
+ * Get global hooks subdirectory name.
+ * @returns "hooks"
+ */
+export function getGlobalHooksSubdir(): string {
+	return "hooks"
+}
+
+/**
+ * Get global MCP subdirectory name.
+ * @returns "mcp"
+ */
+export function getGlobalMcpSubdir(): string {
+	return "mcp"
+}
+
+/**
+ * Get legacy subdirectory mapping for migration.
+ * Maps new subdirectory names to legacy names.
+ */
+export function getLegacySubdirMapping(): Record<string, string> {
+	return {
+		context: "Rules",
+		workflows: "Workflows",
+		skills: "Skills",
+		hooks: "Hooks",
+		mcp: "MCP",
+	}
+}

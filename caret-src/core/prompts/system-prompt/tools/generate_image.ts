@@ -12,7 +12,7 @@ const GENERIC: ClineToolSpec = {
 	id,
 	name: "generate_image",
 	description:
-		"Generate a single image from a text prompt. Output: WebP (max 1024px, Q86). Images >7500px rejected. UI shows card. No raw data needed.",
+		"Generate a single image from a text prompt. Output: WebP (max 1024px, Q86). Images >7500px rejected. UI shows card. No raw data needed. IMPORTANT: Unless user explicitly requests specific aspect_ratio or image_size, OMIT these parameters to use user's saved preferences.",
 	parameters: [
 		{
 			name: "prompt",
@@ -42,7 +42,7 @@ const GENERIC: ClineToolSpec = {
 			name: "reference_images",
 			required: false,
 			instruction:
-				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images. If the user refers to @a/@b, treat them as the first/second attached images in the current message.",
+				"Optional reference images. Supports: (1) file paths relative to workspace (e.g., 'images/logo.png'), (2) absolute paths, (3) data: URLs. One path per line for multiple images. Leave empty to use the most recent user-attached images. If user refers to @a/@b, treat them as first/second attached images in current message.",
 		},
 		TASK_PROGRESS_PARAMETER,
 	],
@@ -52,7 +52,7 @@ const NATIVE_GPT_5: ClineToolSpec = {
 	variant: ModelFamily.NATIVE_GPT_5,
 	id,
 	name: "generate_image",
-	description: "Generate a single image. WebP (max 1024px). No raw data.",
+	description: "Generate a single image. WebP (max 1024px). No raw data. Omit aspect_ratio/image_size unless user explicitly requests.",
 	parameters: [
 		{
 			name: "prompt",
@@ -78,7 +78,7 @@ const NATIVE_GPT_5: ClineToolSpec = {
 			name: "reference_images",
 			required: false,
 			instruction:
-				"Optional reference image data URLs already provided by the user. Do not generate or paste image data; leave empty to use the most recent user images. If the user refers to @a/@b, treat them as the first/second attached images in the current message.",
+				"Optional reference images. Supports: (1) file paths relative to workspace (e.g., 'images/logo.png'), (2) absolute paths, (3) data: URLs. One path per line for multiple images. Leave empty to use the most recent user-attached images. If user refers to @a/@b, treat them as first/second attached images in current message.",
 		},
 		TASK_PROGRESS_PARAMETER,
 	],

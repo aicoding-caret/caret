@@ -464,7 +464,8 @@
 			"title": "图像生成默认值",
 			"aspectRatio": "纵横比",
 			"size": "尺寸",
-			"auto": "自动（模型默认）"
+			"auto": "自动（模型默认）",
+			"analysisModel": "分析模型"
 		}
 	},
 	"ollamaModelPicker": {
@@ -988,6 +989,16 @@
 			"name": "华为云 MaaS",
 			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。",
 			"providerName": "华为云 MaaS"
+		},
+		"upstage": {
+			"name": "Upstage",
+			"description": "Upstage 提供针对各种 AI 任务优化的 Solar LLM 模型。",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"upstageLinkText": "Upstage",
+			"descriptionPart2": " 提供针对各种 AI 任务优化的 ",
+			"solarLinkText": "Solar LLM",
+			"descriptionPart3": " 模型。"
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",

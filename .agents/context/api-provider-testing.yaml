@@ -1,0 +1,72 @@
+workflow: api-provider-testing
+description: API provider integration testing for LLM providers
+
+context: Testing individual LLM API providers with API keys.
+
+envSetup:
+  file: .env
+  keys:
+    - GEMINI_TOKEN
+    - UPSTAGE_KEY
+    - ZAI_TOKEN
+    - CARET_KEY
+
+testScripts:
+  upstage:
+    script: scripts/test-upstage-api.js
+    endpoint: https://api.upstage.ai/v1/chat/completions
+    auth: Bearer token
+    models: [solar-pro2, solar-mini]
+
+  glm47:
+    script: scripts/test-glm47-streaming.js
+    endpoint: https://api.z.ai/api/coding/paas/v4/chat/completions
+    auth: Bearer token
+    models: [glm-4.7]
+    required:
+      - stream: true
+      - thinking.type: enabled
+      - max_tokens: 500+
+
+  gemini:
+    script: scripts/test-api-scenarios.js gemini-text
+    endpoint: https://generativelanguage.googleapis.com/v1beta
+    auth: API key in URL
+    models: [gemini-2.0-flash-exp]
+
+  hookSkill:
+    script: scripts/test-api-hook-skill.js
+    tests: [API connection, Hook system, Skill tool calls]
+
+scriptTemplate:
+  structure:
+    - Load .env with fs.readFileSync
+    - Get API_KEY from process.env
+    - fetch() with Bearer auth
+    - SSE streaming handler
+    - Error handling
+
+  envLoading: |
+    const fs = require('fs');
+    const path = require('path');
+    const envPath = path.resolve(__dirname, '../.env');
+    if (fs.existsSync(envPath)) {
+      fs.readFileSync(envPath, 'utf-8').split('\n').forEach((line) => {
+        const match = line.match(/^([^=]+)=(.*)$/);
+        if (match && !process.env[match[1]]) {
+          process.env[match[1]] = match[2];
+        }
+      });
+    }
+
+newProviderChecklist:
+  - Define API_KEY env var name
+  - Find correct endpoint URL
+  - Identify auth method (Bearer/API key)
+  - Check streaming support
+  - Handle SSE data: lines
+  - Test both streaming/non-streaming
+
+relatedDocs:
+  - docs/API_TEST_GUIDE.md
+  - .users/context/api-provider-testing.md

@@ -315,6 +315,8 @@ export const ExtensionStateContextProvider: React.FC<{
 		autoCondenseThreshold: undefined,
 		imageGenerationAspectRatio: undefined,
 		imageGenerationSize: undefined,
+		// CARET MODIFICATION: Image analysis model selection
+		imageAnalysisModel: undefined,
 		// CARET MODIFICATION: Initialize caretBanner with actual banner image
 		caretBanner: caretBannerAsset,
 		// CARET MODIFICATION: Initialize persona system from backend globalState only

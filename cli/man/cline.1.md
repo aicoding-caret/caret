@@ -317,7 +317,7 @@ Cline operates on a three-layer architecture:
 
 Report bugs at: <https://github.com/aicoding-caret/caret/issues>
 
-For real-time help, join the Discord community at: <https://discord.gg/cline>
+For real-time help, join the Discord community at: <https://https://discord.gg/WB6yaR89YN>
 
 # SEE ALSO
 

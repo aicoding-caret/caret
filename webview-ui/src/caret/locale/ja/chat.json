@@ -37,6 +37,17 @@
 		"generateImageImageUnavailable": "画像を表示できません",
 		"generateImageAlt": "生成された画像",
 		"generateImageSavedPath": "保存先: {{path}}",
+		"readDocument": "{{brandName}}はドキュメントを読み取ろうとしています",
+		"readDocumentPath": "パス",
+		"readDocumentFormat": "形式",
+		"readDocumentCompleted": "ドキュメントの読み取りが完了しました",
+		"readDocumentReading": "ドキュメントを読み取り中...",
+		"readDocumentSize": "サイズ",
+		"analyzeImage": "{{brandName}}は画像を分析しようとしています",
+		"analyzeImagePath": "パス",
+		"analyzeImageQuestion": "質問",
+		"analyzeImageCompleted": "画像分析が完了しました",
+		"analyzeImageAnalyzing": "画像を分析中...",
 		"commandOutput": "コマンド出力",
 		"commandApprovalRequired": "モデルはこのコマンドに明示的な承認が必要であると判断しました。",
 		"mcpNotification": "MCP通知",
@@ -458,6 +469,15 @@
 	"copyButton": {
 		"copied": "コピーしました",
 		"copy": "コピー"
+	},
+	"imageTools": {
+		"loginRequired": {
+			"title": "{{action}}するには{{brandName}}アカウントへのログインが必要です。",
+			"toUseFeature": "**この機能を使用するには：**",
+			"loginStep": "1. {{brandName}}サイドバーからログインしてください",
+			"toDisableTool": "**このツールを無効にするには：**",
+			"disableStep": "- 設定 > 自動承認 > 「{{toolName}}」トグル"
+		}
 	},
 	"demo": {
 		"helloWorld": "こんにちは！",

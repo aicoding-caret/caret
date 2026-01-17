@@ -75,6 +75,12 @@ steps:
         workflow: .agents/workflows/testing-work.md # Detailed (253 lines)
         korean: caret-docs/development/testing-guide.md
 
+      - name: API Provider Testing
+        keywords: [API, provider, test script, LLM, streaming, integration test, Upstage, GLM, Gemini]
+        root: .agents/context/api-provider-testing.yaml  # Quick reference
+        korean: .users/context/api-provider-testing.md   # Korean guide
+        docs: docs/API_TEST_GUIDE.md                     # Detailed guide
+
       - name: B2B Branding & Conversion
         keywords: [b2b, brand, codecenter, conversion, slexn]
         root: .agents/context/b2b-branding-workflow.md

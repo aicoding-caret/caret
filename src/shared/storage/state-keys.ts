@@ -130,6 +130,8 @@ export interface Settings {
 	autoCondenseThreshold: number | undefined // number from 0 to 1
 	imageGenerationAspectRatio: string | undefined
 	imageGenerationSize: string | undefined
+	// CARET MODIFICATION: Image analysis model selection
+	imageAnalysisModel: string | undefined
 	ocaBaseUrl: string | undefined
 	minimaxApiLine: string | undefined
 	ocaMode: string | undefined
@@ -285,6 +287,7 @@ export interface Secrets {
 	sapAiCoreClientSecret: string | undefined
 	groqApiKey: string | undefined
 	huaweiCloudMaasApiKey: string | undefined
+	upstageApiKey: string | undefined // CARET MODIFICATION: Upstage API key
 	naverCloudApiKey: string | undefined // CARET MODIFICATION: Naver Cloud API key
 	basetenApiKey: string | undefined
 	vercelAiGatewayApiKey: string | undefined

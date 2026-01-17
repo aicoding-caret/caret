@@ -38,6 +38,17 @@
 		"generateImageImageUnavailable": "Image unavailable",
 		"generateImageAlt": "Generated image",
 		"generateImageSavedPath": "Saved to {{path}}",
+		"readDocument": "{{brandName}} wants to read document",
+		"readDocumentPath": "Path",
+		"readDocumentFormat": "Format",
+		"readDocumentCompleted": "Document reading completed",
+		"readDocumentReading": "Reading document...",
+		"readDocumentSize": "Size",
+		"analyzeImage": "{{brandName}} wants to analyze image",
+		"analyzeImagePath": "Path",
+		"analyzeImageQuestion": "Question",
+		"analyzeImageCompleted": "Image analysis completed",
+		"analyzeImageAnalyzing": "Analyzing image...",
 		"commandOutput": "Command Output",
 		"commandApprovalRequired": "The model has determined this command requires explicit approval.",
 		"mcpNotification": "MCP Notification",
@@ -459,6 +470,15 @@
 	"copyButton": {
 		"copied": "Copied",
 		"copy": "Copy"
+	},
+	"imageTools": {
+		"loginRequired": {
+			"title": "{{brandName}} account login required to {{action}}.",
+			"toUseFeature": "**To use this feature:**",
+			"loginStep": "1. Log in via the {{brandName}} sidebar",
+			"toDisableTool": "**To disable this tool:**",
+			"disableStep": "- Go to Settings > Auto-approve > \"{{toolName}}\" toggle"
+		}
 	},
 	"demo": {
 		"helloWorld": "Hello World!",

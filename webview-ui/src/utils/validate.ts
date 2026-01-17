@@ -128,6 +128,12 @@ export function validateApiConfiguration(currentMode: Mode, apiConfiguration?: A
 					return t("validation.apiKey.required", "settings")
 				}
 				break
+			// CARET MODIFICATION: Validate Upstage API key
+			case "upstage":
+				if (!apiConfiguration.upstageApiKey) {
+					return t("validation.apiKey.required", "settings")
+				}
+				break
 			// CARET MODIFICATION: Validate Naver Cloud API key
 			case "naver-cloud":
 				if (!apiConfiguration.naverCloudApiKey) {

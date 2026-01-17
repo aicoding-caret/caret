@@ -449,7 +449,8 @@
 			"title": "이미지 생성 기본값",
 			"aspectRatio": "비율",
 			"size": "크기",
-			"auto": "자동 (모델 기본값)"
+			"auto": "자동 (모델 기본값)",
+			"analysisModel": "분석 모델"
 		}
 	},
 	"ollamaModelPicker": {
@@ -984,6 +985,16 @@
 			"name": "Huawei Cloud MaaS",
 			"description": "Huawei Cloud MaaS(Model-as-a-Service)는 다양한 AI 모델을 제공합니다.",
 			"providerName": "Huawei Cloud MaaS"
+		},
+		"upstage": {
+			"name": "Upstage",
+			"description": "Upstage는 다양한 AI 작업에 최적화된 Solar LLM 모델을 제공합니다.",
+			"newBadge": "🆕",
+			"descriptionPart1": "",
+			"upstageLinkText": "Upstage",
+			"descriptionPart2": "는 다양한 AI 작업에 최적화된 ",
+			"solarLinkText": "Solar LLM",
+			"descriptionPart3": " 모델을 제공합니다."
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
