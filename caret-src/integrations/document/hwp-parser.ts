@@ -7,8 +7,25 @@ import * as fs from "fs/promises"
 import { Logger } from "@/services/logging/Logger"
 
 // @ohah/hwpjs provides toMarkdown and toJson functions
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const hwpjs = require("@ohah/hwpjs")
+// Gracefully handle module load failure (may not be installed in VSIX)
+let hwpjs: { toMarkdown: (buffer: Buffer, options: object) => { markdown?: string } | string } | null = null
+let hwpjsLoadError: string | null = null
+
+try {
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
+	hwpjs = require("@ohah/hwpjs")
+} catch (error) {
+	hwpjsLoadError = error instanceof Error ? error.message : String(error)
+	Logger.warn(`[HwpParser] @ohah/hwpjs module not available: ${hwpjsLoadError}`)
+}
+
+/**
+ * Check if HWP parsing is available
+ * @returns true if @ohah/hwpjs module is loaded successfully
+ */
+export function isHwpParserAvailable(): boolean {
+	return hwpjs !== null
+}
 
 /**
  * Parse HWP 5.0 document from file path and extract text content
@@ -35,6 +52,13 @@ export async function parseHwpFromFile(filePath: string): Promise<string> {
 export async function parseHwp(buffer: Buffer): Promise<string> {
 	Logger.debug("[HwpParser] Starting HWP 5.0 extraction")
 
+	// Check if hwpjs module is available
+	if (!hwpjs) {
+		const errorMsg = `HWP 파싱 모듈(@ohah/hwpjs)을 로드할 수 없습니다. ${hwpjsLoadError ? `오류: ${hwpjsLoadError}` : ""}`
+		Logger.error(`[HwpParser] ${errorMsg}`)
+		throw new Error(errorMsg)
+	}
+
 	try {
 		// Use toMarkdown for text extraction (cleaner output than JSON)
 		const result = hwpjs.toMarkdown(buffer, {
@@ -44,7 +68,7 @@ export async function parseHwp(buffer: Buffer): Promise<string> {
 			include_page_info: false,
 		})
 
-		const markdown = result.markdown || result
+		const markdown = typeof result === "string" ? result : result.markdown
 
 		if (!markdown || typeof markdown !== "string") {
 			throw new Error("Failed to extract text from HWP file")

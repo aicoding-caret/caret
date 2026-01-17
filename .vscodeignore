@@ -57,6 +57,12 @@ node_modules/**
 # ✅ Allow specific dependency assets / runtime shims
 !node_modules/@vscode/codicons/dist/codicon.css
 !node_modules/@vscode/codicons/dist/codicon.ttf
+
+# ✅ HWP parser native modules (external in esbuild, must be included in VSIX)
+!node_modules/@ohah/
+!node_modules/@ohah/**
+!node_modules/@napi-rs/wasm-runtime/
+!node_modules/@napi-rs/wasm-runtime/**
 !standalone/
 !standalone/runtime-files/
 !standalone/runtime-files/vscode/

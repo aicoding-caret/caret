@@ -2,7 +2,7 @@
 	"name": "caret",
 	"displayName": "Caret",
 	"description": "🎯 Transform your coding workflow with the most intelligent AI assistant for Visual Studio Code. Autonomous code generation, multi-file refactoring, and 20+ AI models. Supports: 한국어, 日本語, 中文.",
-	"version": "0.4.4",
+	"version": "0.4.5",
 	"icon": "assets/icons/icon.png",
 	"engines": {
 		"vscode": "^1.84.0"
@@ -434,7 +434,12 @@
 		"@grpc/reflection": "^1.0.4",
 		"@mistralai/mistralai": "^1.5.0",
 		"@modelcontextprotocol/sdk": "^1.11.1",
+		"@napi-rs/wasm-runtime": "^1.1.1",
 		"@ohah/hwpjs": "^0.1.0-rc.3",
+		"@ohah/hwpjs-darwin-arm64": "^0.1.0-rc.3",
+		"@ohah/hwpjs-darwin-x64": "^0.1.0-rc.3",
+		"@ohah/hwpjs-wasm32-wasi": "^0.1.0-rc.3",
+		"@ohah/hwpjs-win32-x64-msvc": "^0.1.0-rc.3",
 		"@opentelemetry/api": "^1.9.0",
 		"@opentelemetry/core": "^2.1.0",
 		"@opentelemetry/exporter-logs-otlp-grpc": "^0.56.0",
@@ -560,7 +565,9 @@
 		"exclude-after-remap": true
 	},
 	"lint-staged": {
-		"*.{ts,tsx}": ["biome lint --no-errors-on-unmatched --files-ignore-unknown=true --diagnostic-level=error"]
+		"*.{ts,tsx}": [
+			"biome lint --no-errors-on-unmatched --files-ignore-unknown=true --diagnostic-level=error"
+		]
 	},
 	"packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
 }
