@@ -1,9 +1,4 @@
 <div align="center">
-  <p>
-    <strong>🚀 v0.4.4 ハイライト: Nano Banana画像、<a href="https://clova.ai/">Naver Cloud</a> HCX、Agents.md + /init</strong><br>
-    <a href="https://clova.ai/">Naver Cloud</a> Hyper Clova X、AAIF Agents.md/プロジェクト初期化に加えて、毎月の無料クレジットもご利用いただけます。
-  </p>
-
   <table>
     <tr>
       <td align="center">
@@ -17,9 +12,7 @@
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ja/README.md">
-          <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
-        </a>
+        <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
       </td>
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/zh-cn/README.md">
@@ -28,89 +21,60 @@
       </td>
     </tr>
   </table>
-  <h1>🎯 Caret：あなただけのパーソナライズされたAIコーディングパートナー</h1>
-  <p><strong>Cline v3.38.2ベース + v3.45.0 バグ修正 + デュアルモード + ペルソナシステム + 完全なローカライゼーション</strong></p>
+
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret" width="360"/>
+
+  <h1>🎯 Caret</h1>
+  <p><strong>Cline設定そのまま、より多くの機能、263モデル対応、毎月無料クレジット</strong></p>
+
+> [v0.4.5 アップデート] **コスパ最強GLM-4.7 APIキー対応 / テキストモデルでもCaretアカウントでNano Banana画像生成・Gemini分析 / HWP/PDF/DOCX/PPTXドキュメントツール**
 
   <p>
-    <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
-      📥 VS Codeにインストール
+    <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret">
+      <img src="https://img.shields.io/visual-studio-marketplace/v/caretive.caret.svg?color=blue&amp;label=VS%20Code%20Marketplace" alt="VS Code Marketplace">
     </a>
-    <a href="https://docs.caret.team/ja/getting-started/what-is-caret" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
-      📖 ドキュメント
+    <a href="https://github.com/aicoding-caret/caret">
+      <img src="https://img.shields.io/github/stars/aicoding-caret/caret.svg?style=social&amp;label=Star" alt="GitHub stars">
+    </a>
+  </p>
+
+  <p>
+    <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret">
+      <strong>[ 📥 VS Codeにインストール ]</strong>
+    </a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="https://docs.caret.team/ja/getting-started/what-is-caret">
+      <strong>[ 📖 ドキュメント ]</strong>
     </a>
   </p>
 </div>
 
 ---
 
-## 🎉 v0.4.4 ハイライト
+## 🎉 v0.4.5
 
-**v0.4.4 の主な変更点:**
-
-- 🖼️ **Nano Banana画像生成**: CaretアカウントでGemini Nano Banana画像を生成し、プロジェクトのアセットとして保存できます。
-- 💳 **毎月の無料クレジット**: 新規ユーザーは**毎月$0.1 (10クレジット)**がもらえます。(初月は最大$0.2)
-- ☁️ **[Naver Cloud](https://clova.ai/) Hyper Clova X**: Naver CloudプロバイダーとHCX-007/HCX-005/HCX-DASH-002モデルを追加しました。
-- 🧩 **AAIF Agents.md + /init**: レガシールールをAAIF標準に移行し、プロジェクト初期化機能を追加しました。
-- 🔁 **デュアルアカウントシステム**: CaretアカウントとClineアカウントを同時に使用できます。
-- 🛠️ **Cline v3.45.0 バグ修正統合**: Cline v3.45.0のバグ修正コードを部分的にマージしました。
-
----
-
-## 🚀 以前のアップデート：Cline v3.38.2 + GPT 5.1, Claude Opus 4.5, Gemini 3
-
-**Caret v0.4.0**には、Caret独自の拡張機能との100%の互換性を保ちながら、**Cline v3.38.2のすべての機能**が含まれています。
-
-### ハイライト
-- ✅ **Cline v3.38.2の採用**: Claude Opus 4.5を含む、すべての最新のコア改善
-- ✅ **デュアルアカウントシステム**: 既存のClineアカウントを完全にサポート
-- ✅ **入力履歴**: ターミナルのように過去のコマンドをナビゲート
-- ✅ **強化されたプロバイダー設定**: LiteLLM / [BizRouter](https://bizrouter.ai/)用のモデルを自動取得し、ヘルスチェックも実施
-- ✅ **251のユニークなAIモデル**: Claude Opus 4.5、GPT-5、Gemini 3を含む20のプロバイダー
+- 🤖 **GLM-4.7** — コスパ最強のThinking Mode、APIキーだけで使用
+- 🖼️ **画像ツール** — テキストモデルでもCaretアカウントでNano Banana画像生成 / Gemini Flash分析
+- 📄 **ドキュメントツール** — HWP, PDF, DOCX, PPTX クロスプラットフォーム対応
+- ☀️ **Upstage** — 韓国独自のAIファウンデーションモデルを作ったUpstage、Solar Pro/Mini対応
+- 🧩 **Skills/Hooks** — プロジェクト別AIスキル定義
+- 📁 **デュアルディレクトリ** — AI用(.agents/)と人間用(.users/)コンテキスト分離
+- 🖼️ **画像送信トグル** — @メンションで画像ファイル送信設定
 
 ---
 
-## 🎭 機能 #1: 自分だけのAIコーディングパートナーを作る
+## 🔄 Cline互換 + 拡張
 
-テキストチャットを超えて、**ペルソナシステム**で視覚的に魅力的なAI同僚と作業できます。
+**Clineユーザーならすぐ始められます。**
 
-<div align="center">
-<table>
-<tr>
-<td align="center" width="120">
-  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret.png" width="80" style="border-radius: 50%;"/><br/>
-  <strong>Caret</strong><br/>
-  <small>親しみやすいロボット</small>
-</td>
-<td align="center" width="120">
-  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/sarang.png" width="80" style="border-radius: 50%;"/><br/>
-  <strong>Sarang</strong><br/>
-  <small>K-POP開発アイドル</small>
-</td>
-<td align="center" width="120">
-  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ichika.png" width="80" style="border-radius: 50%;"/><br/>
-  <strong>Ichika</strong><br/>
-  <small>Windows 11 OSたん</small>
-</td>
-<td align="center" width="120">
-  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/cyan.png" width="80" style="border-radius: 50%;"/><br/>
-  <strong>Cyan</strong><br/>
-  <small>macOSヘルパー</small>
-</td>
-<td align="center" width="120">
-  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ubuntu.png" width="80" style="border-radius: 50%;"/><br/>
-  <strong>Tando</strong><br/>
-  <small>オープンソースの仲間</small>
-</td>
-</tr>
-</table>
-</div>
-
-**🎨 カスタマイズ**: AIの名前とプロフィール画像を設定できます。  
-**⚡ 即時切替**: いつでもペルソナを切り替えたり、純粋なClineモードに戻せます。
+- 既存のCline設定/アカウントそのまま使用
+- 20プロバイダー、263モデル対応
+- Caretアカウント無料クレジット
+- いつでもClineモードに切替可能
 
 ---
 
-## 🔄 機能 #2: デュアルモード — 1つで2つの体験
+## 🔀 デュアルモード
 
 <div align="center">
   <img src="https://img.shields.io/badge/Cline_Mode-Classic-blue?style=for-the-badge" alt="Cline Mode"/>
@@ -118,80 +82,107 @@
   <img src="https://img.shields.io/badge/Caret_Mode-Extended-green?style=for-the-badge" alt="Caret Mode"/>
 </div>
 
-**🔵 Clineモード** — クラシック体験  
-- ✅ Clineユーザーに馴染みのあるPlan/Actワークフロー  
-- ✅ 既存の設定とアカウントに完全互換  
-- ✅ Clineコアの実績ある安定性  
-
-**🟢 Caretモード** — 拡張体験  
-- 🎭 ペルソナシステムによる没入型コラボレーション  
-- 🧠 性能/コスト最適化プロンプト  
-- 🌍 完全なローカライゼーション  
-- 🎯 直感的なチャットボット/エージェントフロー  
+**Clineモード**: Plan/Actワークフロー、検証済みの安定性
+**Caretモード**: ペルソナ、ローカライズ、最適化プロンプト
 
 ---
 
-## 🚀 Caretの12のコア機能
+## 🎭 ペルソナ
 
 <div align="center">
+<table>
+<tr>
+<td align="center" width="110">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret.png" width="60"/><br/>
+  <strong>Caret</strong><br/>
+  <small>フレンドリーロボット</small>
+</td>
+<td align="center" width="110">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/sarang.png" width="60"/><br/>
+  <strong>Sarang</strong><br/>
+  <small>K-POPアイドル</small>
+</td>
+<td align="center" width="110">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ichika.png" width="60"/><br/>
+  <strong>Ichika</strong><br/>
+  <small>Windows OS娘</small>
+</td>
+<td align="center" width="110">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/cyan.png" width="60"/><br/>
+  <strong>Cyan</strong><br/>
+  <small>macOSヘルパー</small>
+</td>
+<td align="center" width="110">
+  <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ubuntu.png" width="60"/><br/>
+  <strong>Tando</strong><br/>
+  <small>オープンソース仲間</small>
+</td>
+</tr>
+</table>
+</div>
+
+AI名とプロフィールを自由にカスタマイズ。
+
+---
+
+## ☁️ Caret追加モデル
+
+Clineで対応していないモデルをCaretで使用できます。
+
+- **Z.AI** GLM-4.7 (Thinking Mode)
+- **Naver Cloud** HyperCLOVA X
+- **Upstage** Solar Pro/Mini
+- **BizRouter** マルチモデルルーティング
+
+---
+
+## 🛠️ 画像/ドキュメントツール
+
+テキスト専用モデルでもCaretアカウントで使用可能。
+
+- **generate_image** — 画像生成 (Nano Banana)
+- **analyze_image** — 画像分析 (Gemini)
+- **read_document** — HWP, PDF, DOCX, PPTX読み取り
+
+---
+
+## 📋 15のコア機能
 
 | 機能 | 説明 | ドキュメント |
-|---------|-------------|------|
-| **F00** | Clineのバグ修正と安定化パッチ | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f00-cline-bugfix-patch.md) |
-| **F01** | 共通ユーティリティ | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f01-common-util.md) |
-| **F02** | 多言語i18n | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f02-multilingual-i18n.md) |
-| **F03** | ブランディング & UIシステム | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f03-branding-ui.md) |
-| **F04** | Cline互換性 & CLI | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
-| **F05** | Caretアカウントシステム | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f05-caret-account.md) |
-| **F06** | エージェント標準化(AAIF SoT) | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f06-agent-standardization.md) |
-| **F07** | Caretプロンプトシステム | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f07-caret-prompt-system.md) |
-| **F08** | ペルソナシステム | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f08-persona-system.md) |
-| **F09** | Feature Configシステム | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f09-feature-config-system.md) |
-| **F10** | 拡張プロバイダー設定 | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f10-enhanced-provider-setup.md) |
-| **F11** | 入力履歴 & ショートカット | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f11-input-history-and-shortcuts.md) |
-| **F12** | AI-開発者知識の同等性 | [Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
-
-</div>
-
-→ **[機能インデックス](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/index.md)**
+|------|------|------|
+| F00 | Clineバグ修正・安定化 | [詳細](../features.en/f00-cline-bugfix-patch.md) |
+| F01 | 共通ユーティリティ | [詳細](../features.en/f01-common-util.md) |
+| F02 | 多言語i18n | [詳細](../features.en/f02-multilingual-i18n.md) |
+| F03 | ブランディング & UI | [詳細](../features.en/f03-branding-ui.md) |
+| F04 | Cline互換性 | [詳細](../features.en/f04-cline-compatibility-and-cli.md) |
+| F05 | Caretアカウント | [詳細](../features.en/f05-caret-account.md) |
+| F06 | エージェント標準化 (AAIF) | [詳細](../features.en/f06-agent-standardization.md) |
+| F07 | プロンプトシステム | [詳細](../features.en/f07-caret-prompt-system.md) |
+| F08 | ペルソナシステム | [詳細](../features.en/f08-persona-system.md) |
+| F09 | Feature Config | [詳細](../features.en/f09-feature-config-system.md) |
+| F10 | プロバイダー設定 | [詳細](../features.en/f10-enhanced-provider-setup.md) |
+| F11 | 入力履歴 & ショートカット | [詳細](../features.en/f11-input-history-and-shortcuts.md) |
+| F12 | AI-開発者知識同等性 | [詳細](../features.en/f12-ai-developer-knowledge-parity.md) |
+| F13 | 画像ツール | [詳細](../features.en/f13-image-tool.md) |
+| F15 | ドキュメントツール | [詳細](../features.en/f15-document-read-tool.md) |
 
 ---
 
-## 🛠 開発者向け (KO優先)
+## 📞 サポート
 
-- 開発ドキュメントダッシュボード: `caret-docs/development/index.md` (環境/ビルド/ワークフロー/アーキテクチャ整理)
-- AIルール ↔ 開発ドキュメントのマッピング: `.agents/context/caret-rules.json` + `.agents/context/workflows/*`を対応する開発ガイドと一緒に維持します。(F12 AI-Developer Knowledge Parity)
-
----
-
-## 🤝 オープンソースで一緒に作ろう
-
-1. **バグ報告** → [Issues](https://github.com/aicoding-caret/caret/issues)  
-2. **機能提案** → アイデアを共有してください  
-3. **コード貢献** → フォークしてPRを送信  
-4. **翻訳協力** → 言語の追加/改善  
-
-## 📞 サポート & コミュニティ
-
-- 🏠 **Webサイト**: https://caret.team  
-- 💬 **Discord**: https://discord.gg/caret  
-- 📧 **メール**: support@caret.team  
-- 🐛 **バグ報告**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)  
+- 🏠 https://caret.team
+- 💬 https://discord.gg/WB6yaR89YN
+- 🐛 [GitHub Issues](https://github.com/aicoding-caret/caret/issues)
 
 ---
 
-<div align="center">
-  <h2>🎯 今すぐ始めよう</h2>
-  <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; display: inline-block; margin: 16px;">
-    📥 VS Codeに無料でインストール
-  </a>
-  <p><small>気に入ったらGitHubで⭐をお願いします！</small></p>
-</div>
+<details>
+<summary><strong>🛠️ 開発者向け</strong></summary>
 
----
+- [開発ドキュメント](../development/index.md)
+- [アーキテクチャ](../development/caret-architecture-and-implementation-guide.md)
+- [AI作業ガイド](../guides/ai-work-method-guide.md)
 
-## 🛠️ 開発者向け
+**貢献**: Fork → PR提出
 
-- **[🚀 開発ドキュメントダッシュボード](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/index.md)** — セットアップ/ビルド/テストの入口
-- **[🏛️ Caretアーキテクチャ](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)** — システムアーキテクチャ詳細
-- **[🤖 AI作業方法ガイド](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)** — AIベースの貢献で必読
+</details>
