@@ -2855,7 +2855,12 @@ export class Task {
 				break
 			}
 			case "tool_use":
+				// CARET MODIFICATION: Debug logging for tool execution timing
+				Logger.debug(
+					`[ToolExec-DEBUG] Starting tool execution: name=${block.name}, partial=${block.partial}, index=${this.taskState.currentStreamingContentIndex}`,
+				)
 				await this.toolExecutor.executeTool(block)
+				Logger.debug(`[ToolExec-DEBUG] Tool execution completed: name=${block.name}`)
 				break
 		}
 
@@ -2865,11 +2870,20 @@ export class Task {
 		*/
 		this.taskState.presentAssistantMessageLocked = false // this needs to be placed here, if not then calling this.presentAssistantMessage below would fail (sometimes) since it's locked
 		// NOTE: when tool is rejected, iterator stream is interrupted and it waits for userMessageContentReady to be true. Future calls to present will skip execution since didRejectTool and iterate until contentIndex is set to message length and it sets userMessageContentReady to true itself (instead of preemptively doing it in iterator)
-		if (!block.partial || this.taskState.didRejectTool || this.taskState.didAlreadyUseTool) {
+		// CARET MODIFICATION: Removed didAlreadyUseTool from condition to fix race condition.
+		// When a partial tool block's UI update finishes, didAlreadyUseTool may already be true
+		// (set by a concurrent complete block execution), causing incorrect userMessageContentReady=true.
+		// The didAlreadyUseTool flag should only be used in ToolExecutor to skip tool execution,
+		// not here for block finalization. See: 2026-01-17 GLM-4.7 image analysis bug investigation.
+		if (!block.partial || this.taskState.didRejectTool) {
 			// block is finished streaming and executing
 			if (this.taskState.currentStreamingContentIndex === this.taskState.assistantMessageContent.length - 1) {
 				// its okay that we increment if !didCompleteReadingStream, it'll just return bc out of bounds and as streaming continues it will call presentAssistantMessage if a new block is ready. if streaming is finished then we set userMessageContentReady to true when out of bounds. This gracefully allows the stream to continue on and all potential content blocks be presented.
 				// last block is complete and it is finished executing
+				// CARET MODIFICATION: Debug logging for userMessageContentReady
+				Logger.debug(
+					`[ToolExec-DEBUG] Setting userMessageContentReady=true: index=${this.taskState.currentStreamingContentIndex}, total=${this.taskState.assistantMessageContent.length}`,
+				)
 				this.taskState.userMessageContentReady = true // will allow pwaitfor to continue
 			}
 
@@ -3389,7 +3403,12 @@ export class Task {
 
 							this.taskState.assistantMessageContent = parseAssistantMessageV2(assistantMessage)
 
+							// CARET MODIFICATION: Debug logging for tool parsing analysis
 							if (this.taskState.assistantMessageContent.length > prevLength) {
+								const newBlocks = this.taskState.assistantMessageContent.slice(prevLength)
+								Logger.debug(
+									`[ToolParse-DEBUG] New blocks parsed: ${JSON.stringify(newBlocks.map((b) => ({ type: b.type, partial: b.partial, name: (b as any).name })))}`,
+								)
 								this.taskState.userMessageContentReady = false // new content we need to present, reset to false in case previous content set this to true
 							}
 							// present content to user
@@ -3545,6 +3564,11 @@ export class Task {
 
 			this.taskState.didCompleteReadingStream = true
 
+			// CARET MODIFICATION: Debug logging for stream completion
+			Logger.debug(
+				`[StreamEnd-DEBUG] Stream completed: assistantMessageContent.length=${this.taskState.assistantMessageContent.length}, userMessageContentReady=${this.taskState.userMessageContentReady}`,
+			)
+
 			// set any blocks to be complete to allow presentAssistantMessage to finish and set userMessageContentReady to true
 			// (could be a text block that had no subsequent tool uses, or a text block at the very end, or an invalid tool use, etc. whatever the case, presentAssistantMessage relies on these blocks either to be completed or the user to reject a block in order to proceed and eventually set userMessageContentReady to true)
 			const partialBlocks = this.taskState.assistantMessageContent.filter((block) => block.partial)
@@ -3553,6 +3577,10 @@ export class Task {
 			})
 			// this.assistantMessageContent.forEach((e) => (e.partial = false)) // can't just do this bc a tool could be in the middle of executing ()
 			if (partialBlocks.length > 0) {
+				// CARET MODIFICATION: Debug logging for partial block finalization
+				Logger.debug(
+					`[StreamEnd-DEBUG] Finalizing ${partialBlocks.length} partial blocks: ${JSON.stringify(partialBlocks.map((b) => ({ type: b.type, name: (b as any).name })))}`,
+				)
 				this.presentAssistantMessage() // if there is content to update then it will complete and update this.userMessageContentReady to true, which we pwaitfor before making the next request. all this is really doing is presenting the last partial message that we just set to complete
 			}
 
@@ -3645,6 +3673,18 @@ export class Task {
 
 				// if the model did not tool use, then we need to tell it to either use a tool or attempt_completion
 				const didToolUse = this.taskState.assistantMessageContent.some((block) => block.type === "tool_use")
+
+				// CARET MODIFICATION: Detailed debug logging for tool use detection
+				Logger.debug(
+					`[ToolUse-DEBUG] didToolUse check: assistantMessageContent=${JSON.stringify(
+						this.taskState.assistantMessageContent.map((b) => ({
+							type: b.type,
+							partial: b.partial,
+							name: (b as any).name,
+							content: b.type === "text" ? (b as any).content?.substring(0, 100) + "..." : undefined,
+						})),
+					)}, didToolUse=${didToolUse}`,
+				)
 
 				// CARET MODIFICATION: Check finish_reason BEFORE sending noToolsUsed message
 				// This prevents auto-continuation when model naturally ends without tool use

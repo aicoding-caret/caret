@@ -59,7 +59,14 @@ const ErrorRow = memo(({ message, errorType, apiRequestFailedMessage, apiReqStre
 				if (apiRequestFailedMessage || apiReqStreamingFailedMessage) {
 					// FIXME: ClineError parsing should not be applied to non-Cline providers, but it seems we're using clineErrorMessage below in the default error display
 					const clineError = ClineError.parse(apiRequestFailedMessage || apiReqStreamingFailedMessage)
-					const caretError = JSON.parse(apiRequestFailedMessage || apiReqStreamingFailedMessage || "{}") // caret specific error
+					// CARET MODIFICATION: Safely parse JSON error message, handle non-JSON strings gracefully
+					let caretError: { type?: string } | null = null
+					try {
+						caretError = JSON.parse(apiRequestFailedMessage || apiReqStreamingFailedMessage || "{}") // caret specific error
+					} catch {
+						// Not a JSON string, ignore parsing error
+						caretError = null
+					}
 					const clineErrorMessage =
 						caretError?.type === "budget_exceeded" ? t("errorRow.budgetExceeded", "chat") : clineError?.message // caret language error message
 					const requestId = clineError?._error?.request_id

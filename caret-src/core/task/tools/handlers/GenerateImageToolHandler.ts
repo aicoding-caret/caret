@@ -937,8 +937,13 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				textOutputs.length ? `Text output: ${textOutputs.join(" ")}` : undefined,
 			].filter(Boolean)
 
-			// CARET MODIFICATION: Include image in tool result for vision models to see directly
-			const images = savedImageDataUrl ? [savedImageDataUrl] : undefined
+			// CARET MODIFICATION: Include image in tool result only for models that support images
+			// Otherwise, the generated image would cause 400 errors on non-vision models like GLM-4.7
+			const supportsImages = config.api.getModel().info.supportsImages ?? false
+			const images = supportsImages && savedImageDataUrl ? [savedImageDataUrl] : undefined
+			if (!supportsImages && savedImageDataUrl) {
+				summaryParts.push("\n[Image generated and saved to file. The current model does not support viewing images directly.]")
+			}
 			return formatResponse.toolResult(summaryParts.join("\n"), images)
 		} catch (error) {
 			const message = (error as Error).message || "Image generation failed."
