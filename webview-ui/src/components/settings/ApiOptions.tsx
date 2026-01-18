@@ -154,30 +154,87 @@ const ApiOptions = ({
 			]
 		}
 
-		// CARET MODIFICATION: Regional featured providers with flags
+		// CARET MODIFICATION: Sovereign Cloud - Provider country flags
+		// 프로바이더 국가 = UI 언어 지원 원칙
+		const providerCountryFlags: Record<string, string> = {
+			// 🇺🇸 United States
+			anthropic: "🇺🇸",
+			"openai-native": "🇺🇸",
+			"claude-code": "🇺🇸",
+			cline: "🇺🇸",
+			xai: "🇺🇸",
+			groq: "🇺🇸",
+			fireworks: "🇺🇸",
+			together: "🇺🇸",
+			cerebras: "🇺🇸",
+			asksage: "🇺🇸",
+			sambanova: "🇺🇸",
+			"vercel-ai-gateway": "🇺🇸",
+			openrouter: "🇺🇸",
+			baseten: "🇺🇸",
+			huggingface: "🇺🇸",
+			// 🇰🇷 Korea
+			upstage: "🇰🇷",
+			"naver-cloud": "🇰🇷",
+			bizrouter: "🇰🇷",
+			caret: "🇰🇷",
+			// 🇨🇳 China
+			qwen: "🇨🇳",
+			"qwen-code": "🇨🇳",
+			doubao: "🇨🇳",
+			deepseek: "🇨🇳",
+			moonshot: "🇨🇳",
+			"huawei-cloud-maas": "🇨🇳",
+			minimax: "🇨🇳",
+			// 🇯🇵 Japan
+			// (현재 없음)
+			// 🇫🇷 France
+			mistral: "🇫🇷",
+			// 🇩🇪 Germany
+			sapaicore: "🇩🇪",
+			// 🇷🇺 Russia
+			nebius: "🇷🇺",
+			// 🌐 Global Cloud
+			bedrock: "☁️",
+			vertex: "☁️",
+			gemini: "☁️",
+			// 💻 Local
+			ollama: "💻",
+			lmstudio: "💻",
+			"vscode-lm": "💻",
+		}
+
+		// CARET MODIFICATION: Regional featured providers (언어별 우선 표시)
 		const regionalFeaturedProviders: Record<string, string[]> = {
 			ko: ["upstage", "naver-cloud", "bizrouter"], // 🇰🇷 한국
 			zh: ["qwen", "doubao", "deepseek", "moonshot", "huawei-cloud-maas"], // 🇨🇳 중국
 			ja: [], // 🇯🇵 일본 (현재 없음)
+			fr: ["mistral"], // 🇫🇷 프랑스
+			de: ["sapaicore"], // 🇩🇪 독일
+			ru: ["nebius"], // 🇷🇺 러시아
 			en: [], // 🇺🇸 영어 (글로벌 기본)
 		}
 
+		// Deprecated: Use providerCountryFlags instead
 		const regionalFlags: Record<string, string> = {
 			ko: "🇰🇷",
 			zh: "🇨🇳",
+			fr: "🇫🇷",
+			de: "🇩🇪",
+			ru: "🇷🇺",
 		}
 
-		// Get current language code (ko, zh, ja, en)
+		// Get current language code (ko, zh, ja, en, fr, de, ru)
 		const langCode = language?.substring(0, 2) || "en"
 		const featuredProviders = regionalFeaturedProviders[langCode] || []
-		const flag = regionalFlags[langCode] || ""
 
-		// Helper function to add flag and NEW badge
+		// Helper function to add country flag and NEW badge to provider
 		const getProviderLabel = (providerId: string, baseName: string, isNew?: boolean) => {
-			const isFeatured = featuredProviders.includes(providerId)
+			const countryFlag = providerCountryFlags[providerId] || ""
 			let label = baseName
-			if (isFeatured && flag) {
-				label = `${flag} ${label}`
+			// 모든 프로바이더에 국가/타입 플래그 표시
+			if (countryFlag) {
+				label = `${countryFlag} ${label}`
 			}
 			if (isNew) {
 				label = `${label} ✨NEW`
@@ -245,23 +302,24 @@ const ApiOptions = ({
 		const processedOptions: { value: string; label: string }[] = []
 		const seen = new Set<string>()
 
-		// Helper to get provider with proper label (flag + NEW badge)
+		// Helper to get provider with proper label (country flag + NEW badge)
 		const getProcessedProvider = (providerId: string) => {
 			const provider = allProviders.find((p) => p.value === providerId)
 			if (!provider) return null
 			const isNew = newProviders.has(providerId)
-			const isFeatured = featuredProviders.includes(providerId)
+			// 모든 프로바이더에 국가/타입 플래그 적용
 			return {
 				value: providerId,
-				label: isFeatured ? getProviderLabel(providerId, provider.label, isNew) : provider.label,
+				label: getProviderLabel(providerId, provider.label, isNew),
 			}
 		}
 
-		// 1. First, add Caret and Cline (fixed at top)
+		// 1. First, add Caret and Cline (fixed at top, with country flags)
 		for (const option of allProviders) {
 			if ((option.value === "caret" || option.value === "cline") && !seen.has(option.value)) {
 				seen.add(option.value)
-				processedOptions.push(option)
+				const processed = getProcessedProvider(option.value)
+				if (processed) processedOptions.push(processed)
 			}
 		}
 
