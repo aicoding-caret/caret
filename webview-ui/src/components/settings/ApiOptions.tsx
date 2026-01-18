@@ -186,6 +186,8 @@ const ApiOptions = ({
 			moonshot: "🇨🇳",
 			"huawei-cloud-maas": "🇨🇳",
 			minimax: "🇨🇳",
+			zai: "🇨🇳", // Zhipu AI (智谱AI)
+			dify: "🇨🇳", // Dify.ai (中国)
 			// 🇯🇵 Japan
 			// (현재 없음)
 			// 🇫🇷 France
@@ -202,6 +204,10 @@ const ApiOptions = ({
 			ollama: "💻",
 			lmstudio: "💻",
 			"vscode-lm": "💻",
+			// 🔧 Gateway/Proxy
+			litellm: "🔧",
+			openai: "🔧", // OpenRouter compatible
+			requesty: "🔧",
 		}
 
 		// CARET MODIFICATION: Regional featured providers (언어별 우선 표시)
@@ -264,8 +270,8 @@ const ApiOptions = ({
 			{ value: "ollama", label: t("providers.ollama.name", "settings") },
 			{ value: "lmstudio", label: t("providers.lmstudio.name", "settings") },
 			{ value: "vscode-lm", label: t("providers.vscode-lm.name", "settings") },
-			// 6. Other providers - Z AI (NEW) at top
-			{ value: "zai", label: getProviderLabel("zai", t("providers.zai.name", "settings"), true) },
+			// 6. Other providers
+			{ value: "zai", label: t("providers.zai.name", "settings") },
 			{ value: "openrouter", label: t("providers.openrouter.name", "settings") },
 			{ value: "deepseek", label: t("providers.deepseek.name", "settings") },
 			{ value: "bedrock", label: t("providers.bedrock.name", "settings") },
