@@ -118,8 +118,8 @@
 		}
 	},
 	"rulesModal": {
-		"tooltip": {},
-		"ariaLabel": {}
+		"tooltip.manageRulesWorkflows": "Caretルールとワークフローを管理",
+		"ariaLabel.CaretRulesButton": "Caretルール"
 	},
 	"mode": {
 		"chatbot": {

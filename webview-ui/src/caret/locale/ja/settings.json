@@ -252,6 +252,8 @@
 		"dictationLanguageDescription": "ディクテーションサービスで話す言語を設定します。UIの優先言語とは別に設定されます。",
 		"autoCompact": "自動コンパクトを有効にする",
 		"autoCompactDescription": "LLMベースの凝縮を使用した次世代モデルの高度なコンテキスト管理システムを有効にします。",
+		"enableYoloMode": "YOLOモードを有効にする",
+		"enableYoloModeDescription": "実験的かつ危険：このモードは安全チェックとユーザー確認を無効にします。Caretは確認なしにすべてのアクションを自動承認します。細心の注意を払って使用してください。",
 		"learnMore": "詳細はこちら",
 		"enableHooks": "Hooksを有効にする",
 		"enableHooksDescription": "AIアクションの前後にシェルコマンドを実行できます（例：編集前のコードレビュー）。",

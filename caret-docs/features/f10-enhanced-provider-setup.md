@@ -634,6 +634,118 @@ LiteLLM 구현을 기반으로 다른 프로바이더들도 동일한 패턴으�
 4. **i18n 번역**: 4개 언어 번역 키 추가
 5. **TDD 테스트**: 백엔드 핸들러 테스트 작성
 
+## 🌍 **국가별 프로바이더 정렬 시스템**
+
+### **정렬 규칙**
+
+프로바이더 목록은 다음 우선순위로 정렬됩니다:
+
+```
+1. Caret/Cline (고정 - 항상 맨 위)
+2. NEW 프로바이더 (섹션 순서 유지)
+3. 일반 프로바이더 (섹션 순서 유지)
+```
+
+**핵심 규칙**: `NEW > 섹션 우선순위`, `NEW끼리는 섹션 우선순위를 따름`
+
+### **섹션 순서**
+
+| 순서 | 섹션 | 설명 |
+|------|------|------|
+| 1 | **고정** | Caret, Cline |
+| 2 | **국가별 주목 구간** | 언어 설정에 따라 동적으로 결정 |
+| 3 | **글로벌 주요 AI** | Anthropic, Gemini, OpenAI, xAI, Groq |
+| 4 | **로컬 LLM** | Ollama, LM Studio, VS Code LM |
+| 5 | **기타** | OpenRouter, DeepSeek, Mistral, ... |
+
+### **국가별 주목 구간**
+
+| 언어 | 국기 | 주목 프로바이더 |
+|------|------|-----------------|
+| 🇰🇷 **한국어** | 🇰🇷 | Upstage(NEW), Naver Cloud(NEW), BizRouter |
+| 🇨🇳 **중국어** | 🇨🇳 | Qwen, Doubao, DeepSeek, Moonshot, Huawei Cloud |
+| 🇯🇵 **일본어** | - | (없음 - 글로벌 순서) |
+| 🇺🇸 **영어** | - | (없음 - 글로벌 순서) |
+
+### **NEW 뱃지 시스템**
+
+NEW 뱃지가 붙은 프로바이더는 **섹션 우선순위보다 높은 우선순위**를 가집니다.
+
+```typescript
+// NEW 프로바이더 정의
+const newProviders = new Set(["zai", "upstage", "naver-cloud"])
+```
+
+**정렬 예시 (한국어)**:
+```
+1. Caret
+2. Cline
+3. 🇰🇷 Upstage [NEW]      ← NEW + 주목 구간
+4. 🇰🇷 Naver Cloud [NEW]  ← NEW + 주목 구간
+5. Z AI [NEW]              ← NEW + 기타 구간
+6. 🇰🇷 BizRouter          ← 주목 구간 (NEW 아님)
+7. Anthropic               ← 글로벌 주요 AI
+8. Google Gemini
+9. OpenAI
+...
+```
+
+### **NEW 뱃지 스타일**
+
+```typescript
+// 이모지 기반 NEW 뱃지 (드롭다운 호환)
+if (isNew) {
+  label = `${label} ✨NEW`
+}
+```
+
+> **Note**: HTML/CSS 기반 뱃지는 드롭다운이 닫혀있을 때 태그가 텍스트로 표시되므로, 이모지 기반으로 구현합니다.
+
+### **구현 코드**
+
+```typescript
+// webview-ui/src/components/settings/ApiOptions.tsx
+
+// 1. NEW 프로바이더 정의
+const newProviders = new Set(["zai", "upstage", "naver-cloud"])
+
+// 2. 국가별 주목 프로바이더
+const regionalFeaturedProviders: Record<string, string[]> = {
+  ko: ["upstage", "naver-cloud", "bizrouter"],
+  zh: ["qwen", "doubao", "deepseek", "moonshot", "huawei-cloud-maas"],
+  ja: [],
+  en: [],
+}
+
+// 3. 국기 이모지
+const regionalFlags: Record<string, string> = {
+  ko: "🇰🇷",
+  zh: "🇨🇳",
+}
+
+// 4. 정렬 로직
+// Step 1: Caret/Cline 추가 (고정)
+// Step 2: 섹션 순서 정의 (주목 → 글로벌 → 로컬 → 기타)
+// Step 3: NEW 프로바이더 먼저 추가 (섹션 순서 유지)
+// Step 4: 일반 프로바이더 추가 (섹션 순서 유지)
+```
+
+### **확장 가이드**
+
+새로운 국가/언어 지원 시:
+
+1. `regionalFeaturedProviders`에 언어 코드와 프로바이더 배열 추가
+2. `regionalFlags`에 국기 이모지 추가 (선택)
+3. 새 프로바이더에 NEW 뱃지가 필요하면 `newProviders`에 추가
+
+```typescript
+// 예: 독일어 지원 추가
+regionalFeaturedProviders["de"] = ["sap-ai-core"]
+regionalFlags["de"] = "🇩🇪"
+```
+
+---
+
 ## 🚀 **사용자 경험 개선사항**
 
 ### **Before (기존 방식)**

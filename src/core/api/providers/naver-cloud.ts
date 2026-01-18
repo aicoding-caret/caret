@@ -25,6 +25,7 @@ interface NaverCloudHandlerOptions extends CommonApiHandlerOptions {
 	naverCloudModelInfo?: ModelInfo
 	thinkingBudgetTokens?: number
 	ulid?: string
+	requestTimeoutMs?: number
 }
 
 type NaverCloudUsage = {
@@ -180,11 +181,29 @@ export class NaverCloudHandler implements ApiHandler {
 			headers["X-NCP-CLOVASTUDIO-REQUEST-ID"] = this.options.ulid
 		}
 
-		const response = await fetch(`${NAVER_CLOUD_BASE_URL}/v3/chat-completions/${model.id}`, {
-			method: "POST",
-			headers,
-			body: JSON.stringify(body),
-		})
+		// CARET MODIFICATION: Add timeout support using AbortController
+		const timeoutMs = this.options.requestTimeoutMs ?? 60000 // Default 60 seconds
+		const abortController = new AbortController()
+		const timeoutId = setTimeout(() => {
+			abortController.abort()
+		}, timeoutMs)
+
+		let response: Response
+		try {
+			response = await fetch(`${NAVER_CLOUD_BASE_URL}/v3/chat-completions/${model.id}`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify(body),
+				signal: abortController.signal,
+			})
+		} catch (error) {
+			clearTimeout(timeoutId)
+			if (error instanceof Error && error.name === "AbortError") {
+				throw new Error(`Naver Cloud API request timed out after ${timeoutMs / 1000} seconds`)
+			}
+			throw error
+		}
+		clearTimeout(timeoutId)
 
 		if (!response.ok) {
 			const errorText = await response.text()

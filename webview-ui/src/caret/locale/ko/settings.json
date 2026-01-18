@@ -595,7 +595,7 @@
 			"baseUrlPlaceholder": "기본값: https://generativelanguage.googleapis.com"
 		},
 		"openai": {
-			"name": "OpenAI 호환",
+			"name": "OpenAI Compatible",
 			"description": "OpenAI API와 호환되는 모든 모델 엔드포인트에 연결하세요.",
 			"baseUrlPlaceholder": "기본 URL 입력...",
 			"baseUrlLabel": "기본 URL",

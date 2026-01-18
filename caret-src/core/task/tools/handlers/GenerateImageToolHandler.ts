@@ -2,7 +2,7 @@
 import { CaretEnv } from "@caret/config"
 import { CaretAuthService } from "@caret/services/auth/CaretAuthService"
 import { getBrandGeneratedAssetsDirName, getCurrentBrandDisplayName } from "@caret/utils/brand-utils"
-import { ClineAsk, ClineSayTool } from "@shared/ExtensionMessage"
+import { ClineSayTool } from "@shared/ExtensionMessage"
 import type { ToolImageEvent } from "@shared/proto/cline/ui"
 import { ClineDefaultTool } from "@shared/tools"
 import * as fs from "fs/promises"
@@ -541,9 +541,10 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 		const partialMessage = JSON.stringify(sharedMessageProps)
 
-		// CARET MODIFICATION: Fix duplicate message - remove "ask" type, not "say" type
-		await uiHelpers.removeLastPartialMessageIfExistsWithType("ask", "tool")
-		await uiHelpers.ask("tool" as ClineAsk, partialMessage, block.partial).catch(() => {})
+		// CARET MODIFICATION: Use say for partial block (no approval buttons)
+		// Approval will be handled in execute() when block is complete
+		await uiHelpers.removeLastPartialMessageIfExistsWithType("say", "tool")
+		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial)
 	}
 
 	async execute(config: TaskConfig, block: ToolUse): Promise<ToolResponse> {
@@ -592,8 +593,10 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			const completeMessage = buildMessage()
 
+			// CARET MODIFICATION: Remove partial "say" message before showing complete message
+			await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")
+
 			if (config.callbacks.shouldAutoApproveTool(this.name)) {
-				await config.callbacks.removeLastPartialMessageIfExistsWithType("ask", "tool")
 				await config.callbacks.say("tool", completeMessage, undefined, undefined, true)
 				telemetryService.captureToolUsage(
 					config.ulid,
@@ -611,8 +614,6 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					`${brandName} wants to generate an image`,
 					config.autoApprovalSettings.enableNotifications,
 				)
-				// CARET MODIFICATION: Fix - partial message is "ask" type, not "say"
-				await config.callbacks.removeLastPartialMessageIfExistsWithType("ask", "tool")
 
 				const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config)
 				if (!didApprove) {
@@ -638,7 +639,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					undefined,
 					block.isNativeToolCall,
 				)
-				await config.callbacks.say("tool", completeMessage, undefined, undefined, true)
+				// CARET MODIFICATION: Removed duplicate say() call - askApprovalAndPushFeedback already displays the message
 			}
 
 			// Run PreToolUse hook after approval but before execution

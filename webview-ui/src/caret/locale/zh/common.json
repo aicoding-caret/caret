@@ -118,8 +118,8 @@
 		}
 	},
 	"rulesModal": {
-		"tooltip": {},
-		"ariaLabel": {}
+		"tooltip.manageRulesWorkflows": "管理 Caret 规则和工作流",
+		"ariaLabel.CaretRulesButton": "Caret 规则"
 	},
 	"mode": {
 		"chatbot": {

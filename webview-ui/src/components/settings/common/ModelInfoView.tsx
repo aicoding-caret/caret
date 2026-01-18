@@ -90,9 +90,10 @@ const ModelInfoSupportsItem = ({ isSupported, supportsLabel, doesNotSupportLabel
 
 const ASPECT_RATIO_OPTIONS = ["16:9", "9:16", "4:3", "3:4", "1:1"] as const
 const IMAGE_SIZE_OPTIONS = ["1K", "2K", "3K", "4K"] as const
-// CARET MODIFICATION: Image analysis model options
+/// CARET MODIFICATION: Image analysis model options
+// Note: gemini-3-flash-preview (without .0) is the correct model ID
 const IMAGE_ANALYSIS_MODEL_OPTIONS = [
-	{ value: "gemini-3.0-flash-preview", label: "Gemini 3.0 Flash" },
+	{ value: "gemini-3-flash-preview", label: "Gemini 3 Flash" },
 	{ value: "gemini-2.5-flash", label: "Gemini 2.5 Flash" },
 ] as const
 
@@ -345,7 +346,7 @@ export const ModelInfoView = ({ selectedModelId, modelInfo, isPopup }: ModelInfo
 						{/* CARET MODIFICATION: Image analysis model selection */}
 						<ImageSettingColumn>
 							<SettingLabel>{t("modelInfoView.imageGeneration.analysisModel", "settings")}</SettingLabel>
-							<SettingSelect onChange={handleImageAnalysisModelChange} value={imageAnalysisModel ?? "gemini-3.0-flash-preview"}>
+							<SettingSelect onChange={handleImageAnalysisModelChange} value={imageAnalysisModel ?? "gemini-3-flash-preview"}>
 								{IMAGE_ANALYSIS_MODEL_OPTIONS.map((option) => (
 									<option key={option.value} value={option.value}>
 										{option.label}

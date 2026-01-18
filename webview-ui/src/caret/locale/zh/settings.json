@@ -306,6 +306,8 @@
 		"dictationLanguageDescription": "设置在语音输入服务中使用的语言，与首选 UI 语言分开。",
 		"autoCompact": "启用自动紧凑",
 		"autoCompactDescription": "启用高级上下文管理系统，该系统使用基于 LLM 的压缩技术适用于下一代模型。",
+		"enableYoloMode": "启用 YOLO 模式",
+		"enableYoloModeDescription": "实验性且危险：此模式禁用安全检查和用户确认。Caret 将自动批准所有操作而不询问。请极其谨慎使用。",
 		"learnMore": "了解更多",
 		"enableHooks": "启用 Hooks",
 		"enableHooksDescription": "允许在 AI 操作前后运行 shell 命令（例如：编辑前进行代码审查）。",

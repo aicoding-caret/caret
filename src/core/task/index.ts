@@ -2763,14 +2763,12 @@ export class Task {
 			throw new Error("Cline instance aborted")
 		}
 
-		// Check if we have a complete tool block before acquiring the lock
-		// This allows tool execution to proceed during streaming without waiting for the lock
-		const currentBlock = this.taskState.assistantMessageContent[this.taskState.currentStreamingContentIndex]
-		const isCompleteToolBlock = currentBlock?.type === "tool_use" && !currentBlock.partial
-
-		// If we're locked and this is NOT a complete tool block, mark pending and return
-		// Complete tool blocks can proceed to acquire the lock and execute
-		if (this.taskState.presentAssistantMessageLocked && !isCompleteToolBlock) {
+		// CARET MODIFICATION: Fixed race condition where complete tool blocks would bypass
+		// approval flow when streaming ends quickly (especially with Upstage provider).
+		// Previously, complete tool blocks could ignore the lock and execute immediately,
+		// even when a partial block was waiting for user approval via ask().
+		// Now all blocks respect the lock to ensure proper approval sequencing.
+		if (this.taskState.presentAssistantMessageLocked) {
 			this.taskState.presentAssistantMessageHasPendingUpdates = true
 			return
 		}
@@ -3600,7 +3598,8 @@ export class Task {
 			// now add to apiconversationhistory
 			// need to save assistant responses to file before proceeding to tool use since user can exit at any moment and we wouldn't be able to save the assistant's response
 			let didEndLoop = false
-			if (assistantMessage.length > 0 || this.useNativeToolCalls) {
+			// CARET MODIFICATION: Include reasoningMessage as valid response (GLM-4.7/Gemini thinking mode fix)
+			if (assistantMessage.length > 0 || this.useNativeToolCalls || reasoningMessage) {
 				const currentMode = this.stateManager.getGlobalSettingsKey("mode")
 				telemetryService.captureConversationTurnEvent(
 					this.ulid,

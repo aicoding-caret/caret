@@ -154,30 +154,69 @@ const ApiOptions = ({
 			]
 		}
 
-		const baseOptions = [
-			{ value: "cline", label: t("providers.cline.name", "settings") }, // always available (Cline login/voice)
-			// CARET MODIFICATION: Only show caret provider if enableCaretAccountFeatures is true
+		// CARET MODIFICATION: Regional featured providers with flags
+		const regionalFeaturedProviders: Record<string, string[]> = {
+			ko: ["upstage", "naver-cloud", "bizrouter"], // 🇰🇷 한국
+			zh: ["qwen", "doubao", "deepseek", "moonshot", "huawei-cloud-maas"], // 🇨🇳 중국
+			ja: [], // 🇯🇵 일본 (현재 없음)
+			en: [], // 🇺🇸 영어 (글로벌 기본)
+		}
+
+		const regionalFlags: Record<string, string> = {
+			ko: "🇰🇷",
+			zh: "🇨🇳",
+		}
+
+		// Get current language code (ko, zh, ja, en)
+		const langCode = language?.substring(0, 2) || "en"
+		const featuredProviders = regionalFeaturedProviders[langCode] || []
+		const flag = regionalFlags[langCode] || ""
+
+		// Helper function to add flag and NEW badge
+		const getProviderLabel = (providerId: string, baseName: string, isNew?: boolean) => {
+			const isFeatured = featuredProviders.includes(providerId)
+			let label = baseName
+			if (isFeatured && flag) {
+				label = `${flag} ${label}`
+			}
+			if (isNew) {
+				label = `${label} ✨NEW`
+			}
+			return label
+		}
+
+		// CARET MODIFICATION: NEW badge providers (appear at top of their section)
+		const newProviders = new Set(["zai", "upstage", "naver-cloud"])
+
+		// CARET MODIFICATION: Base provider list (global order)
+		const allProviders = [
+			// 1. Caret (if enabled)
 			...(featureConfig.enableCaretAccountFeatures
 				? [{ value: "caret", label: t("providers.caret.name", "settings") }]
 				: []),
-			{ value: "openrouter", label: t("providers.openrouter.name", "settings") },
-			{ value: "gemini", label: t("providers.gemini.name", "settings") },
-			{ value: "openai", label: t("providers.openai.name", "settings") },
+			// 2. Cline (always available - login/voice)
+			{ value: "cline", label: t("providers.cline.name", "settings") },
+			// 3. Regional featured providers will be inserted here dynamically
+			// 4. Global major AI providers
 			{ value: "anthropic", label: t("providers.anthropic.name", "settings") },
-			{ value: "naver-cloud", label: `${t("providers.naver-cloud.name", "settings")} ${t("providers.naver-cloud.newBadge", "settings")}` }, // CARET MODIFICATION: Place Naver Cloud before BizRouter with emoji badge
-			{ value: "bizrouter", label: t("providers.bizrouter.name", "settings") },
-			{ value: "bedrock", label: t("providers.bedrock.name", "settings") },
-			{ value: "vscode-lm", label: t("providers.vscode-lm.name", "settings") },
-			{ value: "deepseek", label: t("providers.deepseek.name", "settings") },
+			{ value: "gemini", label: t("providers.gemini.name", "settings") },
 			{ value: "openai-native", label: t("providers.openai-native.name", "settings") },
+			{ value: "xai", label: t("providers.xai.name", "settings") },
+			{ value: "groq", label: t("providers.groq.name", "settings") },
+			// 5. Local LLM providers
 			{ value: "ollama", label: t("providers.ollama.name", "settings") },
+			{ value: "lmstudio", label: t("providers.lmstudio.name", "settings") },
+			{ value: "vscode-lm", label: t("providers.vscode-lm.name", "settings") },
+			// 6. Other providers - Z AI (NEW) at top
+			{ value: "zai", label: getProviderLabel("zai", t("providers.zai.name", "settings"), true) },
+			{ value: "openrouter", label: t("providers.openrouter.name", "settings") },
+			{ value: "deepseek", label: t("providers.deepseek.name", "settings") },
+			{ value: "bedrock", label: t("providers.bedrock.name", "settings") },
 			{ value: "vertex", label: t("providers.vertex.name", "settings") },
+			{ value: "openai", label: t("providers.openai.name", "settings") },
 			{ value: "litellm", label: t("providers.litellm.name", "settings") },
 			{ value: "claude-code", label: t("providers.claude-code.name", "settings") },
-			{ value: "sapaicore", label: t("providers.sap-ai-core.name", "settings") },
 			{ value: "mistral", label: t("providers.mistral.name", "settings") },
-			{ value: "zai", label: t("providers.zai.name", "settings") },
-			{ value: "groq", label: t("providers.groq.name", "settings") },
 			{ value: "cerebras", label: t("providers.cerebras.name", "settings") },
 			{ value: "vercel-ai-gateway", label: t("providers.vercel-ai-gateway.name", "settings") },
 			{ value: "baseten", label: t("providers.baseten.name", "settings") },
@@ -187,24 +226,83 @@ const ApiOptions = ({
 			{ value: "qwen", label: t("providers.qwen.name", "settings") },
 			{ value: "qwen-code", label: t("providers.qwen-code.name", "settings") },
 			{ value: "doubao", label: t("providers.doubao.name", "settings") },
-			{ value: "lmstudio", label: t("providers.lmstudio.name", "settings") },
 			{ value: "moonshot", label: t("providers.moonshot.name", "settings") },
 			{ value: "huggingface", label: t("providers.huggingface.name", "settings") },
 			{ value: "nebius", label: t("providers.nebius.name", "settings") },
 			{ value: "asksage", label: t("providers.asksage.name", "settings") },
-			{ value: "xai", label: t("providers.xai.name", "settings") },
 			{ value: "sambanova", label: t("providers.sambanova.name", "settings") },
 			{ value: "huawei-cloud-maas", label: t("providers.huawei-cloud-maas.name", "settings") },
+			{ value: "sapaicore", label: t("providers.sap-ai-core.name", "settings") },
 			{ value: "dify", label: t("providers.dify.name", "settings") },
+			// Korean providers (will be moved to featured section for ko)
+			{ value: "upstage", label: t("providers.upstage.name", "settings") },
+			{ value: "naver-cloud", label: t("providers.naver-cloud.name", "settings") },
+			{ value: "bizrouter", label: t("providers.bizrouter.name", "settings") },
 		]
 
-		// CARET MODIFICATION: Deduplicate provider list
+		// CARET MODIFICATION: Build final provider list
+		// Rule: NEW > Section priority, NEW providers follow section order among themselves
 		const processedOptions: { value: string; label: string }[] = []
 		const seen = new Set<string>()
-		for (const option of baseOptions) {
-			if (!seen.has(option.value)) {
+
+		// Helper to get provider with proper label (flag + NEW badge)
+		const getProcessedProvider = (providerId: string) => {
+			const provider = allProviders.find((p) => p.value === providerId)
+			if (!provider) return null
+			const isNew = newProviders.has(providerId)
+			const isFeatured = featuredProviders.includes(providerId)
+			return {
+				value: providerId,
+				label: isFeatured ? getProviderLabel(providerId, provider.label, isNew) : provider.label,
+			}
+		}
+
+		// 1. First, add Caret and Cline (fixed at top)
+		for (const option of allProviders) {
+			if ((option.value === "caret" || option.value === "cline") && !seen.has(option.value)) {
 				seen.add(option.value)
 				processedOptions.push(option)
+			}
+		}
+
+		// 2. Build section-ordered list (excluding Caret/Cline)
+		// Section order: Regional Featured → Global Major → Local LLM → Others
+		const sectionOrderedProviders: string[] = [
+			// Regional featured providers
+			...featuredProviders,
+			// Global major AI
+			"anthropic",
+			"gemini",
+			"openai-native",
+			"xai",
+			"groq",
+			// Local LLM
+			"ollama",
+			"lmstudio",
+			"vscode-lm",
+			// Others (rest from allProviders in order)
+			...allProviders
+				.filter((p) => !["caret", "cline"].includes(p.value))
+				.filter((p) => !featuredProviders.includes(p.value))
+				.filter((p) => !["anthropic", "gemini", "openai-native", "xai", "groq", "ollama", "lmstudio", "vscode-lm"].includes(p.value))
+				.map((p) => p.value),
+		]
+
+		// 3. Add NEW providers first (following section order)
+		for (const providerId of sectionOrderedProviders) {
+			if (!seen.has(providerId) && newProviders.has(providerId)) {
+				seen.add(providerId)
+				const processed = getProcessedProvider(providerId)
+				if (processed) processedOptions.push(processed)
+			}
+		}
+
+		// 4. Add non-NEW providers (following section order)
+		for (const providerId of sectionOrderedProviders) {
+			if (!seen.has(providerId)) {
+				seen.add(providerId)
+				const processed = getProcessedProvider(providerId)
+				if (processed) processedOptions.push(processed)
 			}
 		}
 
@@ -225,7 +323,7 @@ const ApiOptions = ({
 		}
 
 		return processedOptions
-	}, [language])
+	}, [language, featureConfig])
 
 	const currentProviderLabel = useMemo(() => {
 		const providerInfo = providerOptions.find((option) => option.value === selectedProvider)

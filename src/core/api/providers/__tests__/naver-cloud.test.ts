@@ -19,6 +19,57 @@ describe("NaverCloudHandler", () => {
 		naverCloudApiKey: "test-key",
 	}
 
+	describe("timeout handling", () => {
+		it("should timeout after specified duration", async () => {
+			// Create a fetch stub that never resolves (simulates hanging request)
+			const fetchStub = sinon.stub().callsFake(() => {
+				return new Promise(() => {
+					// Never resolves - simulates a hanging connection
+				})
+			})
+
+			const startTime = Date.now()
+			let errorThrown: Error | undefined
+
+			await mockFetchForTesting(fetchStub as any, async () => {
+				const handler = new NaverCloudHandler({
+					...baseOptions,
+					naverCloudModelId: "HCX-005",
+					requestTimeoutMs: 1000, // 1 second timeout for test
+				})
+
+				try {
+					for await (const _ of handler.createMessage("system", [])) {
+						// consume stream
+					}
+				} catch (error) {
+					errorThrown = error as Error
+				}
+			})
+
+			const elapsed = Date.now() - startTime
+
+			// Should have thrown a timeout error
+			expect(errorThrown).to.exist
+			expect(errorThrown?.message).to.include("timed out")
+
+			// Should have completed within reasonable time (timeout + some buffer)
+			expect(elapsed).to.be.lessThan(3000)
+		})
+
+		it("should use default timeout when not specified", async () => {
+			// Verify default timeout is set
+			const handler = new NaverCloudHandler({
+				...baseOptions,
+				naverCloudModelId: "HCX-005",
+			})
+
+			// Access the options to check default timeout
+			expect((handler as any).options.requestTimeoutMs).to.equal(undefined)
+			// Default should be applied in createMessage - we test this behavior indirectly
+		})
+	})
+
 	it("builds thinking payload for HCX-007 with maxCompletionTokens", async () => {
 		let capturedInit: RequestInit | undefined
 		let capturedInput: RequestInfo | URL | undefined

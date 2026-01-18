@@ -729,8 +729,8 @@
 		}
 	},
 	"rulesModal": {
-		"tooltip": {},
-		"ariaLabel": {}
+		"tooltip.manageRulesWorkflows": "Caret 규칙 및 워크플로우 관리",
+		"ariaLabel.CaretRulesButton": "Caret 규칙"
 	},
 	"navbar": {
 		"chat": "채팅",

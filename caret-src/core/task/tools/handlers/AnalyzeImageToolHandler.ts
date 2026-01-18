@@ -111,8 +111,6 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 		const imagePath = block.params.image || block.params.path
 		const question = block.params.question || block.params.prompt
 
-		const config = uiHelpers.getConfig()
-
 		const sharedMessageProps: ToolAnalyzeImageMessage = {
 			tool: "analyzeImage",
 			imagePath: imagePath ? stripQuotes(imagePath) : undefined,
@@ -121,6 +119,8 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 		}
 
 		const partialMessage = JSON.stringify(sharedMessageProps)
+		// CARET MODIFICATION: Remove previous partial message to prevent duplicates
+		await uiHelpers.removeLastPartialMessageIfExistsWithType("say", "tool")
 		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial)
 	}
 
@@ -189,9 +189,12 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 		// Check if should auto-approve based on settings and path location
 		const shouldAutoApprove = await config.callbacks.shouldAutoApproveToolWithPath(this.name, absoluteImagePath)
 
+		// CARET MODIFICATION: Remove partial message before showing complete message
+		await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")
+
 		if (shouldAutoApprove) {
-			// Auto-approve: just show the message
-			await config.callbacks.say("tool", completeMessage, undefined, undefined, false)
+			// Auto-approve: show message with partial=true to maintain chain for later updates
+			await config.callbacks.say("tool", completeMessage, undefined, undefined, true)
 		} else {
 			// Manual approval required - show approval UI and wait for user decision
 			const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config)
@@ -286,8 +289,9 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 
 			Logger.debug(`[AnalyzeImage] Image loaded, sending to Caret API (chat/completions)`)
 
-			// Get image analysis model from settings (default: gemini-3.0-flash-preview)
-			const imageAnalysisModel = config.services.stateManager.getGlobalSettingsKey("imageAnalysisModel") || "gemini-3.0-flash-preview"
+			// Get image analysis model from settings (default: gemini-3-flash-preview)
+			// Note: Model ID is "gemini-3-flash-preview" (without .0)
+			const imageAnalysisModel = config.services.stateManager.getGlobalSettingsKey("imageAnalysisModel") || "gemini-3-flash-preview"
 			const modelId = `gemini/${imageAnalysisModel}`
 			Logger.debug(`[AnalyzeImage] Using model: ${modelId}`)
 
