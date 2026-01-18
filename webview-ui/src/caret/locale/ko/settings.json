@@ -747,5 +747,17 @@
 	"contextWindowSwitcher": {
 		"switchTo1M": "1M 컨텍스트로 전환",
 		"switchTo200K": "200K 컨텍스트로 전환"
+	},
+	"modeSystem": {
+		"label": "모드 시스템",
+		"description": "캐럿 또는 클라인 모드를 선택하세요.",
+		"options": {
+			"caret": "캐럿",
+			"cline": "클라인"
+		}
+	},
+	"persona": {
+		"enablePersonaSystem": "페르소나 시스템 활성화",
+		"description": "AI 어시스턴트의 개성과 응답 스타일을 커스터마이즈할 수 있는 페르소나 시스템을 활성화합니다."
 	}
 }

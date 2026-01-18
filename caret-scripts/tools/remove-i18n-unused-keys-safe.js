@@ -1,6 +1,19 @@
 const fs = require("fs")
 const path = require("path")
 
+/**
+ * ⚠️ 주의: 이 스크립트 실행 전 반드시 report-i18n-unused-key.js를 먼저 실행하세요!
+ *
+ * 사용법:
+ *   1. node caret-scripts/tools/report-i18n-unused-key.js  # 최신 분석 생성
+ *   2. node caret-scripts/tools/remove-i18n-unused-keys-safe.js  # 미사용 키 삭제
+ *
+ * 분석 스크립트가 스캔하는 디렉토리:
+ *   - webview-ui/src/components
+ *   - webview-ui/src/caret/components (Caret 전용)
+ *   - webview-ui/src/caret/shared
+ */
+
 const reportPath = path.resolve(__dirname, "../i18n-unused-keys-report.md")
 const localeBaseDir = path.resolve(__dirname, "../../webview-ui/src/caret/locale")
 // Sovereign Cloud: 미국, 한국, 일본, 중국, 프랑스, 독일, 러시아

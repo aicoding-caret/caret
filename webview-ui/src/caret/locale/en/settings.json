@@ -738,5 +738,17 @@
 		"priceSortingDescription": "Sort by price, prioritize lowest cost provider",
 		"throughputSortingDescription": "Sort by throughput, prioritize highest throughput (may increase cost)",
 		"latencySortingDescription": "Sort by latency, prioritize lowest response time"
+	},
+	"modeSystem": {
+		"label": "Mode System",
+		"description": "Select Caret or Cline mode.",
+		"options": {
+			"caret": "Caret",
+			"cline": "Cline"
+		}
+	},
+	"persona": {
+		"enablePersonaSystem": "Enable Persona System",
+		"description": "Enable the persona system to customize your AI assistant's personality and response style."
 	}
 }

@@ -7,17 +7,17 @@
         <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
       </td>
       <td align="center">
-        <a href="caret-docs/ko/CHANGELOG.md">
+        <a href="caret-docs/changelog-i18n/CHANGELOG.ko.md">
           <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <a href="caret-docs/ja/CHANGELOG.md">
+        <a href="caret-docs/changelog-i18n/CHANGELOG.ja.md">
           <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
         </a>
       </td>
       <td align="center">
-        <a href="caret-docs/zh-cn/CHANGELOG.md">
+        <a href="caret-docs/changelog-i18n/CHANGELOG.zh-cn.md">
           <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
         </a>
       </td>
@@ -34,6 +34,7 @@
 - **[Upstage](https://upstage.ai/) provider**: Added new provider supporting Upstage Solar models.
 - **Text model image tools**: Text-only models can now use Caret account tools for image generation and analysis.
 - **Skills system** (Cline v3.49.0+ cherry-pick): Define project-specific skills that AI can utilize. Manage skills in `.agents/skills/` or `.users/skills/` directories.
+- **Hooks system** (Cline v3.49.0+ cherry-pick): Execute custom scripts before/after tool execution. Manage hooks in `.agents/hooks/` or `.users/hooks/` directories.
 - **Dual directory architecture**: Separate AI-optimized (`.agents/`) context from human-readable (`.users/`) documentation. AI prioritizes token-optimized `.agents/` context.
 - **HWP document support**: Cross-platform HWP parsing support for Windows, macOS, and Linux.
 - **read_document tool**: Unified document reading tool supporting HWP, PDF, DOCX, PPTX and more. Includes legacy PPT format detection.
@@ -42,6 +43,8 @@
 - **Image send toggle**: Toggle feature for @mention image file sending.
 
 ### ✨ Improved
+- **Language expansion**: Added French, German, and Russian translations. Prioritizing countries with their own AI models (Mistral, Aleph Alpha, Yandex, etc.).
+- **Provider country flags**: Display country flags for providers (Sovereign Cloud perspective).
 - **Global context path change**: Global agent settings path changed to `~/Documents/.agents/`.
 - **i18n support**: Added Korean, Japanese, and Chinese translations for Hooks and Skills features.
 - **YAML frontmatter parsing**: Added shared YAML parsing utility for Skills/Hooks.

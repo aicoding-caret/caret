@@ -114,5 +114,39 @@
 	"rulesModal": {
 		"tooltip.manageRulesWorkflows": "Caret 규칙 및 워크플로우 관리",
 		"ariaLabel.CaretRulesButton": "Caret 규칙"
+	},
+	"rules": {
+		"tab": {
+			"rules": "규칙",
+			"workflows": "워크플로우"
+		},
+		"section": {
+			"personaManagement": "페르소나 관리",
+			"globalRules": "전역 규칙",
+			"workspaceRules": "작업공간 규칙",
+			"globalWorkflows": "전역 워크플로우",
+			"localWorkflows": "로컬 워크플로우"
+		},
+		"subTitle": {
+			"caretRules": "Caret 규칙 (.agents/context)",
+			"CaretRules": "Caret 규칙 (.agents/context)",
+			"cursorRules": "Cursor 규칙 (.agents/context)",
+			"windsurfRules": "Windsurf 규칙 (.agents/context)"
+		},
+		"button": {
+			"selectPersonaTemplate": "템플릿 캐릭터 선택",
+			"changePersonaTemplate": "페르소나 템플릿 변경"
+		},
+		"description": {
+			"rulesDescription": "규칙을 통해 Caret에게 시스템 수준의 지침을 제공할 수 있습니다. 프로젝트별 또는 모든 대화에 대한 컨텍스트와 선호사항을 지속적으로 포함하는 방법으로 생각하세요.",
+			"workflowsDescription": "워크플로우를 통해 서비스 배포나 PR 제출과 같은 반복적인 작업들을 Caret이 수행할 수 있도록 일련의 단계를 정의할 수 있습니다. 워크플로우를 실행하려면 채팅에서 /워크플로우명을 입력하세요.",
+			"personaManagement": "Choose an AI persona that matches your coding style and preferences."
+		},
+		"action": {
+			"newRuleFile": "새 규칙 파일..."
+		},
+		"title": "Caret 규칙 및 워크플로우 관리",
+		"toggleError": "규칙 토글 오류",
+		"docsLink": "Docs"
 	}
 }

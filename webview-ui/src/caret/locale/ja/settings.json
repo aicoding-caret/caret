@@ -738,5 +738,17 @@
 	"contextWindowSwitcher": {
 		"switchTo1M": "コンテキストを1Mに切り替え",
 		"switchTo200K": "コンテキストを200Kに切り替え"
+	},
+	"modeSystem": {
+		"label": "モードシステム",
+		"description": "CaretまたはClineモードを選択してください。",
+		"options": {
+			"caret": "Caret",
+			"cline": "Cline"
+		}
+	},
+	"persona": {
+		"enablePersonaSystem": "ペルソナシステムを有効にする",
+		"description": "ペルソナシステムを有効にして、AIアシスタントの個性と応答スタイルをカスタマイズします。"
 	}
 }

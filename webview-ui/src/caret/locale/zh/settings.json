@@ -738,5 +738,17 @@
 	"contextWindowSwitcher": {
 		"switchTo1M": "切换到1M上下文",
 		"switchTo200K": "切换到200K上下文"
+	},
+	"modeSystem": {
+		"label": "模式系统",
+		"description": "选择 Caret 或 Cline 模式。",
+		"options": {
+			"caret": "Caret",
+			"cline": "Cline"
+		}
+	},
+	"persona": {
+		"enablePersonaSystem": "启用人格系统",
+		"description": "启用人格系统以自定义您的 AI 助手的个性和响应风格。"
 	}
 }

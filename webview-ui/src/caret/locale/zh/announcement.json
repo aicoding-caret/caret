@@ -1,30 +1,30 @@
 {
-	"header": "🎉 v{{version}} 的新功能",
-	"previousHeader": "以前的更新:",
+	"header": "🎉 v{{version}} 新功能",
+	"previousHeader": "之前的更新:",
 	"bullets": {
 		"current": {
-			"1": "每月免费积分",
-			"2": "新提供商与模型：Naver Cloud (https://clova.ai/)、Hyper Clova X",
-			"3": "Agents.md 与项目初始化功能",
-			"4": "双账户系统",
-			"5": "Cline v3.45.0 修复合并",
-			"1-desc": "新用户每月可获得$0.1（10积分），首月最高$0.2。支持Gemini 3、2.5 Pro、Lite。",
-			"2-desc": "新增 Naver Cloud (https://clova.ai/) 提供商与 HCX-007/HCX-005/HCX-DASH-002 模型。",
-			"3-desc": "将原有 Caret/Cline 专用规则迁移为 AAIF 国际标准，并新增项目初始化支持功能。",
-			"4-desc": "可同时使用Caret账户和Cline账户，Cline用户无需限制即可访问全部功能。",
-			"5-desc": "部分合并了 Cline v3.45.0 的修复代码。"
+			"1": "Z.AI GLM-4.7 完全支持",
+			"2": "Upstage 提供商",
+			"3": "文本模型图像工具",
+			"4": "Skills & Hooks 系统",
+			"5": "文档工具 (HWP/PDF/DOCX)",
+			"1-desc": "支持GLM-4.7模型的Thinking Mode和自然对话风格。",
+			"2-desc": "添加了韩国独立AI基础模型Upstage提供商和Solar Pro/Mini模型。",
+			"3-desc": "纯文本模型也可以通过Caret账户工具生成图像(Nano Banana)和分析图像(Gemini)。",
+			"4-desc": "定义项目特定的技能和工具执行前后的钩子。在.agents/或.users/目录中管理。",
+			"5-desc": "read_document工具支持HWP、PDF、DOCX、PPTX等。跨平台HWP解析支持。"
 		},
 		"previous": {
-			"1": "Cline v3.38.2 完全整合",
-			"2": "新模型：Claude Opus 4.5",
-			"3": "全新快捷键系统",
-			"4": "增强的提供商设置",
-			"5": "AI模型支持",
-			"1-desc": "已整合Cline v3.38.2的全部功能，包括Claude Opus 4.5和最新核心改进。",
-			"2-desc": "可在Anthropic、OpenRouter、Bedrock、Vertex中使用，并已应用提示缓存价格。",
-			"3-desc": "新增取消(Esc)和恢复(Ctrl+Shift+R)快捷键，并提供新的管理界面。",
-			"4-desc": "自动拉取LiteLLM、BizRouter模型并进行实时健康检查。",
-			"5-desc": "支持20个提供商、251个独立模型。"
+			"1": "语言扩展",
+			"2": "Naver Cloud 提供商",
+			"3": "Agents.md和项目初始化",
+			"4": "双账户系统",
+			"5": "Cline v3.45.0 错误修复集成",
+			"1-desc": "添加了法语、德语和俄语。优先支持拥有自主AI模型的国家。显示提供商国旗。",
+			"2-desc": "添加了Naver Cloud(Hyper Clova X)提供商和HCX-007/HCX-005/HCX-DASH-002模型。",
+			"3-desc": "将传统Caret/Cline规则更新为AAIF国际标准，支持项目初始化。",
+			"4-desc": "可以同时使用Caret账户和Cline账户，没有限制。",
+			"5-desc": "部分合并了Cline v3.45.0的错误修复代码。"
 		}
 	}
 }

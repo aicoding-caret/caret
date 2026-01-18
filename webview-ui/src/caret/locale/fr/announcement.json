@@ -1,30 +1,30 @@
 {
-	"header": "Nouveautes v{{version}}",
-	"previousHeader": "Mises a jour precedentes :",
+	"header": "🎉 v{{version}} Nouvelles fonctionnalités",
+	"previousHeader": "Mises à jour précédentes:",
 	"bullets": {
 		"current": {
-			"1": "Credits mensuels gratuits",
-			"2": "Nouveau fournisseur et modeles : Naver Cloud (https://clova.ai/), Hyper Clova X",
-			"3": "Agents.md et initialisation de projet",
-			"4": "Systeme de double compte",
-			"5": "Integration des correctifs Cline v3.45.0",
-			"1-desc": "Les nouveaux utilisateurs recoivent 0,1 $ (10 credits) mensuels recurrents ! Bonus du premier mois : commencez avec jusqu'a 0,2 $. Disponible pour Gemini 3, 2.5 Pro, Lite.",
-			"2-desc": "Ajout du fournisseur Naver Cloud (https://clova.ai/) et des modeles HCX-007/HCX-005/HCX-DASH-002.",
-			"3-desc": "Mise a jour des anciennes regles Caret/Cline vers le standard international AAIF et ajout du support d'initialisation de projet.",
-			"4-desc": "Utilisez simultanement les comptes Caret et Cline. Les utilisateurs Cline peuvent desormais acceder a toutes les fonctionnalites sans restriction.",
-			"5-desc": "Fusion partielle du code de correctifs Cline v3.45.0."
+			"1": "Support complet Z.AI GLM-4.7",
+			"2": "Fournisseur Upstage",
+			"3": "Outils d'image pour modèles texte",
+			"4": "Système Skills & Hooks",
+			"5": "Outils de documents (HWP/PDF/DOCX)",
+			"1-desc": "Prend en charge le mode Thinking et le style de conversation naturelle avec les modèles GLM-4.7.",
+			"2-desc": "Ajout du fournisseur Upstage avec les modèles Solar Pro/Mini de la fondation IA indépendante coréenne.",
+			"3-desc": "Les modèles texte uniquement peuvent générer des images (Nano Banana) et analyser des images (Gemini) via les outils du compte Caret.",
+			"4-desc": "Définissez des compétences spécifiques au projet et des hooks pré/post exécution d'outils. Gérez dans les répertoires .agents/ ou .users/.",
+			"5-desc": "Outil read_document pour HWP, PDF, DOCX, PPTX et plus. Support de parsing HWP multiplateforme."
 		},
 		"previous": {
-			"1": "Fusion complete de Cline v3.38.2",
-			"2": "Nouveau modele : Claude Opus 4.5",
-			"3": "Nouveau systeme de raccourcis",
-			"4": "Configuration de fournisseur amelioree",
-			"5": "Support des modeles IA",
-			"1-desc": "Integration complete de toutes les fonctionnalites de Cline v3.38.2, y compris Claude Opus 4.5 et les dernieres ameliorations du noyau.",
-			"2-desc": "Maintenant disponible via Anthropic, OpenRouter, Bedrock et Vertex avec les prix de mise en cache des prompts appliques.",
-			"3-desc": "Ajout des raccourcis Annuler (Echap) et Reprendre (Ctrl+Maj+R) avec un nouveau systeme de gestion.",
-			"4-desc": "Recuperation automatique des modeles pour LiteLLM et BizRouter avec verifications d'etat en temps reel",
-			"5-desc": "Prise en charge de 251 modeles IA uniques chez 20 fournisseurs"
+			"1": "Expansion linguistique",
+			"2": "Fournisseur Naver Cloud",
+			"3": "Agents.md et initialisation de projet",
+			"4": "Système de double compte",
+			"5": "Intégration des corrections Cline v3.45.0",
+			"1-desc": "Ajout du français, allemand et russe. Priorité aux pays avec leurs propres modèles IA. Drapeaux des fournisseurs ajoutés.",
+			"2-desc": "Ajout du fournisseur Naver Cloud (Hyper Clova X) avec les modèles HCX-007/HCX-005/HCX-DASH-002.",
+			"3-desc": "Mise à jour des règles Caret/Cline vers le standard international AAIF avec support d'initialisation de projet.",
+			"4-desc": "Utilisez les comptes Caret et Cline simultanément sans restriction.",
+			"5-desc": "Fusion partielle du code de correction de bugs Cline v3.45.0."
 		}
 	}
 }

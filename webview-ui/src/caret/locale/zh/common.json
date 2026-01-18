@@ -105,5 +105,39 @@
 		"deleteTask": "Delete Task",
 		"deleteTaskAriaLabel": "Delete task",
 		"copyTask": "Copy Task"
+	},
+	"rules": {
+		"tab": {
+			"rules": "规则",
+			"workflows": "工作流"
+		},
+		"section": {
+			"personaManagement": "人格管理",
+			"globalRules": "全局规则",
+			"workspaceRules": "工作区规则",
+			"globalWorkflows": "全局工作流",
+			"localWorkflows": "本地工作流"
+		},
+		"subTitle": {
+			"caretRules": "Caret 规则 (.agents/context)",
+			"CaretRules": "Caret 规则 (.agents/context)",
+			"cursorRules": "Cursor 规则 (.agents/context)",
+			"windsurfRules": "Windsurf 规则 (.agents/context)"
+		},
+		"button": {
+			"selectPersonaTemplate": "选择模板角色",
+			"changePersonaTemplate": "更改人格模板"
+		},
+		"description": {
+			"personaManagement": "选择与您的编程风格和偏好匹配的 AI 人格。",
+			"rulesDescription": "规则允许您提供系统级指导。将它们视为为您的项目或每次对话持久包含上下文和偏好的方式。",
+			"workflowsDescription": "工作流允许您定义一系列步骤，供 Caret 执行重复性任务，如部署服务或提交 PR。要运行工作流，请在聊天中输入 /workflow-name。"
+		},
+		"action": {
+			"newRuleFile": "新建规则文件..."
+		},
+		"title": "Caret 规则和工作流管理",
+		"docsLink": "文档",
+		"toggleError": "规则切换错误"
 	}
 }

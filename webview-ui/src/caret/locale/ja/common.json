@@ -105,5 +105,39 @@
 		"deleteTask": "タスクを削除",
 		"deleteTaskAriaLabel": "タスクを削除",
 		"copyTask": "タスクをコピー"
+	},
+	"rules": {
+		"tab": {
+			"rules": "ルール",
+			"workflows": "ワークフロー"
+		},
+		"section": {
+			"personaManagement": "ペルソナ管理",
+			"globalRules": "グローバルルール",
+			"workspaceRules": "ワークスペースルール",
+			"globalWorkflows": "グローバルワークフロー",
+			"localWorkflows": "ローカルワークフロー"
+		},
+		"subTitle": {
+			"caretRules": "Caret Rules (.agents/context)",
+			"CaretRules": "Caret Rules (.agents/context)",
+			"cursorRules": "カーソルルール (.agents/context)",
+			"windsurfRules": "ウィンドサーフルール (.agents/context)"
+		},
+		"button": {
+			"selectPersonaTemplate": "テンプレートキャラクターを選択",
+			"changePersonaTemplate": "テンプレートキャラクターを変更"
+		},
+		"description": {
+			"personaManagement": "コーディングスタイルや好みに合ったAIペルソナを選択してください。",
+			"rulesDescription": "ルールを使用すると、システムレベルのガイダンスを提供できます。プロジェクトまたはすべての会話でグローバルにコンテキストと設定を含める永続的な方法と考えてください。",
+			"workflowsDescription": "ワークフローを使用すると、CaretがサービスのデプロイやPRの送信などの反復的なタスクを実行するための一連のステップを定義できます。ワークフローを実行するには、チャットで /workflow-name と入力してください。"
+		},
+		"action": {
+			"newRuleFile": "新しいルールファイル..."
+		},
+		"title": "Caretルールとワークフロー管理",
+		"docsLink": "ドキュメント",
+		"toggleError": "ルール切り替えエラー"
 	}
 }

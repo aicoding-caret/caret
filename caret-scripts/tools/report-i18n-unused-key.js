@@ -17,7 +17,12 @@ const path = require("path")
 // Configuration
 const config = {
 	localeDir: path.resolve(__dirname, "../../webview-ui/src/caret/locale"),
-	componentsDir: path.resolve(__dirname, "../../webview-ui/src/components"),
+	// 스캔할 컴포넌트 디렉토리들 (Caret 전용 컴포넌트 포함)
+	componentsDirs: [
+		path.resolve(__dirname, "../../webview-ui/src/components"),
+		path.resolve(__dirname, "../../webview-ui/src/caret/components"),
+		path.resolve(__dirname, "../../webview-ui/src/caret/shared"),
+	],
 	outputFile: path.resolve(__dirname, "../i18n-unused-keys-report.md"),
 	// Sovereign Cloud: 미국, 한국, 일본, 중국, 프랑스, 독일, 러시아
 	supportedLocales: ["ko", "en", "ja", "zh", "fr", "de", "ru"],
@@ -122,7 +127,13 @@ class I18nUnusedKeyAnalyzer {
 	scanComponentUsage() {
 		console.log("🔍 Scanning component files for i18n usage...")
 
-		const componentFiles = this.findComponentFiles(config.componentsDir)
+		// 모든 컴포넌트 디렉토리에서 파일 수집
+		let componentFiles = []
+		for (const dir of config.componentsDirs) {
+			const files = this.findComponentFiles(dir)
+			componentFiles = componentFiles.concat(files)
+			console.log(`   📁 ${dir}: ${files.length} files`)
+		}
 		this.results.statistics.filesScanned = componentFiles.length
 
 		for (const filePath of componentFiles) {
@@ -385,7 +396,8 @@ node caret-scripts/tools/report-i18n-unused-key.js
 
 - **지원 언어**: ${config.supportedLocales.join(", ")}
 - **네임스페이스**: ${config.namespaces.join(", ")}
-- **컴포넌트 디렉토리**: \`${config.componentsDir}\`
+- **컴포넌트 디렉토리**:
+${config.componentsDirs.map((d) => `  - \`${d}\``).join("\n")}
 - **Locale 디렉토리**: \`${config.localeDir}\`
 
 ---
@@ -485,7 +497,14 @@ node caret-scripts/tools/report-i18n-unused-key.js
 		analysis += `|-----------|-----------|-------------|\n`
 
 		for (const [component, keys] of sortedComponents) {
-			const relativePath = path.relative(config.componentsDir, component)
+			// 여러 디렉토리 중 해당하는 것을 찾아서 상대 경로 계산
+			let relativePath = component
+			for (const dir of config.componentsDirs) {
+				if (component.startsWith(dir)) {
+					relativePath = path.relative(dir, component)
+					break
+				}
+			}
 			const keyList = Array.from(keys)
 			const sampleKeys = keyList
 				.slice(0, 3)
