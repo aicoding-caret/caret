@@ -1,109 +1,109 @@
 {
 	"button": {
-		"save": "Save",
-		"cancel": "Cancel",
-		"done": "Done",
-		"runCommand": "Run Command",
-		"reject": "Reject",
-		"retry": "Retry",
-		"approve": "Approve",
-		"proceed": "Proceed",
-		"proceedAnyways": "Proceed Anyways",
-		"proceedWhileRunning": "Proceed While Running",
-		"resumeTask": "Resume Task",
-		"startNewTaskWithContext": "Start New Task with Context",
-		"condenseConversation": "Condense Conversation",
-		"reportGitHubIssue": "Report GitHub Issue"
+		"save": "Сохранить",
+		"cancel": "Отмена",
+		"done": "Готово",
+		"runCommand": "Выполнить команду",
+		"reject": "Отклонить",
+		"retry": "Повторить",
+		"approve": "Одобрить",
+		"proceed": "Продолжить",
+		"proceedAnyways": "Продолжить в любом случае",
+		"proceedWhileRunning": "Продолжить во время выполнения",
+		"resumeTask": "Возобновить задачу",
+		"startNewTaskWithContext": "Начать новую задачу с контекстом",
+		"condenseConversation": "Сжать беседу",
+		"reportGitHubIssue": "Сообщить о проблеме на GitHub"
 	},
 	"imageAlt": {
-		"caretBanner": "Caret Logo Banner"
+		"caretBanner": "Баннер с логотипом Caret"
 	},
 	"welcome": {
-		"whatCanIDo": "What can I do for you?"
+		"whatCanIDo": "Чем я могу вам помочь?"
 	},
 	"rulesModal": {
-		"tooltip.manageRulesWorkflows": "Manage Caret Rules & Workflows",
-		"ariaLabel.CaretRulesButton": "Caret Rules"
+		"tooltip.manageRulesWorkflows": "Управление правилами и рабочими процессами Caret",
+		"ariaLabel.CaretRulesButton": "Правила Caret"
 	},
 	"mode": {
 		"tooltip": {
-			"chatbot": "In Chatbot mode, Caret provides expert consultation and analysis",
-			"agent": "In Agent mode, Caret collaborates to implement solutions",
-			"plan": "In Plan mode, formulate strategies and plans",
-			"act": "In Act mode, execute and implement plans"
+			"chatbot": "В режиме Чат-бота Caret предоставляет экспертные консультации и анализ",
+			"agent": "В режиме Агента Caret сотрудничает для реализации решений",
+			"plan": "В режиме Планирования формулируйте стратегии и планы",
+			"act": "В режиме Действия выполняйте и реализуйте планы"
 		}
 	},
 	"account": {
-		"signUpWithCaret": "Login & Sign Up",
-		"dashboard": "Dashboard",
-		"addCredits": "Add Credits",
-		"currentBalance": "Current Balance",
-		"logOut": "Log out",
-		"loading": "Loading...",
-		"failedToFetchUserCredit": "Failed to fetch user credits.",
-		"failedToFetchCreditBalance": "Failed to fetch credit balance.",
-		"signUpDescription": "Sign up for an account to get access to the latest models, billing dashboard to view usage and credits, and more upcoming features.",
-		"termsOfService": "Terms of Service",
-		"privacyPolicy": "Privacy Policy",
-		"byContining": "By continuing, you agree to the",
-		"profileAlt": "Profile avatar",
-		"role": "Role",
-		"title": "Account",
-		"totalCost": "Cost",
-		"lastUpdated": "Last updated",
-		"credits": "Credits",
-		"failedToGetLoginUrl": "Failed to get login URL.",
+		"signUpWithCaret": "Вход и регистрация",
+		"dashboard": "Панель управления",
+		"addCredits": "Пополнить кредиты",
+		"currentBalance": "Текущий баланс",
+		"logOut": "Выйти",
+		"loading": "Загрузка...",
+		"failedToFetchUserCredit": "Не удалось получить кредиты пользователя.",
+		"failedToFetchCreditBalance": "Не удалось получить баланс кредитов.",
+		"signUpDescription": "Зарегистрируйтесь, чтобы получить доступ к новейшим моделям, панели управления для просмотра использования и кредитов, а также к другим будущим функциям.",
+		"termsOfService": "Условия использования",
+		"privacyPolicy": "Политика конфиденциальности",
+		"byContining": "Продолжая, вы соглашаетесь с",
+		"profileAlt": "Аватар профиля",
+		"role": "Роль",
+		"title": "Аккаунт",
+		"totalCost": "Стоимость",
+		"lastUpdated": "Последнее обновление",
+		"credits": "Кредиты",
+		"failedToGetLoginUrl": "Не удалось получить URL для входа.",
 		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
 		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html",
-		"personal": "Personal",
-		"date": "Date",
-		"model": "Model",
-		"creditsUsed": "Credits used",
-		"usageHistory": "Usage history",
-		"paymentsHistory": "Payment history",
-		"noUsageHistory": "No usage history found",
-		"noPaymentHistory": "No payment history found"
+		"personal": "Личный",
+		"date": "Дата",
+		"model": "Модель",
+		"creditsUsed": "Использовано кредитов",
+		"usageHistory": "История использования",
+		"paymentsHistory": "История платежей",
+		"noUsageHistory": "История использования не найдена",
+		"noPaymentHistory": "История платежей не найдена"
 	},
 	"common": {
-		"and": "and",
-		"scrollToBottom": "Scroll to bottom",
+		"and": "и",
+		"scrollToBottom": "Прокрутить вниз",
 		"defaultValue": "0",
-		"seeMore": "See more"
+		"seeMore": "Подробнее"
 	},
-	"taskHeader.task": "Task",
+	"taskHeader.task": "Задача",
 	"taskHeader.cache": "Cache",
 	"taskHeader.tokens": "Tokens",
-	"taskHeader.closeTask": "Close Task",
-	"taskHeader.seeMore": "See more",
-	"taskHeader.seeLess": "See less",
-	"taskHeader.promptTokens": "Prompt Tokens",
-	"taskHeader.completionTokens": "Completion Tokens",
-	"taskHeader.tokensWrittenToCache": "Tokens written to cache",
-	"taskHeader.tokensReadFromCache": "Tokens read from cache",
-	"taskHeader.disablingCheckpoints": "disabling checkpoints.",
-	"taskHeader.seeHereForInstructions": "See here for instructions.",
-	"taskHeader.currentTokens": "Current tokens used in this request",
-	"taskHeader.contextWindowUsage": "Context window usage",
-	"taskHeader.maxContextWindow": "Maximum context window size for this model",
-	"taskHeader.allStepsCompleted": "All {{totalCount}} steps completed!",
-	"taskHeader.newStepsGenerated": "New steps may be generated based on the conversation.",
-	"taskHeader.editFocusChainList": "Edit focus chain list",
+	"taskHeader.closeTask": "Закрыть задачу",
+	"taskHeader.seeMore": "Подробнее",
+	"taskHeader.seeLess": "Свернуть",
+	"taskHeader.promptTokens": "Tokens промпта",
+	"taskHeader.completionTokens": "Tokens ответа",
+	"taskHeader.tokensWrittenToCache": "Tokens, записанных в cache",
+	"taskHeader.tokensReadFromCache": "Tokens, прочитанных из cache",
+	"taskHeader.disablingCheckpoints": "отключение контрольных точек.",
+	"taskHeader.seeHereForInstructions": "Смотрите инструкции здесь.",
+	"taskHeader.currentTokens": "Текущее количество tokens в этом запросе",
+	"taskHeader.contextWindowUsage": "Использование контекстного окна",
+	"taskHeader.maxContextWindow": "Максимальный размер контекстного окна для этой модели",
+	"taskHeader.allStepsCompleted": "Все {{totalCount}} шагов выполнено!",
+	"taskHeader.newStepsGenerated": "Новые шаги могут быть сгенерированы на основе беседы.",
+	"taskHeader.editFocusChainList": "Редактировать список цепочки фокуса",
 	"modelInfo": {
-		"tokensSuffix": "/million tokens"
+		"tokensSuffix": "/миллион tokens"
 	},
 	"telemetry": {
-		"helpImprove": "Support Caret Development",
-		"description": "Caret is an open-source project. Visit our GitHub to contribute, report issues, or share feedback.",
-		"githubLinkPrefix": "Learn more at",
+		"helpImprove": "Поддержите развитие Caret",
+		"description": "Caret - проект с открытым исходным кодом. Посетите наш GitHub, чтобы внести вклад, сообщить о проблемах или поделиться отзывами.",
+		"githubLinkPrefix": "Узнать больше на",
 		"githubLink": "github.com/aicoding-caret/caret",
-		"closeBannerAria": "Close banner"
+		"closeBannerAria": "Закрыть баннер"
 	},
 	"autoApprove": {
-		"autoApproveLabel": "Auto-approve:"
+		"autoApproveLabel": "Автоодобрение:"
 	},
 	"task": {
-		"deleteTask": "Delete Task",
-		"deleteTaskAriaLabel": "Delete task",
-		"copyTask": "Copy Task"
+		"deleteTask": "Удалить задачу",
+		"deleteTaskAriaLabel": "Удалить задачу",
+		"copyTask": "Копировать задачу"
 	}
 }

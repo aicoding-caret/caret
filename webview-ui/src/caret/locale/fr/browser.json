@@ -1,17 +1,17 @@
 {
 	"browserSettingsMenu": {
-		"browserConnectionInfo": "Browser connection info",
-		"browserConnection": "Browser Connection",
-		"status": "Status",
-		"connected": "Connected",
-		"disconnected": "Disconnected",
+		"browserConnectionInfo": "Informations de connexion du navigateur",
+		"browserConnection": "Connexion du navigateur",
+		"status": "Statut",
+		"connected": "Connecte",
+		"disconnected": "Deconnecte",
 		"type": "Type",
-		"remote": "Remote",
+		"remote": "Distant",
 		"local": "Local",
-		"remoteHost": "Remote Host"
+		"remoteHost": "Hote distant"
 	},
-	"caretWantsToUseBrowser": "Caret wants to use the browser:",
-	"paginationStep": "Step {{currentPage}} of {{totalPages}}",
-	"paginationPrevious": "Previous",
-	"paginationNext": "Next"
+	"caretWantsToUseBrowser": "Caret souhaite utiliser le navigateur :",
+	"paginationStep": "Etape {{currentPage}} sur {{totalPages}}",
+	"paginationPrevious": "Precedent",
+	"paginationNext": "Suivant"
 }

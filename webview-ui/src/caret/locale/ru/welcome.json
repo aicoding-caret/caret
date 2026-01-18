@@ -1,22 +1,22 @@
 {
 	"coreFeatures": {
-		"header": "Start 'Vibe Coding' with Caret, the AI coding agent that grows with you."
+		"header": "Начните \"вайб-кодинг\" с Caret - AI-агентом для программирования, который растет вместе с вами."
 	},
 	"getStarted": {
-		"button": "Get Started"
+		"button": "Начать"
 	},
 	"welcome": {
-		"tooltipContent": "I can develop software step-by-step by editing files, exploring projects, running commands, and using browsers. I can even extend my capabilities with MCP tools to assist beyond basic code completion.",
-		"takeATour": "Take a Tour"
+		"tooltipContent": "Я могу разрабатывать программное обеспечение пошагово, редактируя файлы, исследуя проекты, выполняя команды и используя браузеры. Я даже могу расширять свои возможности с помощью инструментов MCP, чтобы помогать не только с написанием кода.",
+		"takeATour": "Пройти обзор"
 	},
 	"cliBanner": {
-		"title": "Install the CLI to delegate subagents",
-		"description": "Use the CLI to launch focused agents for large searches or research tasks. Commands differ by Caret/Cline mode.",
-		"button": "Install CLI",
-		"copyCommand": "Copy command",
-		"copied": "Copied!",
-		"learnMore": "Learn more",
-		"installed": "Installed",
-		"dismissTitle": "Dismiss CLI banner"
+		"title": "Установите CLI для делегирования подагентам",
+		"description": "Используйте CLI для запуска специализированных агентов для больших поисков или исследовательских задач. Команды различаются в режимах Caret/Cline.",
+		"button": "Установить CLI",
+		"copyCommand": "Копировать команду",
+		"copied": "Скопировано!",
+		"learnMore": "Узнать больше",
+		"installed": "Установлено",
+		"dismissTitle": "Скрыть баннер CLI"
 	}
 }

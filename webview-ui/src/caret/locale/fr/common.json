@@ -1,109 +1,109 @@
 {
 	"button": {
-		"save": "Save",
-		"cancel": "Cancel",
-		"done": "Done",
-		"runCommand": "Run Command",
-		"reject": "Reject",
-		"retry": "Retry",
-		"approve": "Approve",
-		"proceed": "Proceed",
-		"proceedAnyways": "Proceed Anyways",
-		"proceedWhileRunning": "Proceed While Running",
-		"resumeTask": "Resume Task",
-		"startNewTaskWithContext": "Start New Task with Context",
-		"condenseConversation": "Condense Conversation",
-		"reportGitHubIssue": "Report GitHub Issue"
+		"save": "Enregistrer",
+		"cancel": "Annuler",
+		"done": "Terminé",
+		"runCommand": "Exécuter la commande",
+		"reject": "Rejeter",
+		"retry": "Réessayer",
+		"approve": "Approuver",
+		"proceed": "Continuer",
+		"proceedAnyways": "Continuer quand même",
+		"proceedWhileRunning": "Continuer pendant l'exécution",
+		"resumeTask": "Reprendre la tâche",
+		"startNewTaskWithContext": "Nouvelle tâche avec contexte",
+		"condenseConversation": "Condenser la conversation",
+		"reportGitHubIssue": "Signaler sur GitHub"
 	},
 	"imageAlt": {
-		"caretBanner": "Caret Logo Banner"
+		"caretBanner": "Bannière du logo Caret"
 	},
 	"welcome": {
-		"whatCanIDo": "What can I do for you?"
+		"whatCanIDo": "Que puis-je faire pour vous ?"
 	},
 	"rulesModal": {
-		"tooltip.manageRulesWorkflows": "Manage Caret Rules & Workflows",
-		"ariaLabel.CaretRulesButton": "Caret Rules"
+		"tooltip.manageRulesWorkflows": "Gérer les règles et workflows Caret",
+		"ariaLabel.CaretRulesButton": "Règles Caret"
 	},
 	"mode": {
 		"tooltip": {
-			"chatbot": "In Chatbot mode, Caret provides expert consultation and analysis",
-			"agent": "In Agent mode, Caret collaborates to implement solutions",
-			"plan": "In Plan mode, formulate strategies and plans",
-			"act": "In Act mode, execute and implement plans"
+			"chatbot": "En mode Chatbot, Caret fournit des consultations et analyses d'expert",
+			"agent": "En mode Agent, Caret collabore pour implémenter des solutions",
+			"plan": "En mode Plan, formulez des stratégies et des plans",
+			"act": "En mode Act, exécutez et implémentez les plans"
 		}
 	},
 	"account": {
-		"signUpWithCaret": "Login & Sign Up",
-		"dashboard": "Dashboard",
-		"addCredits": "Add Credits",
-		"currentBalance": "Current Balance",
-		"logOut": "Log out",
-		"loading": "Loading...",
-		"failedToFetchUserCredit": "Failed to fetch user credits.",
-		"failedToFetchCreditBalance": "Failed to fetch credit balance.",
-		"signUpDescription": "Sign up for an account to get access to the latest models, billing dashboard to view usage and credits, and more upcoming features.",
-		"termsOfService": "Terms of Service",
-		"privacyPolicy": "Privacy Policy",
-		"byContining": "By continuing, you agree to the",
-		"profileAlt": "Profile avatar",
-		"role": "Role",
-		"title": "Account",
-		"totalCost": "Cost",
-		"lastUpdated": "Last updated",
-		"credits": "Credits",
-		"failedToGetLoginUrl": "Failed to get login URL.",
+		"signUpWithCaret": "Connexion et inscription",
+		"dashboard": "Tableau de bord",
+		"addCredits": "Ajouter des crédits",
+		"currentBalance": "Solde actuel",
+		"logOut": "Déconnexion",
+		"loading": "Chargement...",
+		"failedToFetchUserCredit": "Échec de récupération des crédits.",
+		"failedToFetchCreditBalance": "Échec de récupération du solde.",
+		"signUpDescription": "Inscrivez-vous pour accéder aux derniers modèles, au tableau de bord de facturation et plus encore.",
+		"termsOfService": "Conditions d'utilisation",
+		"privacyPolicy": "Politique de confidentialité",
+		"byContining": "En continuant, vous acceptez les",
+		"profileAlt": "Avatar du profil",
+		"role": "Rôle",
+		"title": "Compte",
+		"totalCost": "Coût",
+		"lastUpdated": "Dernière mise à jour",
+		"credits": "Crédits",
+		"failedToGetLoginUrl": "Échec d'obtention de l'URL de connexion.",
 		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
 		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html",
-		"personal": "Personal",
+		"personal": "Personnel",
 		"date": "Date",
-		"model": "Model",
-		"creditsUsed": "Credits used",
-		"usageHistory": "Usage history",
-		"paymentsHistory": "Payment history",
-		"noUsageHistory": "No usage history found",
-		"noPaymentHistory": "No payment history found"
+		"model": "Modèle",
+		"creditsUsed": "Crédits utilisés",
+		"usageHistory": "Historique d'utilisation",
+		"paymentsHistory": "Historique des paiements",
+		"noUsageHistory": "Aucun historique d'utilisation",
+		"noPaymentHistory": "Aucun historique de paiement"
 	},
 	"common": {
-		"and": "and",
-		"scrollToBottom": "Scroll to bottom",
+		"and": "et",
+		"scrollToBottom": "Aller en bas",
 		"defaultValue": "0",
-		"seeMore": "See more"
+		"seeMore": "Voir plus"
 	},
-	"taskHeader.task": "Task",
+	"taskHeader.task": "Tâche",
 	"taskHeader.cache": "Cache",
 	"taskHeader.tokens": "Tokens",
-	"taskHeader.closeTask": "Close Task",
-	"taskHeader.seeMore": "See more",
-	"taskHeader.seeLess": "See less",
-	"taskHeader.promptTokens": "Prompt Tokens",
-	"taskHeader.completionTokens": "Completion Tokens",
-	"taskHeader.tokensWrittenToCache": "Tokens written to cache",
-	"taskHeader.tokensReadFromCache": "Tokens read from cache",
-	"taskHeader.disablingCheckpoints": "disabling checkpoints.",
-	"taskHeader.seeHereForInstructions": "See here for instructions.",
-	"taskHeader.currentTokens": "Current tokens used in this request",
-	"taskHeader.contextWindowUsage": "Context window usage",
-	"taskHeader.maxContextWindow": "Maximum context window size for this model",
-	"taskHeader.allStepsCompleted": "All {{totalCount}} steps completed!",
-	"taskHeader.newStepsGenerated": "New steps may be generated based on the conversation.",
-	"taskHeader.editFocusChainList": "Edit focus chain list",
+	"taskHeader.closeTask": "Fermer la tâche",
+	"taskHeader.seeMore": "Voir plus",
+	"taskHeader.seeLess": "Voir moins",
+	"taskHeader.promptTokens": "Tokens de prompt",
+	"taskHeader.completionTokens": "Tokens de complétion",
+	"taskHeader.tokensWrittenToCache": "Tokens écrits en cache",
+	"taskHeader.tokensReadFromCache": "Tokens lus du cache",
+	"taskHeader.disablingCheckpoints": "désactivation des points de contrôle.",
+	"taskHeader.seeHereForInstructions": "Voir les instructions ici.",
+	"taskHeader.currentTokens": "Tokens utilisés dans cette requête",
+	"taskHeader.contextWindowUsage": "Utilisation de la fenêtre de contexte",
+	"taskHeader.maxContextWindow": "Taille maximale de la fenêtre de contexte",
+	"taskHeader.allStepsCompleted": "Les {{totalCount}} étapes sont terminées !",
+	"taskHeader.newStepsGenerated": "De nouvelles étapes peuvent être générées.",
+	"taskHeader.editFocusChainList": "Modifier la liste de focus",
 	"modelInfo": {
-		"tokensSuffix": "/million tokens"
+		"tokensSuffix": "/million de tokens"
 	},
 	"telemetry": {
-		"helpImprove": "Support Caret Development",
-		"description": "Caret is an open-source project. Visit our GitHub to contribute, report issues, or share feedback.",
-		"githubLinkPrefix": "Learn more at",
+		"helpImprove": "Soutenir le développement de Caret",
+		"description": "Caret est un projet open-source. Visitez notre GitHub pour contribuer.",
+		"githubLinkPrefix": "En savoir plus sur",
 		"githubLink": "github.com/aicoding-caret/caret",
-		"closeBannerAria": "Close banner"
+		"closeBannerAria": "Fermer la bannière"
 	},
 	"autoApprove": {
-		"autoApproveLabel": "Auto-approve:"
+		"autoApproveLabel": "Approbation auto :"
 	},
 	"task": {
-		"deleteTask": "Delete Task",
-		"deleteTaskAriaLabel": "Delete task",
-		"copyTask": "Copy Task"
+		"deleteTask": "Supprimer la tâche",
+		"deleteTaskAriaLabel": "Supprimer la tâche",
+		"copyTask": "Copier la tâche"
 	}
 }

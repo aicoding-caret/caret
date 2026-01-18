@@ -1,30 +1,30 @@
 {
-	"header": "🎉 v{{version}} New Features",
-	"previousHeader": "Previous Updates:",
+	"header": "🎉 v{{version}} Neue Funktionen",
+	"previousHeader": "Vorherige Updates:",
 	"bullets": {
 		"current": {
-			"1": "Free Monthly Credits",
-			"2": "New provider and models: Naver Cloud (https://clova.ai/), Hyper Clova X",
-			"3": "Agents.md and project initialization",
-			"4": "Dual Account System",
-			"5": "Cline v3.45.0 bugfix integration",
-			"1-desc": "New users get $0.1 (10 credits) monthly recurring! First month bonus: Start with up to $0.2. Available for Gemini 3, 2.5 Pro, Lite.",
-			"2-desc": "Added the Naver Cloud (https://clova.ai/) provider and HCX-007/HCX-005/HCX-DASH-002 models.",
-			"3-desc": "Updated legacy Caret/Cline rules to the AAIF international standard and added project initialization support.",
-			"4-desc": "Use both Caret and Cline accounts simultaneously. Cline users can now access all features without restriction.",
-			"5-desc": "Partially merged the Cline v3.45.0 bugfix code."
+			"1": "Kostenlose monatliche Guthaben",
+			"2": "Neuer Anbieter und Modelle: Naver Cloud (https://clova.ai/), Hyper Clova X",
+			"3": "Agents.md und Projektinitialisierung",
+			"4": "Duales Kontosystem",
+			"5": "Cline v3.45.0 Bugfix-Integration",
+			"1-desc": "Neue Benutzer erhalten monatlich wiederkehrend $0.1 (10 Credits)! Bonus im ersten Monat: Starten Sie mit bis zu $0.2. Verfügbar für Gemini 3, 2.5 Pro, Lite.",
+			"2-desc": "Naver Cloud (https://clova.ai/) Anbieter und HCX-007/HCX-005/HCX-DASH-002 Modelle hinzugefügt.",
+			"3-desc": "Veraltete Caret/Cline-Regeln auf den internationalen AAIF-Standard aktualisiert und Projektinitialisierungsunterstützung hinzugefügt.",
+			"4-desc": "Verwenden Sie gleichzeitig Caret- und Cline-Konten. Cline-Benutzer können jetzt ohne Einschränkungen auf alle Funktionen zugreifen.",
+			"5-desc": "Cline v3.45.0 Bugfix-Code teilweise integriert."
 		},
 		"previous": {
-			"1": "Cline v3.38.2 Complete Merge",
-			"2": "New Model: Claude Opus 4.5",
-			"3": "New Shortcut System",
-			"4": "Enhanced Provider Setup",
-			"5": "AI Model Support",
-			"1-desc": "Fully integrated all features from Cline v3.38.2 including Claude Opus 4.5 and the latest core improvements.",
-			"2-desc": "Now available via Anthropic, OpenRouter, Bedrock, and Vertex with prompt caching prices applied.",
-			"3-desc": "Added Cancel (Esc) and Resume (Ctrl+Shift+R) shortcuts with a new management system.",
-			"4-desc": "Auto-fetching models for LiteLLM and BizRouter with real-time health checks",
-			"5-desc": "Supports 251 unique AI models across 20 providers"
+			"1": "Cline v3.38.2 Vollständige Integration",
+			"2": "Neues Modell: Claude Opus 4.5",
+			"3": "Neues Tastenkürzel-System",
+			"4": "Verbesserte Anbieter-Einrichtung",
+			"5": "KI-Modell-Unterstützung",
+			"1-desc": "Alle Funktionen von Cline v3.38.2 vollständig integriert, einschließlich Claude Opus 4.5 und der neuesten Kernverbesserungen.",
+			"2-desc": "Jetzt verfügbar über Anthropic, OpenRouter, Bedrock und Vertex mit angewandten Prompt-Caching-Preisen.",
+			"3-desc": "Abbrechen (Esc) und Fortsetzen (Ctrl+Shift+R) Tastenkürzel mit einem neuen Verwaltungssystem hinzugefügt.",
+			"4-desc": "Automatisches Abrufen von Modellen für LiteLLM und BizRouter mit Echtzeit-Statusprüfungen",
+			"5-desc": "Unterstützt 251 einzigartige KI-Modelle von 20 Anbietern"
 		}
 	}
 }

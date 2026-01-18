@@ -1,742 +1,742 @@
 {
 	"settingsView": {
-		"title": "Caret Settings"
+		"title": "Настройки Caret"
 	},
 	"tabs": {
 		"apiConfiguration": {
-			"name": "API Configuration",
-			"tooltip": "API Configuration",
-			"header": "API Configuration"
+			"name": "Конфигурация API",
+			"tooltip": "Конфигурация API",
+			"header": "Конфигурация API"
 		},
 		"general": {
-			"name": "General",
-			"tooltip": "General Settings",
-			"header": "General Settings"
+			"name": "Общие",
+			"tooltip": "Общие настройки",
+			"header": "Общие настройки"
 		},
 		"features": {
-			"name": "Features",
-			"tooltip": "Feature Settings",
-			"header": "Feature Settings"
+			"name": "Функции",
+			"tooltip": "Настройки функций",
+			"header": "Настройки функций"
 		},
 		"browser": {
-			"name": "Browser",
-			"tooltip": "Browser Settings",
-			"header": "Browser Settings"
+			"name": "Браузер",
+			"tooltip": "Настройки браузера",
+			"header": "Настройки браузера"
 		},
 		"terminal": {
-			"name": "Terminal",
-			"tooltip": "Terminal Settings",
-			"header": "Terminal Settings"
+			"name": "Терминал",
+			"tooltip": "Настройки терминала",
+			"header": "Настройки терминала"
 		},
 		"debug": {
-			"name": "Debug",
-			"tooltip": "Debug Tools",
-			"header": "Debug"
+			"name": "Отладка",
+			"tooltip": "Инструменты отладки",
+			"header": "Отладка"
 		},
 		"about": {
-			"name": "About",
-			"tooltip": "About Caret",
-			"header": "About"
+			"name": "О программе",
+			"tooltip": "О Caret",
+			"header": "О программе"
 		}
 	},
-	"planMode": "Plan Mode",
-	"actMode": "Act Mode",
-	"useDifferentModels": "Use different models for Plan and Act modes",
-	"useDifferentModelsDescription": "Switching between Plan and Act mode will persist the API and model used in the previous mode. This may be helpful e.g. when using a strong reasoning model to architect a plan for a cheaper coding model to act on.",
+	"planMode": "Режим планирования",
+	"actMode": "Режим действия",
+	"useDifferentModels": "Использовать разные модели для режимов Планирования и Действия",
+	"useDifferentModelsDescription": "Переключение между режимами Планирования и Действия сохранит API и модель, использованные в предыдущем режиме. Это может быть полезно, например, при использовании мощной модели рассуждения для разработки плана и более дешевой модели для его выполнения.",
 	"modelSelector": {
-		"label": "Model",
-		"placeholder": "Select a model..."
+		"label": "Модель",
+		"placeholder": "Выберите модель..."
 	},
 	"pricing": {
-		"perMillionTokens": "/million tokens"
+		"perMillionTokens": "/миллион tokens"
 	},
 	"settings": {
 		"preferredLanguage": {
-			"label": "Preferred Language",
-			"description": "Select the language Caret should use for communication."
+			"label": "Предпочитаемый язык",
+			"description": "Выберите язык, на котором Caret должен общаться."
 		},
 		"unifiedLanguage": {
-			"label": "Language",
-			"description": "Set language for AI responses and interface. Languages with 🎨 support both AI and UI."
+			"label": "Язык",
+			"description": "Установите язык для ответов AI и интерфейса. Языки со значком поддерживают и AI, и UI."
 		}
 	},
 	"buttons": {
-		"done": "Done"
+		"done": "Готово"
 	},
 	"browser": {
-		"checkingConnection": "Checking connection...",
-		"connected": "Connected",
-		"notConnected": "Not Connected",
-		"disableToolUse": "Disable browser tool usage",
-		"disableToolUseDescription": "Prevent Caret from using browser actions (e.g. launch, click, type).",
-		"viewportSize": "Viewport size",
-		"viewportSizeDescription": "Set the size of the browser viewport for screenshots and interactions.",
-		"useRemoteConnection": "Use remote browser connection",
-		"remoteConnectionDescription1": "Enable Caret to use your Chrome",
-		"chromeNotDetected": "(not detected on your machine)",
-		"remoteConnectionDescription2": ". You can specify a custom path below. Using a remote browser connection requires starting Chrome in debug mode",
-		"remoteConnectionDescription3": "manually (`--remote-debugging-port=9222`) or using the button below. Enter the host address or leave it blank for automatic discovery.",
-		"launchBrowserDebug": "Launch Browser with Debug Mode",
-		"launchingBrowser": "Launching Browser...",
-		"chromePathOptional": "Chrome Executable Path (Optional)",
-		"chromePathPlaceholder": "e.g., /usr/bin/google-chrome or C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-		"chromePathDescription": "Leave blank to auto-detect.",
-		"customArgsOptional": "Custom Browser Arguments (Optional)",
-		"customArgsPlaceholder": "e.g., --no-sandbox --disable-setuid-sandbox",
-		"customArgsDescription": "Space-separated arguments to pass to the browser executable.",
+		"checkingConnection": "Проверка соединения...",
+		"connected": "Подключен",
+		"notConnected": "Не подключен",
+		"disableToolUse": "Отключить использование браузера",
+		"disableToolUseDescription": "Запретить Caret использовать действия браузера (например, запуск, клик, ввод).",
+		"viewportSize": "Размер области просмотра",
+		"viewportSizeDescription": "Установите размер области просмотра браузера для скриншотов и взаимодействий.",
+		"useRemoteConnection": "Использовать удаленное подключение браузера",
+		"remoteConnectionDescription1": "Разрешить Caret использовать ваш Chrome",
+		"chromeNotDetected": "(не обнаружен на вашем компьютере)",
+		"remoteConnectionDescription2": ". Вы можете указать собственный путь ниже. Использование удаленного подключения браузера требует запуска Chrome в режиме отладки",
+		"remoteConnectionDescription3": "вручную (`--remote-debugging-port=9222`) или с помощью кнопки ниже. Введите адрес хоста или оставьте пустым для автоматического обнаружения.",
+		"launchBrowserDebug": "Запустить браузер в режиме отладки",
+		"launchingBrowser": "Запуск браузера...",
+		"chromePathOptional": "Путь к исполняемому файлу Chrome (необязательно)",
+		"chromePathPlaceholder": "например, /usr/bin/google-chrome или C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+		"chromePathDescription": "Оставьте пустым для автоопределения.",
+		"customArgsOptional": "Дополнительные аргументы браузера (необязательно)",
+		"customArgsPlaceholder": "например, --no-sandbox --disable-setuid-sandbox",
+		"customArgsDescription": "Аргументы, разделенные пробелами, для передачи исполняемому файлу браузера.",
 		"action": {
-			"launch": "Launch browser at {{text}}",
-			"click": "Click ({{coordinate}})",
-			"type": "Type \"{{text}}\"",
-			"scrollDown": "Scroll down",
-			"scrollUp": "Scroll up",
-			"close": "Close browser"
+			"launch": "Запустить браузер на {{text}}",
+			"click": "Клик ({{coordinate}})",
+			"type": "Ввести \"{{text}}\"",
+			"scrollDown": "Прокрутить вниз",
+			"scrollUp": "Прокрутить вверх",
+			"close": "Закрыть браузер"
 		}
 	},
 	"terminal": {
-		"defaultProfile": "Default terminal profile",
-		"defaultProfileDescription": "Select the default terminal profile. This will be used when starting new terminal sessions.",
-		"shellTimeout": "Shell integration timeout (seconds)",
-		"timeoutPlaceholder": "Enter timeout in seconds.",
-		"shellTimeoutDescription": "Time in seconds to wait for shell integration to successfully complete. If this time is exceeded, the terminal will open without shell integration.",
-		"aggressiveReuse": "Aggressive terminal reuse",
-		"aggressiveReuseDescription": "Reuse existing available terminals when new terminal sessions are requested if possible.",
-		"positiveNumberError": "Please enter a positive number.",
-		"issuesTitle": "Having terminal issues?",
-		"checkOur": "Check our",
-		"quickFixesLink": "Terminal Quick Fixes",
-		"orThe": "or the",
-		"troubleshootingGuideLink": "Complete Troubleshooting Guide"
+		"defaultProfile": "Профиль терминала по умолчанию",
+		"defaultProfileDescription": "Выберите профиль терминала по умолчанию. Он будет использоваться при запуске новых сессий терминала.",
+		"shellTimeout": "Тайм-аут интеграции оболочки (секунды)",
+		"timeoutPlaceholder": "Введите тайм-аут в секундах.",
+		"shellTimeoutDescription": "Время ожидания успешного завершения интеграции оболочки в секундах. При превышении этого времени терминал откроется без интеграции оболочки.",
+		"aggressiveReuse": "Агрессивное повторное использование терминала",
+		"aggressiveReuseDescription": "По возможности повторно использовать существующие доступные терминалы при запросе новых сессий терминала.",
+		"positiveNumberError": "Пожалуйста, введите положительное число.",
+		"issuesTitle": "Проблемы с терминалом?",
+		"checkOur": "Ознакомьтесь с нашими",
+		"quickFixesLink": "Быстрыми исправлениями терминала",
+		"orThe": "или с",
+		"troubleshootingGuideLink": "Полным руководством по устранению неполадок"
 	},
 	"features": {
-		"enableCheckpoints": "Enable checkpoints",
-		"enableCheckpointsDescription": "Enables the extension to save checkpoints of your workspace during tasks. This uses git internally and may not work correctly for large workspaces.",
-		"enableMcpMarketplace": "Enable MCP Marketplace",
-		"enableMcpMarketplaceDescription": "Enables the MCP Marketplace tab, allowing you to discover and install MCP servers.",
+		"enableCheckpoints": "Включить контрольные точки",
+		"enableCheckpointsDescription": "Позволяет расширению сохранять контрольные точки вашего рабочего пространства во время выполнения задач. Использует git внутренне и может работать некорректно для больших рабочих пространств.",
+		"enableMcpMarketplace": "Включить MCP Маркетплейс",
+		"enableMcpMarketplaceDescription": "Включает вкладку MCP Маркетплейс, позволяя вам находить и устанавливать MCP серверы.",
 		"subagents": {
-			"enable": "Enable subagents",
-			"enabled": "Subagents enabled",
-			"caretWarning": "Caret CLI is required for subagents.",
-			"clineWarning": "Cline CLI is required for subagents.",
-			"install": "Install subagents CLI",
-			"installed": "CLI detected",
-			"notInstalled": "CLI not detected",
-			"outputLimitLabel": "Subagent output limit",
-			"outputLimitDescription": "Maximum number of lines to include in output from CLI subagents. Truncates middle to save tokens."
+			"enable": "Включить подагентов",
+			"enabled": "Подагенты включены",
+			"caretWarning": "Для подагентов требуется Caret CLI.",
+			"clineWarning": "Для подагентов требуется Cline CLI.",
+			"install": "Установить CLI подагентов",
+			"installed": "CLI обнаружен",
+			"notInstalled": "CLI не обнаружен",
+			"outputLimitLabel": "Лимит вывода подагента",
+			"outputLimitDescription": "Максимальное количество строк для включения в вывод от CLI подагентов. Обрезает середину для экономии tokens."
 		},
-		"mcpDisplayMode": "MCP Display Mode",
-		"mcpDisplayModeDescription": "Controls how MCP responses are displayed: plain text, rich formatting with links/images, or markdown rendering.",
-		"collapseMcpResponses": "Collapse MCP responses",
-		"collapseMcpResponsesDescription": "Sets the default display mode for MCP response panels",
-		"openaiReasoningEffort": "OpenAI reasoning effort",
-		"openaiReasoningEffortDescription": "Reasoning effort for the OpenAI family of models(applies to all OpenAI model providers)",
+		"mcpDisplayMode": "Режим отображения MCP",
+		"mcpDisplayModeDescription": "Управляет отображением ответов MCP: простой текст, форматирование со ссылками/изображениями или рендеринг markdown.",
+		"collapseMcpResponses": "Сворачивать ответы MCP",
+		"collapseMcpResponsesDescription": "Устанавливает режим отображения по умолчанию для панелей ответов MCP",
+		"openaiReasoningEffort": "Усилие рассуждения OpenAI",
+		"openaiReasoningEffortDescription": "Усилие рассуждения для семейства моделей OpenAI (применяется ко всем провайдерам моделей OpenAI)",
 		"reasoningEffort": {
-			"minimal": "Minimal",
-			"low": "Low",
-			"medium": "Medium",
-			"high": "High"
+			"minimal": "Минимальное",
+			"low": "Низкое",
+			"medium": "Среднее",
+			"high": "Высокое"
 		},
-		"strictPlanMode": "Enable strict plan mode",
-		"strictPlanModeDescription": "Enforces strict tool use while in plan mode, preventing file edits.",
-		"focusChain": "Enable Focus Chain",
-		"focusChainDescription": "Enables enhanced task progress tracking and automatic focus chain list management throughout tasks.",
-		"focusChainReminderInterval": "Focus Chain Reminder Interval",
-		"focusChainReminderIntervalDescription": "Interval (in messages) to remind Caret about its focus chain checklist (1-100). Lower values provide more frequent reminders.",
-		"enableDictation": "Enable Dictation",
-		"enableDictationDescription": "Enables speech-to-text transcription using your Cline account. Uses the Whisper model, at $0.006 credits per minute of audio processed. 5 minutes max per message.",
-		"dictationLanguage": "Dictation Language",
-		"dictationLanguageDescription": "The language you want to speak to the Dictation service in. This is separate from your preferred UI language.",
-		"autoCompact": "Enable Auto Compact",
-		"autoCompactDescription": "Enables advanced context management system which uses LLM based condensing for next-gen models.",
-		"enableYoloMode": "Enable YOLO Mode",
-		"enableYoloModeDescription": "EXPERIMENTAL & DANGEROUS: This mode disables safety checks and user confirmations. Caret will automatically approve all actions without asking. Use with extreme caution.",
-		"learnMore": "Learn more",
-		"enableHooks": "Enable Hooks",
-		"enableHooksDescription": "Allows you to run shell commands before and after AI actions (e.g., code review before edits).",
-		"enableSkills": "Enable Skills",
-		"enableSkillsDescription": "Allows you to define reusable instruction sets that can be invoked on demand."
+		"strictPlanMode": "Включить строгий режим планирования",
+		"strictPlanModeDescription": "Применяет строгое использование инструментов в режиме планирования, предотвращая редактирование файлов.",
+		"focusChain": "Включить цепочку фокуса",
+		"focusChainDescription": "Включает улучшенное отслеживание прогресса задач и автоматическое управление списком цепочки фокуса на протяжении выполнения задач.",
+		"focusChainReminderInterval": "Интервал напоминания цепочки фокуса",
+		"focusChainReminderIntervalDescription": "Интервал (в сообщениях) для напоминания Caret о его чек-листе цепочки фокуса (1-100). Меньшие значения обеспечивают более частые напоминания.",
+		"enableDictation": "Включить диктовку",
+		"enableDictationDescription": "Включает преобразование речи в текст с использованием вашего аккаунта Cline. Использует модель Whisper по цене $0.006 кредитов за минуту обработанного аудио. Максимум 5 минут на сообщение.",
+		"dictationLanguage": "Язык диктовки",
+		"dictationLanguageDescription": "Язык, на котором вы хотите говорить сервису диктовки. Это отдельно от вашего предпочитаемого языка UI.",
+		"autoCompact": "Включить автосжатие",
+		"autoCompactDescription": "Включает продвинутую систему управления контекстом, которая использует сжатие на основе LLM для моделей нового поколения.",
+		"enableYoloMode": "Включить режим YOLO",
+		"enableYoloModeDescription": "ЭКСПЕРИМЕНТАЛЬНО И ОПАСНО: Этот режим отключает проверки безопасности и подтверждения пользователя. Caret будет автоматически одобрять все действия без запроса. Используйте с крайней осторожностью.",
+		"learnMore": "Узнать больше",
+		"enableHooks": "Включить хуки",
+		"enableHooksDescription": "Позволяет запускать shell-команды до и после действий AI (например, код-ревью перед правками).",
+		"enableSkills": "Включить навыки",
+		"enableSkillsDescription": "Позволяет определять многоразовые наборы инструкций, которые можно вызывать по запросу."
 	},
 	"autoApprove": {
-		"title": "Auto-approve Settings",
-		"actionsHeader": "Actions",
-		"quickSettingsHeader": "Quick Settings",
-		"maxRequestsLabel": "Max requests",
-		"maxRequestsTooltip": "Maximum number of consecutive requests that can be auto-approved",
+		"title": "Настройки автоодобрения",
+		"actionsHeader": "Действия",
+		"quickSettingsHeader": "Быстрые настройки",
+		"maxRequestsLabel": "Макс. запросов",
+		"maxRequestsTooltip": "Максимальное количество последовательных запросов, которые могут быть автоодобрены",
 		"enableAutoApprove": {
-			"label": "Enable auto-approve",
-			"shortName": "Enabled",
-			"description": "Turns auto-approve functionality on or off."
+			"label": "Включить автоодобрение",
+			"shortName": "Включено",
+			"description": "Включает или выключает функцию автоодобрения."
 		},
 		"enableAll": {
-			"label": "Toggle all",
-			"shortName": "All",
-			"description": "Turns all actions on or off."
+			"label": "Переключить все",
+			"shortName": "Все",
+			"description": "Включает или выключает все действия."
 		},
 		"readFiles": {
-			"label": "Read project files",
-			"shortName": "Read",
-			"description": "Allows Caret to read files within your workspace."
+			"label": "Чтение файлов проекта",
+			"shortName": "Чтение",
+			"description": "Позволяет Caret читать файлы в вашем рабочем пространстве."
 		},
 		"readFilesExternally": {
-			"label": "Read any files",
-			"shortName": "Read all",
-			"description": "Allows Caret to read any files on your computer."
+			"label": "Чтение любых файлов",
+			"shortName": "Чтение всех",
+			"description": "Позволяет Caret читать любые файлы на вашем компьютере."
 		},
 		"editFiles": {
-			"label": "Edit project files",
-			"shortName": "Edit",
-			"description": "Allows Caret to modify files within your workspace."
+			"label": "Редактирование файлов проекта",
+			"shortName": "Редактирование",
+			"description": "Позволяет Caret изменять файлы в вашем рабочем пространстве."
 		},
 		"editFilesExternally": {
-			"label": "Edit any files",
-			"shortName": "Edit all",
-			"description": "Allows Caret to modify any files on your computer."
+			"label": "Редактирование любых файлов",
+			"shortName": "Редакт. всех",
+			"description": "Позволяет Caret изменять любые файлы на вашем компьютере."
 		},
 		"executeSafeCommands": {
-			"label": "Execute safe commands",
-			"shortName": "Safe commands",
-			"description": "Allows Caret to execute safe terminal commands. Approval will still be required if the model deems a command potentially destructive."
+			"label": "Выполнение безопасных команд",
+			"shortName": "Безопасные команды",
+			"description": "Позволяет Caret выполнять безопасные команды терминала. Одобрение все еще потребуется, если модель сочтет команду потенциально опасной."
 		},
 		"executeAllCommands": {
-			"label": "Execute all commands",
-			"shortName": "All commands",
-			"description": "Allows Caret to execute any terminal commands. Use at your own risk."
+			"label": "Выполнение всех команд",
+			"shortName": "Все команды",
+			"description": "Позволяет Caret выполнять любые команды терминала. Используйте на свой риск."
 		},
 		"useBrowser": {
-			"label": "Use browser",
-			"shortName": "Browser",
-			"description": "Allows Caret to launch and interact with any website in the browser."
+			"label": "Использование браузера",
+			"shortName": "Браузер",
+			"description": "Позволяет Caret запускать и взаимодействовать с любым веб-сайтом в браузере."
 		},
 		"generateImages": {
-			"label": "Generate images",
-			"shortName": "Images",
-			"description": "Allows Caret to generate images using the image generation tool."
+			"label": "Генерация изображений",
+			"shortName": "Изображения",
+			"description": "Позволяет Caret генерировать изображения с помощью инструмента генерации изображений."
 		},
 		"analyzeImages": {
-			"label": "Analyze images",
-			"shortName": "Analyze",
-			"description": "Allows Caret to analyze images using the image analysis tool (for models that don't support images natively)."
+			"label": "Анализ изображений",
+			"shortName": "Анализ",
+			"description": "Позволяет Caret анализировать изображения с помощью инструмента анализа изображений (для моделей, не поддерживающих изображения нативно)."
 		},
 		"useMcp": {
-			"label": "Use MCP server",
+			"label": "Использование MCP сервера",
 			"shortName": "MCP",
-			"description": "Allows Caret to use configured MCP servers which can modify the file system or interact with APIs."
+			"description": "Позволяет Caret использовать настроенные MCP серверы, которые могут изменять файловую систему или взаимодействовать с API."
 		},
 		"enableNotifications": {
-			"label": "Enable notifications",
-			"shortName": "Notifications",
-			"description": "Receive system notifications when Caret requires approval for a step or when a task is completed."
+			"label": "Включить уведомления",
+			"shortName": "Уведомления",
+			"description": "Получать системные уведомления, когда Caret требует одобрения для шага или когда задача завершена."
 		}
 	},
 	"debug": {
-		"resetWorkspaceState": "Reset workspace state",
-		"resetGlobalState": "Reset global state",
-		"resetGlobalStateDescription": "Resets all global state and secrets storage of the extension.",
-		"errorInSeconds": "Error in {{current}}/{{total}} seconds"
+		"resetWorkspaceState": "Сбросить состояние рабочего пространства",
+		"resetGlobalState": "Сбросить глобальное состояние",
+		"resetGlobalStateDescription": "Сбрасывает все глобальное состояние и хранилище секретов расширения.",
+		"errorInSeconds": "Ошибка через {{current}}/{{total}} секунд"
 	},
 	"modelPicker": {
-		"seeMore": "See more"
+		"seeMore": "Показать больше"
 	},
 	"apiOptions": {
-		"apiProvider": "API Provider",
-		"searchAndSelectProvider": "Search and select provider...",
-		"clearSearch": "Clear search"
+		"apiProvider": "API провайдер",
+		"searchAndSelectProvider": "Найти и выбрать провайдера...",
+		"clearSearch": "Очистить поиск"
 	},
 	"clineAccountInfoCard": {
-		"loginError": "Failed to get login URL:",
-		"viewBillingAndUsage": "View Billing & Usage"
+		"loginError": "Не удалось получить URL для входа:",
+		"viewBillingAndUsage": "Просмотр счетов и использования"
 	},
 	"apiKeyField": {
-		"placeholder": "Enter API Key...",
-		"defaultHelpText": "This key is stored locally and only used to make API requests from this extension.",
-		"signupText": "You can get a {{providerName}} API key by signing up here."
+		"placeholder": "Введите API ключ...",
+		"defaultHelpText": "Этот ключ хранится локально и используется только для выполнения API запросов из этого расширения.",
+		"signupText": "Вы можете получить API ключ {{providerName}}, зарегистрировавшись здесь."
 	},
 	"baseUrlField": {
-		"label": "Use custom base URL"
+		"label": "Использовать собственный базовый URL"
 	},
 	"modelInfoView": {
-		"inputPrice": "Input price",
-		"outputPriceStandard": "Output price (Standard)",
-		"outputPriceThinking": "Output price (Thinking Budget > 0)",
-		"outputPrice": "Output price",
-		"basedOnInputTokens": "(based on input tokens)",
-		"doesNotSupportImages": "Does not support images",
-		"supportsImages": "Supports images",
-		"doesNotSupportBrowser": "Does not support browser use",
-		"supportsBrowser": "Supports browser use",
-		"doesNotSupportCache": "Does not support prompt caching",
-		"supportsCache": "Supports prompt caching",
-		"contextWindow": "Context Window",
-		"cacheWritesPrice": "Cache writes price",
-		"cacheReadsPrice": "Cache reads price",
-		"contextWindowLabel": "Context Window:",
+		"inputPrice": "Цена ввода",
+		"outputPriceStandard": "Цена вывода (Стандартная)",
+		"outputPriceThinking": "Цена вывода (Бюджет размышления > 0)",
+		"outputPrice": "Цена вывода",
+		"basedOnInputTokens": "(на основе входных tokens)",
+		"doesNotSupportImages": "Не поддерживает изображения",
+		"supportsImages": "Поддерживает изображения",
+		"doesNotSupportBrowser": "Не поддерживает использование браузера",
+		"supportsBrowser": "Поддерживает использование браузера",
+		"doesNotSupportCache": "Не поддерживает кэширование промптов",
+		"supportsCache": "Поддерживает кэширование промптов",
+		"contextWindow": "Контекстное окно",
+		"cacheWritesPrice": "Цена записи в cache",
+		"cacheReadsPrice": "Цена чтения из cache",
+		"contextWindowLabel": "Контекстное окно:",
 		"imageGeneration": {
-			"title": "Image generation defaults",
-			"aspectRatio": "Aspect ratio",
-			"size": "Image size",
-			"auto": "Automatic (model default)",
-			"analysisModel": "Analysis model"
+			"title": "Настройки генерации изображений по умолчанию",
+			"aspectRatio": "Соотношение сторон",
+			"size": "Размер изображения",
+			"auto": "Автоматически (по умолчанию модели)",
+			"analysisModel": "Модель анализа"
 		}
 	},
 	"rules": {
 		"section": {
-			"workspaceRules": "Workspace Rules"
+			"workspaceRules": "Правила рабочего пространства"
 		}
 	},
 	"providers": {
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "Access a wide variety of open-source and proprietary models with a single API key.",
+			"description": "Доступ к широкому выбору моделей с открытым исходным кодом и проприетарных моделей с одним API ключом.",
 			"balanceDisplay": {
-				"loading": "Loading...",
-				"tooltip": "Remaining balance: {{remainingBalance}}\\nLimit: {{limit}}\\nUsage: {{usage}}",
-				"label": "Balance: {{formattedBalance}}"
+				"loading": "Загрузка...",
+				"tooltip": "Оставшийся баланс: {{remainingBalance}}\\nЛимит: {{limit}}\\nИспользование: {{usage}}",
+				"label": "Баланс: {{formattedBalance}}"
 			},
-			"apiKeyPlaceholder": "Enter API Key...",
-			"apiKeyLabel": "OpenRouter API Key",
-			"getApiKeyButton": "Get OpenRouter API Key",
-			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
-			"sortUnderlyingProviderRoutingCheckbox": "Sort underlying provider routing",
-			"defaultOption": "Default",
-			"priceOption": "Price",
-			"throughputOption": "Throughput",
-			"latencyOption": "Latency",
-			"defaultSortingDescription": "Default behavior is to load balance requests across providers (like AWS, Google Vertex, Anthropic), prioritizing price while considering provider uptime",
-			"priceSortingDescription": "Sort providers by price, prioritizing the lowest cost provider",
-			"throughputSortingDescription": "Sort providers by throughput, prioritizing the provider with the highest throughput (may increase cost)",
-			"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency",
-			"authError": "Failed to open OpenRouter auth:",
+			"apiKeyPlaceholder": "Введите API ключ...",
+			"apiKeyLabel": "API ключ OpenRouter",
+			"getApiKeyButton": "Получить API ключ OpenRouter",
+			"apiKeyHelpText": "Этот ключ хранится локально и используется только для выполнения API запросов из этого расширения.",
+			"sortUnderlyingProviderRoutingCheckbox": "Сортировка маршрутизации базовых провайдеров",
+			"defaultOption": "По умолчанию",
+			"priceOption": "Цена",
+			"throughputOption": "Пропускная способность",
+			"latencyOption": "Задержка",
+			"defaultSortingDescription": "Поведение по умолчанию - балансировка нагрузки между провайдерами (AWS, Google Vertex, Anthropic) с приоритетом цены и времени работы",
+			"priceSortingDescription": "Сортировка провайдеров по цене с приоритетом самого дешевого провайдера",
+			"throughputSortingDescription": "Сортировка провайдеров по пропускной способности с приоритетом провайдера с наибольшей пропускной способностью (может увеличить стоимость)",
+			"latencySortingDescription": "Сортировка провайдеров по времени отклика с приоритетом провайдера с наименьшей задержкой",
+			"authError": "Не удалось открыть авторизацию OpenRouter:",
 			"modelPicker": {
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
-				"featuredModelLabelBest": "Best",
-				"featuredModelDescriptionGemini3FlashPreview": "Intelligent model built for speed and price efficiency",
-				"featuredModelDescriptionKatcoder": "KwaiKAT's most advanced agentic coding model in the KAT-Coder series",
-				"featuredModelLabelNew": "New",
-				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
-				"featuredModelLabelFree": "Free",
-				"searchPlaceholder": "Search and select a model...",
-				"clearSearch": "Clear search",
-				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"featuredModelDescriptionBest": "Рекомендуется для агентного кодирования Caret",
+				"featuredModelLabelBest": "Лучшая",
+				"featuredModelDescriptionGemini3FlashPreview": "Умная модель, созданная для скорости и ценовой эффективности",
+				"featuredModelDescriptionKatcoder": "Самая продвинутая агентная модель кодирования KwaiKAT в серии KAT-Coder",
+				"featuredModelLabelNew": "Новая",
+				"featuredModelDescriptionFree": "Продвинутая модель с контекстом 262K для сложного кодирования",
+				"featuredModelLabelFree": "Бесплатная",
+				"searchPlaceholder": "Найти и выбрать модель...",
+				"clearSearch": "Очистить поиск",
+				"fetchModelsDescription": "Расширение автоматически получает последний список моделей, доступных на ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with "
+				"unsureModelChoice": "Если вы не уверены, какую модель выбрать, Caret лучше всего работает с "
 			}
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Use the Google AI API to access Google's Gemini model family. Requires an API key.",
-			"baseUrlPlaceholder": "Default: https://generativelanguage.googleapis.com"
+			"description": "Используйте Google AI API для доступа к семейству моделей Gemini от Google. Требуется API ключ.",
+			"baseUrlPlaceholder": "По умолчанию: https://generativelanguage.googleapis.com"
 		},
 		"openai": {
-			"name": "OpenAI Compatible",
-			"description": "Connect to any model endpoint that is compatible with the OpenAI API.",
-			"baseUrlPlaceholder": "Enter base URL...",
-			"baseUrlLabel": "Base URL",
-			"modelIdPlaceholder": "Enter Model ID...",
-			"modelIdLabel": "Model ID",
-			"customHeadersLabel": "Custom Headers",
-			"addHeaderButton": "Add Header",
-			"headerNamePlaceholder": "Header name",
-			"headerValuePlaceholder": "Header value",
-			"removeHeaderButton": "Remove",
-			"azureApiVersionLabel": "Set Azure API version",
-			"azureApiVersionPlaceholder": "Default: {{defaultValue}}",
-			"modelConfigurationLabel": "Model Configuration",
-			"supportsImagesCheckbox": "Supports Images",
-			"supportsBrowserUseCheckbox": "Supports browser use",
-			"enableR1FormatCheckbox": "Enable R1 messages format",
-			"contextWindowSizeLabel": "Context Window Size",
-			"maxOutputTokensLabel": "Max Output Tokens",
-			"inputPriceLabel": "Input Price / 1M tokens",
-			"outputPriceLabel": "Output Price / 1M tokens",
-			"temperatureLabel": "Temperature",
-			"refreshModelsError": "Failed to refresh OpenAI models:",
-			"providerName": "OpenAI Compatible"
+			"name": "OpenAI совместимый",
+			"description": "Подключение к любой конечной точке модели, совместимой с OpenAI API.",
+			"baseUrlPlaceholder": "Введите базовый URL...",
+			"baseUrlLabel": "Базовый URL",
+			"modelIdPlaceholder": "Введите ID модели...",
+			"modelIdLabel": "ID модели",
+			"customHeadersLabel": "Пользовательские заголовки",
+			"addHeaderButton": "Добавить заголовок",
+			"headerNamePlaceholder": "Имя заголовка",
+			"headerValuePlaceholder": "Значение заголовка",
+			"removeHeaderButton": "Удалить",
+			"azureApiVersionLabel": "Установить версию Azure API",
+			"azureApiVersionPlaceholder": "По умолчанию: {{defaultValue}}",
+			"modelConfigurationLabel": "Конфигурация модели",
+			"supportsImagesCheckbox": "Поддерживает изображения",
+			"supportsBrowserUseCheckbox": "Поддерживает использование браузера",
+			"enableR1FormatCheckbox": "Включить формат сообщений R1",
+			"contextWindowSizeLabel": "Размер контекстного окна",
+			"maxOutputTokensLabel": "Макс. выходных tokens",
+			"inputPriceLabel": "Цена ввода / 1M tokens",
+			"outputPriceLabel": "Цена вывода / 1M tokens",
+			"temperatureLabel": "Температура",
+			"refreshModelsError": "Не удалось обновить модели OpenAI:",
+			"providerName": "OpenAI совместимый"
 		},
 		"anthropic": {
 			"name": "Anthropic",
-			"description": "Use the Anthropic API to access the Claude model family directly. Requires an API key.",
-			"switchTo1MContext": "Switch to 1M context window model",
-			"switchTo200KContext": "Switch to 200K context window model"
+			"description": "Используйте Anthropic API для прямого доступа к семейству моделей Claude. Требуется API ключ.",
+			"switchTo1MContext": "Переключиться на модель с контекстным окном 1M",
+			"switchTo200KContext": "Переключиться на модель с контекстным окном 200K"
 		},
 		"bedrock": {
 			"name": "Amazon Bedrock",
-			"description": "Amazon Bedrock provides access to a wide range of foundation models from Amazon and leading AI startups.",
-			"apiKey": "API Key",
-			"awsProfile": "AWS Profile",
-			"awsCredentials": "AWS Credentials",
-			"profileNamePlaceholder": "Enter profile name (default if empty)",
-			"profileNameLabel": "AWS Profile Name",
-			"bedrockApiKeyPlaceholder": "Enter Bedrock Api Key",
-			"bedrockApiKeyLabel": "AWS Bedrock Api Key",
-			"accessKeyPlaceholder": "Enter Access Key...",
-			"accessKeyLabel": "AWS Access Key",
-			"secretKeyPlaceholder": "Enter Secret Key...",
-			"secretKeyLabel": "AWS Secret Key",
-			"sessionTokenPlaceholder": "Enter Session Token...",
-			"sessionTokenLabel": "AWS Session Token",
-			"awsRegionLabel": "AWS Region",
-			"selectRegionPlaceholder": "Select a region...",
-			"useCustomVpcEndpoint": "Use custom VPC endpoint",
-			"vpcEndpointPlaceholder": "Enter VPC Endpoint URL (optional)",
-			"useCrossRegionInference": "Use cross-region inference",
-			"usePromptCaching": "Use prompt caching",
-			"profileCredentialsHelpText": "Using AWS Profile credentials from ~/.aws/credentials. Leave profile name empty to use the default profile. These credentials are only used locally to make API requests from this extension.",
-			"defaultCredentialsHelpText": "Authenticate by either providing the keys above or use the default AWS credential providers, i.e. ~/.aws/credentials or environment variables. These credentials are only used locally to make API requests from this extension.",
-			"modelLabel": "Model",
-			"selectModelPlaceholder": "Select a model...",
-			"customModelOption": "Custom",
-			"customModelDescription": "Select \"Custom\" when using the Application Inference Profile in Bedrock. Enter the Application Inference Profile ARN in the Model ID field.",
-			"customModelIdPlaceholder": "Enter custom model ID...",
-			"modelIdLabel": "Model ID",
-			"baseInferenceModelLabel": "Base Inference Model",
-			"selectBaseModelPlaceholder": "Select a model..."
+			"description": "Amazon Bedrock предоставляет доступ к широкому спектру базовых моделей от Amazon и ведущих AI стартапов.",
+			"apiKey": "API ключ",
+			"awsProfile": "AWS профиль",
+			"awsCredentials": "AWS учетные данные",
+			"profileNamePlaceholder": "Введите имя профиля (по умолчанию, если пусто)",
+			"profileNameLabel": "Имя AWS профиля",
+			"bedrockApiKeyPlaceholder": "Введите Bedrock API ключ",
+			"bedrockApiKeyLabel": "AWS Bedrock API ключ",
+			"accessKeyPlaceholder": "Введите ключ доступа...",
+			"accessKeyLabel": "AWS ключ доступа",
+			"secretKeyPlaceholder": "Введите секретный ключ...",
+			"secretKeyLabel": "AWS секретный ключ",
+			"sessionTokenPlaceholder": "Введите токен сессии...",
+			"sessionTokenLabel": "AWS токен сессии",
+			"awsRegionLabel": "AWS регион",
+			"selectRegionPlaceholder": "Выберите регион...",
+			"useCustomVpcEndpoint": "Использовать пользовательскую VPC конечную точку",
+			"vpcEndpointPlaceholder": "Введите URL VPC конечной точки (необязательно)",
+			"useCrossRegionInference": "Использовать межрегиональный вывод",
+			"usePromptCaching": "Использовать кэширование промптов",
+			"profileCredentialsHelpText": "Используются учетные данные AWS профиля из ~/.aws/credentials. Оставьте имя профиля пустым для использования профиля по умолчанию. Эти учетные данные используются только локально для выполнения API запросов из этого расширения.",
+			"defaultCredentialsHelpText": "Аутентификация через указанные выше ключи или через стандартных провайдеров учетных данных AWS, т.е. ~/.aws/credentials или переменные окружения. Эти учетные данные используются только локально для выполнения API запросов из этого расширения.",
+			"modelLabel": "Модель",
+			"selectModelPlaceholder": "Выберите модель...",
+			"customModelOption": "Пользовательская",
+			"customModelDescription": "Выберите \"Пользовательская\" при использовании профиля вывода приложения в Bedrock. Введите ARN профиля вывода приложения в поле ID модели.",
+			"customModelIdPlaceholder": "Введите пользовательский ID модели...",
+			"modelIdLabel": "ID модели",
+			"baseInferenceModelLabel": "Базовая модель вывода",
+			"selectBaseModelPlaceholder": "Выберите модель..."
 		},
 		"vscode-lm": {
 			"name": "VS Code LM API",
-			"description": "Use models provided by other extensions (e.g., GitHub Copilot) through the VS Code Language Model API.",
-			"languageModelLabel": "Language Model",
-			"selectModelPlaceholder": "Select a model...",
-			"descriptionPart1": "The VS Code Language Model API allows you to run models provided by other VS Code extensions (including but not limited to GitHub Copilot). The easiest way to get started is to install the",
-			"copilotExtensionLinkText": "Copilot extension",
-			"descriptionPart2": "from the VS Marketplace and enabling Claude 4 Sonnet.",
-			"noteText": "Note: This is a very experimental integration and may not work as expected."
+			"description": "Используйте модели, предоставляемые другими расширениями (например, GitHub Copilot) через VS Code Language Model API.",
+			"languageModelLabel": "Языковая модель",
+			"selectModelPlaceholder": "Выберите модель...",
+			"descriptionPart1": "VS Code Language Model API позволяет использовать модели, предоставляемые другими расширениями VS Code (включая, но не ограничиваясь GitHub Copilot). Самый простой способ начать - установить",
+			"copilotExtensionLinkText": "расширение Copilot",
+			"descriptionPart2": "из VS Marketplace и включить Claude 4 Sonnet.",
+			"noteText": "Примечание: Это очень экспериментальная интеграция и может работать не так, как ожидается."
 		},
 		"deepseek": {
 			"name": "DeepSeek",
-			"description": "DeepSeek develops open-source models with strong capabilities in code and mathematics."
+			"description": "DeepSeek разрабатывает модели с открытым исходным кодом с сильными возможностями в коде и математике."
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "Access GPT models directly using OpenAI's official API. Requires an API key."
+			"description": "Прямой доступ к моделям GPT через официальный API OpenAI. Требуется API ключ."
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Run models locally on your computer using Ollama. See their quickstart guide to get started.",
-			"baseUrlLabel": "Use custom base URL",
-			"baseUrlPlaceholder": "Default: http://localhost:11434",
-			"apiKeyHelpText": "Optional API key for authenticated Ollama instances or cloud services. Leave empty for local installations.",
-			"apiKeyPlaceholder": "Enter API Key (optional)...",
-			"modelLabel": "Model",
+			"description": "Запускайте модели локально на вашем компьютере с помощью Ollama. Смотрите руководство по быстрому старту для начала работы.",
+			"baseUrlLabel": "Использовать собственный базовый URL",
+			"baseUrlPlaceholder": "По умолчанию: http://localhost:11434",
+			"apiKeyHelpText": "Необязательный API ключ для аутентифицированных экземпляров Ollama или облачных сервисов. Оставьте пустым для локальных установок.",
+			"apiKeyPlaceholder": "Введите API ключ (необязательно)...",
+			"modelLabel": "Модель",
 			"modelPickerPlaceholder": {
-				"search": "Search and select a model...",
-				"example": "e.g. llama3.1"
+				"search": "Найти и выбрать модель...",
+				"example": "например, llama3.1"
 			},
-			"fetchModelsError": "Unable to fetch models from Ollama server. Please ensure Ollama is running and accessible, or enter the model ID manually above.",
-			"modelContextWindowLabel": "Model Context Window",
-			"requestTimeoutPlaceholder": "Default: 30000 (30 seconds)",
-			"requestTimeoutLabel": "Request Timeout (ms)",
-			"requestTimeoutDescription": "Maximum time in milliseconds to wait for API responses before timing out.",
-			"fetchModelsErrorLog": "Failed to fetch Ollama models:",
+			"fetchModelsError": "Не удалось получить модели с сервера Ollama. Пожалуйста, убедитесь, что Ollama запущен и доступен, или введите ID модели вручную выше.",
+			"modelContextWindowLabel": "Контекстное окно модели",
+			"requestTimeoutPlaceholder": "По умолчанию: 30000 (30 секунд)",
+			"requestTimeoutLabel": "Тайм-аут запроса (мс)",
+			"requestTimeoutDescription": "Максимальное время ожидания ответов API в миллисекундах перед тайм-аутом.",
+			"fetchModelsErrorLog": "Не удалось получить модели Ollama:",
 			"providerName": "Ollama",
-			"contextWindowPlaceholder": "e.g. 32768"
+			"contextWindowPlaceholder": "например, 32768"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
-			"description": "Google Cloud Vertex AI offers a variety of AI models, including Google's state-of-the-art models.",
-			"projectIdPlaceholder": "Enter Project ID...",
-			"projectIdLabel": "Google Cloud Project ID",
-			"regionLabel": "Google Cloud Region",
-			"selectRegionPlaceholder": "Select a region...",
-			"setupDescription": "To use Google Cloud Vertex AI, you need to",
-			"setupLink1": "1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,",
-			"setupLink2": "2) install the Google Cloud CLI › configure Application Default Credentials."
+			"description": "Google Cloud Vertex AI предлагает различные AI модели, включая передовые модели Google.",
+			"projectIdPlaceholder": "Введите ID проекта...",
+			"projectIdLabel": "ID проекта Google Cloud",
+			"regionLabel": "Регион Google Cloud",
+			"selectRegionPlaceholder": "Выберите регион...",
+			"setupDescription": "Для использования Google Cloud Vertex AI вам нужно",
+			"setupLink1": "1) создать аккаунт Google Cloud > включить Vertex AI API > включить нужные модели Claude,",
+			"setupLink2": "2) установить Google Cloud CLI > настроить учетные данные приложения по умолчанию."
 		},
 		"caret": {
 			"name": "Caret",
-			"login": "Login",
-			"description": "Caret login users can access Google's latest Gemini models with free provided credits",
+			"login": "Войти",
+			"description": "Пользователи Caret могут получить доступ к новейшим моделям Gemini от Google с бесплатными предоставленными кредитами",
 			"modelPicker": {
-				"modelLabel": "모델",
-				"searchPlaceholder": "모델 검색 및 선택...",
-				"clearSearch": "검색 지우기"
+				"modelLabel": "Модель",
+				"searchPlaceholder": "Найти и выбрать модель...",
+				"clearSearch": "Очистить поиск"
 			}
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"baseUrlPlaceholder": "Default: http://localhost:4000",
-			"apiKeyPlaceholder": "Default: noop",
-			"apiKeyLabel": "API Key",
-			"modelIdPlaceholder": "e.g. anthropic/claude-sonnet-4-20250514",
-			"modelIdLabel": "Model ID",
-			"usePromptCachingLabel": "Use prompt caching (GA)",
-			"modelConfigurationLabel": "Model Configuration",
-			"supportsImagesLabel": "Supports Images",
-			"contextWindowSizeLabel": "Context Window Size",
-			"maxOutputTokensLabel": "Max Output Tokens",
-			"temperatureLabel": "Temperature",
-			"usePromptCachingDescription": "Prompt caching requires a supported provider and model",
-			"extendedThinkingDescription1": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
-			"extendedThinkingLink": "thinking mode configuration",
-			"description1": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
-			"quickstartGuideLink": "quickstart guide",
-			"description2": "for more information."
+			"baseUrlPlaceholder": "По умолчанию: http://localhost:4000",
+			"apiKeyPlaceholder": "По умолчанию: noop",
+			"apiKeyLabel": "API ключ",
+			"modelIdPlaceholder": "например, anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "ID модели",
+			"usePromptCachingLabel": "Использовать кэширование промптов (GA)",
+			"modelConfigurationLabel": "Конфигурация модели",
+			"supportsImagesLabel": "Поддерживает изображения",
+			"contextWindowSizeLabel": "Размер контекстного окна",
+			"maxOutputTokensLabel": "Макс. выходных tokens",
+			"temperatureLabel": "Температура",
+			"usePromptCachingDescription": "Кэширование промптов требует поддерживаемого провайдера и модели",
+			"extendedThinkingDescription1": "Расширенное размышление доступно для таких моделей как Sonnet-4, o3-mini, Deepseek R1 и т.д. Больше информации о",
+			"extendedThinkingLink": "конфигурации режима размышления",
+			"description1": "LiteLLM предоставляет единый интерфейс для доступа к моделям различных LLM провайдеров. Смотрите их",
+			"quickstartGuideLink": "руководство по быстрому старту",
+			"description2": "для получения дополнительной информации."
 		},
 		"bizrouter": {
 			"name": "BizRouter",
-			"apiKeyLabel": "BizRouter API Key",
-			"apiKeyPlaceholder": "Enter API key starting with sk-br-v1-...",
-			"apiKeyRequired": "API key is required",
-			"modelIdLabel": "Model ID",
-			"selectModelPlaceholder": "Select a model...",
-			"modelIdPlaceholder": "e.g. openai/gpt-4o",
-			"fetchModels": "Fetch Models",
-			"fetchingModels": "Fetching models...",
-			"noModelsFound": "No models found",
-			"fetchError": "Failed to fetch models",
-			"modelConfigurationLabel": "Model Configuration",
-			"supportsImagesLabel": "Supports Images",
-			"contextWindowSizeLabel": "Context Window Size",
-			"maxOutputTokensLabel": "Max Output Tokens",
-			"temperatureLabel": "Temperature",
-			"extendedThinkingDescription1": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
-			"extendedThinkingLink": "BizRouter documentation",
-			"description1": "BizRouter provides AI routing services optimized for the Korean market. See their",
-			"quickstartGuideLink": "BizRouter quickstart guide",
-			"description2": "for more information."
+			"apiKeyLabel": "API ключ BizRouter",
+			"apiKeyPlaceholder": "Введите API ключ, начинающийся с sk-br-v1-...",
+			"apiKeyRequired": "API ключ обязателен",
+			"modelIdLabel": "ID модели",
+			"selectModelPlaceholder": "Выберите модель...",
+			"modelIdPlaceholder": "например, openai/gpt-4o",
+			"fetchModels": "Получить модели",
+			"fetchingModels": "Получение моделей...",
+			"noModelsFound": "Модели не найдены",
+			"fetchError": "Не удалось получить модели",
+			"modelConfigurationLabel": "Конфигурация модели",
+			"supportsImagesLabel": "Поддерживает изображения",
+			"contextWindowSizeLabel": "Размер контекстного окна",
+			"maxOutputTokensLabel": "Макс. выходных tokens",
+			"temperatureLabel": "Температура",
+			"extendedThinkingDescription1": "Расширенное размышление доступно для таких моделей как Sonnet-4, o3-mini, Deepseek R1 и т.д. Больше информации в",
+			"extendedThinkingLink": "документации BizRouter",
+			"description1": "BizRouter предоставляет сервисы AI маршрутизации, оптимизированные для корейского рынка. Смотрите их",
+			"quickstartGuideLink": "руководство по быстрому старту BizRouter",
+			"description2": "для получения дополнительной информации."
 		},
 		"claude-code": {
 			"name": "Claude Code",
-			"description": "Claude Code is a specialized model from Anthropic, optimized for code-related tasks.",
-			"cliPath": "Claude Code CLI Path",
-			"cliPathDescription": "Path to the Claude Code CLI.",
-			"cliPathPlaceholder": "Default: claude",
-			"model": "Model"
+			"description": "Claude Code - это специализированная модель от Anthropic, оптимизированная для задач, связанных с кодом.",
+			"cliPath": "Путь к Claude Code CLI",
+			"cliPathDescription": "Путь к Claude Code CLI.",
+			"cliPathPlaceholder": "По умолчанию: claude",
+			"model": "Модель"
 		},
 		"sap-ai-core": {
 			"name": "SAP AI Core",
-			"description": "SAP AI Core is a service for deploying and managing AI models within the SAP ecosystem.",
-			"clientIdLabel": "AI Core Client Id",
-			"clientIdSetMessage": "Client Id is set. To change it, please re-enter the value.",
-			"clientSecretPlaceholder": "Enter AI Core Client Secret...",
-			"clientSecretLabel": "AI Core Client Secret",
-			"clientSecretSetMessage": "Client Secret is set. To change it, please re-enter the value.",
-			"baseUrlPlaceholder": "Enter AI Core Base URL...",
-			"baseUrlLabel": "AI Core Base URL",
-			"tokenUrlPlaceholder": "Enter AI Core Auth URL...",
-			"tokenUrlLabel": "AI Core Auth URL",
-			"resourceGroupPlaceholder": "Enter AI Core Resource Group...",
-			"resourceGroupLabel": "AI Core Resource Group",
-			"credentialsHelpText": "These credentials are stored locally and only used to make API requests from this extension.",
-			"apiAccessInfoLinkText": "You can find more information about SAP AI Core API access here.",
-			"orchestrationModeLabel": "Orchestration Mode",
-			"orchestrationModeDescriptionEnabled": "When enabled, provides access to all available models without requiring individual deployments.",
-			"orchestrationModeDescriptionDisabled": "When disabled, provides access only to deployed models in your AI Core service instance.",
-			"loadingModels": "Loading models...",
-			"modelFetchError": "Failed to fetch models. Please check your configuration.",
-			"noModelsFound": "Unable to fetch models from SAP AI Core service instance. Please check your SAP AI Core configuration or ensure your deployments are deployed and running in the service instance",
-			"configureCredentialsPrompt": "Please configure your SAP AI Core credentials to see available models.",
-			"fetchModelsErrorLog": "Error fetching SAP AI Core models:",
-			"clientIdPlaceholder": "Enter AI Core Client Id...",
-			"retryButton": "Retry",
-			"selectModelPlaceholder": "Select a model..."
+			"description": "SAP AI Core - это сервис для развертывания и управления AI моделями в экосистеме SAP.",
+			"clientIdLabel": "ID клиента AI Core",
+			"clientIdSetMessage": "ID клиента установлен. Чтобы изменить его, пожалуйста, введите значение заново.",
+			"clientSecretPlaceholder": "Введите секрет клиента AI Core...",
+			"clientSecretLabel": "Секрет клиента AI Core",
+			"clientSecretSetMessage": "Секрет клиента установлен. Чтобы изменить его, пожалуйста, введите значение заново.",
+			"baseUrlPlaceholder": "Введите базовый URL AI Core...",
+			"baseUrlLabel": "Базовый URL AI Core",
+			"tokenUrlPlaceholder": "Введите URL авторизации AI Core...",
+			"tokenUrlLabel": "URL авторизации AI Core",
+			"resourceGroupPlaceholder": "Введите группу ресурсов AI Core...",
+			"resourceGroupLabel": "Группа ресурсов AI Core",
+			"credentialsHelpText": "Эти учетные данные хранятся локально и используются только для выполнения API запросов из этого расширения.",
+			"apiAccessInfoLinkText": "Дополнительную информацию о доступе к SAP AI Core API можно найти здесь.",
+			"orchestrationModeLabel": "Режим оркестрации",
+			"orchestrationModeDescriptionEnabled": "При включении предоставляет доступ ко всем доступным моделям без необходимости индивидуального развертывания.",
+			"orchestrationModeDescriptionDisabled": "При отключении предоставляет доступ только к развернутым моделям в вашем экземпляре сервиса AI Core.",
+			"loadingModels": "Загрузка моделей...",
+			"modelFetchError": "Не удалось получить модели. Пожалуйста, проверьте вашу конфигурацию.",
+			"noModelsFound": "Не удалось получить модели из экземпляра сервиса SAP AI Core. Пожалуйста, проверьте конфигурацию SAP AI Core или убедитесь, что ваши развертывания развернуты и запущены в экземпляре сервиса",
+			"configureCredentialsPrompt": "Пожалуйста, настройте учетные данные SAP AI Core, чтобы увидеть доступные модели.",
+			"fetchModelsErrorLog": "Ошибка получения моделей SAP AI Core:",
+			"clientIdPlaceholder": "Введите ID клиента AI Core...",
+			"retryButton": "Повторить",
+			"selectModelPlaceholder": "Выберите модель..."
 		},
 		"mistral": {
 			"name": "Mistral",
-			"description": "Mistral AI develops high-performance open-source and commercial models."
+			"description": "Mistral AI разрабатывает высокопроизводительные модели с открытым исходным кодом и коммерческие модели."
 		},
 		"zai": {
 			"name": "Z AI",
-			"description": "Zhipu AI provides bilingual (Chinese and English) conversational models.",
-			"entrypointLabel": "Z AI Entrypoint",
-			"entrypointDescription": "Please select the appropriate API entrypoint based on your location. If you are in China, choose open.bigmodel.cn. Otherwise, choose api.z.ai.",
+			"description": "Zhipu AI предоставляет двуязычные (китайский и английский) диалоговые модели.",
+			"entrypointLabel": "Точка входа Z AI",
+			"entrypointDescription": "Пожалуйста, выберите соответствующую точку входа API в зависимости от вашего местоположения. Если вы в Китае, выберите open.bigmodel.cn. В противном случае выберите api.z.ai.",
 			"providerName": "Z AI"
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq offers extremely fast inference speeds through its Language Processing Units (LPUs).",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"fetchModelsError": "Failed to fetch Groq models:",
-			"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+			"description": "Groq предлагает чрезвычайно высокую скорость вывода благодаря своим языковым процессорам (LPU).",
+			"searchPlaceholder": "Найти и выбрать модель...",
+			"clearSearch": "Очистить поиск",
+			"fetchModelsError": "Не удалось получить модели Groq:",
+			"fetchModelsDescription": "Расширение автоматически получает последний список моделей, доступных на ",
 			"groqLinkText": "Groq.",
-			"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+			"unsureModelChoice": "Если вы не уверены, какую модель выбрать, Caret лучше всего работает с ",
 			"recommendedModel": "llama-3.3-70b-versatile.",
 			"recommendedModelId": "llama-3.3-70b-versatile",
 			"modelDocumentationUrl": "https://console.groq.com/docs/models"
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"sotaDescription": "Cutting-edge models for complex, long-horizon tasks",
-			"noSubscription": "No subscription",
+			"sotaDescription": "Передовые модели для сложных долгосрочных задач",
+			"noSubscription": "Без подписки",
 			"contextWindow": "32K tokens",
-			"rateLimits": "Unlimited requests",
-			"upgrade": "Upgrade for more features"
+			"rateLimits": "Неограниченные запросы",
+			"upgrade": "Обновить для получения дополнительных функций"
 		},
 		"vercel-ai-gateway": {
 			"name": "Vercel AI Gateway",
-			"description": "The Vercel AI Gateway provides a reliable connection to various model providers.",
-			"apiKeyLabel": "Vercel AI Gateway API Key",
-			"getApiKeyLinkText": "You can get a Vercel AI Gateway API key by signing up here.",
-			"modelIdPlaceholder": "Enter Model ID (e.g., openai/gpt-4o)...",
-			"modelIdLabel": "Model ID",
-			"fetchModelsError": "Unable to fetch models from Vercel AI Gateway.",
-			"noteText": "Note: Free tier users will see $0 costs as these requests are provided at no charge by Vercel AI Gateway.",
-			"fetchModelsErrorLog": "Failed to fetch Vercel AI Gateway models:"
+			"description": "Vercel AI Gateway обеспечивает надежное соединение с различными провайдерами моделей.",
+			"apiKeyLabel": "API ключ Vercel AI Gateway",
+			"getApiKeyLinkText": "Вы можете получить API ключ Vercel AI Gateway, зарегистрировавшись здесь.",
+			"modelIdPlaceholder": "Введите ID модели (например, openai/gpt-4o)...",
+			"modelIdLabel": "ID модели",
+			"fetchModelsError": "Не удалось получить модели из Vercel AI Gateway.",
+			"noteText": "Примечание: Пользователи бесплатного тарифа будут видеть $0 стоимости, так как эти запросы предоставляются бесплатно Vercel AI Gateway.",
+			"fetchModelsErrorLog": "Не удалось получить модели Vercel AI Gateway:"
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten is a platform for deploying and serving custom AI models.",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"infoDescription": "The extension automatically fetches the latest list of models available on",
+			"description": "Baseten - это платформа для развертывания и обслуживания пользовательских AI моделей.",
+			"searchPlaceholder": "Найти и выбрать модель...",
+			"clearSearch": "Очистить поиск",
+			"infoDescription": "Расширение автоматически получает последний список моделей, доступных на",
 			"infoLinkText": "Baseten.",
 			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
-			"unsureWhichModel": "If you're unsure which model to choose, Cline works best with",
-			"apiKeyHelp": "This key is stored locally and only used to make API requests from this extension.",
+			"unsureWhichModel": "Если вы не уверены, какую модель выбрать, Cline лучше всего работает с",
+			"apiKeyHelp": "Этот ключ хранится локально и используется только для выполнения API запросов из этого расширения.",
 			"basetenUrl": "https://www.baseten.co/products/model-apis/"
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty is a platform for AI-powered request routing and management.",
-			"useCustomBaseUrlLabel": "Use custom base URL",
-			"customBaseUrlPlaceholder": "Custom base URL",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
+			"description": "Requesty - это платформа для маршрутизации и управления запросами на базе AI.",
+			"useCustomBaseUrlLabel": "Использовать собственный базовый URL",
+			"customBaseUrlPlaceholder": "Собственный базовый URL",
+			"searchPlaceholder": "Найти и выбрать модель...",
+			"clearSearch": "Очистить поиск",
 			"requestyUrl": "Requesty."
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AI is a platform for developers to experiment with and deploy generative AI models."
+			"description": "Fireworks AI - это платформа для разработчиков для экспериментов и развертывания генеративных AI моделей."
 		},
 		"together": {
 			"name": "Together",
-			"description": "Together AI provides a cloud platform for running leading open-source models.",
-			"modelIdPlaceholder": "Enter Model ID...",
-			"modelIdLabel": "Model ID",
-			"notePrefix": "Note:",
-			"noteText": "{{brandName}} uses complex prompts and works best with Claude models. Less capable models may not work as expected."
+			"description": "Together AI предоставляет облачную платформу для запуска ведущих моделей с открытым исходным кодом.",
+			"modelIdPlaceholder": "Введите ID модели...",
+			"modelIdLabel": "ID модели",
+			"notePrefix": "Примечание:",
+			"noteText": "{{brandName}} использует сложные промпты и лучше всего работает с моделями Claude. Менее мощные модели могут работать не так, как ожидается."
 		},
 		"qwen": {
 			"name": "Alibaba Qwen",
-			"description": "Alibaba Qwen is a powerful large language model for various natural language processing tasks.",
-			"apiLineLabel": "Alibaba API Line",
-			"apiLineDescription": "Please select the appropriate API interface based on your location. If you are in China, choose the China API interface. Otherwise, choose the International API interface.",
+			"description": "Alibaba Qwen - это мощная большая языковая модель для различных задач обработки естественного языка.",
+			"apiLineLabel": "API линия Alibaba",
+			"apiLineDescription": "Пожалуйста, выберите соответствующий API интерфейс в зависимости от вашего местоположения. Если вы в Китае, выберите китайский API интерфейс. В противном случае выберите международный API интерфейс.",
 			"apiLineOptions": {
-				"international": "International API",
-				"china": "China API"
+				"international": "Международный API",
+				"china": "Китайский API"
 			}
 		},
 		"qwen-code": {
 			"name": "Qwen Code",
-			"description": "Qwen Code is a specialized AI model from Alibaba for code generation and completion.",
-			"apiConfigurationTitle": "Qwen Code API Configuration",
+			"description": "Qwen Code - это специализированная AI модель от Alibaba для генерации и завершения кода.",
+			"apiConfigurationTitle": "Конфигурация Qwen Code API",
 			"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
-			"oauthCredentialsPathLabel": "OAuth Credentials Path",
-			"oauthCredentialsPathDescription": "Path to your Qwen OAuth credentials file. Use ~/.qwen/oauth_creds.json or provide a custom path.",
-			"oauthAuthenticationDescription": "Qwen Code is an OAuth-based API that requires authentication through the official Qwen client. You'll need to set up OAuth credentials first.",
-			"getStartedTitle": "To get started:",
-			"installClientStep": "Install the official Qwen client",
-			"authenticateStep": "Authenticate using your account",
-			"credentialsStoredStep": "OAuth credentials will be stored automatically",
-			"setupInstructionsLinkText": "Setup Instructions"
+			"oauthCredentialsPathLabel": "Путь к OAuth учетным данным",
+			"oauthCredentialsPathDescription": "Путь к файлу OAuth учетных данных Qwen. Используйте ~/.qwen/oauth_creds.json или укажите собственный путь.",
+			"oauthAuthenticationDescription": "Qwen Code - это API на основе OAuth, требующий аутентификации через официальный клиент Qwen. Сначала вам нужно настроить OAuth учетные данные.",
+			"getStartedTitle": "Для начала работы:",
+			"installClientStep": "Установите официальный клиент Qwen",
+			"authenticateStep": "Аутентифицируйтесь с помощью вашего аккаунта",
+			"credentialsStoredStep": "OAuth учетные данные будут сохранены автоматически",
+			"setupInstructionsLinkText": "Инструкции по настройке"
 		},
 		"doubao": {
 			"name": "Bytedance Doubao",
-			"description": "Doubao is a family of conversational AI models developed by Bytedance.",
-			"modelLabel": "Model"
+			"description": "Doubao - это семейство диалоговых AI моделей, разработанных Bytedance.",
+			"modelLabel": "Модель"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
-			"description": "LM Studio allows you to discover, download, and run LLMs on your local machine.",
-			"baseUrlPlaceholder": "Default: http://localhost:1234",
-			"modelPlaceholder": "e.g. meta-llama-3.1-8b-instruct",
-			"contextWindowTooltip": "Not editable - the value is returned by the connected endpoint",
-			"parseModelsError": "Failed to parse LM Studio models:"
+			"description": "LM Studio позволяет вам находить, загружать и запускать LLM на вашем локальном компьютере.",
+			"baseUrlPlaceholder": "По умолчанию: http://localhost:1234",
+			"modelPlaceholder": "например, meta-llama-3.1-8b-instruct",
+			"contextWindowTooltip": "Не редактируется - значение возвращается подключенной конечной точкой",
+			"parseModelsError": "Не удалось разобрать модели LM Studio:"
 		},
 		"moonshot": {
 			"name": "Moonshot",
-			"description": "Moonshot AI specializes in models with long context windows.",
-			"entrypoint": "Moonshot Entrypoint"
+			"description": "Moonshot AI специализируется на моделях с большим контекстным окном.",
+			"entrypoint": "Точка входа Moonshot"
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face provides inference APIs for a wide range of open-source models.",
-			"apiKeyPlaceholder": "Enter API Key...",
-			"apiKeyLabel": "Hugging Face API Key",
-			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. We don't show pricing here because it depends on your Hugging Face provider settings and isn't consistently available via their API.",
-			"getApiKeyLinkText": "Get your API key here",
+			"description": "Hugging Face предоставляет API вывода для широкого спектра моделей с открытым исходным кодом.",
+			"apiKeyPlaceholder": "Введите API ключ...",
+			"apiKeyLabel": "API ключ Hugging Face",
+			"apiKeyHelpText": "Этот ключ хранится локально и используется только для выполнения API запросов из этого расширения. Мы не показываем цены здесь, потому что они зависят от настроек вашего провайдера Hugging Face и не доступны последовательно через их API.",
+			"getApiKeyLinkText": "Получите ваш API ключ здесь",
 			"apiKeyUrl": "https://huggingface.co/settings/tokens",
-			"searchPlaceholder": "Search models...",
-			"clearSearch": "Clear search",
-			"fetchModelsError": "Failed to fetch Hugging Face models:"
+			"searchPlaceholder": "Поиск моделей...",
+			"clearSearch": "Очистить поиск",
+			"fetchModelsError": "Не удалось получить модели Hugging Face:"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
-			"description": "Nebius AI offers AI services based on Yandex's technology.",
-			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. (Note: {{brandName}} uses complex prompts and works best with Claude models. Less capable models may not work as expected.)"
+			"description": "Nebius AI предлагает AI сервисы на основе технологий Яндекса.",
+			"apiKeyHelpText": "Этот ключ хранится локально и используется только для выполнения API запросов из этого расширения. (Примечание: {{brandName}} использует сложные промпты и лучше всего работает с моделями Claude. Менее мощные модели могут работать не так, как ожидается.)"
 		},
 		"asksage": {
 			"name": "AskSage",
-			"description": "AskSage provides AI models designed for research and academic use.",
-			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
-			"apiUrlPlaceholder": "Enter AskSage API URL...",
-			"apiUrlLabel": "AskSage API URL",
-			"modelLabel": "Model"
+			"description": "AskSage предоставляет AI модели, предназначенные для исследований и академического использования.",
+			"apiKeyHelpText": "Этот ключ хранится локально и используется только для выполнения API запросов из этого расширения.",
+			"apiUrlPlaceholder": "Введите URL AskSage API...",
+			"apiUrlLabel": "URL AskSage API",
+			"modelLabel": "Модель"
 		},
 		"xai": {
 			"name": "X AI",
-			"description": "xAI develops Grok, a large language model that aims to be truthful.",
+			"description": "xAI разрабатывает Grok, большую языковую модель, нацеленную на правдивость.",
 			"providerName": "xAI",
-			"notePrefix": "Note:",
-			"noteText": "{{brandName}} uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
-			"modifyReasoningEffort": "Modify reasoning effort",
-			"reasoningEffortLabel": "Reasoning Effort",
+			"notePrefix": "Примечание:",
+			"noteText": "{{brandName}} использует сложные промпты и лучше всего работает с моделями Claude. Менее мощные модели могут работать не так, как ожидается.",
+			"modifyReasoningEffort": "Изменить усилие рассуждения",
+			"reasoningEffortLabel": "Усилие рассуждения",
 			"reasoningEffortOptions": {
-				"low": "low",
-				"high": "high"
+				"low": "низкое",
+				"high": "высокое"
 			},
-			"reasoningEffortDescription": "High effort may produce more thorough analysis but takes longer and uses more tokens."
+			"reasoningEffortDescription": "Высокое усилие может производить более тщательный анализ, но занимает больше времени и использует больше tokens."
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNova provides high-performance models for enterprise-grade AI applications."
+			"description": "SambaNova предоставляет высокопроизводительные модели для AI приложений корпоративного уровня."
 		},
 		"huawei-cloud-maas": {
 			"name": "Huawei Cloud MaaS",
-			"description": "Huawei Cloud MaaS (Model-as-a-Service) offers a variety of AI models."
+			"description": "Huawei Cloud MaaS (Model-as-a-Service) предлагает различные AI модели."
 		},
 		"upstage": {
 			"name": "Upstage",
 			"descriptionPart1": "",
 			"upstageLinkText": "Upstage",
-			"descriptionPart2": " provides ",
+			"descriptionPart2": " предоставляет ",
 			"solarLinkText": "Solar LLM",
-			"descriptionPart3": " models optimized for various AI tasks."
+			"descriptionPart3": " модели, оптимизированные для различных AI задач."
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
 			"descriptionPart1": "",
 			"naverCloudLinkText": "Naver Cloud",
-			"descriptionPart2": " provides ",
+			"descriptionPart2": " предоставляет ",
 			"hyperClovaLinkText": "Hyper Clova X (HCX)",
-			"descriptionPart3": " models optimized for Korean context."
+			"descriptionPart3": " модели, оптимизированные для корейского контекста."
 		},
 		"dify": {
 			"name": "Dify.ai",
-			"description": "Dify.ai is a platform for building and operating LLM-powered applications.",
-			"baseUrlLabel": "Base URL",
-			"baseUrlPlaceholder": "Enter Dify Base URL..."
+			"description": "Dify.ai - это платформа для создания и эксплуатации приложений на базе LLM.",
+			"baseUrlLabel": "Базовый URL",
+			"baseUrlPlaceholder": "Введите базовый URL Dify..."
 		},
 		"cline": {
 			"name": "Cline"
 		}
 	},
 	"thinkingBudget": {
-		"enable": "Enable thinking budget"
+		"enable": "Включить бюджет размышления"
 	},
 	"contextWindowSwitcher": {
-		"switchTo1M": "Switch to 1M context",
-		"switchTo200K": "Switch to 200K context"
+		"switchTo1M": "Переключиться на контекст 1M",
+		"switchTo200K": "Переключиться на контекст 200K"
 	},
 	"clineProvider": {
-		"sortUnderlyingProviderRouting": "Sort underlying provider routing",
-		"defaultOption": "Default",
-		"priceOption": "Price",
-		"throughputOption": "Throughput",
-		"latencyOption": "Latency",
-		"defaultSortingDescription": "Default: load balance across providers (AWS, Vertex, Anthropic), prioritizing price and uptime",
-		"priceSortingDescription": "Sort by price, prioritize lowest cost provider",
-		"throughputSortingDescription": "Sort by throughput, prioritize highest throughput (may increase cost)",
-		"latencySortingDescription": "Sort by latency, prioritize lowest response time"
+		"sortUnderlyingProviderRouting": "Сортировка маршрутизации базовых провайдеров",
+		"defaultOption": "По умолчанию",
+		"priceOption": "Цена",
+		"throughputOption": "Пропускная способность",
+		"latencyOption": "Задержка",
+		"defaultSortingDescription": "По умолчанию: балансировка нагрузки между провайдерами (AWS, Vertex, Anthropic) с приоритетом цены и времени работы",
+		"priceSortingDescription": "Сортировка по цене, приоритет самого дешевого провайдера",
+		"throughputSortingDescription": "Сортировка по пропускной способности, приоритет наибольшей пропускной способности (может увеличить стоимость)",
+		"latencySortingDescription": "Сортировка по задержке, приоритет наименьшего времени отклика"
 	}
 }

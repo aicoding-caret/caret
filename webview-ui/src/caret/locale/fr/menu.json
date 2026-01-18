@@ -1,14 +1,14 @@
 {
 	"navbar": {
 		"chatName": "Chat",
-		"newTaskTooltip": "New Task",
+		"newTaskTooltip": "Nouvelle tache",
 		"mcpName": "MCP",
-		"mcpServersTooltip": "MCP Servers",
-		"historyName": "History",
-		"historyTooltip": "History",
-		"accountName": "Account",
-		"accountTooltip": "Account",
-		"settingsName": "Settings",
-		"settingsTooltip": "Settings"
+		"mcpServersTooltip": "Serveurs MCP",
+		"historyName": "Historique",
+		"historyTooltip": "Historique",
+		"accountName": "Compte",
+		"accountTooltip": "Compte",
+		"settingsName": "Parametres",
+		"settingsTooltip": "Parametres"
 	}
 }

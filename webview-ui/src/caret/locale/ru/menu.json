@@ -1,14 +1,14 @@
 {
 	"navbar": {
-		"chatName": "Chat",
-		"newTaskTooltip": "New Task",
+		"chatName": "Чат",
+		"newTaskTooltip": "Новая задача",
 		"mcpName": "MCP",
-		"mcpServersTooltip": "MCP Servers",
-		"historyName": "History",
-		"historyTooltip": "History",
-		"accountName": "Account",
-		"accountTooltip": "Account",
-		"settingsName": "Settings",
-		"settingsTooltip": "Settings"
+		"mcpServersTooltip": "MCP серверы",
+		"historyName": "История",
+		"historyTooltip": "История",
+		"accountName": "Аккаунт",
+		"accountTooltip": "Аккаунт",
+		"settingsName": "Настройки",
+		"settingsTooltip": "Настройки"
 	}
 }
