@@ -579,6 +579,7 @@ export class Task {
 		type: ClineAsk,
 		text?: string,
 		partial?: boolean,
+		operationId?: string, // CARET MODIFICATION: allow reusing tool message for approval (prevents duplicate tool cards)
 	): Promise<{
 		response: ClineAskResponse
 		text?: string
@@ -591,8 +592,41 @@ export class Task {
 			if (this.taskState.abort && type !== "resume_task" && type !== "resume_completed_task") {
 				throw new Error("Cline instance aborted")
 			}
-			let askTs: number
-			if (partial !== undefined) {
+			let askTs: number = Date.now() // CARET MODIFICATION: avoid TS "used before assigned" in operationId reuse paths
+			let didReuseToolAskByOperationId = false
+
+			// CARET MODIFICATION: Reuse a single tool message row for approval + progress updates
+			// (prevents duplicate tool cards when tool params stream in, e.g. Gemini)
+			if (operationId && type === "tool" && partial === false) {
+				const clineMessages = this.messageStateHandler.getClineMessages()
+				const existingToolSayIndex = findLastIndex(
+					clineMessages,
+					(message) => message.operationId === operationId && message.type === "say" && message.say === type,
+				)
+				if (existingToolSayIndex !== -1) {
+					this.taskState.askResponse = undefined
+					this.taskState.askResponseText = undefined
+					this.taskState.askResponseImages = undefined
+					this.taskState.askResponseFiles = undefined
+
+					askTs = clineMessages[existingToolSayIndex].ts
+					this.taskState.lastMessageTs = askTs
+
+					await this.messageStateHandler.updateClineMessage(existingToolSayIndex, {
+						type: "ask",
+						ask: type,
+						say: undefined,
+						text,
+						partial: false,
+						operationId,
+						askResolved: undefined,
+					})
+					await this.postStateToWebview()
+					didReuseToolAskByOperationId = true
+				}
+			}
+
+			if (!didReuseToolAskByOperationId && partial !== undefined) {
 				const clineMessages = this.messageStateHandler.getClineMessages()
 				const lastMessage = clineMessages.at(-1)
 				const lastMessageIndex = clineMessages.length - 1
@@ -625,6 +659,7 @@ export class Task {
 							ask: type,
 							text,
 							partial,
+							...(operationId ? { operationId } : {}),
 						})
 						await this.postStateToWebview()
 						throw new Error("Current ask promise was ignored 2")
@@ -667,11 +702,12 @@ export class Task {
 							type: "ask",
 							ask: type,
 							text,
+							...(operationId ? { operationId } : {}),
 						})
 						await this.postStateToWebview()
 					}
 				}
-			} else {
+			} else if (!didReuseToolAskByOperationId) {
 				// this is a new non-partial message, so add it like normal
 				// const lastMessage = this.clineMessages.at(-1)
 				this.taskState.askResponse = undefined
@@ -685,6 +721,7 @@ export class Task {
 					type: "ask",
 					ask: type,
 					text,
+					...(operationId ? { operationId } : {}),
 				})
 				await this.postStateToWebview()
 			}
@@ -728,6 +765,35 @@ export class Task {
 			this.taskState.askResponseText = undefined
 			this.taskState.askResponseImages = undefined
 			this.taskState.askResponseFiles = undefined
+
+			// CARET MODIFICATION: Convert tool approval ask back into a say message so tool progress updates reuse the same row.
+			if (operationId && type === "tool") {
+				try {
+					const clineMessages = this.messageStateHandler.getClineMessages()
+					const askIndex = findLastIndex(clineMessages, (message) => message.type === "ask" && message.ts === askTs)
+					if (askIndex !== -1) {
+						const providerInfo = this.getCurrentProviderInfo()
+						const modelInfo: ClineMessageModelInfo = {
+							providerId: providerInfo.providerId,
+							modelId: providerInfo.model.id,
+						}
+
+						await this.messageStateHandler.updateClineMessage(askIndex, {
+							type: "say",
+							say: type as any,
+							ask: undefined,
+							askResolved: undefined,
+							modelInfo: clineMessages[askIndex].modelInfo ?? modelInfo,
+						})
+
+						const updatedMessage = this.messageStateHandler.getClineMessages()[askIndex]
+						const protoMessage = convertClineMessageToProto(updatedMessage)
+						await sendPartialMessageEvent(protoMessage)
+					}
+				} catch (error) {
+					Logger.error(`[Task ${this.taskId}] Failed to convert tool approval ask to say`, error)
+				}
+			}
 			return result
 		}
 
@@ -773,6 +839,7 @@ export class Task {
 		images?: string[],
 		files?: string[],
 		partial?: boolean,
+		operationId?: string, // CARET MODIFICATION: operationId for reliable message updates
 	): Promise<number | undefined> {
 		// Allow hook messages even when aborted to enable proper cleanup
 		if (this.taskState.abort && type !== "hook" && type !== "hook_output") {
@@ -783,6 +850,49 @@ export class Task {
 		const modelInfo: ClineMessageModelInfo = {
 			providerId: providerInfo.providerId,
 			modelId: providerInfo.model.id,
+		}
+
+		// CARET MODIFICATION: operationId-based message update for reliable tool UI updates
+		// This prevents duplicate tool messages when handlePartialBlock and execute race
+		if (operationId) {
+			const clineMessages = this.messageStateHandler.getClineMessages()
+			const existingMessage = clineMessages.find(
+				(msg) => msg.operationId === operationId && msg.type === "say" && msg.say === type,
+			)
+
+			if (existingMessage) {
+				// Update existing message with same operationId
+				existingMessage.text = text
+				existingMessage.images = images
+				existingMessage.files = files
+				existingMessage.partial = partial ?? false
+				this.taskState.lastMessageTs = existingMessage.ts
+
+				if (partial === false) {
+					// Final update - persist to disk
+					await this.messageStateHandler.saveClineMessagesAndUpdateHistory()
+				}
+				const protoMessage = convertClineMessageToProto(existingMessage)
+				await sendPartialMessageEvent(protoMessage)
+				return existingMessage.ts
+			} else {
+				// Create new message with operationId
+				const sayTs = Date.now()
+				this.taskState.lastMessageTs = sayTs
+				await this.messageStateHandler.addToClineMessages({
+					ts: sayTs,
+					type: "say",
+					say: type,
+					text,
+					images,
+					files,
+					partial: partial ?? false,
+					modelInfo,
+					operationId,
+				})
+				await this.postStateToWebview()
+				return sayTs
+			}
 		}
 
 		if (partial !== undefined) {
@@ -1141,6 +1251,49 @@ export class Task {
 
 	// Task lifecycle
 
+	// CARET MODIFICATION: 프로젝트 지표 파일 확인 (빈 폴더/비-프로젝트 폴더 감지)
+	private async checkProjectIndicators(cwd: string): Promise<boolean> {
+		const fs = await import("fs/promises")
+		const path = await import("path")
+
+		// 일반적인 프로젝트 지표 파일들
+		const projectIndicators = [
+			".git",
+			"package.json",
+			"Cargo.toml",
+			"go.mod",
+			"pom.xml",
+			"build.gradle",
+			"requirements.txt",
+			"pyproject.toml",
+			"Makefile",
+			"CMakeLists.txt",
+			"README.md",
+			"README",
+			".gitignore",
+		]
+
+		for (const indicator of projectIndicators) {
+			try {
+				const indicatorPath = path.join(cwd, indicator)
+				await fs.access(indicatorPath)
+				return true
+			} catch {
+				// 파일이 없으면 계속
+			}
+		}
+
+		// 지표 파일이 없으면 폴더에 파일이 있는지 확인 (빈 폴더 감지)
+		try {
+			const entries = await fs.readdir(cwd)
+			// 숨김 파일(.으로 시작)만 있거나 완전히 비어있으면 프로젝트가 아님
+			const visibleFiles = entries.filter((e) => !e.startsWith("."))
+			return visibleFiles.length > 0
+		} catch {
+			return false
+		}
+	}
+
 	private async maybeInitializeAgentsContext(userContent: ClineUserContent[]): Promise<void> {
 		if (this.taskState.agentsInitPrompted) {
 			return
@@ -1157,8 +1310,20 @@ export class Task {
 			return
 		}
 
-		// CARET MODIFICATION: 폴더가 열리지 않았으면 init 프롬프트 건너뛰기
-		if (!this.cwd || this.cwd.trim() === "") {
+		// CARET MODIFICATION: 워크스페이스가 열리지 않았으면 init 프롬프트 건너뛰기
+		// VS Code에서 실제 폴더가 열려있는지 직접 확인 (데스크톱 fallback 방지)
+		try {
+			const workspacePaths = await HostProvider.workspace.getWorkspacePaths({})
+			if (!workspacePaths.paths || workspacePaths.paths.length === 0) {
+				return
+			}
+		} catch {
+			return
+		}
+
+		// CARET MODIFICATION: 빈 폴더이거나 프로젝트가 아닌 폴더에서는 init 프롬프트 건너뛰기
+		const hasProjectIndicator = await this.checkProjectIndicators(this.cwd)
+		if (!hasProjectIndicator) {
 			return
 		}
 

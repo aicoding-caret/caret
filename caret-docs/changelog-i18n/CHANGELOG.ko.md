@@ -1,24 +1,40 @@
 # 변경 기록
 
 <div align="center">
+  <!-- Sovereign Cloud Languages: Provider Country = UI Language Support -->
   <table>
     <tr>
       <td align="center">
         <a href="../../CHANGELOG.md">
-          <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
+          <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
         </a>
       </td>
       <td align="center">
-        <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
+        <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
       </td>
       <td align="center">
         <a href="./CHANGELOG.ja.md">
-          <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
+          <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
         </a>
       </td>
       <td align="center">
         <a href="./CHANGELOG.zh-cn.md">
-          <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="4">
+        <a href="./CHANGELOG.fr.md">
+          <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
+        </a>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.de.md">
+          <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
+        </a>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.ru.md">
+          <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
       </td>
     </tr>
@@ -50,7 +66,13 @@
 - **YAML frontmatter 파싱**: Skills/Hooks에서 공유되는 YAML 파싱 유틸리티를 추가했습니다.
 - **기본 프로바이더**: 신규 사용자의 기본 프로바이더가 Caret으로 설정됩니다.
 - **Feature Config UI 게이팅**: 계정/모드/딕테이션 UI를 feature config로 제어할 수 있습니다.
+- **VSIX 크기 최적화**: iOS/Android 바이너리를 제외하여 확장 프로그램 크기를 줄였습니다.
 - **이미지 설정 UI**: 모든 프로바이더에서 이미지 비율/해상도 설정 UI가 표시됩니다.
+
+### 버그 수정
+- **sharp 활성화 실패**: 이미지 처리 라이브러리의 활성화 실패 문제를 수정했습니다.
+- **이미지 참조 처리**: 이미지 참조 처리 및 최적화 관련 문제를 수정했습니다.
+- **중복 메시지 표시**: "Caret 이미지 생성 요청" 메시지가 두 번 표시되는 문제를 수정했습니다.
 
 ## [0.4.4] 2025-12-30
 

@@ -30,7 +30,7 @@ Caret 개발자가 확인해야 할 KO 우선 문서 모음입니다. `features.
 - 기타 참고: `build-system.md`, `button-system-architecture-guide.md`, `extension-architecture.mmd`
 
 ## 📚 레퍼런스/규약
-- **[모델 지원 목록 (KO)](./support-model-list.md)** / **[모델 목록 (EN)](./support-model-list.en.md)**
+- **[모델 지원 목록 (KO)](./support-model-list.mdx)** / **[모델 목록 (EN)](./support-model-list.en.mdx)**
 - **[로케일 규칙](./locale.md)**
 - **[로깅 규칙](./logging-rules.md)**, **[링크 관리](./link-management-guide.md)**, **[JSON 주석 규약](./json-comment-conventions.md)**
 - **[유틸리티 스크립트](./utilities.md)**

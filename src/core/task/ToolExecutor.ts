@@ -96,12 +96,14 @@ export class ToolExecutor {
 		private isMultiRootEnabled: boolean,
 
 		// Callbacks to the Task (Entity)
+		// CARET MODIFICATION: Added operationId parameter for reliable message updates
 		private say: (
 			type: ClineSay,
 			text?: string,
 			images?: string[],
 			files?: string[],
 			partial?: boolean,
+			operationId?: string,
 		) => Promise<number | undefined>,
 		private ask: (
 			type: ClineAsk,

@@ -8,18 +8,18 @@ Caret supports a wide variety of AI models and providers, giving you the freedom
 2. **Configure Caret**: Click "Get Started" on the welcome page to set up APIs
 3. **Select Models**: Choose your desired models in the settings page
 
-> 📝 **Updated**: 1/14/2026  
+> 📝 **Updated**: 1/18/2026  
 > 📧 **Contact**: [GitHub Issues](https://github.com/aicoding-caret/caret/issues)
 
 # 📊 Model Support Overview
 
-Total **20 providers** supporting **263 unique models** (346 total model definitions).
+Total **31 providers** supporting **266 unique models** (349 total model definitions).
 
 ## 🔍 Models by Provider
 
 | Provider | Model Count | Key Models |
 |----------|-------------|------------|
-| **Caret** | 4 | `gemini/gemini-3-pro-preview`, `gemini/gemini-3-flash-preview`, `gemini/gemini-2.5-pro` +1 more |
+| **Caret** | 5 | `gemini/gemini-3-pro-preview`, `gemini/gemini-3-flash-preview`, `gemini/gemini-2.5-pro` +2 more |
 | **Anthropic** | 13 | `claude-sonnet-4-5-20250929`, `claude-sonnet-4-5-20250929:1m`, `claude-haiku-4-5-20251001` +10 more |
 | **Claudecode** | 8 | `claude-haiku-4-5-20251001`, `claude-sonnet-4-5-20250929`, `claude-sonnet-4-20250514` +5 more |
 | **Bedrock** | 24 | `anthropic.claude-sonnet-4-5-20250929-v1:0`, `anthropic.claude-sonnet-4-5-20250929-v1:0:1m`, `anthropic.claude-haiku-4-5-20251001-v1:0` +21 more |
@@ -32,7 +32,8 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 | **Mainlandqwen** | 30 | `qwen3-235b-a22b`, `qwen3-32b`, `qwen3-30b-a3b` +27 more |
 | **Doubao** | 4 | `doubao-1-5-pro-256k-250115`, `doubao-1-5-pro-32k-250115`, `deepseek-v3-250324` +1 more |
 | **Mistral** | 13 | `mistral-large-2411`, `pixtral-large-2411`, `ministral-3b-2410` +10 more |
-| **Asksage** | 31 | `gpt-4o`, `gpt-4o-gov`, `gpt-4.1` +28 more |
+| **Asksage** | 9 | `gpt-4o`, `gpt-4o-gov`, `gpt-4.1` +6 more |
+| **Nebius** | 22 | `deepseek-ai/DeepSeek-V3`, `deepseek-ai/DeepSeek-V3-0324-fast`, `deepseek-ai/DeepSeek-R1` +19 more |
 | **xAI** | 21 | `grok-4-1-fast-reasoning`, `grok-4-1-fast-non-reasoning`, `grok-code-fast-1` +18 more |
 | **Sambanova** | 13 | `Llama-4-Maverick-17B-128E-Instruct`, `Llama-4-Scout-17B-16E-Instruct`, `Meta-Llama-3.3-70B-Instruct` +10 more |
 | **Cerebras** | 7 | `zai-glm-4.6`, `zai-glm-4.7`, `gpt-oss-120b` +4 more |
@@ -40,6 +41,7 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 | **Sapaicore** | 20 | `anthropic--claude-4.5-sonnet`, `anthropic--claude-4-sonnet`, `anthropic--claude-4-opus` +17 more |
 | **Moonshot** | 5 | `kimi-k2-0905-preview`, `kimi-k2-0711-preview`, `kimi-k2-turbo-preview` +2 more |
 | **Huaweicloudmaas** | 5 | `DeepSeek-V3`, `DeepSeek-R1`, `deepseek-r1-250528` +2 more |
+| **Upstage** | 2 | `solar-pro2`, `solar-mini` |
 | **Naver Cloud** | 3 | `HCX-007`, `HCX-005`, `HCX-DASH-002` |
 | **Baseten** | 9 | `zai-org/GLM-4.6`, `Qwen/Qwen3-235B-A22B-Instruct-2507`, `deepseek-ai/DeepSeek-R1` +6 more |
 | **Internationalzai** | 3 | `glm-4.7`, `glm-4.5`, `glm-4.5-air` |
@@ -51,7 +53,7 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 
 ## 📋 Complete Model Details
 
-### Caret (4 models)
+### Caret (5 models)
 
 | Model Name | Max Tokens | Context Window | Image Support | Input Price ($/1M tokens) | Output Price ($/1M tokens) |
 |------------|------------|----------------|---------------|-------------|--------------|
@@ -59,6 +61,7 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 | `gemini/gemini-3-flash-preview` | 65,536 | 1 | ✅ | 0.5 | 3 |
 | `gemini/gemini-2.5-pro` | 65,536 | 1 | ✅ | 2.5 | 15 |
 | `gemini/gemini-2.5-flash` | 65,536 | 1 | ✅ | 0.3 | 2.5 |
+| `zai/glm-4.7` | 128 | 200 | ❌ | 0.6 | 2.2 |
 
 ### Anthropic (13 models)
 
@@ -320,7 +323,7 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 | `devstral-small-2505` | 128 | 131 | ❌ | 0.1 | 0.3 |
 | `devstral-medium-latest` | 128 | 131 | ❌ | 0.4 | 2 |
 
-### Asksage (31 models)
+### Asksage (9 models)
 
 | Model Name | Max Tokens | Context Window | Image Support | Input Price ($/1M tokens) | Output Price ($/1M tokens) |
 |------------|------------|----------------|---------------|-------------|--------------|
@@ -333,6 +336,11 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 | `claude-4-sonnet` | 8,192 | 200 | ❌ | 0 | 0 |
 | `claude-4-opus` | 8,192 | 200 | ❌ | 0 | 0 |
 | `google-gemini-2.5-pro` | 65,536 | 1 | ❌ | 0 | 0 |
+
+### Nebius (22 models)
+
+| Model Name | Max Tokens | Context Window | Image Support | Input Price ($/1M tokens) | Output Price ($/1M tokens) |
+|------------|------------|----------------|---------------|-------------|--------------|
 | `deepseek-ai/DeepSeek-V3` | 32 | 96 | ❌ | 0.5 | 1.5 |
 | `deepseek-ai/DeepSeek-V3-0324-fast` | 128 | 128 | ❌ | 2 | 6 |
 | `deepseek-ai/DeepSeek-R1` | 32 | 96 | ❌ | 0.8 | 2.4 |
@@ -473,13 +481,20 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 | `qwen3-235b-a22b` | 8 | 32 | ❌ | 0.27 | 1.1 |
 | `qwen3-32b` | 8 | 32 | ❌ | 0.27 | 1.1 |
 
+### Upstage (2 models)
+
+| Model Name | Max Tokens | Context Window | Image Support | Input Price ($/1M tokens) | Output Price ($/1M tokens) |
+|------------|------------|----------------|---------------|-------------|--------------|
+| `solar-pro2` | 4 | 32 | ❌ | 0.15 | 0.6 |
+| `solar-mini` | 4 | 32 | ❌ | 0.15 | 0.15 |
+
 ### Naver Cloud (3 models)
 
 | Model Name | Max Tokens | Context Window | Image Support | Input Price ($/1M tokens) | Output Price ($/1M tokens) |
 |------------|------------|----------------|---------------|-------------|--------------|
-| `HCX-007` | 32 | 128 | ❌ | N/A | N/A |
-| `HCX-005` | 4 | 128 | ✅ | N/A | N/A |
-| `HCX-DASH-002` | 4 | 32 | ❌ | N/A | N/A |
+| `HCX-007` | 32 | 128 | ❌ | 0.9 | 3.5 |
+| `HCX-005` | 4 | 128 | ✅ | 0.9 | 3.5 |
+| `HCX-DASH-002` | 4 | 32 | ❌ | 0.2 | 0.7 |
 
 ### Baseten (9 models)
 
@@ -545,6 +560,6 @@ Total **20 providers** supporting **263 unique models** (346 total model definit
 
 ---
 
-**Caret supports 263 unique AI models across 20 providers.**
+**Caret supports 266 unique AI models across 31 providers.**
 
 *This document is automatically generated by `caret-scripts/generate-support-model-list.js`*

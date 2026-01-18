@@ -1,25 +1,41 @@
 # 变更日志
 
 <div align="center">
+  <!-- Sovereign Cloud Languages: Provider Country = UI Language Support -->
   <table>
     <tr>
       <td align="center">
         <a href="../../CHANGELOG.md">
-          <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
+          <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
         </a>
       </td>
       <td align="center">
-        <a href="../ko/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
+        <a href="./CHANGELOG.ko.md">
+          <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <a href="../ja/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
+        <a href="./CHANGELOG.ja.md">
+          <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
         </a>
       </td>
-      <td align-center>
-        <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+      <td align="center">
+        <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="4">
+        <a href="./CHANGELOG.fr.md">
+          <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
+        </a>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.de.md">
+          <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
+        </a>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.ru.md">
+          <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
+        </a>
       </td>
     </tr>
   </table>
@@ -34,6 +50,7 @@
 - **[Upstage](https://upstage.ai/) 提供商**: 新增支持Upstage Solar模型的提供商。
 - **文本模型图像工具**: 纯文本模型也可以使用Caret账号工具进行图像生成和分析。
 - **Skills系统** (Cline v3.49.0+ Cherry-pick): 添加了可定义项目级技能供AI使用的Skills系统。可在`.agents/skills/`或`.users/skills/`目录中管理技能。
+- **Hooks系统** (Cline v3.49.0+ Cherry-pick): 添加了可在工具执行前/后运行自定义脚本的Hooks系统。可在`.agents/hooks/`或`.users/hooks/`目录中管理hooks。
 - **双目录架构**: 可分离管理AI用(`.agents/`)上下文和人类用(`.users/`)文档。AI优先参考经过令牌优化的`.agents/`上下文。
 - **HWP文档支持**: 支持跨平台HWP解析。Windows、macOS、Linux均可读取韩文(.hwp)文档。
 - **read_document工具**: 新增可读取HWP、PDF、DOCX、PPTX等多种文档格式的统一文档读取工具。同时支持PPT旧版格式检测。
@@ -42,6 +59,8 @@
 - **图像发送开关**: 添加了可通过@提及设置是否发送图像文件的切换功能。
 
 ### ✨ 改进
+- **语言扩展**: 新增法语、德语、俄语翻译。优先支持拥有自主AI模型的国家（Mistral、Aleph Alpha、Yandex 等）。
+- **提供商国旗**: 为提供商显示国家旗帜（主权云视角）。
 - **全局上下文路径变更**: 全局代理设置路径更改为`~/Documents/.agents/`。
 - **多语言支持**: 为Hooks和Skills功能添加了韩语、日语、中文翻译。
 - **YAML frontmatter解析**: 添加了Skills/Hooks共享的YAML解析工具。

@@ -23,6 +23,7 @@ import type { IFullyManagedTool } from "@core/task/tools/ToolExecutorCoordinator
 import type { TaskConfig } from "@core/task/tools/types/TaskConfig"
 import type { StronglyTypedUIHelpers } from "@core/task/tools/types/UIHelpers"
 import { ToolResultUtils } from "@core/task/tools/utils/ToolResultUtils"
+import { ensureBlockOperationId } from "@caret/core/task/tools/utils/operationIdUtils"
 
 type ToolImageUsage = {
 	inputTokens?: number
@@ -528,6 +529,10 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 	}
 
 	async handlePartialBlock(block: ToolUse, uiHelpers: StronglyTypedUIHelpers): Promise<void> {
+		// CARET MODIFICATION: Generate deterministic operationId based on block content (not time-based)
+		// This ensures same tool call always gets same operationId even if block object is recreated
+		const operationId = ensureBlockOperationId(block, ["prompt", "model", "aspect_ratio", "image_size"])
+
 		const prompt = uiHelpers.removeClosingTag(block, "prompt", block.params.prompt || "")
 		const sharedMessageProps: ToolImageMessage = {
 			tool: "generateImage",
@@ -541,14 +546,17 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 		const partialMessage = JSON.stringify(sharedMessageProps)
 
-		// CARET MODIFICATION: Use say for partial block (no approval buttons)
-		// Approval will be handled in execute() when block is complete
-		await uiHelpers.removeLastPartialMessageIfExistsWithType("say", "tool")
-		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial)
+		// CARET MODIFICATION: Use deterministic operationId for reliable message updates (prevents duplicate UI)
+		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial, operationId)
 	}
 
 	async execute(config: TaskConfig, block: ToolUse): Promise<ToolResponse> {
+		// CARET MODIFICATION: Generate deterministic operationId based on block content (not time-based)
+		// This ensures same tool call always gets same operationId even if block object is recreated
+		const operationId = ensureBlockOperationId(block, ["prompt", "model", "aspect_ratio", "image_size"])
+
 		try {
+
 			const prompt = (block.params.prompt || "").trim()
 			const model = (block.params.model || "").trim()
 			const aspectRatio = (block.params.aspect_ratio || "").trim()
@@ -593,11 +601,9 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 
 			const completeMessage = buildMessage()
 
-			// CARET MODIFICATION: Remove partial "say" message before showing complete message
-			await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")
-
+			// CARET MODIFICATION: Use operationId for reliable message updates (no need for removeLastPartialMessageIfExistsWithType)
 			if (config.callbacks.shouldAutoApproveTool(this.name)) {
-				await config.callbacks.say("tool", completeMessage, undefined, undefined, true)
+				await config.callbacks.say("tool", completeMessage, undefined, undefined, true, operationId)
 				telemetryService.captureToolUsage(
 					config.ulid,
 					"generate_image",
@@ -615,7 +621,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					config.autoApprovalSettings.enableNotifications,
 				)
 
-				const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config)
+				const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config, operationId)
 				if (!didApprove) {
 					telemetryService.captureToolUsage(
 						config.ulid,
@@ -737,6 +743,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 						: nextProgress
 				progressText = trimmedProgress
 
+				// CARET MODIFICATION: Use operationId for reliable message updates
 				await config.callbacks.say(
 					"tool",
 					buildMessage({
@@ -749,6 +756,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					undefined,
 					undefined,
 					true,
+					operationId,
 				)
 			}
 
@@ -900,6 +908,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					undefined,
 					undefined,
 					false,
+					operationId,
 				)
 				return formatResponse.toolError(streamError)
 			}
@@ -922,6 +931,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 					undefined,
 					undefined,
 					false,
+					operationId,
 				)
 				return formatResponse.toolError(noImageError)
 			}
@@ -937,6 +947,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			const savedMarkdownRelativePath = savedMarkdownPath
@@ -964,6 +975,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 		} catch (error) {
 			const message = (error as Error).message || "Image generation failed."
 			Logger.error(`[GenerateImage] Failed: ${message}`, error as Error)
+			// CARET MODIFICATION: Use deterministic operationId for reliable message updates
 			await config.callbacks.say(
 				"tool",
 				JSON.stringify({
@@ -974,6 +986,7 @@ export class GenerateImageToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 			return formatResponse.toolError(message)
 		}

@@ -1,24 +1,40 @@
 # 変更履歴
 
 <div align="center">
+  <!-- Sovereign Cloud Languages: Provider Country = UI Language Support -->
   <table>
     <tr>
       <td align="center">
         <a href="../../CHANGELOG.md">
-          <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
+          <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
         </a>
       </td>
       <td align="center">
-        <a href="../ko/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
+        <a href="./CHANGELOG.ko.md">
+          <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
+        <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
       </td>
-      <td align-center>
-        <a href="../zh-cn/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+      <td align="center">
+        <a href="./CHANGELOG.zh-cn.md">
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="4">
+        <a href="./CHANGELOG.fr.md">
+          <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
+        </a>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.de.md">
+          <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
+        </a>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.ru.md">
+          <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
       </td>
     </tr>
@@ -34,6 +50,7 @@
 - **[Upstage](https://upstage.ai/) プロバイダー**: Upstage Solarモデルをサポートする新しいプロバイダーを追加しました。
 - **テキストモデル用画像ツール**: テキスト専用モデルでもCaretアカウントのツールを使用して画像生成・分析が可能になりました。
 - **Skillsシステム** (Cline v3.49.0+ チェリーピック): プロジェクト別のスキルを定義してAIが活用できるSkillsシステムを追加しました。`.agents/skills/`または`.users/skills/`ディレクトリでスキルを管理できます。
+- **Hooksシステム** (Cline v3.49.0+ チェリーピック): ツール実行の前後にカスタムスクリプトを実行できるHooksシステムを追加しました。`.agents/hooks/`または`.users/hooks/`ディレクトリでフックを管理できます。
 - **デュアルディレクトリアーキテクチャ**: AI用(`.agents/`)コンテキストと人間用(`.users/`)ドキュメントを分けて管理できます。AIはトークン最適化された`.agents/`コンテキストを優先参照します。
 - **HWPドキュメントサポート**: クロスプラットフォームHWPパースをサポートします。Windows、macOS、Linuxすべてで韓国語(.hwp)ドキュメントを読めます。
 - **read_documentツール**: HWP、PDF、DOCX、PPTXなど様々なドキュメント形式を読み込む統合ドキュメント読み取りツールを追加しました。PPTレガシーフォーマット検出もサポートします。
@@ -42,6 +59,8 @@
 - **画像送信トグル**: @メンションで画像ファイル送信の有無を設定できるトグル機能を追加しました。
 
 ### ✨ 改善
+- **言語拡張**: フランス語、ドイツ語、ロシア語の翻訳を追加しました。独自のAIモデルを持つ国(Mistral, Aleph Alpha, Yandex など)を優先します。
+- **プロバイダー国旗**: プロバイダーに国旗を表示します (Sovereign Cloud 観点)。
 - **グローバルコンテキストパス変更**: グローバルエージェント設定パスが`~/Documents/.agents/`に変更されました。
 - **多言語サポート**: HooksおよびSkills機能の韓国語、日本語、中国語翻訳を追加しました。
 - **YAMLフロントマターパース**: Skills/Hooksで共有されるYAMLパースユーティリティを追加しました。

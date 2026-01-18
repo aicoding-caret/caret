@@ -56,7 +56,7 @@ Caret은 Cline을 기반으로 한 자율 AI 코딩 어시스턴트로, 다음�
 - **[F13: 이미지 생성 도구](./f13-image-tool.md)**
   이미지 생성, 저장, 히스토리 표시 기능
 
-- **[F15: 문서 읽기 도구](./f15-document-read-tool.md)**
+- **[F15: 문서 읽기 도구](./f14-document-read-tool.md)**
   LLM이 PDF, DOCX, HWPX, HWP, PPTX 등 문서를 경로만으로 직접 읽기 (Caret 전용)
 
 ---

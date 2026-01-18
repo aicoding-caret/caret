@@ -14,6 +14,7 @@ import { formatResponse } from "@core/prompts/responses"
 import { getReadablePath, isLocatedInPath } from "@utils/path"
 
 import { DocumentExtractor } from "@caret/integrations/document/document-extractor"
+import { ensureBlockOperationId } from "@caret/core/task/tools/utils/operationIdUtils"
 
 import type { ToolResponse } from "@core/task"
 import type { IFullyManagedTool } from "@core/task/tools/ToolExecutorCoordinator"
@@ -88,6 +89,8 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 	}
 
 	async handlePartialBlock(block: ToolUse, uiHelpers: StronglyTypedUIHelpers): Promise<void> {
+		// CARET MODIFICATION: Reuse a stable operationId for streaming UI updates (prevents duplicate tool cards)
+		const operationId = ensureBlockOperationId(block, ["path"])
 		const documentPath = block.params.path
 
 		const sharedMessageProps: ToolReadDocumentMessage = {
@@ -97,10 +100,12 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 		}
 
 		const partialMessage = JSON.stringify(sharedMessageProps)
-		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial)
+		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial, operationId)
 	}
 
 	async execute(config: TaskConfig, block: ToolUse): Promise<ToolResponse> {
+		// CARET MODIFICATION: Reuse a stable operationId for progress updates (prevents duplicate tool cards)
+		const operationId = ensureBlockOperationId(block, ["path"])
 		const documentPath: string | undefined = block.params.path
 
 		// Extract provider information for telemetry
@@ -148,6 +153,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			return formatResponse.toolError(message)
@@ -184,6 +190,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			return formatResponse.toolError(errorMsg)
@@ -195,7 +202,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 			fileSize: fileSizeStr,
 			operationIsLocatedInWorkspace: isInWorkspace,
 		})
-		await config.callbacks.say("tool", completeMessage, undefined, undefined, false)
+		await config.callbacks.say("tool", completeMessage, undefined, undefined, false, operationId)
 
 		// Telemetry
 		telemetryService.captureToolUsage(
@@ -235,6 +242,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 			undefined,
 			undefined,
 			true,
+			operationId,
 		)
 
 		try {
@@ -269,6 +277,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			// Return extracted content with metadata
@@ -295,6 +304,7 @@ export class ReadDocumentToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			return formatResponse.toolError(message)

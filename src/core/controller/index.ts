@@ -927,6 +927,7 @@ export class Controller {
 		const autoCondenseThreshold = this.stateManager.getGlobalSettingsKey("autoCondenseThreshold")
 		const imageGenerationAspectRatio = this.stateManager.getGlobalSettingsKey("imageGenerationAspectRatio")
 		const imageGenerationSize = this.stateManager.getGlobalSettingsKey("imageGenerationSize")
+		const imageAnalysisModel = this.stateManager.getGlobalSettingsKey("imageAnalysisModel")
 
 		const currentTaskItem = this.task?.taskId ? (taskHistory || []).find((item) => item.id === this.task?.taskId) : undefined
 		const clineMessages = this.task?.messageStateHandler.getClineMessages() || []
@@ -1004,6 +1005,7 @@ export class Controller {
 			autoCondenseThreshold,
 			imageGenerationAspectRatio,
 			imageGenerationSize,
+			imageAnalysisModel,
 			backgroundCommandRunning: this.backgroundCommandRunning,
 			backgroundCommandTaskId: this.backgroundCommandTaskId,
 			featureConfig,

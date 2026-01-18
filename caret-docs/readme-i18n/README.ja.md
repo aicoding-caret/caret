@@ -17,28 +17,23 @@
       </td>
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.zh-cn.md">
-          <img src="https://img.shields.io/badge/🇨🇳_中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
         </a>
       </td>
     </tr>
     <tr>
-      <td align="center">
+      <td align="center" colspan="4">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
-      </td>
-      <td align="center">
-        <!-- More languages coming soon -->
       </td>
     </tr>
   </table>
@@ -46,7 +41,7 @@
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret" width="360"/>
 
   <h1>🎯 Caret</h1>
-  <p><strong>Cline設定そのまま、より多くの機能、263モデル対応、毎月無料クレジット</strong></p>
+  <p><strong>Cline設定そのまま、より多くの機能、266モデル対応、毎月無料クレジット</strong></p>
 
 > [v0.4.5 アップデート] **コスパ最強GLM-4.7 APIキー対応 / テキストモデルでもCaretアカウントでNano Banana画像生成・Gemini分析 / HWP/PDF/DOCX/PPTXドキュメントツール**
 
@@ -89,7 +84,7 @@
 **Clineユーザーならすぐ始められます。**
 
 - 既存のCline設定/アカウントそのまま使用
-- 20プロバイダー、263モデル対応
+- 31プロバイダー、266モデル対応
 - Caretアカウント無料クレジット
 - いつでもClineモードに切替可能
 
@@ -185,7 +180,7 @@ Clineで対応していないモデルをCaretで使用できます。
 | F11 | 入力履歴 & ショートカット | [詳細](../features.en/f11-input-history-and-shortcuts.md) |
 | F12 | AI-開発者知識同等性 | [詳細](../features.en/f12-ai-developer-knowledge-parity.md) |
 | F13 | 画像ツール | [詳細](../features.en/f13-image-tool.md) |
-| F15 | ドキュメントツール | [詳細](../features.en/f15-document-read-tool.md) |
+| F14 | ドキュメントツール | [詳細](../features.en/f14-document-read-tool.md) |
 
 ---
 

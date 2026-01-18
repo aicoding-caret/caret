@@ -94,6 +94,9 @@ describe("i18n Integration Tests", () => {
 			en: mockEnglishLocale as any,
 			ja: mockEnglishLocale as any, // Use English as fallback for test
 			zh: mockEnglishLocale as any, // Use English as fallback for test
+			fr: mockEnglishLocale as any, // Use English as fallback for test
+			de: mockEnglishLocale as any, // Use English as fallback for test
+			ru: mockEnglishLocale as any, // Use English as fallback for test
 		})
 	})
 
@@ -175,6 +178,9 @@ describe("i18n Integration Tests", () => {
 				en: {} as any,
 				ja: {} as any,
 				zh: {} as any,
+				fr: {} as any,
+				de: {} as any,
+				ru: {} as any,
 			})
 
 			setGlobalUILanguage("en")
@@ -190,6 +196,9 @@ describe("i18n Integration Tests", () => {
 				en: { common: null } as any,
 				ja: { common: null } as any,
 				zh: { common: null } as any,
+				fr: { common: null } as any,
+				de: { common: null } as any,
+				ru: { common: null } as any,
 			})
 
 			setGlobalUILanguage("en")
@@ -229,6 +238,9 @@ describe("i18n Integration Tests", () => {
 				en: brandedLocale as any,
 				ja: mockEnglishLocale as any,
 				zh: mockEnglishLocale as any,
+				fr: mockEnglishLocale as any,
+				de: mockEnglishLocale as any,
+				ru: mockEnglishLocale as any,
 			})
 
 			setGlobalUILanguage("en")

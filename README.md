@@ -17,28 +17,23 @@
       </td>
       <td align="center">
         <a href="caret-docs/readme-i18n/README.zh-cn.md">
-          <img src="https://img.shields.io/badge/🇨🇳_中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
         </a>
       </td>
     </tr>
     <tr>
-      <td align="center">
+      <td align="center" colspan="4">
         <a href="caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
-      </td>
-      <td align="center">
-        <!-- More languages coming soon -->
       </td>
     </tr>
   </table>
@@ -46,7 +41,7 @@
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret" width="360"/>
 
   <h1>🎯 Caret</h1>
-  <p><strong>Use your Cline settings as-is, with more features, 263 models, free monthly credits</strong></p>
+  <p><strong>Use your Cline settings as-is, with more features, 266 models, free monthly credits</strong></p>
 
 > [v0.4.5 Update] **Cost-effective GLM-4.7 API key support / Text models can generate & analyze images via Caret account / HWP/PDF/DOCX/PPTX document tools**
 
@@ -81,6 +76,7 @@
 - 🧩 **Skills/Hooks** — Define project-specific AI skills
 - 📁 **Dual Directory** — Separate AI (.agents/) and human (.users/) context
 - 🖼️ **Image Send Toggle** — Set image file send via @mention
+- 🌍 **Language Expansion** — French, German, Russian (countries with own AI models) + Provider country flags
 
 ---
 
@@ -89,7 +85,7 @@
 **Cline users can start right away.**
 
 - Use existing Cline settings/accounts as-is
-- 20 providers, 263 models supported
+- 31 providers, 266 models supported
 - Caret account free credits
 - Switch to Cline mode anytime
 
@@ -185,7 +181,7 @@ Available via Caret account even for text-only models.
 | F11 | Input history & shortcuts | [View](caret-docs/features.en/f11-input-history-and-shortcuts.md) |
 | F12 | AI-developer knowledge parity | [View](caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
 | F13 | Image tools | [View](caret-docs/features.en/f13-image-tool.md) |
-| F15 | Document tools | [View](caret-docs/features.en/f15-document-read-tool.md) |
+| F14 | Document tools | [View](caret-docs/features.en/f14-document-read-tool.md) |
 
 ---
 

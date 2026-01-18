@@ -19,26 +19,21 @@
       </td>
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.zh-cn.md">
-          <img src="https://img.shields.io/badge/🇨🇳_中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
         </a>
       </td>
     </tr>
     <tr>
-      <td align="center">
+      <td align="center" colspan="4">
         <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
-      </td>
-      <td align="center">
-        <!-- More languages coming soon -->
       </td>
     </tr>
   </table>
@@ -46,9 +41,9 @@
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret" width="360"/>
 
   <h1>🎯 Caret</h1>
-  <p><strong>Use your Cline settings as-is, with more features, 263 models, free monthly credits</strong></p>
+  <p><strong>Utilisez vos paramètres Cline tels quels, avec plus de fonctionnalités, 266 modèles, crédits mensuels gratuits</strong></p>
 
-> [v0.4.5 Update] **Cost-effective GLM-4.7 API key support / Text models can generate & analyze images via Caret account / HWP/PDF/DOCX/PPTX document tools**
+> [Mise à jour v0.4.5] **Support de la clé API GLM-4.7 économique / Les modèles texte peuvent générer et analyser des images via le compte Caret / Outils documentaires HWP/PDF/DOCX/PPTX**
 
   <p>
     <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret">
@@ -61,11 +56,11 @@
 
   <p>
     <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret">
-      <strong>[ 📥 Install on VS Code ]</strong>
+      <strong>[ 📥 Installer sur VS Code ]</strong>
     </a>
     &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="https://docs.caret.team/en/getting-started/what-is-caret">
-      <strong>[ 📖 Docs ]</strong>
+    <a href="https://docs.caret.team/fr/getting-started/what-is-caret">
+      <strong>[ 📖 Documentation ]</strong>
     </a>
   </p>
 </div>
@@ -74,37 +69,37 @@
 
 ## 🎉 v0.4.5
 
-- 🤖 **GLM-4.7** — Cost-effective Thinking Mode, just use your API key
-- 🖼️ **Image Tools** — Text models can generate images (Nano Banana) & analyze (Gemini Flash) via Caret account
-- 📄 **Document Tools** — HWP, PDF, DOCX, PPTX cross-platform support
-- ☀️ **Upstage** — Korea's independent AI foundation model provider, Solar Pro/Mini support
-- 🧩 **Skills/Hooks** — Define project-specific AI skills
-- 📁 **Dual Directory** — Separate AI (.agents/) and human (.users/) context
-- 🖼️ **Image Send Toggle** — Set image file send via @mention
+- 🤖 **GLM-4.7** — Mode Thinking économique, utilisez simplement votre clé API
+- 🖼️ **Outils Image** — Les modèles texte peuvent générer des images (Nano Banana) et analyser (Gemini Flash) via le compte Caret
+- 📄 **Outils Document** — Support multiplateforme HWP, PDF, DOCX, PPTX
+- ☀️ **Upstage** — Fournisseur coréen de modèles IA fondamentaux, support Solar Pro/Mini
+- 🧩 **Skills/Hooks** — Définissez des compétences IA spécifiques au projet
+- 📁 **Double Répertoire** — Séparez le contexte IA (.agents/) et humain (.users/)
+- 🖼️ **Basculement Envoi Image** — Configurez l'envoi de fichiers image via @mention
 
 ---
 
-## 🔄 Cline Compatible + Extended
+## 🔄 Compatible Cline + Étendu
 
-**Cline users can start right away.**
+**Les utilisateurs Cline peuvent commencer immédiatement.**
 
-- Use existing Cline settings/accounts as-is
-- 20 providers, 263 models supported
-- Caret account free credits
-- Switch to Cline mode anytime
+- Utilisez vos paramètres/comptes Cline existants tels quels
+- 31 fournisseurs, 266 modèles supportés
+- Crédits gratuits du compte Caret
+- Passez en mode Cline à tout moment
 
 ---
 
-## 🔀 Dual Mode
+## 🔀 Mode Double
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Cline_Mode-Classic-blue?style=for-the-badge" alt="Cline Mode"/>
+  <img src="https://img.shields.io/badge/Cline_Mode-Classique-blue?style=for-the-badge" alt="Mode Cline"/>
   <strong> ⇄ </strong>
-  <img src="https://img.shields.io/badge/Caret_Mode-Extended-green?style=for-the-badge" alt="Caret Mode"/>
+  <img src="https://img.shields.io/badge/Caret_Mode-Étendu-green?style=for-the-badge" alt="Mode Caret"/>
 </div>
 
-**Cline Mode**: Plan/Act workflow, proven stability
-**Caret Mode**: Persona, localization, optimized prompts
+**Mode Cline** : Workflow Plan/Act, stabilité éprouvée
+**Mode Caret** : Persona, localisation, prompts optimisés
 
 ---
 
@@ -116,12 +111,12 @@
 <td align="center" width="110">
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret.png" width="60"/><br/>
   <strong>Caret</strong><br/>
-  <small>Friendly Robot</small>
+  <small>Robot Amical</small>
 </td>
 <td align="center" width="110">
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/sarang.png" width="60"/><br/>
   <strong>Sarang</strong><br/>
-  <small>K-POP Idol</small>
+  <small>Idole K-POP</small>
 </td>
 <td align="center" width="110">
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ichika.png" width="60"/><br/>
@@ -131,61 +126,61 @@
 <td align="center" width="110">
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/cyan.png" width="60"/><br/>
   <strong>Cyan</strong><br/>
-  <small>macOS Helper</small>
+  <small>Assistant macOS</small>
 </td>
 <td align="center" width="110">
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/ubuntu.png" width="60"/><br/>
   <strong>Tando</strong><br/>
-  <small>Open Source Ally</small>
+  <small>Allié Open Source</small>
 </td>
 </tr>
 </table>
 </div>
 
-Customize AI name and profile freely.
+Personnalisez librement le nom et le profil de l'IA.
 
 ---
 
-## ☁️ Caret Additional Models
+## ☁️ Modèles Supplémentaires Caret
 
-Models not supported by Cline, available in Caret.
+Modèles non supportés par Cline, disponibles dans Caret.
 
-- **Z.AI** GLM-4.7 (Thinking Mode)
+- **Z.AI** GLM-4.7 (Mode Thinking)
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
-- **BizRouter** Multi-model routing
+- **BizRouter** Routage multi-modèles
 
 ---
 
-## 🛠️ Image/Document Tools
+## 🛠️ Outils Image/Document
 
-Available via Caret account even for text-only models.
+Disponibles via le compte Caret même pour les modèles texte uniquement.
 
-- **generate_image** — Image generation (Nano Banana)
-- **analyze_image** — Image analysis (Gemini)
-- **read_document** — HWP, PDF, DOCX, PPTX reading
+- **generate_image** — Génération d'images (Nano Banana)
+- **analyze_image** — Analyse d'images (Gemini)
+- **read_document** — Lecture HWP, PDF, DOCX, PPTX
 
 ---
 
-## 📋 15 Core Features
+## 📋 15 Fonctionnalités Principales
 
-| Feature | Description | Docs |
-|---------|-------------|------|
-| F00 | Cline bugfix & stability | [View](caret-docs/features.en/f00-cline-bugfix-patch.md) |
-| F01 | Common utilities | [View](caret-docs/features.en/f01-common-util.md) |
-| F02 | Multilingual i18n | [View](caret-docs/features.en/f02-multilingual-i18n.md) |
-| F03 | Branding & UI | [View](caret-docs/features.en/f03-branding-ui.md) |
-| F04 | Cline compatibility | [View](caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
-| F05 | Caret account | [View](caret-docs/features.en/f05-caret-account.md) |
-| F06 | Agent standardization (AAIF) | [View](caret-docs/features.en/f06-agent-standardization.md) |
-| F07 | Prompt system | [View](caret-docs/features.en/f07-caret-prompt-system.md) |
-| F08 | Persona system | [View](caret-docs/features.en/f08-persona-system.md) |
-| F09 | Feature Config | [View](caret-docs/features.en/f09-feature-config-system.md) |
-| F10 | Provider setup | [View](caret-docs/features.en/f10-enhanced-provider-setup.md) |
-| F11 | Input history & shortcuts | [View](caret-docs/features.en/f11-input-history-and-shortcuts.md) |
-| F12 | AI-developer knowledge parity | [View](caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
-| F13 | Image tools | [View](caret-docs/features.en/f13-image-tool.md) |
-| F15 | Document tools | [View](caret-docs/features.en/f15-document-read-tool.md) |
+| Fonctionnalité | Description | Docs |
+|----------------|-------------|------|
+| F00 | Corrections de bugs Cline et stabilité | [Voir](../features.en/f00-cline-bugfix-patch.md) |
+| F01 | Utilitaires communs | [Voir](../features.en/f01-common-util.md) |
+| F02 | i18n multilingue | [Voir](../features.en/f02-multilingual-i18n.md) |
+| F03 | Branding et UI | [Voir](../features.en/f03-branding-ui.md) |
+| F04 | Compatibilité Cline | [Voir](../features.en/f04-cline-compatibility-and-cli.md) |
+| F05 | Compte Caret | [Voir](../features.en/f05-caret-account.md) |
+| F06 | Standardisation Agent (AAIF) | [Voir](../features.en/f06-agent-standardization.md) |
+| F07 | Système de prompts | [Voir](../features.en/f07-caret-prompt-system.md) |
+| F08 | Système de persona | [Voir](../features.en/f08-persona-system.md) |
+| F09 | Feature Config | [Voir](../features.en/f09-feature-config-system.md) |
+| F10 | Configuration fournisseur | [Voir](../features.en/f10-enhanced-provider-setup.md) |
+| F11 | Historique de saisie et raccourcis | [Voir](../features.en/f11-input-history-and-shortcuts.md) |
+| F12 | Parité des connaissances IA-développeur | [Voir](../features.en/f12-ai-developer-knowledge-parity.md) |
+| F13 | Outils image | [Voir](../features.en/f13-image-tool.md) |
+| F14 | Outils document | [Voir](../features.en/f14-document-read-tool.md) |
 
 ---
 
@@ -198,12 +193,12 @@ Available via Caret account even for text-only models.
 ---
 
 <details>
-<summary><strong>🛠️ For Developers</strong></summary>
+<summary><strong>🛠️ Pour les Développeurs</strong></summary>
 
-- [Developer Docs](caret-docs/development/index.md)
-- [Architecture](caret-docs/development/caret-architecture-and-implementation-guide.md)
-- [AI Work Guide](caret-docs/guides/ai-work-method-guide.md)
+- [Documentation Développeur](../development/index.md)
+- [Architecture](../development/caret-architecture-and-implementation-guide.md)
+- [Guide de Travail IA](../guides/ai-work-method-guide.md)
 
-**Contribute**: Fork → PR
+**Contribuer** : Fork → PR
 
 </details>

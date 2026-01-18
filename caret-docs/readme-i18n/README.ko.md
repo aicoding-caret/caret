@@ -17,28 +17,23 @@
       </td>
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.zh-cn.md">
-          <img src="https://img.shields.io/badge/🇨🇳_中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
         </a>
       </td>
     </tr>
     <tr>
-      <td align="center">
+      <td align="center" colspan="4">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
-      </td>
-      <td align="center">
-        <!-- More languages coming soon -->
       </td>
     </tr>
   </table>
@@ -46,7 +41,7 @@
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret" width="360"/>
 
   <h1>🎯 Caret</h1>
-  <p><strong>Cline 설정 그대로, 더 많은 기능을, 263개 모델 지원, Caret계정 매월 무료 크레딧 지급</strong></p>
+  <p><strong>Cline 설정 그대로, 더 많은 기능을, 266개 모델 지원, Caret계정 매월 무료 크레딧 지급</strong></p>
 
 > [v0.4.5 업데이트] **가성비 GLM-4.7 모델API키 지원 / 텍스트 모델도 Caret 계정으로 나노바나나 이미지 생성 및 분석 / HWP/PDF/DOCX/PPTX 문서 도구**
 
@@ -89,7 +84,7 @@
 **Cline 사용자라면 바로 시작하세요.**
 
 - 기존 Cline 설정/계정 그대로 사용
-- 20개 프로바이더, 263개 모델 지원
+- 31개 프로바이더, 266개 모델 지원
 - Caret 계정 무료 크레딧 지급
 - 언제든 Cline 모드로 전환 가능
 
@@ -185,7 +180,7 @@ Cline에서 지원하지 않는 모델을 Caret에서 사용할 수 있습니다
 | F11 | 입력 기록 & 단축키 | [보기](../features.en/f11-input-history-and-shortcuts.md) |
 | F12 | AI-개발자 지식 동등성 | [보기](../features.en/f12-ai-developer-knowledge-parity.md) |
 | F13 | 이미지 도구 | [보기](../features.en/f13-image-tool.md) |
-| F15 | 문서 도구 | [보기](../features.en/f15-document-read-tool.md) |
+| F14 | 문서 도구 | [보기](../features.en/f14-document-read-tool.md) |
 
 ---
 

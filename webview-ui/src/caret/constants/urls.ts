@@ -97,12 +97,14 @@ export const CARET_LOCALIZED_URLS = {
 
 export type CaretUrlKey = keyof typeof CARET_URLS
 export type CaretLocalizedUrlKey = keyof typeof CARET_LOCALIZED_URLS
-export type SupportedLanguage = "ko" | "en" | "ja" | "zh"
+export type SupportedLanguage = "ko" | "en" | "ja" | "zh" | "fr" | "de" | "ru"
 
 // Helper function to get localized URL
 export function getLocalizedUrl(key: CaretLocalizedUrlKey, language: SupportedLanguage = "ko"): string {
 	const urlMap = CARET_LOCALIZED_URLS[key]
-	return urlMap[language] || urlMap.ko // Fallback to Korean
+	// fr, de, ru는 URL이 없으므로 en으로 fallback, 그 외는 ko로 fallback
+	const fallbackLang = ["fr", "de", "ru"].includes(language) ? "en" : language
+	return (urlMap as Record<string, string>)[fallbackLang] || urlMap.ko
 }
 
 // Helper function to get general URL

@@ -82,7 +82,7 @@ export const useCaretI18n = (): UseCaretI18nReturn => {
 	)
 
 	const isLanguageSupported = useCallback((language: string): language is SupportedLanguage => {
-		return ["ko", "en", "ja", "zh"].includes(language)
+		return ["ko", "en", "ja", "zh", "fr", "de", "ru"].includes(language)
 	}, [])
 
 	// Preload multiple languages for better UX

@@ -29,5 +29,15 @@
 
 # Key Principles
 1. **1:1 Mirroring**: `.users/` 구조는 `.agents/`를 정확히 미러링
-2. **Language Optimization**: `.agents/`는 영어 (토큰 효율), `.users/`는 팀 언어
+2. **Language Optimization**: `.agents/`는 영어 (토큰 효율), `.users/`는 사용자/팀 언어
 3. **SoT**: `.agents/context/agents-rules.json`이 유일한 규칙 소스
+
+# Mirroring Rules
+`.agents/` 또는 `.users/` 파일 수정 시 반드시 양쪽을 동기화:
+- `context/` - 프로젝트 컨텍스트/규칙
+- `workflows/` - 작업 워크플로우
+- `skills/` - 스킬 정의 (SKILL.md)
+- `hooks/` - 훅 정의
+
+스킬 생성 시: `.agents/skills/[name]/SKILL.md`와 `.users/skills/[name]/SKILL.md` 모두 생성
+템플릿: `SKILL_TEMPLATE.md` 참조

@@ -22,6 +22,7 @@ import type { IFullyManagedTool } from "@core/task/tools/ToolExecutorCoordinator
 import type { ToolValidator } from "@core/task/tools/ToolValidator"
 import type { TaskConfig } from "@core/task/tools/types/TaskConfig"
 import type { StronglyTypedUIHelpers } from "@core/task/tools/types/UIHelpers"
+import { ensureBlockOperationId } from "@caret/core/task/tools/utils/operationIdUtils"
 
 type ToolAnalyzeImageMessage = ClineSayTool & {
 	tool: "analyzeImage"
@@ -108,6 +109,10 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 	}
 
 	async handlePartialBlock(block: ToolUse, uiHelpers: StronglyTypedUIHelpers): Promise<void> {
+		// CARET MODIFICATION: Generate deterministic operationId based on block content (not time-based)
+		// This ensures same tool call always gets same operationId even if block object is recreated
+		const operationId = ensureBlockOperationId(block, ["image", "path", "question", "prompt"])
+
 		const imagePath = block.params.image || block.params.path
 		const question = block.params.question || block.params.prompt
 
@@ -119,12 +124,15 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 		}
 
 		const partialMessage = JSON.stringify(sharedMessageProps)
-		// CARET MODIFICATION: Remove previous partial message to prevent duplicates
-		await uiHelpers.removeLastPartialMessageIfExistsWithType("say", "tool")
-		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial)
+		// CARET MODIFICATION: Use deterministic operationId for reliable message updates (prevents duplicate UI)
+		await uiHelpers.say("tool", partialMessage, undefined, undefined, block.partial, operationId)
 	}
 
 	async execute(config: TaskConfig, block: ToolUse): Promise<ToolResponse> {
+		// CARET MODIFICATION: Generate deterministic operationId based on block content (not time-based)
+		// This ensures same tool call always gets same operationId even if block object is recreated
+		const operationId = ensureBlockOperationId(block, ["image", "path", "question", "prompt"])
+
 		// Support both 'image' and 'path' parameter names
 		const imagePath: string | undefined = block.params.image || block.params.path
 		// Support both 'question' and 'prompt' parameter names
@@ -189,15 +197,13 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 		// Check if should auto-approve based on settings and path location
 		const shouldAutoApprove = await config.callbacks.shouldAutoApproveToolWithPath(this.name, absoluteImagePath)
 
-		// CARET MODIFICATION: Remove partial message before showing complete message
-		await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")
-
+		// CARET MODIFICATION: Use operationId for reliable message updates (no need for removeLastPartialMessageIfExistsWithType)
 		if (shouldAutoApprove) {
 			// Auto-approve: show message with partial=true to maintain chain for later updates
-			await config.callbacks.say("tool", completeMessage, undefined, undefined, true)
+			await config.callbacks.say("tool", completeMessage, undefined, undefined, true, operationId)
 		} else {
 			// Manual approval required - show approval UI and wait for user decision
-			const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config)
+			const didApprove = await ToolResultUtils.askApprovalAndPushFeedback("tool", completeMessage, config, operationId)
 			if (!didApprove) {
 				// User rejected
 				telemetryService.captureToolUsage(
@@ -261,6 +267,7 @@ export class AnalyzeImageToolHandler implements IFullyManagedTool {
 				undefined,
 				undefined,
 				true,
+				operationId,
 			)
 
 			// Load image as data URL
@@ -382,6 +389,7 @@ Provide clear, structured analysis relevant to the user's question. If analyzing
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			return formatResponse.toolResult(analysisResult)
@@ -396,6 +404,7 @@ Provide clear, structured analysis relevant to the user's question. If analyzing
 				Logger.error("[AnalyzeImage] Error:", error as Error)
 			}
 
+			// CARET MODIFICATION: Use deterministic operationId for reliable message updates
 			await config.callbacks.say(
 				"tool",
 				buildMessage({
@@ -405,6 +414,7 @@ Provide clear, structured analysis relevant to the user's question. If analyzing
 				undefined,
 				undefined,
 				false,
+				operationId,
 			)
 
 			return formatResponse.toolError(message)

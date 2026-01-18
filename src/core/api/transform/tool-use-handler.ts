@@ -145,6 +145,7 @@ export class ToolUseHandler {
 					partial: true,
 					isNativeToolCall: true,
 					signature: pending.signature,
+					operationId: `native_tool_${pending.id}`,
 				})
 			} else {
 				const params: Record<string, string> = {}
@@ -160,6 +161,8 @@ export class ToolUseHandler {
 					partial: true,
 					signature: pending.signature,
 					isNativeToolCall: true,
+					// CARET MODIFICATION: Stable operationId across streaming deltas (prevents duplicate tool UI)
+					operationId: `native_tool_${pending.id}`,
 				})
 			}
 		}

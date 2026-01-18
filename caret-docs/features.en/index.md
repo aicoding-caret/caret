@@ -56,7 +56,7 @@ Caret builds on Cline while adding the following enhancements.
 - **[F13: Image Tool](./f13-image-tool.md)**
   Image generation, analysis, and history display features.
 
-- **[F15: Document Read Tool](./f15-document-read-tool.md)**
+- **[F15: Document Read Tool](./f14-document-read-tool.md)**
   LLM reads PDF, DOCX, HWPX, HWP, PPTX documents directly by path (Caret-only).
 
 ---

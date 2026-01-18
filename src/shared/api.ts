@@ -2896,7 +2896,7 @@ export const askSageModels = {
 		inputPrice: 0,
 		outputPrice: 0,
 	},
-}
+} as const satisfies Record<string, ModelInfo>
 
 // Nebius AI Studio
 // https://docs.nebius.com/studio/inference/models
@@ -3895,7 +3895,11 @@ export const upstageModels = {
 		maxTokens: 4_096,
 		contextWindow: 32_768,
 		supportsImages: false,
-		supportsPromptCache: false,
+		supportsPromptCache: true,
+		inputPrice: 0.15,
+		outputPrice: 0.6,
+		cacheWritesPrice: 0.15,
+		cacheReadsPrice: 0.015,
 		description: "Upstage Solar Pro 2 - Advanced language model for complex tasks.",
 	},
 	"solar-mini": {
@@ -3903,6 +3907,8 @@ export const upstageModels = {
 		contextWindow: 32_768,
 		supportsImages: false,
 		supportsPromptCache: false,
+		inputPrice: 0.15,
+		outputPrice: 0.15,
 		description: "Upstage Solar Mini - Lightweight and fast model.",
 	},
 } as const satisfies Record<string, ModelInfo>
@@ -3917,6 +3923,8 @@ export const naverCloudModels = {
 		contextWindow: 128_000,
 		supportsImages: false,
 		supportsPromptCache: false,
+		inputPrice: 0.9,
+		outputPrice: 3.5,
 		thinkingConfig: {
 			maxBudget: 20_480,
 		},
@@ -3927,6 +3935,8 @@ export const naverCloudModels = {
 		contextWindow: 128_000,
 		supportsImages: true,
 		supportsPromptCache: false,
+		inputPrice: 0.9,
+		outputPrice: 3.5,
 		description: "HyperCLOVA X multimodal vision model.",
 	},
 	"HCX-DASH-002": {
@@ -3934,6 +3944,8 @@ export const naverCloudModels = {
 		contextWindow: 32_000,
 		supportsImages: false,
 		supportsPromptCache: false,
+		inputPrice: 0.2,
+		outputPrice: 0.7,
 		description: "HyperCLOVA X lightweight fast model.",
 	},
 } as const satisfies Record<string, ModelInfo>

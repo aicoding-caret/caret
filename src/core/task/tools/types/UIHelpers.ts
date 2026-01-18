@@ -12,7 +12,8 @@ import type { TaskConfig } from "./TaskConfig"
  */
 export interface StronglyTypedUIHelpers {
 	// Core UI methods
-	say: (type: ClineSay, text?: string, images?: string[], files?: string[], partial?: boolean) => Promise<number | undefined>
+	// CARET MODIFICATION: Added operationId parameter for reliable message updates
+	say: (type: ClineSay, text?: string, images?: string[], files?: string[], partial?: boolean, operationId?: string) => Promise<number | undefined>
 
 	ask: (
 		type: ClineAsk,

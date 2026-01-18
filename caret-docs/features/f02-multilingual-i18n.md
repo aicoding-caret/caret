@@ -13,7 +13,7 @@ Caret의 **다국어 지원 시스템**은 **Sovereign Cloud** 원칙(Provider C
 - 🇨🇳 **중국어 (zh)**: 번역 지원 - Qwen, DeepSeek, Doubao, Moonshot 등
 - 🇫🇷 **프랑스어 (fr)**: 번역 지원 - Mistral
 - 🇩🇪 **독일어 (de)**: 번역 지원 - SAP AI Core
-- 🇷🇺 **러시아어 (ru)**: 번역 지원 - Nebius
+- 🇷🇺 **러시아어 (ru)**: 번역 지원 - Nebius'
 
 ### **네임스페이스 구조 원칙**
 

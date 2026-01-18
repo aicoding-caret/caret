@@ -1,24 +1,40 @@
-# Changelog
+# Änderungsprotokoll
 
 <div align="center">
+  <!-- Sovereign Cloud Languages: Provider Country = UI Language Support -->
   <table>
     <tr>
       <td align="center">
-        <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
-      </td>
-      <td align="center">
-        <a href="caret-docs/ko/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
+        <a href="../../CHANGELOG.md">
+          <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
         </a>
       </td>
       <td align="center">
-        <a href="caret-docs/ja/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
+        <a href="./CHANGELOG.ko.md">
+          <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <a href="caret-docs/zh-cn/CHANGELOG.md">
-          <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+        <a href="./CHANGELOG.ja.md">
+          <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
+        </a>
+      </td>
+      <td align="center">
+        <a href="./CHANGELOG.zh-cn.md">
+          <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="4">
+        <a href="./CHANGELOG.fr.md">
+          <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
+        </a>
+        &nbsp;&nbsp;
+        <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
+        &nbsp;&nbsp;
+        <a href="./CHANGELOG.ru.md">
+          <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
       </td>
     </tr>
@@ -27,148 +43,85 @@
 
 ## [0.4.5] 2026-01-18
 
-> **Note**: Caret v0.4.5 cherry-picks Skills system, Hooks i18n and other features from Cline v3.49.0+.
+> **Hinweis**: Caret v0.4.5 übernimmt das Skills-System, Hooks i18n und andere Funktionen von Cline v3.49.0+ via Cherry-Pick.
 
-### ✨ New Features
-- **Z.AI GLM-4.7 full support**: Supports Thinking Mode and natural conversation style.
-- **[Upstage](https://upstage.ai/) provider**: Added new provider supporting Upstage Solar models.
-- **Text model image tools**: Text-only models can now use Caret account tools for image generation and analysis.
-- **Skills system** (Cline v3.49.0+ cherry-pick): Define project-specific skills that AI can utilize. Manage skills in `.agents/skills/` or `.users/skills/` directories.
-- **Dual directory architecture**: Separate AI-optimized (`.agents/`) context from human-readable (`.users/`) documentation. AI prioritizes token-optimized `.agents/` context.
-- **HWP document support**: Cross-platform HWP parsing support for Windows, macOS, and Linux.
-- **read_document tool**: Unified document reading tool supporting HWP, PDF, DOCX, PPTX and more. Includes legacy PPT format detection.
-- **analyze_image tool**: New image analysis tool integrated with Caret account's Gemini. 7500px max pixel limit, includes analysis result reporting guidelines.
-- **generate_image tool improvements**: XML `<image>` tag parsing support, file path (relative/absolute) support, aspect_ratio/image_size omission guidelines.
-- **Image send toggle**: Toggle feature for @mention image file sending.
+### ✨ Neue Funktionen
+- **Vollständige Z.AI GLM-4.7 Unterstützung**: Unterstützt Thinking-Modus und natürlichen Konversationsstil.
+- **[Upstage](https://upstage.ai/) Anbieter**: Neuer Anbieter mit Unterstützung für Upstage Solar-Modelle.
+- **Bild-Tools für Textmodelle**: Reine Textmodelle können jetzt Caret-Konto-Tools für Bildgenerierung und -analyse verwenden.
+- **Skills-System** (Cline v3.49.0+ Cherry-Pick): Definieren Sie projektspezifische Fähigkeiten, die die KI nutzen kann. Verwalten Sie Skills in den Verzeichnissen `.agents/skills/` oder `.users/skills/`.
+- **Hooks-System** (Cline v3.49.0+ Cherry-Pick): Führen Sie benutzerdefinierte Skripte vor/nach der Tool-Ausführung aus. Verwalten Sie Hooks in den Verzeichnissen `.agents/hooks/` oder `.users/hooks/`.
+- **Dual-Verzeichnis-Architektur**: Trennen Sie KI-optimierten Kontext (`.agents/`) von menschenlesbarer Dokumentation (`.users/`). Die KI priorisiert den token-optimierten `.agents/`-Kontext.
+- **HWP-Dokumentenunterstützung**: Plattformübergreifende HWP-Parsing-Unterstützung für Windows, macOS und Linux.
+- **read_document-Tool**: Einheitliches Dokumentenlesewerkzeug mit Unterstützung für HWP, PDF, DOCX, PPTX und mehr. Beinhaltet Legacy-PPT-Formaterkennung.
+- **analyze_image-Tool**: Neues Bildanalyse-Tool integriert mit Gemini des Caret-Kontos. Max. 7500px-Limit, beinhaltet Richtlinien für Analyseergebnisberichte.
+- **generate_image-Tool-Verbesserungen**: XML-`<image>`-Tag-Parsing-Unterstützung, Dateipfad-Unterstützung (relativ/absolut), Richtlinien zum Weglassen von aspect_ratio/image_size.
+- **Bildversand-Umschalter**: Umschaltfunktion für den Bilddateiensendung via @Erwähnung.
 
-### ✨ Improved
-- **Global context path change**: Global agent settings path changed to `~/Documents/.agents/`.
-- **i18n support**: Added Korean, Japanese, and Chinese translations for Hooks and Skills features.
-- **YAML frontmatter parsing**: Added shared YAML parsing utility for Skills/Hooks.
-- **Default provider**: New users now default to Caret provider.
-- **Feature Config UI gating**: Control account/mode/dictation UI via feature config.
-- **VSIX size optimization**: Reduced extension size by excluding iOS/Android binaries.
-- **Image settings UI**: Image ratio/resolution settings UI now visible for all providers.
+### ✨ Verbesserungen
+- **Spracherweiterung**: Französische, deutsche und russische Übersetzungen hinzugefügt. Priorisierung von Ländern mit eigenen KI-Modellen (Mistral, Aleph Alpha, Yandex, usw.).
+- **Anbieter-Länderflaggen**: Anzeige von Länderflaggen für Anbieter (Sovereign-Cloud-Perspektive).
+- **Änderung des globalen Kontextpfads**: Der globale Agenten-Einstellungspfad wurde auf `~/Documents/.agents/` geändert.
+- **i18n-Unterstützung**: Koreanische, japanische und chinesische Übersetzungen für Hooks- und Skills-Funktionen hinzugefügt.
+- **YAML-Frontmatter-Parsing**: Gemeinsames YAML-Parsing-Dienstprogramm für Skills/Hooks hinzugefügt.
+- **Standard-Anbieter**: Neue Benutzer haben jetzt Caret als Standard-Anbieter.
+- **Feature Config UI-Steuerung**: Steuerung der Konto-/Modus-/Diktier-UI über Feature Config.
+- **VSIX-Größenoptimierung**: Reduzierung der Erweiterungsgröße durch Ausschluss von iOS/Android-Binärdateien.
+- **Bildeinstellungs-UI**: Bildverhältnis-/Auflösungseinstellungs-UI ist jetzt für alle Anbieter sichtbar.
 
-### Fixed
-- **sharp activation failure**: Fixed image processing library activation failure.
-- **Image reference handling**: Fixed image reference handling and optimization issues.
-- **Duplicate message display**: Fixed "Requesting Caret image generation" message appearing twice.
+### Korrekturen
+- **Sharp-Aktivierungsfehler**: Behebung des Aktivierungsfehlers der Bildverarbeitungsbibliothek.
+- **Bildreferenzhandhabung**: Behebung von Problemen bei der Bildreferenzhandhabung und -optimierung.
+- **Doppelte Nachrichtenanzeige**: Behebung der doppelten Anzeige der Nachricht "Requesting Caret image generation".
 
 ## [0.4.4] 2025-12-30
 
-### ✨ Improved
-- **Caret account Nano Banana integration**: Added Gemini 3 Flash preview to Caret accounts and integrated Nano Banana image generation so outputs can be used as project assets.
-- **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**: Added the Naver Cloud provider and HCX-007/HCX-005/HCX-DASH-002 models.
-- **AAIF international-standard Agents.md + project initialization**: Migrated legacy Caret/Cline rules to the AAIF standard and added project initialization support.
-- **Build/Release**: Stabilized build scripts and fixed asset sync order to improve build reliability.
-- **Rate-limit retries**: Implemented 5/10/20/40/60s backoff with user-visible countdowns.
-- **Docs/Model list**: Updated provider setup docs and the support-model list.
-- **Upstream**: Cherry-picked Cline v3.45.0 bugfixes.
-- **Cline v3.45.0 bug fixes**: Integrated the bugfix code that landed in Cline v3.45.0.
-- **Telemetry**: Added telemetry for error/quality tracking.
+### ✨ Verbesserungen
+- **Caret-Konto Nano Banana-Integration**: Gemini 3 Flash Preview zu Caret-Konten hinzugefügt und Nano Banana-Bildgenerierung integriert, sodass Ausgaben als Projekt-Assets verwendet werden können.
+- **[Naver Cloud](https://clova.ai/) (Hyper Clova X)**: Naver Cloud-Anbieter und HCX-007/HCX-005/HCX-DASH-002-Modelle hinzugefügt.
+- **AAIF internationaler Standard Agents.md + Projektinitialisierung**: Migration der Legacy Caret/Cline-Regeln zum AAIF-Standard und Hinzufügung der Projektinitialisierungsunterstützung.
+- **Build/Release**: Stabilisierung der Build-Skripte und Korrektur der Asset-Synchronisierungsreihenfolge zur Verbesserung der Build-Zuverlässigkeit.
+- **Rate-Limit-Wiederholungen**: Implementierung von 5/10/20/40/60s-Backoff mit benutzervisiblem Countdown.
+- **Docs/Modellliste**: Aktualisierung der Anbieter-Setup-Dokumentation und der unterstützten Modellliste.
+- **Upstream**: Cherry-Pick von Cline v3.45.0 Bugfixes.
+- **Cline v3.45.0 Bugfixes**: Integration des Bugfix-Codes von Cline v3.45.0.
+- **Telemetrie**: Telemetrie für Fehler-/Qualitätsverfolgung hinzugefügt.
 
-### Fixed
-- **History images**: Fixed absolute-path images not rendering in history.
-- **Input drop**: Mitigated prompts being dropped after a response.
-- **Caret Provider**: Fixed Gemini3 behavior issues.
-- **Profile images**: Fixed missing images after login.
-- **Ask race**: Resolved ask race conditions.
-- **[Naver Cloud](https://clova.ai/) response handling**: Detects `status.code` and empty responses, with 429 mapping.
-- **Streaming stability**: Guarded empty stream chunks and improved streaming failure logging.
+### Korrekturen
+- **Verlaufsbilder**: Behebung von Bildern mit absolutem Pfad, die im Verlauf nicht angezeigt wurden.
+- **Eingabeverlust**: Abschwächung von Prompts, die nach einer Antwort verloren gingen.
+- **Caret Provider**: Behebung von Gemini3-Verhaltensproblemen.
+- **Profilbilder**: Behebung von fehlenden Bildern nach der Anmeldung.
+- **Ask-Race-Condition**: Behebung von Ask-Race-Conditions.
+- **[Naver Cloud](https://clova.ai/) Antwortverarbeitung**: Erkennung von `status.code` und leeren Antworten, mit 429-Mapping.
+- **Streaming-Stabilität**: Schutz gegen leere Stream-Chunks und verbesserte Streaming-Fehlerprotokollierung.
 
 ## [0.4.1] 2025-12-10
 
-### ✨ Improved
-- **Caret Provider**: Stabilized the `anyLLM`-based Caret Provider for the official launch of the `caret.team` service. This includes API enhancements and improved reliability.
+### ✨ Verbesserungen
+- **Caret Provider**: Stabilisierung des `anyLLM`-basierten Caret Providers für den offiziellen Start des `caret.team`-Dienstes. Beinhaltet API-Verbesserungen und verbesserte Zuverlässigkeit.
 
-### Fixed
-- **Persona System**: Enhanced persona initialization logic to ensure default avatars are seeded correctly. Improved exception handling for persona image loading.
-- **Branding**: Corrected branding for `.clineignore` functionality to align with `.caretignore`.
-- **Build**: Resolved various build and resource location issues.
-- **Authentication**: Minor fixes and checks for the authentication process.
+### Korrekturen
+- **Persona-System**: Verbesserung der Persona-Initialisierungslogik, um das korrekte Seeding der Standard-Avatare sicherzustellen. Verbesserte Ausnahmebehandlung beim Laden von Persona-Bildern.
+- **Branding**: Korrektur des Brandings der `.clineignore`-Funktionalität zur Angleichung an `.caretignore`.
+- **Build**: Behebung verschiedener Build- und Ressourcenstandortprobleme.
+- **Authentifizierung**: Kleine Korrekturen und Überprüfungen für den Authentifizierungsprozess.
 
 ## [0.4.0] 2025-11-28
 
-> **Note**: Caret v0.4.0 is based on Cline v3.38.2. Upstream release notes live in `CHANGELOG-CLINE.md`.
+> **Hinweis**: Caret v0.4.0 basiert auf Cline v3.38.2. Upstream-Versionshinweise befinden sich in `CHANGELOG-CLINE.md`.
 
-### 🎉 Cline v3.38.2 upstream merge
-- Merge commit: `8723b386f` (branch: `main_backup_20251128202033`).
+### 🎉 Cline v3.38.2 Upstream-Merge
+- Merge-Commit: `8723b386f` (Branch: `main_backup_20251128202033`).
 
-### Added
-- **Cline v3.38.2 integration**: All upstream features including the latest model support (Claude Opus 4.5).
-- **Dual Account System**: Switch between Caret Mode (extended) and Cline Mode (stock).
-- **Provider setup**: Auto-fetch models for LiteLLM/BizRouter with real-time health checks.
-- **JSON prompt system**: Dynamic system prompt configuration via JSON.
-- **Input history**: Terminal-like history navigation with persistence.
-- **Shortcuts**: Cancel (Esc) and resume (Ctrl+Shift+R) tasks.
+### Hinzugefügt
+- **Cline v3.38.2-Integration**: Alle Upstream-Funktionen einschließlich Unterstützung der neuesten Modelle (Claude Opus 4.5).
+- **Dual-Konto-System**: Wechsel zwischen Caret-Modus (erweitert) und Cline-Modus (Standard).
+- **Anbieter-Einrichtung**: Automatischer Modellabruf für LiteLLM/BizRouter mit Echtzeit-Gesundheitsprüfungen.
+- **JSON-Prompt-System**: Dynamische Systempromptkonfiguration über JSON.
+- **Eingabeverlauf**: Terminal-ähnliche Verlaufsnavigation mit Persistenz.
+- **Tastenkürzel**: Abbrechen (Esc) und Fortsetzen (Ctrl+Shift+R) von Aufgaben.
 
-### Fixed
-- **Terminal hang** on Linux with shell integration.
-- **Branding** restored across UI and CLI.
-
-## [0.3.1] 2025-10-20
-
-### New
-- **Caret provider**: Official Caret AI provider integration.
-  - Promo: $10 free credits during the campaign period; paid credits coming soon.
-
-### Fixed
-- **Terminal branding** reverted to Caret after upstream merge.
-- **System prompt input** handling bugs.
-- **LiteLLM model list** fetch with health filtering.
-
-### Updated
-- **Cline v3.32.7 merge**: See `CHANGELOG-CLINE.md` for upstream details.
-
-## [0.3.0] 2025-10-13
-
-### 🎉 Cline v3.32.7 upstream merge
-- Merge commit: `03177da87` (branch: `merge/cline-upstream-20251009`).
-- New models: Claude Sonnet 4.5 (200K/1M), GPT-5 updates, improved model info/pricing.
-- New features: `.caretignore` support (with `.clineignore` compatibility), AWS Bedrock profiles, Requesty/Together/Alibaba Qwen providers, rate-limit retries, Focus Chain.
-- Architecture: full protobuf type system migration, enhanced MCP support, provider refactor.
-- More details: see `CHANGELOG-CLINE.md`.
-
-### 🚀 Prompt system optimizations
-- API request count reduced by 30-50% for multi-file edits.
-- Smart TODO management with automatic updates and quiet tracking.
-- Claude Sonnet 4.5 context optimizations; dual mode compatibility.
-
-## [0.2.3] 2025-10-01
-- Chat input history navigation.
-- LiteLLM model fetch + CaretBrandConfig refactor to FeatureConfig.
-- Agent protocol hardening; system prompt refactor and Korean docs.
-- ActionButtons overflow fix when two buttons render.
-
-## [0.2.22] 2025-09-21
-- Restored Caret collaborative/system prompt tone after merge gaps.
-- Fixed missing browser translations.
-
-## [0.2.21] 2025-09-18
-- Persona system fixes (asset URI handling) and setup flow improvements.
-- Persona selector copy updates (ko/en).
-
-## [0.2.0] 2025-09-11
-- **Cline v3.26.6 merge** via `f8bd960b4` (`c6aa47095ee47036946c6a51339a4fa22aaa073c` upstream). See `CHANGELOG-CLINE.md`.
-- Key features: latest model support (GPT-5, Claude 4, Grok), 15+ new providers, Focus Chain, context compression, checkpoints, Mermaid preview.
-- Architecture: backend improvements, UI polish, stronger MCP support.
-
-## [0.1.3]
-- Persona system integration (Caret, Osarang, Madobe Ichika, Cheong Ma-shin, Tanto Ubuntu).
-- Cline/Caret mode toggle, 4-language support, system prompt improvements, 36 providers/300 models.
-- Docs sites in progress.
-
-## [0.1.2] 2025-08-13
-- Fix browser_action tool loading for next-gen models.
-- DeepSeek V3 support, token optimization, API cost controls.
-- Architecture docs and guides update.
-
-## [0.1.1] 2025-07-18
-- Initial Caret branding system, enhanced i18n base, VS Code API conflict fixes.
-- TDD/Testing framework foundation.
-
-## [0.1.0] 2025-07-06
-- Initial Caret release (minimal-change fork of Cline).
-- Caret-specific extension architecture in `caret-src/`.
-- Dual-mode system, JSON-based prompt templates, comprehensive docs, multi-language support, TDD pipeline.
+### Korrekturen
+- **Terminal-Hänger** unter Linux mit Shell-Integration.
+- **Branding** in UI und CLI wiederhergestellt.

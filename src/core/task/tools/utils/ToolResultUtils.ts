@@ -121,8 +121,13 @@ export class ToolResultUtils {
 	/**
 	 * Handles tool approval flow and processes any user feedback
 	 */
-	static async askApprovalAndPushFeedback(type: ClineAsk, completeMessage: string, config: TaskConfig) {
-		const { response, text, images, files } = await config.callbacks.ask(type, completeMessage, false)
+	static async askApprovalAndPushFeedback(
+		type: ClineAsk,
+		completeMessage: string,
+		config: TaskConfig,
+		operationId?: string, // CARET MODIFICATION: allow reusing tool message for approval (prevents duplicate tool cards)
+	) {
+		const { response, text, images, files } = await config.callbacks.ask(type, completeMessage, false, operationId)
 
 		if (text || (images && images.length > 0) || (files && files.length > 0)) {
 			let fileContentString = ""

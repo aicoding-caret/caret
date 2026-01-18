@@ -301,6 +301,12 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 			controller.stateManager.setGlobalState("imageGenerationSize", size || undefined)
 		}
 
+		// CARET MODIFICATION: Image analysis model selection
+		if (request.imageAnalysisModel !== undefined) {
+			const model = (request.imageAnalysisModel || "").trim()
+			controller.stateManager.setGlobalState("imageAnalysisModel", model || undefined)
+		}
+
 		if (request.multiRootEnabled !== undefined) {
 			controller.stateManager.setGlobalState("multiRootEnabled", !!request.multiRootEnabled)
 		}

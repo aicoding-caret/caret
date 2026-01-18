@@ -159,6 +159,8 @@ export interface ClineMessage {
 	conversationHistoryDeletedRange?: [number, number] // for when conversation history is truncated for API requests
 	modelInfo?: ClineMessageModelInfo
 	commandCompleted?: boolean
+	// CARET MODIFICATION: operationId for reliable message updates (prevents duplicate UI)
+	operationId?: string
 	[key: string]: any
 }
 

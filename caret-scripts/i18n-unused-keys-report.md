@@ -1,100 +1,161 @@
 # i18n 미사용 키 분석 보고서
 
-**생성일시**: 2026-01-18 04:27:05
+**생성일시**: 2026-01-18 07:36:57
 **분석기**: report-i18n-unused-key.js
 **프로젝트**: Caret 프론트엔드 i18n 시스템
 
 ## 📊 요약 통계
 
-- **총 키 개수**: 1022개
-- **사용중인 키**: 971개
-- **미사용 키**: 51개
-- **스캔한 파일**: 214개
-- **사용률**: 95.0%
+- **총 키 개수**: 1062개
+- **사용중인 키**: 990개
+- **미사용 키**: 72개
+- **스캔한 파일**: 230개
+- **사용률**: 93.2%
 
-## 🗑️ 미사용 키 목록 (51개)
+## 🗑️ 미사용 키 목록 (72개)
 
 locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 키들:
 
 | Key | Namespace | Available Locales | Count |
 |-----|-----------|------------------|-------|
-| `bullets.current.1` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.1-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.2` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.2-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.3` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.3-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.4` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.4-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.5` | announcement | ko, en, ja, zh | 4 |
-| `bullets.current.5-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.1` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.1-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.2` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.2-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.3` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.3-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.4` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.4-desc` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.5` | announcement | ko, en, ja, zh | 4 |
-| `bullets.previous.5-desc` | announcement | ko, en, ja, zh | 4 |
-| `slashCommandMenu.defaultCommands` | chat | ko, en, ja, zh | 4 |
-| `slashCommandMenu.workflowCommands` | chat | ko, en, ja, zh | 4 |
-| `defaultValue` | common | ko, en, ja, zh | 4 |
-| `rulesModal.ariaLabel.CaretRulesButton` | common | ko, en, ja, zh | 4 |
-| `rulesModal.tooltip.manageRulesWorkflows` | common | ko, en, ja, zh | 4 |
-| `taskHeader.allStepsCompleted` | common | ko, en, ja, zh | 4 |
-| `taskHeader.cache` | common | ko, en, ja, zh | 4 |
-| `taskHeader.closeTask` | common | ko, en, ja, zh | 4 |
-| `taskHeader.completionTokens` | common | ko, en, ja, zh | 4 |
-| `taskHeader.contextWindowUsage` | common | ko, en, ja, zh | 4 |
-| `taskHeader.currentTokens` | common | ko, en, ja, zh | 4 |
-| `taskHeader.disablingCheckpoints` | common | ko, en, ja, zh | 4 |
-| `taskHeader.editFocusChainList` | common | ko, en, ja, zh | 4 |
-| `taskHeader.maxContextWindow` | common | ko, en, ja, zh | 4 |
-| `taskHeader.newStepsGenerated` | common | ko, en, ja, zh | 4 |
-| `taskHeader.promptTokens` | common | ko, en, ja, zh | 4 |
-| `taskHeader.seeHereForInstructions` | common | ko, en, ja, zh | 4 |
-| `taskHeader.seeLess` | common | ko, en, ja, zh | 4 |
-| `taskHeader.seeMore` | common | ko, en, ja, zh | 4 |
-| `taskHeader.task` | common | ko, en, ja, zh | 4 |
-| `taskHeader.tokens` | common | ko, en, ja, zh | 4 |
-| `taskHeader.tokensReadFromCache` | common | ko, en, ja, zh | 4 |
-| `taskHeader.tokensWrittenToCache` | common | ko, en, ja, zh | 4 |
-| `features.subagents.caretWarning` | settings | ko, en, ja, zh | 4 |
-| `features.subagents.clineWarning` | settings | ko, en, ja, zh | 4 |
-| `features.subagents.installed` | settings | ko, en, ja, zh | 4 |
-| `features.subagents.notInstalled` | settings | ko, en, ja, zh | 4 |
-| `providers.qwen.apiLineOptions.china` | settings | ko, en, ja, zh | 4 |
-| `providers.qwen.apiLineOptions.international` | settings | ko, en, ja, zh | 4 |
-| `unifiedLanguage.description` | settings | ko, en, ja, zh | 4 |
-| `unifiedLanguage.label` | settings | ko, en, ja, zh | 4 |
+| `bullets.current.1` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.1-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.2` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.2-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.3` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.3-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.4` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.4-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.5` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.current.5-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.1` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.1-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.2` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.2-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.3` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.3-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.4` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.4-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.5` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `bullets.previous.5-desc` | announcement | ko, en, ja, zh, fr, de, ru | 7 |
+| `slashCommandMenu.defaultCommands` | chat | ko, en, ja, zh, fr, de, ru | 7 |
+| `slashCommandMenu.workflowCommands` | chat | ko, en, ja, zh, fr, de, ru | 7 |
+| `defaultValue` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `rules.action.newRuleFile` | common | ko, en, ja, zh | 4 |
+| `rules.button.selectPersonaTemplate` | common | ko, en, ja, zh | 4 |
+| `rules.description.personaManagement` | common | ko, en, ja, zh | 4 |
+| `rules.description.rulesDescription` | common | ko, en, ja, zh | 4 |
+| `rules.description.workflowsDescription` | common | ko, en, ja, zh | 4 |
+| `rules.docsLink` | common | ko, en, ja, zh | 4 |
+| `rules.section.globalRules` | common | ko, en, ja, zh | 4 |
+| `rules.section.globalWorkflows` | common | ko, en, ja, zh | 4 |
+| `rules.section.localWorkflows` | common | ko, en, ja, zh | 4 |
+| `rules.section.workspaceRules` | common | ko, en, ja, zh | 4 |
+| `rules.subTitle.caretRules` | common | ko, en, ja, zh | 4 |
+| `rules.subTitle.CaretRules` | common | ko, en, ja, zh | 4 |
+| `rules.subTitle.cursorRules` | common | ko, en, ja, zh | 4 |
+| `rules.subTitle.windsurfRules` | common | ko, en, ja, zh | 4 |
+| `rules.tab.rules` | common | ko, en, ja, zh | 4 |
+| `rules.tab.workflows` | common | ko, en, ja, zh | 4 |
+| `rules.title` | common | ko, en, ja, zh | 4 |
+| `rules.toggleError` | common | ko, en, ja, zh | 4 |
+| `rulesModal.ariaLabel.CaretRulesButton` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `rulesModal.tooltip.manageRulesWorkflows` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.allStepsCompleted` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.cache` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.closeTask` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.completionTokens` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.contextWindowUsage` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.currentTokens` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.disablingCheckpoints` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.editFocusChainList` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.maxContextWindow` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.newStepsGenerated` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.promptTokens` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.seeHereForInstructions` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.seeLess` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.seeMore` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.task` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.tokens` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.tokensReadFromCache` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `taskHeader.tokensWrittenToCache` | common | ko, en, ja, zh, fr, de, ru | 7 |
+| `infoTextCustomInstructions` | persona | ko, en, ja, zh | 4 |
+| `selector.infoTextCustomInstructions` | persona | ko, en, ja, zh | 4 |
+| `selector.selectedButtonText` | persona | ko, en, ja, zh | 4 |
+| `selectorDescription` | persona | ko, en, ja, zh | 4 |
+| `selectorTitle` | persona | ko, en, ja, zh | 4 |
+| `features.subagents.caretWarning` | settings | ko, en, ja, zh, fr, de, ru | 7 |
+| `features.subagents.clineWarning` | settings | ko, en, ja, zh, fr, de, ru | 7 |
+| `features.subagents.installed` | settings | ko, en, ja, zh, fr, de, ru | 7 |
+| `features.subagents.notInstalled` | settings | ko, en, ja, zh, fr, de, ru | 7 |
+| `providers.qwen.apiLineOptions.china` | settings | ko, en, ja, zh, fr, de, ru | 7 |
+| `providers.qwen.apiLineOptions.international` | settings | ko, en, ja, zh, fr, de, ru | 7 |
 
 
-## 🌍 누락된 번역 (12개)
+## 🌍 누락된 번역 (52개)
 
 일부 언어에서 번역이 누락된 키들:
 
 | Key | Namespace | Missing Locales | Used | Available |
 |-----|-----------|----------------|------|-----------|
-| `account.privacyPolicyUrl` 🔥 | common | ja, zh | 1 | ko, en |
-| `account.termsOfServiceUrl` 🔥 | common | ja, zh | 1 | ko, en |
-| `account.totalCost` 🔥 | common | ja, zh | 1 | ko, en |
-| `modelInfoView.tokensSuffix` 🔥 | common | en | 1 | ko, ja, zh |
-| `about.documentation_detailed` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.litellm.baseUrlRequired` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.litellm.fetchError` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.litellm.fetchingModels` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.litellm.fetchModels` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.litellm.noModelsFound` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.litellm.selectModelPlaceholder` 🔥 | settings | en, ja, zh | 1 | ko |
-| `providers.openrouter.modelPicker.featuredModelDescriptionKatcoder` 🔥 | settings | ko | 1 | en, ja, zh |
+| `account.privacyPolicyUrl` 🔥 | common | ja, zh | 1 | ko, en, fr, de, ru |
+| `account.termsOfServiceUrl` 🔥 | common | ja, zh | 1 | ko, en, fr, de, ru |
+| `account.totalCost` 🔥 | common | ja, zh | 1 | ko, en, fr, de, ru |
+| `modelInfoView.tokensSuffix` 🔥 | common | en, fr, de, ru | 1 | ko, ja, zh |
+| `rules.button.changePersonaTemplate` 🔥 | common | fr, de, ru | 1 | ko, en, ja, zh |
+| `rules.section.personaManagement` 🔥 | common | fr, de, ru | 1 | ko, en, ja, zh |
+| `normalState` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `selector.description` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `selector.selectButtonText` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `selector.title` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `thinkingState` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `upload.error` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `upload.normal` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `upload.success` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `upload.thinking` 🔥 | persona | fr, de, ru | 1 | ko, en, ja, zh |
+| `about.documentation_detailed` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `modeSystem.description` 🔥 | settings | fr, de, ru | 1 | ko, en, ja, zh |
+| `modeSystem.label` 🔥 | settings | fr, de, ru | 1 | ko, en, ja, zh |
+| `modeSystem.options.caret` 🔥 | settings | fr, de, ru | 1 | ko, en, ja, zh |
+| `modeSystem.options.cline` 🔥 | settings | fr, de, ru | 1 | ko, en, ja, zh |
+| `persona.description` 🔥 | settings | fr, de, ru | 1 | ko, en, ja, zh |
+| `persona.enablePersonaSystem` 🔥 | settings | fr, de, ru | 1 | ko, en, ja, zh |
+| `providers.litellm.baseUrlRequired` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `providers.litellm.fetchError` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `providers.litellm.fetchingModels` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `providers.litellm.fetchModels` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `providers.litellm.noModelsFound` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `providers.litellm.selectModelPlaceholder` 🔥 | settings | en, ja, zh, fr, de, ru | 1 | ko |
+| `providers.openrouter.modelPicker.featuredModelDescriptionKatcoder` 🔥 | settings | ko | 1 | en, ja, zh, fr, de, ru |
+| `rules.action.newRuleFile` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.button.selectPersonaTemplate` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.description.personaManagement` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.description.rulesDescription` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.description.workflowsDescription` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.docsLink` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.section.globalRules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.section.globalWorkflows` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.section.localWorkflows` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.section.workspaceRules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.subTitle.caretRules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.subTitle.CaretRules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.subTitle.cursorRules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.subTitle.windsurfRules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.tab.rules` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.tab.workflows` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.title` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `rules.toggleError` ⚪ | common | fr, de, ru | 0 | ko, en, ja, zh |
+| `infoTextCustomInstructions` ⚪ | persona | fr, de, ru | 0 | ko, en, ja, zh |
+| `selector.infoTextCustomInstructions` ⚪ | persona | fr, de, ru | 0 | ko, en, ja, zh |
+| `selector.selectedButtonText` ⚪ | persona | fr, de, ru | 0 | ko, en, ja, zh |
+| `selectorDescription` ⚪ | persona | fr, de, ru | 0 | ko, en, ja, zh |
+| `selectorTitle` ⚪ | persona | fr, de, ru | 0 | ko, en, ja, zh |
 
 🔥 = 고우선순위 (키가 사용중)
 ⚪ = 저우선순위 (키가 현재 미사용)
 
 
-## ❓ 정의되지 않은 키 (105개)
+## ❓ 정의되지 않은 키 (125개)
 
 코드에서 t() 함수로 사용하지만 JSON 파일에 정의되지 않은 키들:
 
@@ -137,6 +198,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `chat.executeCommand` | ChatRow.tsx | chat | ⚪ |
 | `Chat.navbar.chat` | Navbar.tsx | Chat | ⚪ |
 | `common.caretIsUsingBrowser` | BrowserSessionRow.tsx | common | ⚪ |
+| `common.telemetry.settingsLink` | CaretGeneralSettingsSection.tsx | common | ⚪ |
 | `Console Logs.browser.consoleLogs` | BrowserSessionRow.tsx | Console Logs | ⚪ |
 | `credits.tab` | helpers.ts | credits | ⚪ |
 | `Default: https://api.example.com.settings.baseUrl.placeholder` | BaseUrlField.tsx | Default: https://api | ⚪ |
@@ -168,6 +230,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `mcp.submitDescription.part1` | McpSubmitCard.tsx | mcp | ⚪ |
 | `mcp.submitMcpServer` | McpSubmitCard.tsx | mcp | ⚪ |
 | `New Task.navbar.newTaskTooltip` | Navbar.tsx | New Task | ⚪ |
+| `persona.upload.uploading` | PersonaManagement.tsx | persona | ⚪ |
 | `Quote selection in reply.chat.quoteSelectionInReply` | QuoteButton.tsx | Quote selection in reply | ⚪ |
 | `Quote selection.chat.quoteSelection` | QuoteButton.tsx | Quote selection | ⚪ |
 | `Requires API key.mcp.requiresApiKey` | McpMarketplaceCard.tsx | Requires API key | ⚪ |
@@ -175,6 +238,8 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `settings.autoApprove.description` | AutoApproveModal.tsx | settings | ⚪ |
 | `settings.baseUrlField.placeholderAnthropic` | AnthropicProvider.tsx | settings | ⚪ |
 | `settings.browseActionLabel` | BrowserSessionRow.tsx | settings | ⚪ |
+| `settings.features.mentionImageSend` | MentionImageSendToggle.tsx | settings | ⚪ |
+| `settings.features.mentionImageSendDescription` | MentionImageSendToggle.tsx | settings | ⚪ |
 | `settings.modelPicker.label` | BasetenModelPicker.tsx, GroqModelPicker.tsx, HuggingFaceModelPicker.tsx, OpenRouterModelPicker.tsx, RequestyModelPicker.tsx, SapAiCoreModelPicker.tsx, OcaModelPicker.tsx | settings | 🔥 |
 | `Settings.navbar.settings` | Navbar.tsx | Settings | ⚪ |
 | `Settings.navbar.settingsTooltip` | Navbar.tsx | Settings | ⚪ |
@@ -196,6 +261,22 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `settings.useCustomPrompt.warning` | UseCustomPromptCheckbox.tsx | settings | ⚪ |
 | `true.redirect` | helpers.ts | true | ⚪ |
 | `Use custom base URL.settings.baseUrl.label` | BaseUrlField.tsx | Use custom base URL | ⚪ |
+| `welcome.apiSetup.backButton` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.description` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.help.button` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.help.title` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.instructions` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.saveButton` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.supportLinks.geminiCredit` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.supportLinks.llmList` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.apiSetup.title` | CaretApiSetup.tsx | welcome | ⚪ |
+| `welcome.footer.about.description` | CaretFooter.tsx | welcome | ⚪ |
+| `welcome.footer.about.link` | CaretFooter.tsx | welcome | ⚪ |
+| `welcome.footer.copyright.builtWith` | CaretFooter.tsx | welcome | ⚪ |
+| `welcome.footer.links.caretGithub` | CaretFooter.tsx | welcome | ⚪ |
+| `welcome.footer.links.caretiveInc` | CaretFooter.tsx | welcome | ⚪ |
+| `welcome.footer.links.caretService` | CaretFooter.tsx | welcome | ⚪ |
+| `welcome.footer.links.support` | CaretFooter.tsx | welcome | ⚪ |
 | `welcome.quickWinsTitle.part1` | SuggestedTasks.tsx | welcome | ⚪ |
 | `welcome.quickWinsTitle.part2` | SuggestedTasks.tsx | welcome | ⚪ |
 | `welcome.quickWinsTitle.part3` | SuggestedTasks.tsx | welcome | ⚪ |
@@ -208,7 +289,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 
 i18n 키를 사용하는 컴포넌트들:
 
-Total components using i18n: **143**
+Total components using i18n: **152**
 
 | Component | Keys Used | Sample Keys |
 |-----------|-----------|-------------|
@@ -254,6 +335,8 @@ Total components using i18n: **143**
 | `chat/ReportBugPreview.tsx` | 9 | `chat.bugReport.title`, `chat.bugReport.whatHappened`, `chat.bugReport.stepsToReproduce` (+6 more) |
 | `settings/providers/ClineProvider.tsx` | 9 | `settings.clineProvider.sortUnderlyingProviderRouting`, `settings.clineProvider.defaultOption`, `settings.clineProvider.priceOption` (+6 more) |
 | `settings/providers/VertexProvider.tsx` | 9 | `settings.providers.vertex.description`, `settings.providers.vertex.projectIdPlaceholder`, `settings.providers.vertex.projectIdLabel` (+6 more) |
+| `CaretApiSetup.tsx` | 9 | `welcome.apiSetup.backButton`, `welcome.apiSetup.title`, `welcome.apiSetup.description` (+6 more) |
+| `PersonaManagement.tsx` | 9 | `persona.upload.success`, `persona.upload.error`, `common.rules.section.personaManagement` (+6 more) |
 | `account/AccountWelcomeView.tsx` | 8 | `common.account.signUpDescription`, `common.account.signUpWithCaret`, `common.account.byContining` (+5 more) |
 | `common/CheckpointControls.tsx` | 8 | `chat.checkpointControls.compare`, `chat.checkpointControls.restore`, `chat.checkpointControls.restoreTaskAndWorkspace` (+5 more) |
 | `mcp/configuration/tabs/installed/ConfigureServersView.tsx` | 8 | `chat.configureServersView.mcpDescription`, `chat.configureServersView.modelContextProtocol`, `chat.configureServersView.mcpDescriptionMiddle2` (+5 more) |
@@ -269,6 +352,8 @@ Total components using i18n: **143**
 | `settings/providers/NaverCloudProvider.tsx` | 7 | `settings.providers.naver-cloud.descriptionPart1`, `settings.providers.naver-cloud.naverCloudLinkText`, `settings.providers.naver-cloud.descriptionPart2` (+4 more) |
 | `settings/providers/UpstageProvider.tsx` | 7 | `settings.providers.upstage.descriptionPart1`, `settings.providers.upstage.upstageLinkText`, `settings.providers.upstage.descriptionPart2` (+4 more) |
 | `settings/providers/VSCodeLmProvider.tsx` | 7 | `settings.providers.vscode-lm.description`, `settings.providers.vscode-lm.languageModelLabel`, `settings.providers.vscode-lm.selectModelPlaceholder` (+4 more) |
+| `CaretAccountView.tsx` | 7 | `common.account.title`, `common.button.done`, `common.account.failedToFetchUserCredit` (+4 more) |
+| `CaretFooter.tsx` | 7 | `welcome.footer.about.description`, `welcome.footer.about.link`, `welcome.footer.links.caretGithub` (+4 more) |
 | `chat/Announcement.tsx` | 6 | `announcement.bullets.current.${i}`, `announcement.bullets.current.${i}-desc`, `announcement.header` (+3 more) |
 | `chat/auto-approve-menu/AutoApproveModal.tsx` | 6 | `settings.autoApprove.description`, `settings.autoApprove.title`, `settings.autoApprove.actionsHeader` (+3 more) |
 | `chat/task-header/ContextWindow.tsx` | 6 | `chat.contextWindow.confirmTitle`, `chat.contextWindow.confirmNo`, `chat.contextWindow.confirmYes` (+3 more) |
@@ -288,6 +373,7 @@ Total components using i18n: **143**
 | `settings/providers/GeminiProvider.tsx` | 5 | `settings.providers.gemini.description`, `settings.providers.gemini.name`, `settings.baseUrlField.label` (+2 more) |
 | `settings/providers/MoonshotProvider.tsx` | 5 | `settings.providers.moonshot.description`, `settings.providers.moonshot.entrypoint`, `settings.apiKeyField.defaultHelpText` (+2 more) |
 | `settings/providers/ZAiProvider.tsx` | 5 | `settings.providers.zai.description`, `settings.providers.zai.entrypointLabel`, `settings.providers.zai.entrypointDescription` (+2 more) |
+| `CaretGeneralSettingsSection.tsx` | 5 | `settings.persona.enablePersonaSystem`, `settings.persona.description`, `common.telemetry.helpImprove` (+2 more) |
 | `chat/ChatErrorBoundary.tsx` | 4 | `chat.error.unknown`, `settings.debug.errorInSeconds`, `chat.error.displayContent` (+1 more) |
 | `chat/UserMessage.tsx` | 4 | `chat.userMessage.restoreAll`, `chat.userMessage.restoreAllTooltip`, `chat.userMessage.restoreChat` (+1 more) |
 | `chat/task-header/CheckpointError.tsx` | 4 | `chat.checkpointError.disable`, `chat.checkpointError.seeInstructions`, `chat.checkpointError.dismiss` (+1 more) |
@@ -297,6 +383,7 @@ Total components using i18n: **143**
 | `settings/providers/NebiusProvider.tsx` | 4 | `settings.providers.nebius.description`, `settings.providers.nebius.apiKeyHelpText`, `settings.providers.nebius.name` (+1 more) |
 | `settings/providers/RequestyProvider.tsx` | 4 | `settings.providers.requesty.description`, `settings.providers.requesty.name`, `settings.providers.requesty.useCustomBaseUrlLabel` (+1 more) |
 | `settings/sections/ApiConfigurationSection.tsx` | 4 | `settings.planMode`, `settings.actMode`, `settings.useDifferentModels` (+1 more) |
+| `ModeSystemToggle.tsx` | 4 | `settings.modeSystem.label`, `settings.modeSystem.options.caret`, `settings.modeSystem.options.cline` (+1 more) |
 | `account/CreditBalance.tsx` | 3 | `common.account.lastUpdated`, `common.account.currentBalance`, `common.account.addCredits` |
 | `mcp/chat-display/McpResponseDisplay.tsx` | 3 | `chat.mcpResponseDisplay.response`, `chat.mcpResponseDisplay.responseError`, `chat.mcpResponseDisplay.errorParsingResponse` |
 | `mcp/configuration/tabs/installed/server-row/McpResourceRow.tsx` | 3 | `chat.mcpResourceRow.noDescription`, `chat.mcpResourceRow.returns`, `chat.mcpResourceRow.unknown` |
@@ -318,6 +405,7 @@ Total components using i18n: **143**
 | `welcome/HomeHeader.tsx` | 3 | `common.welcome.whatCanIDo`, `welcome.tooltipContent`, `welcome.takeATour` |
 | `welcome/SuggestedTasks.tsx` | 3 | `welcome.quickWinsTitle.part1`, `welcome.quickWinsTitle.part2`, `welcome.quickWinsTitle.part3` |
 | `welcome/WelcomeView.tsx` | 3 | `common.imageAlt.caretBanner`, `welcome.coreFeatures.header`, `welcome.getStarted.button` |
+| `PersonaTemplateSelector.tsx` | 3 | `persona.selector.title`, `persona.selector.description`, `persona.selector.selectButtonText` |
 | `account/helpers.ts` | 2 | `credits.tab`, `true.redirect` |
 | `chat/QuoteButton.tsx` | 2 | `Quote selection.chat.quoteSelection`, `Quote selection in reply.chat.quoteSelectionInReply` |
 | `chat/ServersToggleModal.tsx` | 2 | `chat.serversToggleModal.manageMcpServers`, `chat.serversToggleModal.mcpServers` |
@@ -339,6 +427,8 @@ Total components using i18n: **143**
 | `settings/common/ContextWindowSwitcher.tsx` | 2 | `settings.contextWindowSwitcher.switchTo1M`, `settings.contextWindowSwitcher.switchTo200K` |
 | `settings/common/ModelSelector.tsx` | 2 | `settings.modelSelector.label`, `settings.modelSelector.placeholder` |
 | `settings/providers/GroqProvider.tsx` | 2 | `settings.providers.groq.description`, `settings.providers.groq.name` |
+| `MentionImageSendToggle.tsx` | 2 | `settings.features.mentionImageSend`, `settings.features.mentionImageSendDescription` |
+| `UnifiedLanguageSetting.tsx` | 2 | `settings.unifiedLanguage.label`, `settings.unifiedLanguage.description` |
 | `account/AccountOptions.tsx` | 1 | `common.account.failedToGetLoginUrl` |
 | `chat/QuotedMessagePreview.tsx` | 1 | `Dismiss quote.chat.dismissQuote` |
 | `chat/SlashCommandMenu.tsx` | 1 | `chat.slashCommandMenu.noMatchingCommandsFound` |
@@ -360,13 +450,13 @@ Total components using i18n: **143**
 ## 🛠️ 정리 권장사항
 
 ### 🗑️ 미사용 키 제거
-- **작업**: locale 파일에서 51개의 미사용 키 제거
+- **작업**: locale 파일에서 72개의 미사용 키 제거
 - **효과**: 번들 크기 감소 및 유지보수 부담 경감
 - **우선순위**: 낮음 (향후 기능을 위한 플레이스홀더가 아닌 경우)
 
 ### 🌍 누락 번역 완성
-- **작업**: 12개의 누락된 번역 추가
-- **고우선순위**: 12개 (현재 사용중인 키들)
+- **작업**: 52개의 누락된 번역 추가
+- **고우선순위**: 29개 (현재 사용중인 키들)
 - **효과**: 비영어권 사용자 경험 향상
 
 ### 📋 유지보수 모범 사례
@@ -387,7 +477,7 @@ Total components using i18n: **143**
 - 고우선순위(🔥 사용중인 키) 번역 우선 추가
 - 저우선순위(⚪ 미사용 키) 번역은 2.3 작업 후 결정
 - 누락된 locale 파일에 해당 키와 번역 추가
-**현재 상태**: 12개 키에서 번역 누락
+**현재 상태**: 52개 키에서 번역 누락
 
 ### 2.2. [ ] 정의되지 않은 키 탐지
 **목적**: 코드에서 t() 함수로 사용하지만 JSON 파일에 정의되지 않은 키들을 식별
@@ -400,11 +490,11 @@ Total components using i18n: **143**
 ### 2.3. [ ] 미사용 키 탐지 (정리 작업)
 **목적**: JSON 파일에 정의되어 있지만 실제 코드에서 사용되지 않는 키들을 식별하여 정리
 **필요 처리**: 
-- 미사용 키 51개에 대한 검토
+- 미사용 키 72개에 대한 검토
 - 향후 사용 예정인지, 레거시 키인지 판단
 - 확실한 불필요 키들은 locale 파일에서 제거
 - 번들 크기 최적화 및 유지보수성 향상
-**현재 상태**: 51개 미사용 키 탐지 (사용률 95.0%)
+**현재 상태**: 72개 미사용 키 탐지 (사용률 93.2%)
 
 ## 🔄 권장 작업 순서
 1. **2.1 → 2.2**: 현재 사용 중인 시스템 완성 (번역 누락 + 키 정의 누락)
@@ -420,9 +510,12 @@ node caret-scripts/tools/report-i18n-unused-key.js
 
 ## 📋 설정 정보
 
-- **지원 언어**: ko, en, ja, zh
+- **지원 언어**: ko, en, ja, zh, fr, de, ru
 - **네임스페이스**: announcement, chat, common, models, persona, settings, validate-api-conf, welcome
-- **컴포넌트 디렉토리**: `/home/luke/dev/caret/webview-ui/src/components`
+- **컴포넌트 디렉토리**:
+  - `/home/luke/dev/caret/webview-ui/src/components`
+  - `/home/luke/dev/caret/webview-ui/src/caret/components`
+  - `/home/luke/dev/caret/webview-ui/src/caret/shared`
 - **Locale 디렉토리**: `/home/luke/dev/caret/webview-ui/src/caret/locale`
 
 ---

@@ -63,6 +63,8 @@ export interface ToolUse {
 	// Whether this tool use was initiated by a native tool call
 	isNativeToolCall?: boolean
 	signature?: string
+	// CARET MODIFICATION: operationId for reliable message updates (prevents duplicate UI)
+	operationId?: string
 }
 
 export interface ReasoningStreamContent {

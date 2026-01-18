@@ -83,12 +83,14 @@ export interface TaskServices {
  * All callback functions available to tool handlers
  */
 export interface TaskCallbacks {
-	say: (type: ClineSay, text?: string, images?: string[], files?: string[], partial?: boolean) => Promise<number | undefined>
+	// CARET MODIFICATION: Added operationId parameter for reliable message updates
+	say: (type: ClineSay, text?: string, images?: string[], files?: string[], partial?: boolean, operationId?: string) => Promise<number | undefined>
 
 	ask: (
 		type: ClineAsk,
 		text?: string,
 		partial?: boolean,
+		operationId?: string, // CARET MODIFICATION: allow reusing tool message for approval (prevents duplicate tool cards)
 	) => Promise<{
 		response: ClineAskResponse
 		text?: string

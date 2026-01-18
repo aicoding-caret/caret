@@ -18,27 +18,22 @@
         </a>
       </td>
       <td align="center">
-        <img src="https://img.shields.io/badge/🇨🇳_中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+        <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
       </td>
     </tr>
     <tr>
-      <td align="center">
+      <td align="center" colspan="4">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
-      </td>
-      <td align="center">
+        &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
-      </td>
-      <td align="center">
-        <!-- More languages coming soon -->
       </td>
     </tr>
   </table>
@@ -46,7 +41,7 @@
   <img src="https://raw.githubusercontent.com/aicoding-caret/caret/main/assets/template_characters/caret_illust.png" alt="Caret" width="360"/>
 
   <h1>🎯 Caret</h1>
-  <p><strong>直接使用Cline设置，更多功能，263个模型，每月免费额度</strong></p>
+  <p><strong>直接使用Cline设置，更多功能，266个模型，每月免费额度</strong></p>
 
 > [v0.4.5 更新] **高性价比GLM-4.7 API密钥支持 / 文本模型也可通过Caret账户用Nano Banana生成图像、Gemini分析 / HWP/PDF/DOCX/PPTX文档工具**
 
@@ -89,7 +84,7 @@
 **Cline用户可以立即开始。**
 
 - 直接使用现有Cline设置/账户
-- 20个提供商，263个模型支持
+- 31个提供商，266个模型支持
 - Caret账户免费额度
 - 随时切换到Cline模式
 
@@ -185,7 +180,7 @@ Cline不支持的模型可在Caret中使用。
 | F11 | 输入历史与快捷键 | [查看](../features.en/f11-input-history-and-shortcuts.md) |
 | F12 | AI-开发者知识对等 | [查看](../features.en/f12-ai-developer-knowledge-parity.md) |
 | F13 | 图像工具 | [查看](../features.en/f13-image-tool.md) |
-| F15 | 文档工具 | [查看](../features.en/f15-document-read-tool.md) |
+| F14 | 文档工具 | [查看](../features.en/f14-document-read-tool.md) |
 
 ---
 
