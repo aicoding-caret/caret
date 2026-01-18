@@ -47,22 +47,7 @@
 		"analyzeImagePath": "路径",
 		"analyzeImageQuestion": "问题",
 		"analyzeImageCompleted": "图片分析完成",
-		"analyzeImageAnalyzing": "正在分析图片...",
-		"commandOutput": "命令输出",
-		"commandApprovalRequired": "模型已确定此命令需要明确批准。",
-		"mcpNotification": "MCP通知",
-		"thinking": {
-			"label": "思考中"
-		},
-		"mcpLoadingDocumentation": "正在加载MCP文档",
-		"seeNewChanges": "查看新更改",
-		"shellIntegration": {
-			"unavailable": "Shell集成不可用",
-			"description": "{{brandName}}查看命令输出时可能遇到问题。请更新VSCode（<code>CMD/CTRL + Shift + P</code> → \"Update\"）并确保您正在使用支持的shell：zsh、bash、fish或PowerShell（<code>CMD/CTRL + Shift + P</code> → \"Terminal: Select Default Profile\"）。",
-			"troubleshooting": "仍然有问题？"
-		},
-		"condenseConversation": "{{brandName}}想要总结您的对话",
-		"createGithubIssue": "{{brandName}}想要创建一个Github问题"
+		"analyzeImageAnalyzing": "正在分析图片..."
 	},
 	"image": {
 		"dimensionError": "图像尺寸超过7500px",
@@ -110,15 +95,6 @@
 	},
 	"typeMessage": "输入消息...",
 	"mode": {
-		"tooltip": {
-			"description": "在{{mode_type}}模式下，{{brandName}}将{{action}}",
-			"act": {
-				"action": "立即完成任务"
-			},
-			"plan": {
-				"action": "收集信息以规划方案"
-			}
-		},
 		"act": {
 			"label": "执行"
 		},
@@ -142,11 +118,6 @@
 		"file": "文件",
 		"folder": "文件夹",
 		"searching": "搜索中..."
-	},
-	"creditLimitError": {
-		"outOfCredits": "您的积分已用完。",
-		"buyCredits": "购买积分",
-		"retryRequest": "重试请求"
 	},
 	"errorBlockTitle": {
 		"apiRetryAttempt": "API请求 (重试失败的第 {{attempt}}/{{retryOperations}} 次尝试",
@@ -240,14 +211,6 @@
 		"generatingDiagram": "正在生成Mermaid图表...",
 		"copyCode": "复制代码"
 	},
-	"telemetryBanner": {
-		"closeAndEnable": "关闭横幅并启用遥测",
-		"helpImproveCline": "帮助改进Cline",
-		"accessExperimentalFeatures": "（并访问实验功能）",
-		"dataCollectionInfo": "{{brandName}}收集错误和使用数据以帮助我们修复错误和改进扩展。绝不会发送代码、提示或个人信息。",
-		"turnOffSetting": "您可以在",
-		"settings": "设置"
-	},
 	"thumbnails": {
 		"thumbnailImage": "缩略图图像-{{index}}"
 	},
@@ -289,8 +252,7 @@
 	"mcpResponseDisplay": {
 		"response": "响应",
 		"responseError": "响应 (错误)",
-		"errorParsingResponse": "解析响应时出错:",
-		"loadingRichContent": "正在加载富文本内容..."
+		"errorParsingResponse": "解析响应时出错:"
 	},
 	"mcpConfigurationView": {
 		"mcpServers": "MCP服务器",
@@ -321,12 +283,6 @@
 		"addServer": "添加服务器",
 		"connectingToServer": "正在连接到服务器...这可能需要几秒钟。",
 		"editConfiguration": "编辑配置"
-	},
-	"brandMarketplace": {
-		"preparing": "{{brandName}} MCP市场正在准备中。",
-		"preparingDescription": "{{brandName}}专属MCP工具即将推出。",
-		"caretPreparing": "{{brandName}} MCP市场正在准备中。",
-		"caretPreparingDescription": "{{brandName}}专属MCP工具即将推出。"
 	},
 	"configureServersView": {
 		"mcpDescription": " ",
@@ -371,14 +327,6 @@
 	"serversToggleList": {
 		"noMcpServersInstalled": "未安装MCP服务器"
 	},
-	"mcpMarketplaceCard": {
-		"logoAlt": "{{name}} 标志",
-		"installed": "已安装",
-		"installing": "正在安装...",
-		"install": "安装",
-		"requiresApiKey": "需要API密钥",
-		"communityMadeWarning": "社区制作（使用风险自负）"
-	},
 	"mcpMarketplaceView": {
 		"failedToLoadMarketplaceData": "未能加载市场数据。",
 		"retry": "重试",
@@ -394,10 +342,6 @@
 		"noMatchingMcpServersFound": "未找到匹配的MCP服务器。",
 		"noMcpServersFoundInMarketplace": "在市场中未找到MCP服务器。"
 	},
-	"mcpSubmitCard": {
-		"submitMcpServer": "提交MCP服务器",
-		"helpOthersDiscover": "通过向github.com/cline/mcp-marketplace提交问题，帮助他人发现优秀的MCP服务器。"
-	},
 	"clineRulesToggleModal": {
 		"manageRulesWorkflows": "管理Cline规则和工作流",
 		"rulesTab": "规则",
@@ -411,11 +355,9 @@
 		"hooksDescription": "Hooks 允许您在 AI 操作前后运行 shell 命令。用于代码审查、代码检查、测试等任务。",
 		"skillsDescription": "Skills 是可按需调用的可重用指令集。用于为 {{brandName}} 提供特定任务的专业指导。",
 		"globalRules": "全局规则",
-		"workspaceRules": "工作区规则",
 		"globalWorkflows": "全局工作流",
 		"workspaceWorkflows": "工作区工作流",
 		"globalHooks": "全局 Hooks",
-		"workspaceHooks": "工作区 Hooks",
 		"globalSkills": "全局 Skills",
 		"workspaceSkills": "工作区 Skills"
 	},
@@ -441,16 +383,6 @@
 		"discardChanges": "丢弃更改",
 		"saveAndContinue": "保存并继续",
 		"cancel": "取消"
-	},
-	"checkmarkControl": {
-		"compare": "比较",
-		"restore": "恢复",
-		"restoreFiles": "恢复文件",
-		"restoreFilesDescription": "将您的项目文件恢复到此时间点拍摄的快照（使用“比较”查看将回滚的内容）",
-		"restoreTaskOnly": "仅恢复任务",
-		"restoreTaskOnlyDescription": "删除此时间点之后的消息（不影响工作区文件）",
-		"restoreFilesAndTask": "恢复文件和任务",
-		"restoreFilesAndTaskDescription": "恢复您的项目文件并删除此时间点之后的所有消息"
 	},
 	"checkpointControls": {
 		"compare": "比较",

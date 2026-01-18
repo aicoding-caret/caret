@@ -1,31 +1,7 @@
 {
 	"rules": {
 		"section": {
-			"title": "规则管理",
-			"description": "管理 Caret 规则与工作流。",
-			"workspaceRules": "工作区规则",
-			"globalRules": "全局规则",
-			"caretRules": ".agents/context 目录",
-			"clineRules": "旧版 .agents/context（忽略）",
-			"cursorRules": "旧版 .agents/context（忽略）",
-			"windsurfRules": "旧版 .agents/context（忽略）"
-		},
-		"priority": {
-			"title": "规则来源",
-			"description": "Caret 读取 .agents/context 与 AGENTS.md（递归）。旧版规则文件将被忽略。",
-			"info": "规则会合并应用，不再进行优先级切换。"
-		},
-		"buttons": {
-			"toggle": "切换",
-			"enable": "启用",
-			"disable": "禁用",
-			"refresh": "刷新"
-		},
-		"status": {
-			"enabled": "已启用",
-			"disabled": "已禁用",
-			"notFound": "文件未找到",
-			"loading": "加载中..."
+			"workspaceRules": "工作区规则"
 		}
 	},
 	"settingsView": {
@@ -66,48 +42,18 @@
 			"name": "关于",
 			"tooltip": "关于 Caret",
 			"header": "关于"
-		},
-		"title": "Caret 设置"
+		}
 	},
 	"planMode": "计划模式",
 	"actMode": "执行模式",
 	"useDifferentModels": "为计划和执行模式使用不同的模型",
 	"useDifferentModelsDescription": "在计划和执行模式之间切换时，将保留在上一个模式中使用的API和模型。例如，当使用强推理模型来构建计划，然后用便宜的编码模型来执行时，这可能会有所帮助。",
-	"theme": {
-		"dark": "深色主题",
-		"light": "浅色主题",
-		"auto": "自动主题"
-	},
-	"appearance": {
-		"fontSize": "字体大小",
-		"lineHeight": "行高",
-		"fontFamily": "字体系列"
-	},
 	"modelSelector": {
 		"label": "模型",
-		"placeholder": "选择模型...",
-		"selectModelPlaceholder": "选择模型..."
+		"placeholder": "选择模型..."
 	},
 	"pricing": {
-		"inputPrice": "输入价格: {{price}}/百万令牌",
-		"cacheReadPrice": "缓存读取价格: {{price}}/百万令牌",
-		"outputPriceStandard": "输出价格 (标准): {{price}}/百万令牌",
-		"outputPriceReasoning": "输出价格 (推理预算 > 0): {{price}}/百万令牌",
-		"contextWindow": "上下文窗口: {{size}}/百万令牌",
 		"perMillionTokens": "/百万令牌"
-	},
-	"modelInfo": {
-		"supportsImages": "支持图像",
-		"supportsBrowserUse": "支持浏览器使用",
-		"contextWindow": "上下文窗口: {{size}}"
-	},
-	"modeSystem": {
-		"label": "模式系统",
-		"description": "选择 Caret 或 Cline 模式。",
-		"options": {
-			"caret": "Caret",
-			"cline": "Cline"
-		}
 	},
 	"settings": {
 		"preferredLanguage": {
@@ -120,90 +66,12 @@
 		}
 	},
 	"buttons": {
-		"save": "保存",
-		"cancel": "取消",
-		"reset": "重置",
-		"done": "完成",
-		"close": "关闭",
-		"apply": "应用",
-		"test": "测试",
-		"refresh": "刷新",
-		"launchBrowser": "启动浏览器",
-		"launchingBrowser": "正在启动浏览器...",
-		"discardChanges": "丢弃更改"
-	},
-	"messages": {
-		"unsavedChanges": "您有未保存的更改。仍要继续吗？",
-		"settingsSaved": "设置已保存。",
-		"settingsReset": "设置已重置。",
-		"errorSaving": "保存设置时出错。",
-		"errorLoading": "加载设置时出错。",
-		"confirmReset": "您确定要将所有设置重置为默认值吗？此操作无法撤销。",
-		"confirmResetGlobal": "您确定也要重置全局设置吗？",
-		"loading": "加载中...",
-		"noChanges": "无更改。",
-		"unsavedChangesTitle": "未保存的更改"
-	},
-	"sections": {
-		"apiConfiguration": {
-			"title": "API 配置",
-			"description": "配置连接 AI 模型的 API 设置。"
-		},
-		"general": {
-			"title": "常规设置",
-			"description": "配置 Caret 的基本行为和语言设置。"
-		},
-		"features": {
-			"title": "功能设置",
-			"description": "启用或禁用 Caret 的各种功能。"
-		},
-		"browser": {
-			"title": "浏览器设置",
-			"description": "配置网络搜索和浏览器相关功能。"
-		},
-		"terminal": {
-			"title": "终端设置",
-			"description": "配置终端集成和命令执行设置。"
-		},
-		"debug": {
-			"title": "调试工具",
-			"description": "开发和调试工具。"
-		},
-		"about": {
-			"title": "关于 Caret",
-			"description": "如果您有任何问题或反馈，请在此处提出问题",
-			"link": "https://github.com/aicoding-caret/caret"
-		},
-		"launchingBrowser": "正在启动浏览器...",
-		"discardChanges": "丢弃更改"
-	},
-	"labels": {
-		"version": "版本",
-		"license": "许可证",
-		"repository": "代码仓库",
-		"documentation": "文档",
-		"support": "支持",
-		"feedback": "反馈",
-		"enabled": "已启用",
-		"disabled": "已禁用",
-		"default": "默认",
-		"custom": "自定义",
-		"automatic": "自动",
-		"manual": "手动"
-	},
-	"tooltips": {
-		"saveSettings": "保存当前设置",
-		"resetSettings": "将所有设置重置为默认值",
-		"closeSettings": "关闭设置窗口",
-		"unsavedChanges": "您有未保存的更改"
+		"done": "完成"
 	},
 	"browser": {
 		"checkingConnection": "检查连接中...",
 		"connected": "已连接",
 		"notConnected": "未连接",
-		"remoteBrowserEnabled": "使用远程浏览器",
-		"remoteBrowserHost": "远程浏览器主机",
-		"chromeExecutablePath": "Chrome 可执行文件路径",
 		"disableToolUse": "禁用浏览器工具使用",
 		"disableToolUseDescription": "阻止 Caret 使用浏览器操作（例如启动、点击、输入）。",
 		"viewportSize": "视口大小",
@@ -221,20 +89,6 @@
 		"customArgsOptional": "自定义浏览器参数（可选）",
 		"customArgsPlaceholder": "例如：--no-sandbox --disable-setuid-sandbox",
 		"customArgsDescription": "传递给浏览器可执行文件的空格分隔参数。",
-		"viewportWidth": "视口宽度",
-		"viewportHeight": "视口高度",
-		"detectedChromePath": "检测到的 Chrome 路径",
-		"customChromePath": "自定义 Chrome 路径",
-		"remoteBrowserDescription": "使用远程浏览器连接允许您运行单独的 Chrome 实例。您可以在下面指定自定义路径。要使用远程浏览器连接，您必须以调试模式启动 Chrome。",
-		"debugModeDescription": "您可以手动启动（<code>--remote-debugging-port=9222</code>）或使用下面的按钮。请输入主机地址。",
-		"defaultUrlPlaceholder": "http",
-		"screenshotAlt": "浏览器截图",
-		"consoleLogs": "控制台日志",
-		"noNewLogs": "（无新日志）",
-		"previousButton": "上一个",
-		"nextButton": "下一个",
-		"sessionStarted": "浏览器会话已启动",
-		"browseActionLabel": "浏览器操作",
 		"action": {
 			"launch": "在 {{text}} 启动浏览器",
 			"click": "点击 ({{coordinate}})",
@@ -253,8 +107,6 @@
 		"aggressiveReuse": "积极终端复用",
 		"aggressiveReuseDescription": "在请求新终端会话时，尽可能复用现有可用的终端。",
 		"positiveNumberError": "请输入正数。",
-		"outputLimit": "终端输出限制",
-		"outputLimitDescription": "执行命令时终端输出中包含的最大行数。如果超过此数字，中间行将被删除以节省令牌。",
 		"issuesTitle": "遇到终端问题？",
 		"checkOur": "查看我们的",
 		"quickFixesLink": "终端快速修复",
@@ -266,14 +118,9 @@
 		"enableCheckpointsDescription": "允许扩展在任务期间保存工作区的检查点。这在内部使用 git，对于大型工作区可能无法正常工作。",
 		"enableMcpMarketplace": "启用 MCP 市场",
 		"enableMcpMarketplaceDescription": "启用 MCP 市场选项卡，允许您发现和安装 MCP 服务器。",
-		"mentionImageSend": "在 @ 提及时发送图片文件",
-		"mentionImageSendDescription": "启用后，@ 提到的图片文件会以图片附件（base64）与路径一并发送。",
-		"enableRichMcpDisplay": "启用丰富 MCP 显示",
-		"enableRichMcpDisplayDescription": "为 MCP 响应启用丰富格式。如果禁用，响应将显示为纯文本。",
 		"subagents": {
 			"enable": "启用子代理",
 			"enabled": "子代理已启用",
-			"description": "将大型探索任务委托给 CLI 子代理。",
 			"caretWarning": "使用子代理需要安装 Caret CLI。",
 			"clineWarning": "使用子代理需要安装 Cline CLI。",
 			"install": "安装子代理 CLI",
@@ -316,14 +163,10 @@
 	},
 	"autoApprove": {
 		"title": "自动批准设置",
-		"tooltip": "配置各种操作的自动批准设置",
-		"label": "自动批准",
 		"actionsHeader": "操作",
 		"quickSettingsHeader": "快速设置",
 		"maxRequestsLabel": "最大请求数",
 		"maxRequestsTooltip": "可自动批准的最大连续请求数",
-		"removeFromQuickAccess": "从快速访问菜单中移除",
-		"addToQuickAccess": "添加到快速访问菜单",
 		"enableAutoApprove": {
 			"label": "启用自动批准",
 			"shortName": "已启用",
@@ -390,61 +233,37 @@
 			"description": "当 Caret 需要批准某个步骤或任务完成时，接收系统通知。"
 		}
 	},
-	"telemetry": {
-		"label": "允许匿名错误和使用情况报告",
-		"description": "您可以通过发送匿名使用数据和错误报告来帮助改进 Caret。匿名使用和错误数据用于帮助改进 Caret 产品。绝不会发送任何代码、提示或个人信息，也不包含任何个人身份信息。",
-		"telemetryOverview": "遥测概览",
-		"and": "和",
-		"privacyPolicy": "隐私政策",
-		"forMoreDetails": "了解更多详情。",
-		"title": "遥测数据"
-	},
 	"debug": {
 		"resetWorkspaceState": "重置工作区状态",
 		"resetGlobalState": "重置全局状态",
 		"resetGlobalStateDescription": "重置扩展程序的所有全局状态和秘密存储。",
-		"title": "调试设置",
-		"description": "管理调试模式和相关设置。",
 		"errorInSeconds": "{{current}}/{{total}} 秒后出错"
 	},
 	"modelPicker": {
-		"extensionFetches": "扩展程序自动获取可用的最新模型列表 ",
-		"unsureWhichModel": "如果您不确定选择哪个模型，Caret 最适合与 ",
-		"freeOptions": "要查找当前可用的免费选项，请尝试搜索“免费”。",
 		"seeMore": "查看更多"
 	},
 	"apiOptions": {
 		"apiProvider": "API 提供商",
 		"searchAndSelectProvider": "搜索并选择提供商...",
-		"clearSearch": "清除搜索",
-		"clineProviderHidden": "Caret 提供商已隐藏 - 请改用 Caret API 提供商"
+		"clearSearch": "清除搜索"
 	},
 	"clineAccountInfoCard": {
 		"loginError": "获取登录 URL 失败：",
-		"viewBillingAndUsage": "查看账单和使用情况",
-		"signUpWithCline": "使用 Cline 登录"
+		"viewBillingAndUsage": "查看账单和使用情况"
 	},
 	"apiKeyField": {
 		"placeholder": "输入 API 密钥...",
-		"apiKeyLabel": "{{providerName}} API 密钥",
 		"defaultHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。",
 		"signupText": "您可以通过在此处注册来获取 {{providerName}} API 密钥。"
 	},
 	"baseUrlField": {
-		"label": "使用自定义基础 URL",
-		"placeholder": "默认: https://api.example.com"
+		"label": "使用自定义基础 URL"
 	},
 	"modelInfoView": {
-		"inputPriceLabel": "输入价格：",
-		"outputPriceStandardLabel": "输出价格（标准）：",
-		"outputPriceThinkingBudgetLabel": "输出价格（思考预算 > 0）：",
-		"outputPriceLabel": "输出价格：",
 		"basedOnInputTokens": "（基于输入令牌）",
 		"doesNotSupportImages": "不支持图像",
 		"supportsImages": "支持图像",
 		"contextWindowLabel": "上下文窗口：",
-		"cacheWritesPriceLabel": "缓存写入价格：",
-		"cacheReadsPriceLabel": "缓存读取价格：",
 		"inputPrice": "输入价格",
 		"outputPriceStandard": "输出价格（标准）",
 		"outputPriceThinking": "输出价格（思考预算 > 0）",
@@ -456,12 +275,6 @@
 		"contextWindow": "上下文窗口",
 		"cacheWritesPrice": "缓存写入价格",
 		"cacheReadsPrice": "缓存读取价格",
-		"supportsImagesLabel": "支持图像：",
-		"supportsComputerUseLabel": "支持计算机使用：",
-		"supportsCacheLabel": "支持提示缓存：",
-		"doesNotSupportImagesLabel": "不支持图像：",
-		"doesNotSupportComputerUseLabel": "不支持计算机使用：",
-		"doesNotSupportCacheLabel": "不支持提示缓存：",
 		"imageGeneration": {
 			"title": "图像生成默认值",
 			"aspectRatio": "纵横比",
@@ -469,16 +282,6 @@
 			"auto": "自动（模型默认）",
 			"analysisModel": "分析模型"
 		}
-	},
-	"ollamaModelPicker": {
-		"searchPlaceholder": "搜索并选择模型...",
-		"clearSearch": "清除搜索"
-	},
-	"preferredLanguageSetting": {
-		"english": "🇺🇸 英语",
-		"korean": "🇰🇷 韩语",
-		"chinese": "🇨🇳 中文",
-		"japanese": "🇯🇵 日语"
 	},
 	"clineProvider": {
 		"sortUnderlyingProviderRouting": "排序底层提供商路由",
@@ -491,77 +294,15 @@
 		"throughputSortingDescription": "按吞吐量排序（可能增加成本）",
 		"latencySortingDescription": "按延迟排序（优先响应最快）"
 	},
-	"claude": {
-		"systemPrompt": "系统提示",
-		"maxTokens": "最大标记",
-		"apiVersion": "API版本"
-	},
-	"sapAiCoreModelPicker": {
-		"deployedModelsHeader": "── 已部署模型 ──",
-		"notDeployedModelsHeader": "── 未部署模型 ──"
-	},
-	"api-configuration": {
-		"title": "API 配置"
-	},
 	"providers": {
 		"caret": {
 			"name": "Caret",
 			"login": "Caret 登录",
-			"profile": "Profile",
-			"logout": "Logout",
-			"apiKeyConfigured": "Caret已登录",
 			"description": "Caret登录用户可以使用免费提供的积分访问Google最新的Gemini模型",
-			"features": "无需单独API密钥即可享受以下功能",
-			"feature1": "Gemini 2.5 Pro：强大的推理能力",
-			"feature2": "Gemini 2.5 Flash：快速高效的响应",
-			"feature3": "无需单独API密钥即可立即访问",
-			"feature4": "价格：使用免费计划积分",
-			"visit": "获取Caret的API密钥：",
-			"baseUrlPlaceholder": "默认: http://localhost:4000",
-			"baseUrlLabel": "基础 URL（可选）",
-			"apiKeyPlaceholder": "默认: noop",
-			"apiKeyLabel": "API 密钥",
-			"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
-			"modelIdLabel": "模型 ID",
-			"usePromptCachingLabel": "使用提示缓存 (GA)",
-			"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
-			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
-			"thinkingModeConfigurationLinkText": "思考模式配置",
-			"modelConfigurationLabel": "模型配置",
-			"supportsImagesLabel": "支持图像",
-			"contextWindowSizeLabel": "上下文窗口大小",
-			"maxOutputTokensLabel": "最大输出令牌",
-			"temperatureLabel": "温度",
-			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
-			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
-			"extendedThinkingLink": "思考模式配置",
-			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
-			"quickstartGuideLink": "快速入门指南",
-			"description2": "了解更多信息。",
-			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
-			"quickstartGuideLinkText": "快速入门指南",
-			"forMoreInformationText": "了解更多信息。",
 			"modelPicker": {
-				"starIconFilled": "★",
-				"starIconEmpty": "☆",
-				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
-				"featuredModelLabelBest": "Best",
-				"featuredModelDescriptionGemini3FlashPreview": "面向速度与性价比的 Gemini 3 Flash Preview 模型",
-				"featuredModelDescriptionNew": "Claude Opus 4.5：以 Opus 4.1 三分之一的成本提供 SOTA 级编码性能",
-				"featuredModelLabelNew": "New",
-				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
-				"featuredModelLabelFree": "Free",
 				"modelLabel": "모델",
 				"searchPlaceholder": "모델 검색 및 선택...",
-				"clearSearch": "검색 지우기",
-				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
-				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
-				"switchToTwoHundredKContext": "Switch to 200K context window model",
-				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
-				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+				"clearSearch": "검색 지우기"
 			}
 		},
 		"openrouter": {
@@ -587,27 +328,18 @@
 			"latencySortingDescription": "按响应时间对提供商进行排序，优先选择延迟最低的提供商",
 			"authError": "打开OpenRouter认证失败：",
 			"modelPicker": {
-				"starIconFilled": "★",
-				"starIconEmpty": "☆",
 				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
 				"featuredModelLabelBest": "Best",
 				"featuredModelDescriptionGemini3FlashPreview": "面向速度与性价比的 Gemini 3 Flash Preview 模型",
 				"featuredModelDescriptionKatcoder": "KwaiKAT KAT-Coder系列中最先进的代理编码模型",
-				"featuredModelDescriptionNew": "Claude Opus 4.5：以 Opus 4.1 三分之一的成本提供 SOTA 级编码性能",
 				"featuredModelLabelNew": "New",
 				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
 				"featuredModelLabelFree": "Free",
-				"modelLabel": "模型",
 				"searchPlaceholder": "搜索并选择模型...",
 				"clearSearch": "清除搜索",
-				"switchTo1M": "切换到 1M 上下文窗口模型",
-				"switchToOneMContext": "切换到 1M 上下文窗口模型",
-				"switchToTwoHundredKContext": "Switch to 200K context window model",
 				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
 				"linkText": "OpenRouter.",
-				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
-				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with "
 			}
 		},
 		"gemini": {
@@ -638,8 +370,6 @@
 			"inputPriceLabel": "输入价格 / 100万令牌",
 			"outputPriceLabel": "输出价格 / 100万令牌",
 			"temperatureLabel": "温度",
-			"notePrefix": "注意:",
-			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
 			"refreshModelsError": "刷新 OpenAI 模型失败:",
 			"providerName": "OpenAI 兼容"
 		},
@@ -698,8 +428,7 @@
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "使用 OpenAI 官方 API 直接访问 GPT 模型。需要 API 密钥。",
-			"providerName": "OpenAI"
+			"description": "使用 OpenAI 官方 API 直接访问 GPT 模型。需要 API 密钥。"
 		},
 		"ollama": {
 			"name": "Ollama",
@@ -718,10 +447,6 @@
 			"requestTimeoutPlaceholder": "默认: 30000 (30 秒)",
 			"requestTimeoutLabel": "请求超时（毫秒）",
 			"requestTimeoutDescription": "在超时之前等待 API 响应的最大毫秒数。",
-			"descriptionPart1": "Ollama 允许您在计算机上本地运行模型。有关如何开始的说明，请参阅其 ",
-			"quickstartGuideLinkText": "快速入门指南。",
-			"notePrefix": "注意：",
-			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
 			"fetchModelsErrorLog": "获取 Ollama 模型失败：",
 			"providerName": "Ollama",
 			"contextWindowPlaceholder": "例如 32768"
@@ -735,24 +460,16 @@
 			"selectRegionPlaceholder": "选择区域...",
 			"setupDescription": "要使用Google Cloud Vertex AI，您需要 ",
 			"setupLink1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
-			"setupLink2": " 2) 安装 Google Cloud CLI › 配置应用程序默认凭据。",
-			"descriptionPart1": "要使用 Google Cloud Vertex AI，您需要",
-			"linkText1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
-			"linkText2": "2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
+			"setupLink2": " 2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"description": "LiteLLM 提供统一接口以访问 100 多个 LLM API。",
 			"baseUrlPlaceholder": "默认: http://localhost:4000",
-			"baseUrlLabel": "基础 URL（可选）",
 			"apiKeyPlaceholder": "默认: noop",
 			"apiKeyLabel": "API 密钥",
 			"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
 			"modelIdLabel": "模型 ID",
 			"usePromptCachingLabel": "使用提示缓存 (GA)",
-			"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
-			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
-			"thinkingModeConfigurationLinkText": "思考模式配置",
 			"modelConfigurationLabel": "模型配置",
 			"supportsImagesLabel": "支持图像",
 			"contextWindowSizeLabel": "上下文窗口大小",
@@ -763,17 +480,10 @@
 			"extendedThinkingLink": "思考模式配置",
 			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
 			"quickstartGuideLink": "快速入门指南",
-			"description2": "了解更多信息。",
-			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
-			"quickstartGuideLinkText": "快速入门指南",
-			"forMoreInformationText": "了解更多信息。"
+			"description2": "了解更多信息。"
 		},
 		"bizrouter": {
 			"name": "BizRouter",
-			"description": "BizRouter 是为韩国市场优化的 AI 路由平台。",
-			"baseUrlPlaceholder": "默认: https://bizrouter.ai/api/v1",
-			"baseUrlLabel": "基础 URL",
-			"baseUrlRequired": "基础 URL 是必需的",
 			"apiKeyLabel": "BizRouter API 密钥",
 			"apiKeyPlaceholder": "输入以 sk-br-v1- 开头的 API 密钥...",
 			"apiKeyRequired": "API 密钥是必需的",
@@ -797,8 +507,7 @@
 		},
 		"mistral": {
 			"name": "Mistral",
-			"description": "Mistral AI 开发高性能开源和商业模型。",
-			"providerName": "Mistral"
+			"description": "Mistral AI 开发高性能开源和商业模型。"
 		},
 		"zai": {
 			"name": "Z AI",
@@ -810,8 +519,6 @@
 		"groq": {
 			"name": "Groq",
 			"description": "Groq 通过其语言处理单元 (LPU) 提供极快的推理速度。",
-			"providerName": "Groq",
-			"modelLabel": "模型",
 			"searchPlaceholder": "搜索并选择模型...",
 			"clearSearch": "清除搜索",
 			"fetchModelsError": "获取 Groq 模型失败:",
@@ -824,7 +531,6 @@
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"description": "Cerebras 构建用于训练和运行大规模 AI 模型的硬件。",
 			"sotaDescription": "SOTA 编码模型，速度约为 2000 令牌/秒（免费套餐 $0）",
 			"noSubscription": "• 如果您没有 Cerebras 订阅，请使用此选项",
 			"contextWindow": "• 64K 上下文窗口",
@@ -845,42 +551,27 @@
 		"baseten": {
 			"name": "Baseten",
 			"description": "Baseten 是一个用于部署和提供自定义 AI 模型的平台。",
-			"modelNotStatic": "模型 {{newModelId}} 不在静态 basetenModels 列表中",
-			"fetchModelsError": "刷新 Baseten 模型失败:",
 			"searchPlaceholder": "搜索并选择模型...",
 			"clearSearch": "清除搜索",
 			"infoDescription": "扩展程序自动获取以下平台上可用的最新模型列表",
 			"infoLinkText": "Baseten",
 			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
 			"unsureWhichModel": "如果您不确定选择哪个模型，我们建议",
-			"modelLabel": "模型",
 			"apiKeyHelp": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。您可以通过在此处注册来获取 {{providerName}} API 密钥。",
-			"basetenUrl": "https://www.baseten.co/products/model-apis/",
-			"basetenSignupUrl": "https://baseten.co/"
+			"basetenUrl": "https://www.baseten.co/products/model-apis/"
 		},
 		"requesty": {
 			"name": "Requesty",
 			"description": "Requesty 是一个 AI 驱动的请求路由和管理平台。",
 			"useCustomBaseUrlLabel": "使用自定义基础 URL",
 			"customBaseUrlPlaceholder": "自定义基础 URL",
-			"modelLabel": "模型",
 			"searchPlaceholder": "搜索并选择模型...",
 			"clearSearch": "清除搜索",
-			"requestyUrl": "https://app.requesty.ai/router/list",
-			"info": {
-				"fullText": {
-					"part1": "扩展程序自动获取以下平台上可用的最新模型列表",
-					"part2": "如果您不确定选择哪个模型，Caret 与以下模型配合使用效果最佳"
-				},
-				"linkText": "Requesty.",
-				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
-			}
+			"requestyUrl": "https://app.requesty.ai/router/list"
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AI 是一个供开发人员试验和部署生成式 AI 模型的平台。",
-			"providerName": "Fireworks",
-			"modelLabel": "模型"
+			"description": "Fireworks AI 是一个供开发人员试验和部署生成式 AI 模型的平台。"
 		},
 		"together": {
 			"name": "Together",
@@ -888,15 +579,13 @@
 			"modelIdPlaceholder": "输入模型 ID...",
 			"modelIdLabel": "模型 ID",
 			"notePrefix": "注意：",
-			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
-			"providerName": "Together"
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
 		},
 		"qwen": {
 			"name": "阿里云通义千问",
 			"description": "阿里云通义千问是一个功能强大的大型语言模型，适用于各种自然语言处理任务。",
 			"apiLineLabel": "阿里云 API 线路",
 			"apiLineDescription": "请根据您的位置选择合适的 API 接口。如果您在中国，请选择中国 API 接口。否则，请选择国际 API 接口。",
-			"providerName": "通义千问",
 			"apiLineOptions": {
 				"international": "国际 API",
 				"china": "中国 API"
@@ -919,23 +608,15 @@
 		"doubao": {
 			"name": "字节跳动豆包",
 			"description": "豆包是字节跳动开发的一系列对话式 AI 模型。",
-			"providerName": "豆包",
 			"modelLabel": "模型"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
 			"description": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
-			"contextWindowLabel": "上下文窗口",
 			"baseUrlPlaceholder": "默认: http://localhost:1234",
 			"modelPlaceholder": "例如 meta-llama-3.1-8b-instruct",
 			"contextWindowTooltip": "不可编辑 - 该值由连接的端点返回",
-			"parseModelsError": "解析 LM Studio 模型失败：",
-			"description1": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
-			"quickstartGuideLink": "快速入门指南。",
-			"description2": "您还需要启动 LM Studio 的 ",
-			"localServerLink": "本地服务器",
-			"description3": " 功能，并使用 `lms server start` 命令将其与此扩展程序一起使用。",
-			"noteBody": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
+			"parseModelsError": "解析 LM Studio 模型失败："
 		},
 		"moonshot": {
 			"name": "月之暗面",
@@ -949,7 +630,6 @@
 			"apiKeyLabel": "Hugging Face API 密钥",
 			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。我们在这里不显示价格，因为它取决于您的 Hugging Face 提供商设置，并且无法通过其 API 一致提供。",
 			"getApiKeyLinkText": "在此处获取您的 API 密钥",
-			"modelLabel": "模型",
 			"searchPlaceholder": "搜索模型...",
 			"clearSearch": "清除搜索",
 			"fetchModelsError": "获取 Hugging Face 模型失败:",
@@ -984,18 +664,14 @@
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNova 为企业级 AI 应用提供高性能模型。",
-			"providerName": "SambaNova"
+			"description": "SambaNova 为企业级 AI 应用提供高性能模型。"
 		},
 		"huawei-cloud-maas": {
 			"name": "华为云 MaaS",
-			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。",
-			"providerName": "华为云 MaaS"
+			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。"
 		},
 		"upstage": {
 			"name": "Upstage",
-			"description": "Upstage 提供针对各种 AI 任务优化的 Solar LLM 模型。",
-			"newBadge": "🆕",
 			"descriptionPart1": "",
 			"upstageLinkText": "Upstage",
 			"descriptionPart2": " 提供针对各种 AI 任务优化的 ",
@@ -1004,8 +680,6 @@
 		},
 		"naver-cloud": {
 			"name": "Naver Cloud",
-			"description": "Naver Cloud 提供针对韩语语境优化的 Hyper Clova X (HCX) 模型。",
-			"newBadge": "🆕",
 			"descriptionPart1": "",
 			"naverCloudLinkText": "Naver Cloud",
 			"descriptionPart2": " 提供针对韩语语境优化的 ",
@@ -1019,8 +693,7 @@
 			"baseUrlPlaceholder": "请输入您的 Dify 基础 URL..."
 		},
 		"cline": {
-			"name": "Cline",
-			"description": "Cline 提供来自 Cline 服务的 AI 模型和语音功能。"
+			"name": "Cline"
 		},
 		"claude-code": {
 			"name": "Claude Code",
@@ -1059,58 +732,8 @@
 			"selectModelPlaceholder": "选择模型..."
 		}
 	},
-	"persona": {
-		"enablePersonaSystem": "启用人格系统",
-		"description": "启用人格系统以自定义您的 AI 助手的个性和响应风格。"
-	},
-	"about": {
-		"feedbackPrompt": "如果您有任何问题或反馈，我们随时欢迎。",
-		"version": "版本",
-		"title": "关于",
-		"description": "检查 Caret 版本并查看相关信息。",
-		"documentation": "文档"
-	},
 	"thinkingBudget": {
-		"enable": "启用思考预算",
-		"budgetText": {
-			"part1": "思考预算: ",
-			"part2": "{{value}} 令牌"
-		},
-		"ariaLabel": "将思考预算设置为 {{value}} 令牌",
-		"description": "控制模型用于内部推理的最大令牌数。较高的值允许更彻底的分析，但会增加成本。"
-	},
-	"validation": {
-		"apiKey": {
-			"required": "您必须提供有效的 API 密钥或选择其他提供商。"
-		},
-		"region": {
-			"required": "您必须选择与 AWS Bedrock 一起使用的区域。"
-		},
-		"googleCloud": {
-			"projectIdAndRegion": "您必须提供有效的 Google Cloud 项目 ID 和区域。"
-		},
-		"openai": {
-			"baseUrlApiKeyModel": "您必须提供有效的基础 URL、API 密钥和模型 ID。"
-		},
-		"modelId": {
-			"required": "您必须提供有效的模型 ID。",
-			"unavailable": "您提供的模型 ID 不可用。请选择其他模型。"
-		},
-		"modelSelector": {
-			"required": "您必须提供有效的模型选择器。"
-		},
-		"baseUrl": {
-			"required": "您必须提供有效的基础 URL 或选择其他提供商。"
-		},
-		"clientId": {
-			"required": "您必须提供有效的客户端 ID 或选择其他提供商。"
-		},
-		"clientSecret": {
-			"required": "您必须提供有效的客户端密钥或选择其他提供商。"
-		},
-		"authUrl": {
-			"required": "您必须提供有效的认证 URL 或选择其他提供商。"
-		}
+		"enable": "启用思考预算"
 	},
 	"contextWindowSwitcher": {
 		"switchTo1M": "切换到1M上下文",
