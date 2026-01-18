@@ -125,6 +125,33 @@ npm run build:webview
 4. ✅ Existing functionality is fully preserved
 5. ✅ `CARET MODIFICATION` comments are complete
 
+## 📦 **Supported Languages (Sovereign Cloud)**
+
+Caret supports 7 languages following the Sovereign Cloud principle (Provider Country = UI Language):
+
+| Flag | Language | Code | Key Providers |
+|------|----------|------|---------------|
+| 🇺🇸 | English | en | Anthropic, OpenAI, xAI, Groq |
+| 🇰🇷 | Korean | ko | Caret, Upstage, Naver Cloud |
+| 🇯🇵 | Japanese | ja | - |
+| 🇨🇳 | Chinese | zh | Qwen, DeepSeek, Doubao, Moonshot |
+| 🇫🇷 | French | fr | Mistral |
+| 🇩🇪 | German | de | SAP AI Core |
+| 🇷🇺 | Russian | ru | Nebius |
+
+## 🧹 **Unused Key Cleanup**
+
+### Safe Deletion (Preserves Dynamic Keys)
+```bash
+node caret-scripts/tools/remove-i18n-unused-keys-safe.js
+```
+Preserves keys used via template literals: `bullets.current.*`, `slashCommandMenu.*`, `apiLineOptions.*`, `subagents.*`
+
+### Full Deletion (Use with Caution)
+```bash
+node caret-scripts/tools/remove-i18n-unused-keys.js
+```
+
 ---
-**Workflow Version**: v1.1 (2025-09-06)
+**Workflow Version**: v1.2 (2026-01-18)
 **Related Documents**: f02-multilingual-i18n.md, merging-strategy-guide.md

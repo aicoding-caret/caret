@@ -1,16 +1,19 @@
 # 다국어 i18n 시스템 (Multilingual i18n System)
 
-Caret의 **다국어 지원 시스템**은 한국어, 영어, 일본어, 중국어 4개 언어를 중심으로 설계된 포괄적인 국제화(i18n) 시스템입니다.
+Caret의 **다국어 지원 시스템**은 **Sovereign Cloud** 원칙(Provider Country = UI Language Support)에 따라 7개 언어를 지원하는 포괄적인 국제화(i18n) 시스템입니다.
 
 > **중요**: Caret은 기존의 `react-i18next` 라이브러리를 사용하지 않고, `@/caret/utils/i18n.ts`에 구현된 자체 경량화 시스템을 사용합니다. 이는 성능 최적화와 프로젝트 맞춤 기능(예: 한국어 조사 처리)을 위함입니다.
 
 ## 📋 **기능 개요**
 
-### **지원 언어**
-- 🇰🇷 **한국어 (ko)**: 완전 번역 및 현지화 (조사 자동 처리 포함)
-- 🇺🇸 **영어 (en)**: 기본 언어 및 fallback
+### **지원 언어 (Sovereign Cloud)**
+- 🇰🇷 **한국어 (ko)**: 완전 번역 및 현지화 (조사 자동 처리 포함) - Caret, Upstage, Naver Cloud
+- 🇺🇸 **영어 (en)**: 기본 언어 및 fallback - Anthropic, OpenAI, xAI 등
 - 🇯🇵 **일본어 (ja)**: 번역 지원
-- 🇨🇳 **중국어 (zh)**: 번역 지원
+- 🇨🇳 **중국어 (zh)**: 번역 지원 - Qwen, DeepSeek, Doubao, Moonshot 등
+- 🇫🇷 **프랑스어 (fr)**: 번역 지원 - Mistral
+- 🇩🇪 **독일어 (de)**: 번역 지원 - SAP AI Core
+- 🇷🇺 **러시아어 (ru)**: 번역 지원 - Nebius
 
 ### **네임스페이스 구조 원칙**
 
@@ -184,16 +187,35 @@ t('providers.ollama.modelPicker.searchPlaceholder', 'settings')
 ```
 webview-ui/src/caret/
 ├── locale/                        # 다국어 JSON 파일
-│   ├── en/ (11개)                 # 영어 (기준 언어)
-│   ├── ko/ (11개)                 # 한국어
-│   ├── ja/ (11개)                 # 일본어
-│   └── zh/ (11개)                 # 중국어
+│   ├── en/                        # 영어 (기준 언어)
+│   ├── ko/                        # 한국어
+│   ├── ja/                        # 일본어
+│   ├── zh/                        # 중국어
+│   ├── fr/                        # 프랑스어 (Sovereign Cloud)
+│   ├── de/                        # 독일어 (Sovereign Cloud)
+│   └── ru/                        # 러시아어 (Sovereign Cloud)
 ├── utils/
 │   └── i18n.ts                    # 메인 i18n 유틸리티
 ├── hooks/
 │   └── useCaretI18n.ts           # React i18n Hook
 └── context/
     └── CaretI18nContext.tsx      # i18n Context Provider
+
+caret-docs/
+├── readme-i18n/                   # 다국어 README 파일
+│   ├── README.ko.md
+│   ├── README.ja.md
+│   ├── README.zh-cn.md
+│   ├── README.fr.md
+│   ├── README.de.md
+│   └── README.ru.md
+└── changelog-i18n/                # 다국어 CHANGELOG 파일
+    ├── CHANGELOG.ko.md
+    ├── CHANGELOG.ja.md
+    ├── CHANGELOG.zh-cn.md
+    ├── CHANGELOG.fr.md
+    ├── CHANGELOG.de.md
+    └── CHANGELOG.ru.md
 ```
 
 ### **핵심 API 및 사용법**
@@ -277,8 +299,11 @@ Caret의 i18n 시스템은 한국어의 복잡한 조사를 자동으로 처리�
     누락된 키를 자동으로 추가하고 영어(en)를 기본값으로 채웁니다.
 -   **완전 동기화 (삭제 포함)**: `node caret-scripts/tools/i18n-key-synchronizer.js --delete-unused`
     누락된 키를 추가하고, 영어에 없는 키를 다른 언어에서 삭제합니다.
--   **미사용 키 자동 삭제**: `node caret-scripts/tools/remove-i18n-unused-keys.js`
-    사용되지 않는 번역 키를 모든 언어 파일에서 자동으로 삭제합니다.
+-   **미사용 키 자동 삭제 (안전 모드)**: `node caret-scripts/tools/remove-i18n-unused-keys-safe.js`
+    동적 키(템플릿 리터럴로 생성되는 키)를 보존하면서 미사용 키를 삭제합니다.
+    - 보존되는 동적 키 패턴: `bullets.current.1-5`, `slashCommandMenu.*`, `apiLineOptions.*`, `subagents.*`
+-   **미사용 키 자동 삭제 (전체)**: `node caret-scripts/tools/remove-i18n-unused-keys.js`
+    사용되지 않는 번역 키를 모든 언어 파일에서 자동으로 삭제합니다. (동적 키 주의)
 
 **i18n-key-synchronizer.js 사용법:**
 ```bash
@@ -305,7 +330,7 @@ node caret-scripts/tools/i18n-key-synchronizer.js -d
 
 1.  **네임스페이스 결정**: 추가할 번역이 기존 네임스페이스에 맞지 않으면 새로운 네임스페이스(`{namespace}.json`)를 생성합니다.
 2.  **JSON 파일 수정**: `webview-ui/src/caret/locale/en/` 폴더에 기준이 될 영어 번역을 추가합니다.
-3.  **다른 언어 파일 동기화**: `ko`, `ja`, `zh` 폴더의 해당 네임스페이스 파일에도 동일한 키를 추가하고 번역합니다.
+3.  **다른 언어 파일 동기화**: `ko`, `ja`, `zh`, `fr`, `de`, `ru` 폴더의 해당 네임스페이스 파일에도 동일한 키를 추가하고 번역합니다.
 4.  **네임스페이스 등록**: 새 네임스페이스를 생성한 경우, `webview-ui/src/caret/utils/i18n.ts` 파일의 `translations` 객체와 `loadLanguagePack` 함수 내 `Promise.all` 배열에 반드시 추가해야 합니다. **⚠️ 이 과정을 누락하는 것이 가장 흔한 실수입니다.**
 5.  **코드 적용**: `t('your.key', 'your_namespace')` 형태로 코드에 적용합니다.
 
@@ -372,7 +397,38 @@ const providerOptions = useMemo(() => [
 
 이 패턴을 통해 언어 설정 변경 시 UI가 즉시 올바른 번역으로 업데이트됩니다.
 
-## 🔧 **최근 수정 사항 (2025-09-18)**
+## 🔧 **최근 수정 사항 (2026-01-18)**
+
+### **Sovereign Cloud 언어 지원 확장**
+
+1. **7개 언어로 확장** (4개 → 7개)
+   - ✅ 🇫🇷 **프랑스어 (fr)**: Mistral 프로바이더 지원
+   - ✅ 🇩🇪 **독일어 (de)**: SAP AI Core 프로바이더 지원
+   - ✅ 🇷🇺 **러시아어 (ru)**: Nebius 프로바이더 지원
+
+2. **프로바이더 국가 플래그 표시**
+   - ✅ 모든 프로바이더에 국가/유형 플래그 추가
+   - 🇺🇸 미국: Anthropic, OpenAI, xAI, Groq 등
+   - 🇰🇷 한국: Caret, Upstage, Naver Cloud, BizRouter
+   - 🇨🇳 중국: Qwen, DeepSeek, Doubao, Moonshot 등
+   - 🇫🇷 프랑스: Mistral
+   - 🇩🇪 독일: SAP AI Core
+   - 🇷🇺 러시아: Nebius
+   - ☁️ 글로벌 클라우드: Bedrock, Vertex, Gemini
+   - 💻 로컬: Ollama, LM Studio, VS Code LM
+
+3. **다국어 문서 폴더 구조 개선**
+   - ✅ `caret-docs/readme-i18n/`: README.xx.md 형식으로 통합
+   - ✅ `caret-docs/changelog-i18n/`: CHANGELOG.xx.md 형식으로 통합
+   - ✅ 기존 언어별 폴더(ko, ja, zh-cn, fr, de, ru) 제거
+
+4. **i18n 미사용 키 정리**
+   - ✅ 938개 미사용 키 삭제 (50% → 5% 미사용률)
+   - ✅ 동적 키 보존하는 안전 삭제 스크립트 추가: `remove-i18n-unused-keys-safe.js`
+
+---
+
+## 🔧 **이전 수정 사항 (2025-09-18)**
 
 ### **Announcement 컴포넌트 동적화 및 버전 표시 개선**
 
@@ -502,4 +558,4 @@ const desc = t(`bullets.current.${i}-desc`, "announcement")
 - [ ] **Provider 구조 검증**: 모든 Provider가 표준 구조를 따르는지 자동 검사
 
 ---
-**문서 상태**: `2025-09-16` 기준 최신화 완료
+**문서 상태**: `2026-01-18` 기준 최신화 완료 (Sovereign Cloud 7개 언어 지원)

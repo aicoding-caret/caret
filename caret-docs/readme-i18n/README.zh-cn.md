@@ -8,12 +8,12 @@
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ko/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ko.md">
           <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ja/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ja.md">
           <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
         </a>
       </td>
@@ -23,17 +23,17 @@
     </tr>
     <tr>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/fr/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/de/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
       </td>
       <td align="center">
-        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ru/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
       </td>

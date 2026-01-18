@@ -88,8 +88,11 @@ steps:
         korean: caret-docs/development/b2b-branding-workflow.md
 
       - name: i18n Static Translation Fix
-        keywords: [i18n, translation, static, dynamic, language switching]
-        workflow: .agents/workflows/i18n-static-translation-fix.md # i18n bug fix (130 lines)
+        keywords: [i18n, translation, static, dynamic, language switching, sovereign cloud, multilingual]
+        workflow: .agents/workflows/i18n-static-translation-fix.md # i18n bug fix (158 lines)
+        notes: |
+          Sovereign Cloud: 7 languages (en, ko, ja, zh, fr, de, ru)
+          Provider Country = UI Language Support
 
       - name: Frontend-Backend Communication
         keywords: [webview, communication, state management, message passing, UI integration, gRPC]
