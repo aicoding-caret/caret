@@ -51,7 +51,7 @@
 - **Outils image pour modèles texte** : Les modèles texte uniquement peuvent désormais utiliser les outils du compte Caret pour la génération et l'analyse d'images.
 - **Système Skills** (cherry-pick Cline v3.49.0+) : Définissez des compétences spécifiques au projet que l'IA peut utiliser. Gérez les skills dans les répertoires `.agents/skills/` ou `.users/skills/`.
 - **Système Hooks** (cherry-pick Cline v3.49.0+) : Exécutez des scripts personnalisés avant/après l'exécution des outils. Gérez les hooks dans les répertoires `.agents/hooks/` ou `.users/hooks/`.
-- **Architecture double répertoire** : Séparez le contexte optimisé pour l'IA (`.agents/`) de la documentation lisible par les humains (`.users/`). L'IA priorise le contexte optimisé en tokens `.agents/`.
+- **Architecture double répertoire & /init** : Contexte IA optimisé en tokens (`.agents/`) et docs utilisateur (`.users/`) avec politique de miroir 1:1. Utilisez la commande `/init` pour analyser le projet et générer automatiquement les fichiers de contexte. AGENTS.md et CLAUDE.md servent de points d'entrée standard.
 - **Support des documents HWP** : Support multiplateforme de l'analyse HWP pour Windows, macOS et Linux.
 - **Outil read_document** : Outil unifié de lecture de documents supportant HWP, PDF, DOCX, PPTX et plus. Inclut la détection du format PPT legacy.
 - **Outil analyze_image** : Nouvel outil d'analyse d'images intégré avec Gemini du compte Caret. Limite max de 7500px, inclut les directives de rapport d'analyse.

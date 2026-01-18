@@ -74,7 +74,7 @@
 - 📄 **文档工具** — HWP, PDF, DOCX, PPTX跨平台支持
 - ☀️ **Upstage** — 韩国独立AI基础模型提供商，Solar Pro/Mini支持
 - 🧩 **Skills/Hooks** — 定义项目专属AI技能
-- 📁 **双目录** — AI用(.agents/)和人用(.users/)上下文分离
+- 📁 **双目录 & /init** — AI上下文(`.agents/`)和用户文档(`.users/`)采用1:1镜像策略管理，`/init`自动设置
 - 🖼️ **图像发送开关** — 通过@提及设置图像文件发送
 
 ---
@@ -149,6 +149,30 @@ Cline不支持的模型可在Caret中使用。
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
 - **BizRouter** 多模型路由
+
+---
+
+## 📁 双目录 & /init
+
+**令牌优化的AI上下文 + 用户语言文档采用1:1镜像管理**
+
+```
+.agents/                    # AI用（英语，令牌优化）
+├── context/agents-rules.json  # 规则SoT
+├── workflows/              # 任务工作流
+├── skills/                 # AI技能
+└── hooks/                  # 自动化钩子
+
+.users/                     # 用户用（用户语言）
+├── context/agents-rules.md   # 详细说明
+├── workflows/              # （镜像.agents/）
+├── skills/                 # （镜像.agents/）
+└── hooks/                  # （镜像.agents/）
+```
+
+- **`/init`**: 分析项目后自动生成上下文文件
+- **1:1镜像**: `.agents/` ↔ `.users/`变更保持同步
+- **AGENTS.md / CLAUDE.md**: 上下文链接的标准入口点
 
 ---
 

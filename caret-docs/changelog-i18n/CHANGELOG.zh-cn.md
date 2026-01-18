@@ -51,7 +51,7 @@
 - **文本模型图像工具**: 纯文本模型也可以使用Caret账号工具进行图像生成和分析。
 - **Skills系统** (Cline v3.49.0+ Cherry-pick): 添加了可定义项目级技能供AI使用的Skills系统。可在`.agents/skills/`或`.users/skills/`目录中管理技能。
 - **Hooks系统** (Cline v3.49.0+ Cherry-pick): 添加了可在工具执行前/后运行自定义脚本的Hooks系统。可在`.agents/hooks/`或`.users/hooks/`目录中管理hooks。
-- **双目录架构**: 可分离管理AI用(`.agents/`)上下文和人类用(`.users/`)文档。AI优先参考经过令牌优化的`.agents/`上下文。
+- **双目录架构 & /init**: 令牌优化的AI上下文(`.agents/`)和用户语言文档(`.users/`)采用1:1镜像策略管理。使用`/init`命令分析项目并自动生成上下文文件。AGENTS.md和CLAUDE.md作为标准入口点联动。
 - **HWP文档支持**: 支持跨平台HWP解析。Windows、macOS、Linux均可读取韩文(.hwp)文档。
 - **read_document工具**: 新增可读取HWP、PDF、DOCX、PPTX等多种文档格式的统一文档读取工具。同时支持PPT旧版格式检测。
 - **analyze_image工具**: 新增与Caret账号Gemini连接的图像分析工具。应用最大7500px限制，包含分析结果报告指南。

@@ -74,7 +74,7 @@
 - 📄 **ドキュメントツール** — HWP, PDF, DOCX, PPTX クロスプラットフォーム対応
 - ☀️ **Upstage** — 韓国独自のAIファウンデーションモデルを作ったUpstage、Solar Pro/Mini対応
 - 🧩 **Skills/Hooks** — プロジェクト別AIスキル定義
-- 📁 **デュアルディレクトリ** — AI用(.agents/)と人間用(.users/)コンテキスト分離
+- 📁 **デュアルディレクトリ & /init** — AIコンテキスト(`.agents/`)とユーザードキュメント(`.users/`)を1:1ミラーリングポリシーで管理、`/init`自動セットアップ
 - 🖼️ **画像送信トグル** — @メンションで画像ファイル送信設定
 
 ---
@@ -149,6 +149,30 @@ Clineで対応していないモデルをCaretで使用できます。
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
 - **BizRouter** マルチモデルルーティング
+
+---
+
+## 📁 デュアルディレクトリ & /init
+
+**トークン最適化AIコンテキスト + ユーザー言語ドキュメントを1:1ミラーリングで管理**
+
+```
+.agents/                    # AI用（英語、トークン最適化）
+├── context/agents-rules.json  # ルールSoT
+├── workflows/              # タスクワークフロー
+├── skills/                 # AIスキル
+└── hooks/                  # 自動化フック
+
+.users/                     # ユーザー用（ユーザー言語）
+├── context/agents-rules.md   # 詳細説明
+├── workflows/              # (.agents/ミラー)
+├── skills/                 # (.agents/ミラー)
+└── hooks/                  # (.agents/ミラー)
+```
+
+- **`/init`**: プロジェクト分析後、コンテキストファイルを自動生成
+- **1:1ミラーリング**: `.agents/` ↔ `.users/`の変更を同期維持
+- **AGENTS.md / CLAUDE.md**: コンテキスト連携の標準エントリーポイント
 
 ---
 

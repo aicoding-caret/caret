@@ -74,7 +74,7 @@
 - 📄 **Dokumenten-Werkzeuge** — Plattformübergreifende HWP, PDF, DOCX, PPTX Unterstützung
 - ☀️ **Upstage** — Koreanischer KI-Basismodell-Anbieter, Solar Pro/Mini Unterstützung
 - 🧩 **Skills/Hooks** — Projektspezifische KI-Fähigkeiten definieren
-- 📁 **Dual-Verzeichnis** — Trennung von KI-Kontext (.agents/) und Menschen-Kontext (.users/)
+- 📁 **Dual-Verzeichnis & /init** — KI-Kontext (`.agents/`) und Benutzer-Docs (`.users/`) mit 1:1-Spiegelungsrichtlinie, `/init` Auto-Setup
 - 🖼️ **Bildversand-Umschalter** — Bilddateiensendung via @Erwähnung konfigurieren
 
 ---
@@ -149,6 +149,30 @@ Von Cline nicht unterstützte Modelle, in Caret verfügbar.
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
 - **BizRouter** Multi-Modell-Routing
+
+---
+
+## 📁 Dual-Verzeichnis & /init
+
+**Token-optimierter KI-Kontext + Benutzer-Docs mit 1:1-Spiegelungsrichtlinie**
+
+```
+.agents/                    # Für KI (Englisch, Token-optimiert)
+├── context/agents-rules.json  # Regeln SoT
+├── workflows/              # Aufgaben-Workflows
+├── skills/                 # KI-Fähigkeiten
+└── hooks/                  # Automatisierungs-Hooks
+
+.users/                     # Für Benutzer (Benutzersprache)
+├── context/agents-rules.md   # Detaillierte Erklärung
+├── workflows/              # (Spiegel von .agents/)
+├── skills/                 # (Spiegel von .agents/)
+└── hooks/                  # (Spiegel von .agents/)
+```
+
+- **`/init`**: Analysiert Projekt und generiert automatisch Kontext-Dateien
+- **1:1-Spiegelung**: Änderungen `.agents/` ↔ `.users/` bleiben synchronisiert
+- **AGENTS.md / CLAUDE.md**: Standard-Einstiegspunkte mit Kontext-Verknüpfung
 
 ---
 

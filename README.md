@@ -74,7 +74,7 @@
 - 📄 **Document Tools** — HWP, PDF, DOCX, PPTX cross-platform support
 - ☀️ **Upstage** — Korea's independent AI foundation model provider, Solar Pro/Mini support
 - 🧩 **Skills/Hooks** — Define project-specific AI skills
-- 📁 **Dual Directory** — Separate AI (.agents/) and human (.users/) context
+- 📁 **Dual Directory & /init** — AI context (`.agents/`) and user docs (`.users/`) with 1:1 mirroring policy, `/init` auto-setup
 - 🖼️ **Image Send Toggle** — Set image file send via @mention
 - 🌍 **Language Expansion** — French, German, Russian (countries with own AI models) + Provider country flags
 
@@ -150,6 +150,30 @@ Models not supported by Cline, available in Caret.
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
 - **BizRouter** Multi-model routing
+
+---
+
+## 📁 Dual Directory & /init
+
+**Token-optimized AI context + Human-readable docs with 1:1 mirroring**
+
+```
+.agents/                    # AI-optimized (English, token-efficient)
+├── context/agents-rules.json  # Rules SoT
+├── workflows/              # Task workflows
+├── skills/                 # AI skills
+└── hooks/                  # Automation hooks
+
+.users/                     # Human-readable (your language)
+├── context/agents-rules.md   # Detailed explanation
+├── workflows/              # (mirrors .agents/)
+├── skills/                 # (mirrors .agents/)
+└── hooks/                  # (mirrors .agents/)
+```
+
+- **`/init`**: Analyze project and auto-generate context files
+- **1:1 Mirroring**: Changes in `.agents/` ↔ `.users/` stay synchronized
+- **AGENTS.md / CLAUDE.md**: Standard entry points linked to context
 
 ---
 

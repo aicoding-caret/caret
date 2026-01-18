@@ -74,7 +74,7 @@
 - 📄 **문서 도구** — HWP, PDF, DOCX, PPTX 크로스플랫폼 지원
 - ☀️ **Upstage** — 한국 독자 AI 파운데이션 모델을 만든 업스테이지 모델 Solar Pro/Mini 지원
 - 🧩 **Skills/Hooks** — 프로젝트별 AI 스킬 정의
-- 📁 **이중 디렉토리** — AI용(.agents/)과 사람용(.users/) 컨텍스트 분리
+- 📁 **이중 디렉토리 & /init** — AI 컨텍스트(`.agents/`)와 사용자 문서(`.users/`)를 1:1 미러링 정책으로 관리, `/init` 자동 설정
 - 🖼️ **이미지 전송 토글** — @멘션으로 이미지 파일 전송 여부 설정
 
 ---
@@ -149,6 +149,30 @@ Cline에서 지원하지 않는 모델을 Caret에서 사용할 수 있습니다
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
 - **BizRouter** 다중 모델 라우팅
+
+---
+
+## 📁 이중 디렉토리 & /init
+
+**토큰 최적화 AI 컨텍스트 + 사용자 언어 문서를 1:1 미러링으로 관리**
+
+```
+.agents/                    # AI용 (영어, 토큰 최적화)
+├── context/agents-rules.json  # 규칙 SoT
+├── workflows/              # 작업 워크플로우
+├── skills/                 # AI 스킬
+└── hooks/                  # 자동화 훅
+
+.users/                     # 사용자용 (사용자 언어)
+├── context/agents-rules.md   # 상세 설명
+├── workflows/              # (.agents/ 미러링)
+├── skills/                 # (.agents/ 미러링)
+└── hooks/                  # (.agents/ 미러링)
+```
+
+- **`/init`**: 프로젝트 분석 후 컨텍스트 파일 자동 생성
+- **1:1 미러링**: `.agents/` ↔ `.users/` 변경사항 동기화 유지
+- **AGENTS.md / CLAUDE.md**: 컨텍스트 연결 표준 진입점
 
 ---
 

@@ -51,7 +51,7 @@
 - **Text model image tools**: Text-only models can now use Caret account tools for image generation and analysis.
 - **Skills system** (Cline v3.49.0+ cherry-pick): Define project-specific skills that AI can utilize. Manage skills in `.agents/skills/` or `.users/skills/` directories.
 - **Hooks system** (Cline v3.49.0+ cherry-pick): Execute custom scripts before/after tool execution. Manage hooks in `.agents/hooks/` or `.users/hooks/` directories.
-- **Dual directory architecture**: Separate AI-optimized (`.agents/`) context from human-readable (`.users/`) documentation. AI prioritizes token-optimized `.agents/` context.
+- **Dual directory architecture & /init**: Token-optimized AI context (`.agents/`) and human-readable docs (`.users/`) with 1:1 mirroring policy. Use `/init` command to auto-analyze project and generate context files. AGENTS.md and CLAUDE.md serve as standard entry points.
 - **HWP document support**: Cross-platform HWP parsing support for Windows, macOS, and Linux.
 - **read_document tool**: Unified document reading tool supporting HWP, PDF, DOCX, PPTX and more. Includes legacy PPT format detection.
 - **analyze_image tool**: New image analysis tool integrated with Caret account's Gemini. 7500px max pixel limit, includes analysis result reporting guidelines.

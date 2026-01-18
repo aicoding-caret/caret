@@ -1,0 +1,55 @@
+workflow: tdd-cycle
+category: atom
+description: 통합 우선 접근법의 TDD 사이클
+
+context: 통합 우선 접근법의 TDD(테스트 주도 개발) 사이클을 따릅니다.
+
+principle: RED → GREEN → REFACTOR (통합 테스트 먼저, 유닛 테스트 먼저 아님)
+
+phases:
+  red:
+    title: 실패하는 테스트 작성
+    description: 격리된 단위가 아닌 실제 사용 시나리오에 대한 통합 테스트
+    correctApproach:
+      - "WebView 기능: 사용자가 버튼 클릭 → 예상 결과 표시"
+      - "Backend 기능: 설정 변경 → 시스템 동작 변경"
+      - "파일 작업: 사용자가 파일 저장 → 적절한 저장 + 검색"
+    wrongApproach:
+      - isValidInput() 유닛 테스트부터 시작
+      - 컨텍스트 없이 격리된 함수 테스트
+      - 모든 것을 모킹하여 테스트가 실제 사용을 대표하지 않음
+    example: |
+      describe('사용자 페르소나 선택', () => {
+        it('사용자가 새 페르소나 선택 시 AI 동작이 업데이트되어야 함', async () => {
+          // 실제 사용 시나리오 테스팅
+        })
+      })
+
+  green:
+    title: 테스트 통과시키기
+    description: 통합 테스트 통과를 위한 최소 코드 구현
+    actions:
+      - 필요한 모든 컴포넌트, 서비스, 유틸리티 작성
+      - 통합 시나리오가 동작하도록 집중
+      - 아직 최적화하지 않음 - 일단 동작하게 만들기
+
+  refactor:
+    title: 테스트 통과 상태에서 개선
+    description: 기능 손상 없이 코드 품질 개선
+    actions:
+      - 공통 패턴 추출
+      - 성능 개선
+      - 코드 구조 정리
+      - 부산물로 유닛 테스트 추가 (시작점이 아님)
+
+testLocations:
+  backend: caret-src/__tests__/
+  webview: webview-ui/src/**/*.test.tsx
+  integration: 완전한 플로우 테스트
+
+relatedWorkflows: [verification-steps, naming-conventions, modification-levels]
+
+guidelines:
+  - 격리된 환경이 아닌 실제 시나리오에서 코드가 동작함을 보장
+  - 통합 테스트 우선은 잘 테스트된 단위들이 함께 동작하지 않는 것을 방지
+  - 유닛 테스트는 통합 테스트 통과의 자연스러운 부산물

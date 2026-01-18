@@ -74,7 +74,7 @@
 - 📄 **Outils Document** — Support multiplateforme HWP, PDF, DOCX, PPTX
 - ☀️ **Upstage** — Fournisseur coréen de modèles IA fondamentaux, support Solar Pro/Mini
 - 🧩 **Skills/Hooks** — Définissez des compétences IA spécifiques au projet
-- 📁 **Double Répertoire** — Séparez le contexte IA (.agents/) et humain (.users/)
+- 📁 **Double Répertoire & /init** — Contexte IA (`.agents/`) et docs utilisateur (`.users/`) avec politique de miroir 1:1, configuration auto `/init`
 - 🖼️ **Basculement Envoi Image** — Configurez l'envoi de fichiers image via @mention
 
 ---
@@ -149,6 +149,30 @@ Modèles non supportés par Cline, disponibles dans Caret.
 - **Naver Cloud** HyperCLOVA X
 - **Upstage** Solar Pro/Mini
 - **BizRouter** Routage multi-modèles
+
+---
+
+## 📁 Double Répertoire & /init
+
+**Contexte IA optimisé en tokens + Docs utilisateur avec politique de miroir 1:1**
+
+```
+.agents/                    # Pour l'IA (anglais, optimisé tokens)
+├── context/agents-rules.json  # Règles SoT
+├── workflows/              # Workflows de tâches
+├── skills/                 # Compétences IA
+└── hooks/                  # Hooks d'automatisation
+
+.users/                     # Pour l'utilisateur (langue utilisateur)
+├── context/agents-rules.md   # Explication détaillée
+├── workflows/              # (miroir .agents/)
+├── skills/                 # (miroir .agents/)
+└── hooks/                  # (miroir .agents/)
+```
+
+- **`/init`**: Analyse le projet et génère automatiquement les fichiers de contexte
+- **Miroir 1:1**: Les changements `.agents/` ↔ `.users/` restent synchronisés
+- **AGENTS.md / CLAUDE.md**: Points d'entrée standard liés au contexte
 
 ---
 

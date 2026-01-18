@@ -51,7 +51,7 @@
 - **Bild-Tools für Textmodelle**: Reine Textmodelle können jetzt Caret-Konto-Tools für Bildgenerierung und -analyse verwenden.
 - **Skills-System** (Cline v3.49.0+ Cherry-Pick): Definieren Sie projektspezifische Fähigkeiten, die die KI nutzen kann. Verwalten Sie Skills in den Verzeichnissen `.agents/skills/` oder `.users/skills/`.
 - **Hooks-System** (Cline v3.49.0+ Cherry-Pick): Führen Sie benutzerdefinierte Skripte vor/nach der Tool-Ausführung aus. Verwalten Sie Hooks in den Verzeichnissen `.agents/hooks/` oder `.users/hooks/`.
-- **Dual-Verzeichnis-Architektur**: Trennen Sie KI-optimierten Kontext (`.agents/`) von menschenlesbarer Dokumentation (`.users/`). Die KI priorisiert den token-optimierten `.agents/`-Kontext.
+- **Dual-Verzeichnis-Architektur & /init**: Token-optimierter KI-Kontext (`.agents/`) und Benutzer-Docs (`.users/`) mit 1:1-Spiegelungsrichtlinie. Verwenden Sie den `/init`-Befehl, um das Projekt zu analysieren und Kontext-Dateien automatisch zu generieren. AGENTS.md und CLAUDE.md dienen als Standard-Einstiegspunkte.
 - **HWP-Dokumentenunterstützung**: Plattformübergreifende HWP-Parsing-Unterstützung für Windows, macOS und Linux.
 - **read_document-Tool**: Einheitliches Dokumentenlesewerkzeug mit Unterstützung für HWP, PDF, DOCX, PPTX und mehr. Beinhaltet Legacy-PPT-Formaterkennung.
 - **analyze_image-Tool**: Neues Bildanalyse-Tool integriert mit Gemini des Caret-Kontos. Max. 7500px-Limit, beinhaltet Richtlinien für Analyseergebnisberichte.
