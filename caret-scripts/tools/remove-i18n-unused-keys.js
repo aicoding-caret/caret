@@ -3,7 +3,8 @@ const path = require("path")
 
 const reportPath = path.resolve(__dirname, "../i18n-unused-keys-report.md")
 const localeBaseDir = path.resolve(__dirname, "../../webview-ui/src/caret/locale")
-const supportedLocales = ["en", "ko", "ja", "zh"]
+// Sovereign Cloud: 미국, 한국, 일본, 중국, 프랑스, 독일, 러시아
+const supportedLocales = ["en", "ko", "ja", "zh", "fr", "de", "ru"]
 
 /**
  * Deletes a nested key from an object and cleans up empty parent objects.

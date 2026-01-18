@@ -19,7 +19,8 @@ const config = {
 	localeDir: path.resolve(__dirname, "../../webview-ui/src/caret/locale"),
 	componentsDir: path.resolve(__dirname, "../../webview-ui/src/components"),
 	outputFile: path.resolve(__dirname, "../i18n-unused-keys-report.md"),
-	supportedLocales: ["ko", "en", "ja", "zh"],
+	// Sovereign Cloud: 미국, 한국, 일본, 중국, 프랑스, 독일, 러시아
+	supportedLocales: ["ko", "en", "ja", "zh", "fr", "de", "ru"],
 	namespaces: ["announcement", "chat", "common", "models", "persona", "settings", "validate-api-conf", "welcome"],
 }
 

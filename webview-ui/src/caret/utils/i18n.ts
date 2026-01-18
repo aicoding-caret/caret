@@ -50,10 +50,45 @@ import zhPersona from "../locale/zh/persona.json"
 import zhSettings from "../locale/zh/settings.json"
 import zhValidateApiConf from "../locale/zh/validate-api-conf.json"
 import zhWelcome from "../locale/zh/welcome.json"
+// CARET MODIFICATION: Sovereign Cloud 언어 추가 (fr, de, ru)
+import frAnnouncement from "../locale/fr/announcement.json"
+import frBrowser from "../locale/fr/browser.json"
+import frChat from "../locale/fr/chat.json"
+import frCommon from "../locale/fr/common.json"
+import frHistory from "../locale/fr/history.json"
+import frMenu from "../locale/fr/menu.json"
+import frModels from "../locale/fr/models.json"
+import frPersona from "../locale/fr/persona.json"
+import frSettings from "../locale/fr/settings.json"
+import frValidateApiConf from "../locale/fr/validate-api-conf.json"
+import frWelcome from "../locale/fr/welcome.json"
+import deAnnouncement from "../locale/de/announcement.json"
+import deBrowser from "../locale/de/browser.json"
+import deChat from "../locale/de/chat.json"
+import deCommon from "../locale/de/common.json"
+import deHistory from "../locale/de/history.json"
+import deMenu from "../locale/de/menu.json"
+import deModels from "../locale/de/models.json"
+import dePersona from "../locale/de/persona.json"
+import deSettings from "../locale/de/settings.json"
+import deValidateApiConf from "../locale/de/validate-api-conf.json"
+import deWelcome from "../locale/de/welcome.json"
+import ruAnnouncement from "../locale/ru/announcement.json"
+import ruBrowser from "../locale/ru/browser.json"
+import ruChat from "../locale/ru/chat.json"
+import ruCommon from "../locale/ru/common.json"
+import ruHistory from "../locale/ru/history.json"
+import ruMenu from "../locale/ru/menu.json"
+import ruModels from "../locale/ru/models.json"
+import ruPersona from "../locale/ru/persona.json"
+import ruSettings from "../locale/ru/settings.json"
+import ruValidateApiConf from "../locale/ru/validate-api-conf.json"
+import ruWelcome from "../locale/ru/welcome.json"
 import { performanceMonitor } from "./i18n-performance"
 
 // CARET MODIFICATION: Removed urls dependency for cline-latest compatibility
-export type SupportedLanguage = "ko" | "en" | "ja" | "zh"
+// Sovereign Cloud 지원: 프로바이더 국가 = UI 언어 지원
+export type SupportedLanguage = "ko" | "en" | "ja" | "zh" | "fr" | "de" | "ru"
 
 // JSON 파일에서 번역 데이터 로드
 let translations = {
@@ -109,6 +144,46 @@ let translations = {
 		menu: zhMenu,
 		models: zhModels,
 	},
+	// CARET MODIFICATION: Sovereign Cloud 언어 (fr, de, ru)
+	fr: {
+		common: frCommon,
+		welcome: frWelcome,
+		persona: frPersona,
+		settings: frSettings,
+		"validate-api-conf": frValidateApiConf,
+		announcement: frAnnouncement,
+		history: frHistory,
+		browser: frBrowser,
+		chat: frChat,
+		menu: frMenu,
+		models: frModels,
+	},
+	de: {
+		common: deCommon,
+		welcome: deWelcome,
+		persona: dePersona,
+		settings: deSettings,
+		"validate-api-conf": deValidateApiConf,
+		announcement: deAnnouncement,
+		history: deHistory,
+		browser: deBrowser,
+		chat: deChat,
+		menu: deMenu,
+		models: deModels,
+	},
+	ru: {
+		common: ruCommon,
+		welcome: ruWelcome,
+		persona: ruPersona,
+		settings: ruSettings,
+		"validate-api-conf": ruValidateApiConf,
+		announcement: ruAnnouncement,
+		history: ruHistory,
+		browser: ruBrowser,
+		chat: ruChat,
+		menu: ruMenu,
+		models: ruModels,
+	},
 }
 
 // CARET MODIFICATION: 테스트 목적으로 translations 객체를 설정하는 함수 추가
@@ -119,7 +194,8 @@ export const setTranslationsForTesting = (mockTranslations: typeof translations)
 
 // CARET MODIFICATION: 웹뷰 전역 UI 언어 관리
 let currentEffectiveLanguage: SupportedLanguage | null = null // ExtensionState에서 동적으로 가져오기
-const SUPPORTED_LANGUAGES: SupportedLanguage[] = ["ko", "en", "ja", "zh"]
+// Sovereign Cloud: 미국, 한국, 일본, 중국, 프랑스, 독일, 러시아
+const SUPPORTED_LANGUAGES: SupportedLanguage[] = ["ko", "en", "ja", "zh", "fr", "de", "ru"]
 
 /**
  * 웹뷰 전역에 적용될 UI 언어를 설정합니다.
@@ -626,7 +702,7 @@ export const getLanguageLoadingStats = () => {
 	return {
 		loaded: Array.from(loadedLanguages),
 		loading: Array.from(languageLoadingPromises.keys()),
-		totalSupported: ["ko", "en", "ja", "zh"].length,
+		totalSupported: SUPPORTED_LANGUAGES.length,
 	}
 }
 
