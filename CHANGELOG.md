@@ -41,6 +41,15 @@
   </table>
 </div>
 
+## [0.4.6] 2026-01-19
+
+### ✨ Improved
+- **Dynamic branding**: Replaced hardcoded "Cline" references with dynamic brand name (`getCurrentBrandName()`) across task handlers.
+- **Free credits promo**: Added sign-up free credits promotion message on login required UI (7 languages supported).
+- **README docs links**: Added docs links to multilingual README language badges for easier navigation.
+
+---
+
 ## [0.4.5] 2026-01-18
 
 > **Note**: Caret v0.4.5 cherry-picks Skills system, Hooks i18n and other features from Cline v3.49.0+.
