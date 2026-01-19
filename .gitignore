@@ -50,3 +50,4 @@ cline-latest
 .npm-cache/
 # work-logs
 opencode
+.agents/generated-assets/
