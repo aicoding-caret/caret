@@ -1,7 +1,7 @@
 {
 	"name": "caret",
 	"displayName": "Caret",
-	"description": "🎯 Transform your coding workflow with the most intelligent AI assistant for Visual Studio Code. Autonomous code generation, multi-file refactoring, and 20+ AI models. Supports: 한국어, 日本語, 中文.",
+	"description": "🎯 Cline-compatible AI coding agent. 266 models (Claude, GPT, Gemini), persona system, dual mode, image/document tools. 7 languages (한국어, 日本語, 中文, FR, DE, RU). Free credits on signup.",
 	"version": "0.4.6",
 	"icon": "assets/icons/icon.png",
 	"engines": {
@@ -27,21 +27,31 @@
 	],
 	"keywords": [
 		"ai",
-		"coding assistant",
-		"autonomous",
-		"code generation",
-		"refactoring",
+		"ai coding agent",
+		"cline",
+		"cline compatible",
 		"claude",
 		"gpt",
-		
 		"gemini",
 		"chatgpt",
 		"sonnet",
+		"opus",
+		"deepseek",
+		"autonomous agent",
+		"code generation",
+		"refactoring",
 		"mcp",
-		"pair programming",
+		"persona",
+		"dual mode",
+		"image generation",
+		"document reader",
+		"multilingual",
 		"한국어",
 		"日本語",
-		"中文"
+		"中文",
+		"français",
+		"deutsch",
+		"русский"
 	],
 	"activationEvents": [
 		"onLanguage",
