@@ -408,6 +408,7 @@
 			"title": "Connexion au compte {{brandName}} requise pour {{action}}.",
 			"toUseFeature": "**Pour utiliser cette fonctionnalite :**",
 			"loginStep": "1. Connectez-vous via la barre laterale {{brandName}}",
+			"freeCreditsPromo": "🎁 Crédits gratuits à l'inscription !",
 			"toDisableTool": "**Pour desactiver cet outil :**",
 			"disableStep": "- Allez dans Parametres > Approbation automatique > bouton \"{{toolName}}\""
 		}

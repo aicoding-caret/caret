@@ -5,20 +5,24 @@
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/README.md">
           <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
-        </a>
+        </a><br/>
+        <a href="https://docs.caret.team/en/getting-started/what-is-caret">📖 Docs</a>
       </td>
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ko.md">
           <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
-        </a>
+        </a><br/>
+        <a href="https://docs.caret.team/ko/getting-started/what-is-caret">📖 Docs</a>
       </td>
       <td align="center">
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ja.md">
           <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
-        </a>
+        </a><br/>
+        <a href="https://docs.caret.team/ja/getting-started/what-is-caret">📖 Docs</a>
       </td>
       <td align="center">
-        <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
+        <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/><br/>
+        <a href="https://docs.caret.team/zh/getting-started/what-is-caret">📖 Docs</a>
       </td>
     </tr>
     <tr>
@@ -26,14 +30,17 @@
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
+        <a href="https://docs.caret.team/fr/getting-started/what-is-caret">📖</a>
         &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
+        <a href="https://docs.caret.team/de/getting-started/what-is-caret">📖</a>
         &nbsp;&nbsp;
         <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
+        <a href="https://docs.caret.team/ru/getting-started/what-is-caret">📖</a>
       </td>
     </tr>
   </table>

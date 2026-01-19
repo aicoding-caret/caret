@@ -89,6 +89,8 @@ import { ImageRegistry } from "@caret/core/task/images/ImageRegistry"
 import { ImageScopeManager } from "@caret/core/task/images/ImageScopeManager"
 // CARET MODIFICATION: import finish-reason handler for GLM4.7 loop fix
 import { shouldEndLoopByFinishReason } from "@caret/core/api/transform/finish-reason"
+// CARET MODIFICATION: import brand utils for dynamic brand name
+import { getCurrentBrandName } from "@caret/utils/brand-utils"
 import * as vscode from "vscode"
 import { ToolUseHandler } from "@/core/api/transform/tool-use-handler"
 import type { SystemPromptContext } from "@/core/prompts/system-prompt"
@@ -979,9 +981,11 @@ export class Task {
 	}
 
 	async sayAndCreateMissingParamError(toolName: ClineDefaultTool, paramName: string, relPath?: string) {
+		// CARET MODIFICATION: use dynamic brand name instead of hardcoded "Cline"
+		const brandName = getCurrentBrandName()
 		await this.say(
 			"error",
-			`Cline tried to use ${toolName}${
+			`${brandName} tried to use ${toolName}${
 				relPath ? ` for '${relPath.toPosix()}'` : ""
 			} without value for required parameter '${paramName}'. Retrying...`,
 		)
@@ -3097,17 +3101,19 @@ export class Task {
 
 		if (this.taskState.consecutiveMistakeCount >= this.stateManager.getGlobalSettingsKey("maxConsecutiveMistakes")) {
 			const autoApprovalSettings = this.stateManager.getGlobalSettingsKey("autoApprovalSettings")
+			// CARET MODIFICATION: use dynamic brand name
+			const brandName = getCurrentBrandName()
 			if (autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Error",
-					message: "Cline is having trouble. Would you like to continue the task?",
+					message: `${brandName} is having trouble. Would you like to continue the task?`,
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"mistake_limit_reached",
 				this.api.getModel().id.includes("claude")
 					? `This may indicate a failure in his thought process or inability to use a tool properly, which can be mitigated with some user guidance (e.g. "Try breaking down the task into smaller steps").`
-					: "Cline uses complex prompts and iterative task execution that may be challenging for less capable models. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.",
+					: `${brandName} uses complex prompts and iterative task execution that may be challenging for less capable models. For best results, it's recommended to use Claude 4 Sonnet for its advanced agentic coding capabilities.`,
 			)
 			if (response === "messageResponse") {
 				// Display the user's message in the chat UI

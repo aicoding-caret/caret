@@ -407,6 +407,7 @@
 			"title": "{{action}}するには{{brandName}}アカウントへのログインが必要です。",
 			"toUseFeature": "**この機能を使用するには：**",
 			"loginStep": "1. {{brandName}}サイドバーからログインしてください",
+			"freeCreditsPromo": "🎁 新規登録で無料クレジットをプレゼント！",
 			"toDisableTool": "**このツールを無効にするには：**",
 			"disableStep": "- 設定 > 自動承認 > 「{{toolName}}」トグル"
 		}

@@ -3,6 +3,8 @@ import { showSystemNotification } from "@integrations/notifications"
 import { findLast, parsePartialArrayString } from "@shared/array"
 import { ClineAsk, ClineAskQuestion } from "@shared/ExtensionMessage"
 import { ClineDefaultTool } from "@shared/tools"
+// CARET MODIFICATION: import brand utils for dynamic brand name
+import { getCurrentBrandName } from "@caret/utils/brand-utils"
 import { telemetryService } from "@/services/telemetry"
 import { ToolUse } from "../../../assistant-message"
 import { formatResponse } from "../../../prompts/responses"
@@ -41,9 +43,10 @@ export class AskFollowupQuestionToolHandler implements IToolHandler, IPartialBlo
 		config.taskState.consecutiveMistakeCount = 0
 
 		// Show notification if enabled
+		// CARET MODIFICATION: use dynamic brand name
 		if (config.autoApprovalSettings.enableNotifications) {
 			showSystemNotification({
-				subtitle: "Cline has a question...",
+				subtitle: `${getCurrentBrandName()} has a question...`,
 				message: question.replace(/\n/g, " "),
 			})
 		}

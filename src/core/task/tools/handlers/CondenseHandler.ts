@@ -5,6 +5,8 @@ import { processFilesIntoText } from "@integrations/misc/extract-text"
 import { showSystemNotification } from "@integrations/notifications"
 import { ClineAsk } from "@shared/ExtensionMessage"
 import { ClineDefaultTool } from "@/shared/tools"
+// CARET MODIFICATION: import brand utils for dynamic brand name
+import { getCurrentBrandName } from "@caret/utils/brand-utils"
 import type { ToolResponse } from "../../index"
 import type { IPartialBlockHandler, IToolHandler } from "../ToolExecutorCoordinator"
 import type { TaskConfig } from "../types/TaskConfig"
@@ -31,10 +33,12 @@ export class CondenseHandler implements IToolHandler, IPartialBlockHandler {
 		config.taskState.consecutiveMistakeCount = 0
 
 		// Show notification if enabled
+		// CARET MODIFICATION: use dynamic brand name
+		const brandName = getCurrentBrandName()
 		if (config.autoApprovalSettings.enableNotifications) {
 			showSystemNotification({
-				subtitle: "Cline wants to condense the conversation...",
-				message: `Cline is suggesting to condense your conversation with: ${context}`,
+				subtitle: `${brandName} wants to condense the conversation...`,
+				message: `${brandName} is suggesting to condense your conversation with: ${context}`,
 			})
 		}
 

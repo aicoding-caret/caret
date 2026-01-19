@@ -407,6 +407,7 @@
 			"title": "{{action}}需要登录{{brandName}}账户。",
 			"toUseFeature": "**使用此功能：**",
 			"loginStep": "1. 通过{{brandName}}侧边栏登录",
+			"freeCreditsPromo": "🎁 注册即送免费积分！",
 			"toDisableTool": "**禁用此工具：**",
 			"disableStep": "- 转到设置 > 自动批准 > \"{{toolName}}\" 开关"
 		}

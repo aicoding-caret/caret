@@ -1,6 +1,8 @@
 import { UrlContentFetcher } from "@services/browser/UrlContentFetcher"
 import { ClineAsk, ClineSayTool } from "@shared/ExtensionMessage"
 import { ClineDefaultTool } from "@shared/tools"
+// CARET MODIFICATION: import brand utils for dynamic brand name
+import { getCurrentBrandName } from "@caret/utils/brand-utils"
 import { telemetryService } from "@/services/telemetry"
 import { ToolUse } from "../../../assistant-message"
 import { formatResponse } from "../../../prompts/responses"
@@ -76,8 +78,9 @@ export class WebFetchToolHandler implements IFullyManagedTool {
 				)
 			} else {
 				// Manual approval flow
+				// CARET MODIFICATION: use dynamic brand name
 				showNotificationForApproval(
-					`Cline wants to fetch content from ${url}`,
+					`${getCurrentBrandName()} wants to fetch content from ${url}`,
 					config.autoApprovalSettings.enableNotifications,
 				)
 				await config.callbacks.removeLastPartialMessageIfExistsWithType("say", "tool")

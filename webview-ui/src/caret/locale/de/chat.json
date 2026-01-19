@@ -408,6 +408,7 @@
 			"title": "{{brandName}}-Konto-Anmeldung erforderlich für {{action}}.",
 			"toUseFeature": "**Um diese Funktion zu nutzen:**",
 			"loginStep": "1. Melden Sie sich über die {{brandName}}-Seitenleiste an",
+			"freeCreditsPromo": "🎁 Kostenlose Credits bei der Anmeldung!",
 			"toDisableTool": "**Um dieses Tool zu deaktivieren:**",
 			"disableStep": "- Gehen Sie zu Einstellungen > Automatisch genehmigen > \"{{toolName}}\" umschalten"
 		}

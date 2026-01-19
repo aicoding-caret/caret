@@ -3,37 +3,44 @@
   <table>
     <tr>
       <td align="center">
-        <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
+        <img src="https://img.shields.io/badge/🇺🇸_English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/><br/>
+        <a href="https://docs.caret.team/en/getting-started/what-is-caret">📖 Docs</a>
       </td>
       <td align="center">
-        <a href="caret-docs/readme-i18n/README.ko.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ko.md">
           <img src="https://img.shields.io/badge/🇰🇷_한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
-        </a>
+        </a><br/>
+        <a href="https://docs.caret.team/ko/getting-started/what-is-caret">📖 Docs</a>
       </td>
       <td align="center">
-        <a href="caret-docs/readme-i18n/README.ja.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ja.md">
           <img src="https://img.shields.io/badge/🇯🇵_日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
-        </a>
+        </a><br/>
+        <a href="https://docs.caret.team/ja/getting-started/what-is-caret">📖 Docs</a>
       </td>
       <td align="center">
-        <a href="caret-docs/readme-i18n/README.zh-cn.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.zh-cn.md">
           <img src="https://img.shields.io/badge/🇨🇳_中文-eab308?style=for-the-badge&labelColor=ca8a04" alt="中文"/>
-        </a>
+        </a><br/>
+        <a href="https://docs.caret.team/zh/getting-started/what-is-caret">📖 Docs</a>
       </td>
     </tr>
     <tr>
       <td align="center" colspan="4">
-        <a href="caret-docs/readme-i18n/README.fr.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.fr.md">
           <img src="https://img.shields.io/badge/🇫🇷_Français-0055a4?style=for-the-badge&labelColor=003f7f" alt="Français"/>
         </a>
+        <a href="https://docs.caret.team/fr/getting-started/what-is-caret">📖</a>
         &nbsp;&nbsp;
-        <a href="caret-docs/readme-i18n/README.de.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.de.md">
           <img src="https://img.shields.io/badge/🇩🇪_Deutsch-ffcc00?style=for-the-badge&labelColor=dd0000" alt="Deutsch"/>
         </a>
+        <a href="https://docs.caret.team/de/getting-started/what-is-caret">📖</a>
         &nbsp;&nbsp;
-        <a href="caret-docs/readme-i18n/README.ru.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/readme-i18n/README.ru.md">
           <img src="https://img.shields.io/badge/🇷🇺_Русский-0039a6?style=for-the-badge&labelColor=d52b1e" alt="Русский"/>
         </a>
+        <a href="https://docs.caret.team/ru/getting-started/what-is-caret">📖</a>
       </td>
     </tr>
   </table>
@@ -191,21 +198,21 @@ Available via Caret account even for text-only models.
 
 | Feature | Description | Docs |
 |---------|-------------|------|
-| F00 | Cline bugfix & stability | [View](caret-docs/features.en/f00-cline-bugfix-patch.md) |
-| F01 | Common utilities | [View](caret-docs/features.en/f01-common-util.md) |
-| F02 | Multilingual i18n | [View](caret-docs/features.en/f02-multilingual-i18n.md) |
-| F03 | Branding & UI | [View](caret-docs/features.en/f03-branding-ui.md) |
-| F04 | Cline compatibility | [View](caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
-| F05 | Caret account | [View](caret-docs/features.en/f05-caret-account.md) |
-| F06 | Agent standardization (AAIF) | [View](caret-docs/features.en/f06-agent-standardization.md) |
-| F07 | Prompt system | [View](caret-docs/features.en/f07-caret-prompt-system.md) |
-| F08 | Persona system | [View](caret-docs/features.en/f08-persona-system.md) |
-| F09 | Feature Config | [View](caret-docs/features.en/f09-feature-config-system.md) |
-| F10 | Provider setup | [View](caret-docs/features.en/f10-enhanced-provider-setup.md) |
-| F11 | Input history & shortcuts | [View](caret-docs/features.en/f11-input-history-and-shortcuts.md) |
-| F12 | AI-developer knowledge parity | [View](caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
-| F13 | Image tools | [View](caret-docs/features.en/f13-image-tool.md) |
-| F14 | Document tools | [View](caret-docs/features.en/f14-document-read-tool.md) |
+| F00 | Cline bugfix & stability | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f00-cline-bugfix-patch.md) |
+| F01 | Common utilities | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f01-common-util.md) |
+| F02 | Multilingual i18n | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f02-multilingual-i18n.md) |
+| F03 | Branding & UI | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f03-branding-ui.md) |
+| F04 | Cline compatibility | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f04-cline-compatibility-and-cli.md) |
+| F05 | Caret account | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f05-caret-account.md) |
+| F06 | Agent standardization (AAIF) | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f06-agent-standardization.md) |
+| F07 | Prompt system | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f07-caret-prompt-system.md) |
+| F08 | Persona system | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f08-persona-system.md) |
+| F09 | Feature Config | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f09-feature-config-system.md) |
+| F10 | Provider setup | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f10-enhanced-provider-setup.md) |
+| F11 | Input history & shortcuts | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f11-input-history-and-shortcuts.md) |
+| F12 | AI-developer knowledge parity | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f12-ai-developer-knowledge-parity.md) |
+| F13 | Image tools | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f13-image-tool.md) |
+| F14 | Document tools | [View](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features.en/f14-document-read-tool.md) |
 
 ---
 
@@ -220,9 +227,9 @@ Available via Caret account even for text-only models.
 <details>
 <summary><strong>🛠️ For Developers</strong></summary>
 
-- [Developer Docs](caret-docs/development/index.md)
-- [Architecture](caret-docs/development/caret-architecture-and-implementation-guide.md)
-- [AI Work Guide](caret-docs/guides/ai-work-method-guide.md)
+- [Developer Docs](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/index.md)
+- [Architecture](https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/caret-architecture-and-implementation-guide.md)
+- [AI Work Guide](https://github.com/aicoding-caret/caret/blob/main/caret-docs/guides/ai-work-method-guide.md)
 
 **Contribute**: Fork → PR
 

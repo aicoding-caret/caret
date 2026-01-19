@@ -408,6 +408,7 @@
 			"title": "{{brandName}} account login required to {{action}}.",
 			"toUseFeature": "**To use this feature:**",
 			"loginStep": "1. Log in via the {{brandName}} sidebar",
+			"freeCreditsPromo": "🎁 Free credits on sign up!",
 			"toDisableTool": "**To disable this tool:**",
 			"disableStep": "- Go to Settings > Auto-approve > \"{{toolName}}\" toggle"
 		}

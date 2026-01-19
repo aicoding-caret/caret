@@ -8,8 +8,8 @@ import {
 	ClineSayTool,
 	COMPLETION_RESULT_CHANGES_FLAG,
 } from "@shared/ExtensionMessage"
-import { Int64Request, StringRequest } from "@shared/proto/cline/common"
-import { VSCodeBadge, VSCodeProgressRing } from "@vscode/webview-ui-toolkit/react"
+import { EmptyRequest, Int64Request, StringRequest } from "@shared/proto/cline/common"
+import { VSCodeBadge, VSCodeButton, VSCodeProgressRing } from "@vscode/webview-ui-toolkit/react"
 import deepEqual from "fast-deep-equal"
 import React, { MouseEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useSize } from "react-use"
@@ -33,7 +33,7 @@ import McpResponseDisplay from "@/components/mcp/chat-display/McpResponseDisplay
 import McpResourceRow from "@/components/mcp/configuration/tabs/installed/server-row/McpResourceRow"
 import McpToolRow from "@/components/mcp/configuration/tabs/installed/server-row/McpToolRow"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { FileServiceClient, TaskServiceClient, UiServiceClient } from "@/services/grpc-client"
+import { CaretAccountServiceClient, FileServiceClient, TaskServiceClient, UiServiceClient } from "@/services/grpc-client"
 import { findMatchingResourceOrTemplate, getMcpServerDisplayName } from "@/utils/mcp"
 import { CheckpointControls } from "../common/CheckpointControls"
 import CodeAccordian, { cleanPathPrefix } from "../common/CodeAccordian"
@@ -50,6 +50,13 @@ const errorColor = "var(--vscode-errorForeground)"
 const successColor = "var(--vscode-charts-green)"
 const _cancelledColor = "var(--vscode-descriptionForeground)"
 const logger = new WebviewLogger("ChatRow")
+
+// CARET MODIFICATION: Direct Caret login handler matching CaretProvider pattern
+const handleCaretLogin = () => {
+	CaretAccountServiceClient.caretAccountLoginClicked(EmptyRequest.create()).catch((err) =>
+		console.error(t("providers.caret.loginError", "settings"), err),
+	)
+}
 
 const ChatRowContainer = styled.div`
 	padding: 10px 6px 10px 15px;
@@ -929,11 +936,41 @@ export const ChatRowContent = memo(
 											{tool.progressText}
 										</div>
 									)}
-									{status === "error" && tool.errorMessage && (
-										<div className="ph-no-capture" style={{ color: errorColor }}>
-											{tool.errorMessage}
-										</div>
-									)}
+									{status === "error" && tool.errorMessage && (() => {
+										// CARET MODIFICATION: Parse auth_required error and show login UI
+										let authError: { type?: string; action?: string; toolName?: string; brandName?: string } | null = null
+										try {
+											authError = JSON.parse(tool.errorMessage)
+										} catch {
+											authError = null
+										}
+										if (authError?.type === "auth_required") {
+											const action = authError.action ?? ""
+											const brandName = authError.brandName ?? ""
+											return (
+												<div className="ph-no-capture" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+													<div style={{ color: errorColor, whiteSpace: "pre-wrap" }}>
+														{t("imageTools.loginRequired.title", "chat", { action, brandName })}
+														{"\n\n"}
+														{t("imageTools.loginRequired.toUseFeature", "chat")}
+														{"\n"}
+														{t("imageTools.loginRequired.loginStep", "chat", { brandName })}
+													</div>
+													<div style={{ color: "var(--vscode-charts-green)", fontWeight: "bold", textAlign: "center", padding: "4px 0" }}>
+														{t("imageTools.loginRequired.freeCreditsPromo", "chat")}
+													</div>
+													<VSCodeButton style={{ width: "100%" }} onClick={handleCaretLogin}>
+														{t("providers.caret.login", "settings")}
+													</VSCodeButton>
+												</div>
+											)
+										}
+										return (
+											<div className="ph-no-capture" style={{ color: errorColor }}>
+												{tool.errorMessage}
+											</div>
+										)
+									})()}
 								</div>
 								<div
 									style={{
@@ -1132,11 +1169,41 @@ export const ChatRowContent = memo(
 											{t("tool.analyzeImageAnalyzing", "chat")}
 										</div>
 									)}
-									{status === "error" && tool.errorMessage && (
-										<div className="ph-no-capture" style={{ color: errorColor }}>
-											{tool.errorMessage}
-										</div>
-									)}
+									{status === "error" && tool.errorMessage && (() => {
+										// CARET MODIFICATION: Parse auth_required error and show login UI
+										let authError: { type?: string; action?: string; toolName?: string; brandName?: string } | null = null
+										try {
+											authError = JSON.parse(tool.errorMessage)
+										} catch {
+											authError = null
+										}
+										if (authError?.type === "auth_required") {
+											const action = authError.action ?? ""
+											const brandName = authError.brandName ?? ""
+											return (
+												<div className="ph-no-capture" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+													<div style={{ color: errorColor, whiteSpace: "pre-wrap" }}>
+														{t("imageTools.loginRequired.title", "chat", { action, brandName })}
+														{"\n\n"}
+														{t("imageTools.loginRequired.toUseFeature", "chat")}
+														{"\n"}
+														{t("imageTools.loginRequired.loginStep", "chat", { brandName })}
+													</div>
+													<div style={{ color: "var(--vscode-charts-green)", fontWeight: "bold", textAlign: "center", padding: "4px 0" }}>
+														{t("imageTools.loginRequired.freeCreditsPromo", "chat")}
+													</div>
+													<VSCodeButton style={{ width: "100%" }} onClick={handleCaretLogin}>
+														{t("providers.caret.login", "settings")}
+													</VSCodeButton>
+												</div>
+											)
+										}
+										return (
+											<div className="ph-no-capture" style={{ color: errorColor }}>
+												{tool.errorMessage}
+											</div>
+										)
+									})()}
 									{status === "completed" && !tool.errorMessage && (
 										<div
 											className="ph-no-capture"

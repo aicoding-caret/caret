@@ -7,6 +7,8 @@ import { ClineAsk } from "@shared/ExtensionMessage"
 import { arePathsEqual } from "@utils/path"
 import { telemetryService } from "@/services/telemetry"
 import { ClineDefaultTool } from "@/shared/tools"
+// CARET MODIFICATION: import brand utils for dynamic brand name
+import { getCurrentBrandName } from "@caret/utils/brand-utils"
 import type { ToolResponse } from "../../index"
 import { showNotificationForApproval } from "../../utils"
 import type { IFullyManagedTool } from "../ToolExecutorCoordinator"
@@ -170,8 +172,9 @@ export class ExecuteCommandToolHandler implements IFullyManagedTool {
 			)
 		} else {
 			// Manual approval flow
+			// CARET MODIFICATION: use dynamic brand name
 			showNotificationForApproval(
-				`Cline wants to execute a command: ${actualCommand}`,
+				`${getCurrentBrandName()} wants to execute a command: ${actualCommand}`,
 				config.autoApprovalSettings.enableNotifications,
 			)
 
