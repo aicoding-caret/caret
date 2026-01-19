@@ -76,9 +76,15 @@
 
 ## 🎉 v0.4.6
 
-- 🏷️ **Dynamic Branding** — Hardcoded "Cline" replaced with dynamic brand name
-- 🎁 **Free Credits Promo** — Sign-up free credits info on login required UI (7 languages)
-- 📖 **README Docs Links** — Added docs links to multilingual README badges
+- 🎁 **Free Credits Promo** — Sign-up free credits info on login required UI
+- 🤖 **GLM-4.7** — Cost-effective Thinking Mode, just use your API key
+- 🖼️ **Image Tools** — Text models can generate images (Nano Banana) & analyze (Gemini Flash) via Caret account
+- 📄 **Document Tools** — HWP, PDF, DOCX, PPTX cross-platform support
+- ☀️ **Upstage** — Korea's independent AI foundation model provider, Solar Pro/Mini support
+- 🧩 **Skills/Hooks** — Define project-specific AI skills
+- 📁 **Dual Directory & /init** — AI context (`.agents/`) and user docs (`.users/`) with 1:1 mirroring policy
+- 🖼️ **Image Send Toggle** — Set image file send via @mention
+- 🌍 **Language Expansion** — French, German, Russian (countries with own AI models)
 
 ---
 
