@@ -1,6 +1,6 @@
 This repository has moved to a new location due to trademark issues. 본 저장소는 상표권 이슈로 인해 아래의 새로운 주소로 이동했습니다.
 
-New Repository: https://github.com/caretive-ai/careti
+New Repository: https://github.com/caretive-ai/project-careti
 
 Multi-language Announcements
 🇰🇷 한국어 (Korean) 죄송합니다. 본 저장소는 상표권 이슈로 인해 브랜드 변경을 진행하였으며, 위의 링크(Careti)로 이동했습니다. 모든 최신 업데이트는 새 저장소에서 확인해 주세요.
