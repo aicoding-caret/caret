@@ -16,3 +16,6 @@ Multi-language Announcements
 🇪🇸 Español (Spanish) Lo sentimos. Este repositorio se ha trasladado al enlace superior debido a problemas legales de marca registrada y al cambio de nombre a Careti.
 
 🇩🇪 Deutsch (German) Entschuldigung. Dieses Repository wurde aufgrund von markenrechtlichen Problemen und der Umbenennung in Careti unter den oben genannten Link verschoben.
+
+
+* 본 레파지토리는 이동 당시의 복사본으로 링크의 소실을 우려하여 한시적으로 데이터를 유지합니다.
