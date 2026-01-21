@@ -1,5 +1,4 @@
-caret
-[!IMPORTANT] This repository has moved to a new location due to trademark issues. 본 저장소는 상표권 이슈로 인해 아래의 새로운 주소로 이동했습니다.
+This repository has moved to a new location due to trademark issues. 본 저장소는 상표권 이슈로 인해 아래의 새로운 주소로 이동했습니다.
 
 New Repository: https://github.com/caretive-ai/careti
 
